@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -10,6 +11,15 @@ final getIt = GetIt.instance;
 abstract class NucleusOne {
   static NucleusOneApp app() {
     return getIt<NucleusOneApp>();
+  }
+
+  /// Initializes the SDK.  This must be called prior to calling any other SDK methods.
+  static Future<void> intializeSdk() async {
+    // This method is intentionally async, even though we don't currently make use of it.  This is
+    // because of the high likelihood that it will be needed in the near future.  By making it async
+    // now, it won't be a breaking change when we do introduce the need to await within this method.
+
+    getIt.registerSingleton<NucleusOneApp>(NucleusOneAppUninitialized());
   }
 
   /// Initializes a new [NucleusOneApp] instance with [options] and returns the created app.
@@ -34,8 +44,8 @@ class NucleusOneOptions {
   final String baseUrl;
 
   NucleusOneOptions({
-    this.baseUrl,
-  });
+    @required this.baseUrl,
+  }) : assert(baseUrl != null);
 }
 
 class NucleusOneAppUninitialized extends NucleusOneApp {
@@ -43,7 +53,8 @@ class NucleusOneAppUninitialized extends NucleusOneApp {
 }
 
 class NucleusOneApp {
-  static const String _apiBaseUrlPath = '/api/v1';
+  @visibleForTesting
+  static const String apiBaseUrlPath = '/api/v1';
   final NucleusOneOptions options;
   final String _baseUrlWithApi;
 
@@ -53,11 +64,20 @@ class NucleusOneApp {
   }) : this._(options: options);
 
   NucleusOneApp._({
-    this.options,
-  }) : _baseUrlWithApi = options.baseUrl + _apiBaseUrlPath;
+    @required this.options,
+  })  : assert(options != null),
+        _baseUrlWithApi = options.baseUrl + apiBaseUrlPath;
 
   String _sessionId;
   AuthProvider _authProvider;
+
+  /// Internal use only.
+  @visibleForTesting
+  String get sessionId => _sessionId;
+
+  /// Internal use only.
+  @visibleForTesting
+  AuthProvider get authProvider => _authProvider;
 
   // static HttpClient _getHttpClientWithProxy() {
   //   final client = HttpClient();
@@ -76,7 +96,16 @@ class NucleusOneApp {
     _sessionId = sessionId;
   }
 
-  String _getFullUrl(String urlPath) {
+  /// Internal use only.
+  @visibleForTesting
+  void setAuthProvider(AuthProvider authProvider, String sessionId) {
+    _authProvider = authProvider;
+    _sessionId = sessionId;
+  }
+
+  /// Internal use only.
+  @visibleForTesting
+  String getFullUrl(String urlPath) {
     return _baseUrlWithApi + urlPath;
   }
 
@@ -134,8 +163,8 @@ class Auth {
   final NucleusOneApp app;
 
   Auth({
-    this.app,
-  });
+    @required this.app,
+  }) : assert(app != null);
 
   /// Logs in to Nucleus One using Google Sign-In.  If successful, the session information is stored
   /// internally, for use in future requests.
@@ -148,7 +177,7 @@ class Auth {
     };
 
     final client = app._getStandardHttpClient();
-    final clientReq = await client.postUrl(Uri.parse(app._getFullUrl('/user/login')));
+    final clientReq = await client.postUrl(Uri.parse(app.getFullUrl('/user/login')));
     app._setRequestHeadersCommon(clientReq);
 
     clientReq.write(jsonEncode(signInPackage));
@@ -164,8 +193,7 @@ class Auth {
     final success = (sessionId != null) && sessionId.isNotEmpty;
 
     if (success) {
-      app._sessionId = sessionId;
-      app._authProvider = AuthProvider.google;
+      app.setAuthProvider(AuthProvider.google, sessionId);
     }
 
     return LoginResult(
@@ -179,15 +207,15 @@ class Document {
   final NucleusOneApp app;
 
   Document({
-    this.app,
-  });
+    @required this.app,
+  }) : assert(app != null);
 
   /// This is the getCount method.
   Future<int> getCount(bool ignoreInbox, bool ignoreRecycleBin) async {
     ignoreInbox ??= false;
     ignoreRecycleBin ??= false;
 
-    final fullUrl = app._getFullUrl('/documentCounts') +
+    final fullUrl = app.getFullUrl('/documentCounts') +
         '?ignoreInbox=' +
         ignoreInbox.toString() +
         '&ignoreRecycleBin=' +
