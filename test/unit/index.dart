@@ -1,5 +1,7 @@
-import 'src/nucleus_one.dart' as sdk_test;
+import 'src/nucleus_one.dart' as n1;
+import 'src/address_book.dart' as address_book;
 
 void main() {
-  sdk_test.main();
+  n1.main();
+  address_book.main();
 }

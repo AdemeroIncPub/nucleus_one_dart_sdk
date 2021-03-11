@@ -26,7 +26,6 @@
 			"label": "Internal - Format Test Coverage JSON as LCOV",
 			"command": "dart",
 			"args": [
-				"pub",
 				"run",
 				"coverage:format_coverage",
 				"--in=coverage/test/",
@@ -40,11 +39,27 @@
 			}
 		},
 		{
+			"label": "Internal - Remove Ignored Files from LCOV",
+			"command": "dart",
+			"args": [
+				"run",
+				"remove_from_coverage",
+				"-f",
+				"coverage/lcov.info",
+				"-r",
+				"\\.g\\.dart$"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
 			"label": "Run All Tests w/ Coverage",
 			"dependsOrder": "sequence",
 			"dependsOn": [
 				"Internal - Run All Tests w/ Coverage",
-				"Internal - Format Test Coverage JSON as LCOV"
+				"Internal - Format Test Coverage JSON as LCOV",
+				"Internal - Remove Ignored Files from LCOV"
 			]
 		}
 	]

@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
+import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
 import 'package:test/test.dart';
 
@@ -80,26 +81,26 @@ void main() {
   group('NucleusOneApp class tests', () {
     test('Constructor tests', () {
       testAssertionError(() {
-        NucleusOneApp(
+        NucleusOneAppInternal(
           options: null,
         );
       }, 'options');
 
       final n1Options = NucleusOneOptions(baseUrl: '');
-      final n1App = NucleusOneApp(options: n1Options);
+      final n1App = NucleusOneAppInternal(options: n1Options);
       expect(n1App.options, n1Options);
     });
 
     test('getFullUrl method tests', () {
       const baseUrl = 'https://abc.com';
       final n1Options = NucleusOneOptions(baseUrl: baseUrl);
-      final n1App = NucleusOneApp(options: n1Options);
+      final n1App = NucleusOneAppInternal(options: n1Options);
 
       expect(n1App.getFullUrl('/test'), baseUrl + NucleusOneApp.apiBaseUrlPath + '/test');
     });
 
     test('auth method tests', () {
-      final n1App = NucleusOneApp(
+      final n1App = NucleusOneAppInternal(
         options: NucleusOneOptions(baseUrl: 'https://abc.com'),
       );
 
@@ -108,7 +109,7 @@ void main() {
     });
 
     test('document method tests', () {
-      final n1App = NucleusOneApp(
+      final n1App = NucleusOneAppInternal(
         options: NucleusOneOptions(baseUrl: ''),
       );
 
@@ -130,7 +131,7 @@ void main() {
         try {
           opResult = await createMockHttpClientScopeForGetRequest(
             callback: () async {
-              final n1App = NucleusOneApp(
+              final n1App = NucleusOneAppInternal(
                 options: NucleusOneOptions(baseUrl: ''),
               );
 
@@ -170,7 +171,7 @@ void main() {
     test('Constructor tests', () {
       testAssertionError(() => Document(app: null), 'app');
 
-      final n1App = NucleusOneApp(
+      final n1App = NucleusOneAppInternal(
         options: NucleusOneOptions(baseUrl: ''),
       );
 
@@ -188,7 +189,7 @@ void main() {
       for (var queryParamCombination in queryParamCombinations) {
         final opResult = await createMockHttpClientScopeForGetRequest(
           callback: () async {
-            final n1App = NucleusOneApp(
+            final n1App = NucleusOneAppInternal(
               options: NucleusOneOptions(baseUrl: ''),
             );
             final ignoreInbox = queryParamCombination[0],
@@ -220,7 +221,7 @@ void main() {
     test('Constructor tests', () {
       testAssertionError(() => Auth(app: null), 'app');
 
-      final n1App = NucleusOneApp(
+      final n1App = NucleusOneAppInternal(
         options: NucleusOneOptions(baseUrl: ''),
       );
       final getValidAuthObject = () => Auth(app: n1App);
@@ -247,7 +248,7 @@ void main() {
         var requestWriteCalled = false;
         await createMockHttpClientScopeForPostRequest(
             callback: () async {
-              final n1App = NucleusOneApp(
+              final n1App = NucleusOneAppInternal(
                 options: NucleusOneOptions(baseUrl: ''),
               );
 

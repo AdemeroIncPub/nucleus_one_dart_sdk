@@ -35,9 +35,9 @@ FutureOr<void> _testAssertionErrorInternal(
     FutureOr<void> Function() invocationCallback, String exceptionContainsText) async {
   try {
     await invocationCallback();
-    fail('An exception should have been thrown, since ${exceptionContainsText} was null');
+    fail('An exception should have been thrown, since $exceptionContainsText was null');
   } on AssertionError catch (e) {
     exceptionContainsText = RegExp.escape(exceptionContainsText);
-    expect(e.toString(), matches('\\b${exceptionContainsText}\\b'));
+    expect(e.toString(), matches('\\b$exceptionContainsText\\b'));
   }
 }

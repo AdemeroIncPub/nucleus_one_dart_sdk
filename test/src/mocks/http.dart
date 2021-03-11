@@ -16,7 +16,7 @@ class MockHttpHeaders extends Mock implements HttpHeaders {
 
   void expectContainsAllKeys(List<String> keys) {
     for (var key in keys) {
-      expect(headers.containsKey(key), isTrue, reason: 'The "${key}" key is expected');
+      expect(headers.containsKey(key), isTrue, reason: 'The "$key" key is expected');
     }
   }
 
