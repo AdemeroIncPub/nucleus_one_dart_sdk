@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:meta/meta.dart';
@@ -46,6 +47,14 @@ class HttpClientOperationResult {
   Uri requestUri;
   MockHttpClientResponse response;
   MockHttpHeaders headers;
+  final body = <int>[];
+
+  String getBodyAsString() {
+    if (body == null) {
+      return null;
+    }
+    return utf8.decode(body);
+  }
 
   HttpClientOperationResult()
       : client = MockHttpClient(),
@@ -158,6 +167,10 @@ HttpClientOperationResult _createMockHttpClientAllRequests<T>({
 
   when(request.headers).thenReturn(httpOpResult.headers);
   when(request.close()).thenAnswer((_) => Future<HttpClientResponse>.value(response));
+  when(request.write(any)).thenAnswer((realInvocation) {
+    final contentAsString = realInvocation.positionalArguments[0].toString();
+    httpOpResult.body.addAll(utf8.encode(contentAsString));
+  });
 
   when(response.contentLength).thenReturn(responseBody.length);
   when(response.statusCode).thenReturn(HttpStatus.ok);

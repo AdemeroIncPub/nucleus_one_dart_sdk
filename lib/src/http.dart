@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
+
 import 'nucleus_one.dart';
 
 // static HttpClient _getHttpClientWithProxy() {
@@ -96,8 +98,9 @@ String _getQueryParamsString(Map<String, dynamic> queryParams) {
 Future<HttpClientResponse> _executeStandardHttpRequest(
     bool authenticated,
     NucleusOneAppInternal app,
-    Map<String, dynamic> qp,
     String apiRelativeUrlPath,
+    Map<String, dynamic> qp,
+    String body,
     _HttpVerb verb) async {
   authenticated ??= true;
 
@@ -131,6 +134,10 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
     setRequestHeadersCommon(clientReq);
   }
 
+  if (isNotEmpty(body)) {
+    clientReq.write(body);
+  }
+
   return await clientReq.close();
 }
 
@@ -138,10 +145,11 @@ Future<String> executeGetRequestWithTextResponse(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
   Map<String, dynamic> query,
+  String body,
   bool authenticated = true,
 }) async {
   final clientResponse = await _executeStandardHttpRequest(
-      authenticated, app, query, apiRelativeUrlPath, _HttpVerb.get);
+      authenticated, app, apiRelativeUrlPath, query, body, _HttpVerb.get);
   final responseBody = await clientResponse.transform(utf8.decoder).join();
   return responseBody;
 }
@@ -150,10 +158,11 @@ Future<void> executeDeleteRequest(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
   Map<String, dynamic> query,
+  String body,
   bool authenticated = true,
 }) async {
   await _executeStandardHttpRequest(
-      authenticated, app, query, apiRelativeUrlPath, _HttpVerb.delete);
+      authenticated, app, apiRelativeUrlPath, query, body, _HttpVerb.delete);
 }
 
 abstract class apiPaths {

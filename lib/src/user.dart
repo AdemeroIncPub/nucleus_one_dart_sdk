@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/src/dashboard_widget.dart';
 
@@ -50,5 +52,19 @@ class User with NucleusOneAppDependent {
     final responseBody =
         await http.executeGetRequestWithTextResponse(http.apiPaths.dashboardWidgets, app);
     return DashboardWidgets.fromJson(responseBody);
+  }
+
+  /// Deletes a user's Dashboard widget.
+  Future<void> deleteDashboardWidgets(List<String> ids) async {
+    assert(ids != null);
+
+    final bodyMap = {
+      'IDs': ids,
+    };
+    await http.executeDeleteRequest(
+      http.apiPaths.dashboardWidgets,
+      app,
+      body: jsonEncode(bodyMap),
+    );
   }
 }

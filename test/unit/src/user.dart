@@ -1,7 +1,8 @@
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
+import 'package:nucleus_one_dart_sdk/src/http.dart';
 import 'package:test/test.dart';
 
+import '../../src/assertions.dart';
+import '../../src/common.dart';
 import '../../src/mocks/http.dart';
 import 'address_book.dart';
 import 'dashboard_widget.dart';
@@ -16,11 +17,7 @@ void main() {
         bool includeFormTemplateFields = true,
         String filter,
       }) async {
-        final n1App = NucleusOneAppInternal(
-          options: NucleusOneOptions(baseUrl: ''),
-        );
-
-        final u = User(app: n1App);
+        final u = getStandardTestUser();
         final ab = await u.getAddressBook(
           includeTenantMembers: includeTenantMembers,
           includeRoles: includeRoles,
@@ -31,60 +28,77 @@ void main() {
         expect(ab.items.length, 2);
       };
 
-      var opResult = await createMockHttpClientScopeForGetRequest(
+      var result = await createMockHttpClientScopeForGetRequest(
         callback: () => makeHttpCall(includeTenantMembers: true, includeRoles: false),
         responseBody: addressBookJson.split(''),
       );
 
-      expect(opResult.requestUri.query, matches(r'\bincludeTenantMembers=true\b'));
-      expect(opResult.requestUri.query, matches(r'\bincludeRoles=false\b'));
+      expect(result.requestUri.path, apiRequestPathMatches(apiPaths.addressBookItems));
+      expect(result.requestUri.query, matches(r'\bincludeTenantMembers=true\b'));
+      expect(result.requestUri.query, matches(r'\bincludeRoles=false\b'));
 
-      opResult = await createMockHttpClientScopeForGetRequest(
+      result = await createMockHttpClientScopeForGetRequest(
         callback: () =>
             makeHttpCall(includeFields: true, includeFormTemplateFields: false, filter: '123'),
         responseBody: addressBookJson.split(''),
       );
 
-      expect(opResult.requestUri.query, matches(r'\bincludeFields=true\b'));
-      expect(opResult.requestUri.query, matches(r'\bincludeFormTemplateFields=false\b'));
-      expect(opResult.requestUri.query, matches(r'\bfilter=123\b'));
+      expect(result.requestUri.path, apiRequestPathMatches(apiPaths.addressBookItems));
+      expect(result.requestUri.query, matches(r'\bincludeFields=true\b'));
+      expect(result.requestUri.query, matches(r'\bincludeFormTemplateFields=false\b'));
+      expect(result.requestUri.query, matches(r'\bfilter=123\b'));
     });
 
     test('clearAddressBook method test', () async {
       final makeHttpCall = () async {
-        final n1App = NucleusOneAppInternal(
-          options: NucleusOneOptions(baseUrl: ''),
-        );
-
-        final u = User(app: n1App);
-        await u.clearAddressBook();
+        await getStandardTestUser().clearAddressBook();
       };
 
-      final opResult = await createMockHttpClientScopeForDeleteRequest(
+      final result = await createMockHttpClientScopeForDeleteRequest(
         callback: () => makeHttpCall(),
         responseBody: addressBookJson.split(''),
       );
 
-      expect(opResult.requestUri.query, '');
+      expect(result.requestUri.query, '');
     });
 
     test('getDashboardWidgets method test', () async {
       final makeHttpCall = () async {
-        final n1App = NucleusOneAppInternal(
-          options: NucleusOneOptions(baseUrl: ''),
-        );
-
-        final u = User(app: n1App);
-        final ab = await u.getDashboardWidgets();
+        final ab = await getStandardTestUser().getDashboardWidgets();
         expect(ab.items.length, 2);
       };
 
-      final opResult = await createMockHttpClientScopeForGetRequest(
+      final result = await createMockHttpClientScopeForGetRequest(
         callback: () => makeHttpCall(),
         responseBody: dashboardWidgetsJson.split(''),
       );
 
-      expect(opResult.requestUri.query, '');
+      expect(result.requestUri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
+      expect(result.requestUri.query, '');
+    });
+
+    test('deleteDashboardWidgets method test', () async {
+      Future<HttpClientOperationResult> performTest(List<String> ids) async {
+        final makeHttpCall = () async {
+          // It is a known issue that, when debugging tests, the debugger breaks at the handled
+          // exception thrown by the below method call.  While annoying, it is not otherwise harmful.
+          // This should be addressed shortly in Dart 2.13.
+          // https://github.com/dart-lang/sdk/issues/37953#issuecomment-792305686
+          await getStandardTestUser().deleteDashboardWidgets(ids);
+        };
+
+        return await createMockHttpClientScopeForDeleteRequest(
+          callback: () => makeHttpCall(),
+          responseBody: dashboardWidgetsJson.split(''),
+        );
+      }
+
+      await testAssertionErrorAsync(() => performTest(null), 'ids');
+
+      final result = await performTest(['abc', 'def']);
+      expect(result.requestUri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
+      expect(result.requestUri.query, '');
+      expect(result.getBodyAsString(), '{"IDs":["abc","def"]}');
     });
   });
 }

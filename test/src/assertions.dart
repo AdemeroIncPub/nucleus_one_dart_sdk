@@ -38,6 +38,10 @@ FutureOr<void> _testAssertionErrorInternal(
     fail('An exception should have been thrown, since $exceptionContainsText was null');
   } on AssertionError catch (e) {
     exceptionContainsText = RegExp.escape(exceptionContainsText);
-    expect(e.toString(), matches('\\b$exceptionContainsText\\b'));
+    expect(
+      e.toString(),
+      matches('\\b$exceptionContainsText\\b'),
+      reason: 'The AssertionError did not contain the expected text "$exceptionContainsText"',
+    );
   }
 }
