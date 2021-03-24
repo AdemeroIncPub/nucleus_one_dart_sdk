@@ -17,9 +17,9 @@ class AddressBook {
     final jsonDecoded = jsonDecode(jsonString);
     final itemsTemp = deserializeListOf<AddressBookItem>(jsonDecoded);
 
-    final ab = AddressBook();
-    ab.items.addAll(itemsTemp);
-    return ab;
+    final ret = AddressBook();
+    ret.items.addAll(itemsTemp);
+    return ret;
   }
 }
 

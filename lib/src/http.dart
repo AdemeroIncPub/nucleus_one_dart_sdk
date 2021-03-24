@@ -134,7 +134,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
   return await clientReq.close();
 }
 
-Future<String> executeHttpGetRequestWithTextResponse(
+Future<String> executeGetRequestWithTextResponse(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
   Map<String, dynamic> query,
@@ -146,7 +146,7 @@ Future<String> executeHttpGetRequestWithTextResponse(
   return responseBody;
 }
 
-Future<void> executeHttpDeleteRequest(
+Future<void> executeDeleteRequest(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
   Map<String, dynamic> query,
@@ -158,5 +158,6 @@ Future<void> executeHttpDeleteRequest(
 
 abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
+  static const dashboardWidgets = '/dashboardWidgets';
   static const documentCounts = '/documentCounts';
 }

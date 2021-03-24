@@ -18,7 +18,7 @@ class Document with NucleusOneAppDependent {
       'ignoreInbox': ignoreInbox ?? false,
       'ignoreRecycleBin': ignoreRecycleBin ?? false,
     };
-    final responseBody = await http.executeHttpGetRequestWithTextResponse(
+    final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.documentCounts,
       app,
       query: qp,

@@ -5,9 +5,22 @@ include: package:pedantic/analysis_options.yaml
 
 # For lint rules and documentation, see http://dart-lang.github.io/linter/lints.
 # Uncomment to specify additional rules.
-# linter:
-#   rules:
-#     - camel_case_types
+linter:
+  rules:
+    avoid_returning_null_for_future: true
+    hash_and_equals: true
+    implementation_imports: true
+    prefer_void_to_null: true
+    test_types_in_equals: true
+    throw_in_finally: true
+    void_checks: true
+    # Explicitly specifying types can both 1) improve readability and 2) prevent
+    # unintended variable type changes if the type is otherwise implicitly defined
+    # by return value from a method
+    omit_local_variable_types: false
+    # Explicitly specifying concatenation can improve readability when used
+    # appropriately
+    prefer_adjacent_string_concatenation: false
 
 analyzer:
 #   exclude:

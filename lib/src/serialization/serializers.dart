@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
+import 'package:nucleus_one_dart_sdk/src/dashboard_widget.dart';
 
 import '../address_book.dart';
 
@@ -9,6 +10,7 @@ part 'serializers.g.dart';
 //add all of the built value types that require serialization
 @SerializersFor([
   AddressBookItem,
+  DashboardWidget,
 ])
 final Serializers serializers = _$serializers;
 

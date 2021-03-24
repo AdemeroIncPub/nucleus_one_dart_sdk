@@ -1,7 +1,8 @@
 import 'package:meta/meta.dart';
-import 'package:quiver/strings.dart' as q_strings;
+import 'package:nucleus_one_dart_sdk/src/dashboard_widget.dart';
 
 import 'address_book.dart';
+import 'common/string.dart';
 import 'http.dart' as http;
 import 'nucleus_one.dart';
 
@@ -12,6 +13,7 @@ class User with NucleusOneAppDependent {
     this.app = app;
   }
 
+  /// Gets all items in the user's address book.
   Future<AddressBook> getAddressBook({
     bool includeTenantMembers = true,
     bool includeRoles = true,
@@ -25,11 +27,11 @@ class User with NucleusOneAppDependent {
       'includeFields': includeFields ?? true,
       'includeFormTemplateFields': includeFormTemplateFields ?? true,
     };
-    if (q_strings.isNotEmpty(filter)) {
+    if (isNotEmpty(filter)) {
       qp['filter'] = filter;
     }
 
-    final responseBody = await http.executeHttpGetRequestWithTextResponse(
+    final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.addressBookItems,
       app,
       query: qp,
@@ -38,7 +40,15 @@ class User with NucleusOneAppDependent {
     return AddressBook.fromJson(responseBody);
   }
 
+  /// Clears the user's address book items.
   Future<void> clearAddressBook() async {
-    await http.executeHttpDeleteRequest(http.apiPaths.addressBookItems, app);
+    await http.executeDeleteRequest(http.apiPaths.addressBookItems, app);
+  }
+
+  /// Gets the user's Dashboard widgets.
+  Future<DashboardWidgets> getDashboardWidgets() async {
+    final responseBody =
+        await http.executeGetRequestWithTextResponse(http.apiPaths.dashboardWidgets, app);
+    return DashboardWidgets.fromJson(responseBody);
   }
 }
