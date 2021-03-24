@@ -8,7 +8,10 @@ import 'package:test/test.dart';
 
 class MockHttpClient extends Mock implements HttpClient {}
 
-class MockHttpClientRequest extends Mock implements HttpClientRequest {}
+class MockHttpClientRequest extends Mock implements HttpClientRequest {
+  @override
+  String method;
+}
 
 class MockHttpClientResponse extends Mock implements HttpClientResponse {}
 
@@ -68,18 +71,13 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForGetRequest<T>({
   @required Future<void> Function() callback,
   void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse) additionalMockSetup,
   List<T> responseBody,
+  Map<String, String> responseCookies,
 }) async {
-  assert(callback != null);
-
-  return _createMockHttpClientScopeForRequestInternal(
+  return _createStandardMockHttpClientScopeForAllRequests(
     callback: callback,
-    createHttpClientHandler: (SecurityContext securityContext) {
-      return _createMockHttpClientAllRequests(
-        httpFunctionFromClientHandler: (client) => client.getUrl,
-        additionalMockSetup: additionalMockSetup,
-        responseBody: responseBody,
-      );
-    },
+    additionalMockSetup: additionalMockSetup,
+    responseBody: responseBody,
+    responseCookies: responseCookies,
   );
 }
 
@@ -90,18 +88,11 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForPostRequest<T>({
   List<T> responseBody,
   Map<String, String> responseCookies,
 }) async {
-  assert(callback != null);
-
-  return _createMockHttpClientScopeForRequestInternal(
+  return _createStandardMockHttpClientScopeForAllRequests(
     callback: callback,
-    createHttpClientHandler: (SecurityContext securityContext) {
-      return _createMockHttpClientAllRequests(
-        httpFunctionFromClientHandler: (client) => client.postUrl,
-        additionalMockSetup: additionalMockSetup,
-        responseBody: responseBody,
-        responseCookies: responseCookies,
-      );
-    },
+    additionalMockSetup: additionalMockSetup,
+    responseBody: responseBody,
+    responseCookies: responseCookies,
   );
 }
 
@@ -112,13 +103,42 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForDeleteRequest<T>({
   List<T> responseBody,
   Map<String, String> responseCookies,
 }) async {
+  return _createStandardMockHttpClientScopeForAllRequests(
+    callback: callback,
+    additionalMockSetup: additionalMockSetup,
+    responseBody: responseBody,
+    responseCookies: responseCookies,
+  );
+}
+
+/// Mocks HttpClient and prepares it for an HTTP PUT request.
+Future<HttpClientOperationResult> createMockHttpClientScopeForPutRequest<T>({
+  @required Future<void> Function() callback,
+  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse) additionalMockSetup,
+  List<T> responseBody,
+  Map<String, String> responseCookies,
+}) async {
+  return _createStandardMockHttpClientScopeForAllRequests(
+    callback: callback,
+    additionalMockSetup: additionalMockSetup,
+    responseBody: responseBody,
+    responseCookies: responseCookies,
+  );
+}
+
+/// Creates the standard MockHttpClient scope for all requests.
+Future<HttpClientOperationResult> _createStandardMockHttpClientScopeForAllRequests<T>({
+  @required Future<void> Function() callback,
+  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse) additionalMockSetup,
+  List<T> responseBody,
+  Map<String, String> responseCookies,
+}) async {
   assert(callback != null);
 
-  return _createMockHttpClientScopeForRequestInternal(
+  return _createMockHttpClientScopeForAllRequestsInternal(
     callback: callback,
     createHttpClientHandler: (SecurityContext securityContext) {
       return _createMockHttpClientAllRequests(
-        httpFunctionFromClientHandler: (client) => client.deleteUrl,
         additionalMockSetup: additionalMockSetup,
         responseBody: responseBody,
         responseCookies: responseCookies,
@@ -127,7 +147,7 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForDeleteRequest<T>({
   );
 }
 
-Future<HttpClientOperationResult> _createMockHttpClientScopeForRequestInternal<T>({
+Future<HttpClientOperationResult> _createMockHttpClientScopeForAllRequestsInternal<T>({
   Future<void> Function() callback,
   HttpClientOperationResult Function(SecurityContext) createHttpClientHandler,
 }) async {
@@ -144,10 +164,7 @@ Future<HttpClientOperationResult> _createMockHttpClientScopeForRequestInternal<T
   );
 }
 
-typedef _HttpUrlFunction = Future<HttpClientRequest> Function(Uri url);
-
 HttpClientOperationResult _createMockHttpClientAllRequests<T>({
-  _HttpUrlFunction Function(MockHttpClient) httpFunctionFromClientHandler,
   void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse) additionalMockSetup,
   List<T> responseBody,
   Map<String, String> responseCookies,
@@ -159,11 +176,26 @@ HttpClientOperationResult _createMockHttpClientAllRequests<T>({
       request = httpOpResult.request,
       response = httpOpResult.response;
 
-  final httpFunctionHandler = httpFunctionFromClientHandler(client);
-  when(httpFunctionHandler(any)).thenAnswer((Invocation invocation) {
-    httpOpResult.requestUri = invocation.positionalArguments[0];
-    return Future<HttpClientRequest>.value(request);
-  });
+  {
+    Future<HttpClientRequest> handleHttpUrlInvocation(Invocation invocation, String httpMethod) {
+      httpOpResult.requestUri = invocation.positionalArguments[0];
+      request.method = httpMethod;
+      return Future.value(request);
+    }
+
+    when(client.getUrl(any)).thenAnswer((Invocation invocation) {
+      return handleHttpUrlInvocation(invocation, 'GET');
+    });
+    when(client.deleteUrl(any)).thenAnswer((Invocation invocation) {
+      return handleHttpUrlInvocation(invocation, 'DELETE');
+    });
+    when(client.postUrl(any)).thenAnswer((Invocation invocation) {
+      return handleHttpUrlInvocation(invocation, 'POST');
+    });
+    when(client.putUrl(any)).thenAnswer((Invocation invocation) {
+      return handleHttpUrlInvocation(invocation, 'PUT');
+    });
+  }
 
   when(request.headers).thenReturn(httpOpResult.headers);
   when(request.close()).thenAnswer((_) => Future<HttpClientResponse>.value(response));
@@ -184,4 +216,11 @@ HttpClientOperationResult _createMockHttpClientAllRequests<T>({
   }
 
   return httpOpResult;
+}
+
+abstract class HttpMethods {
+  static const String GET = 'GET';
+  static const String DELETE = 'DELETE';
+  static const String POST = 'POST';
+  static const String PUT = 'PUT';
 }

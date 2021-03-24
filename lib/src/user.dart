@@ -54,7 +54,7 @@ class User with NucleusOneAppDependent {
     return DashboardWidgets.fromJson(responseBody);
   }
 
-  /// Deletes a user's Dashboard widget.
+  /// Deletes the user's Dashboard widget.
   Future<void> deleteDashboardWidgets(List<String> ids) async {
     assert(ids != null);
 
@@ -66,5 +66,71 @@ class User with NucleusOneAppDependent {
       app,
       body: jsonEncode(bodyMap),
     );
+  }
+
+  /// Creates or updates a Dashboard widget for the user.
+  Future<void> createOrUpdateDashboardWidget(
+      String id, DashboardWidgetToUpdate dashboardWidgetToUpdate) async {
+    assert(dashboardWidgetToUpdate != null);
+
+    final bodyMap = dashboardWidgetToUpdate;
+    await http.executePutRequest(
+      http.apiPaths.dashboardWidgets + '/' + id,
+      app,
+      body: jsonEncode(bodyMap),
+    );
+  }
+
+  /// Updates the user's Dashboard widgets.
+  Future<void> updateDashboardWidgetRanks(List<DashboardWidgetToUpdate> widgetsToUpdate) async {
+    assert(widgetsToUpdate != null);
+    assert(widgetsToUpdate.isNotEmpty);
+
+    final bodyList = widgetsToUpdate;
+    await http.executePutRequest(
+      http.apiPaths.dashboardWidgets,
+      app,
+      query: {
+        'onlyRank': true,
+      },
+      body: jsonEncode(bodyList),
+    );
+  }
+}
+
+abstract class ApiRequestBodyObject {
+  @protected
+  final map = <String, dynamic>{};
+
+  Map<String, dynamic> toJson() => map;
+}
+
+class DashboardWidgetToUpdate extends ApiRequestBodyObject {
+  String get id => map['ID'];
+  set id(String value) => map['ID'] = value;
+
+  String get type => map['Type'];
+  set type(String value) => map['Type'] = value;
+
+  String get name => map['Name'];
+  set name(String value) => map['Name'] = value;
+
+  int get gridColumn => map['GridColumn'] as int;
+  set gridColumn(int value) => map['GridColumn'] = value;
+
+  int get columnRank => map['ColumnRank'] as int;
+  set columnRank(int value) => map['ColumnRank'] = value;
+
+  String get jsonData => map['JsonData'];
+  set jsonData(String value) => map['JsonData'] = value;
+
+  DashboardWidgetToUpdate(String id) {
+    this.id = id;
+  }
+
+  factory DashboardWidgetToUpdate.forRankUpdate(String id, int gridColumn, int columnRank) {
+    return DashboardWidgetToUpdate(id)
+      ..gridColumn = gridColumn
+      ..columnRank = columnRank;
   }
 }

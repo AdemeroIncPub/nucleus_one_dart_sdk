@@ -18,7 +18,7 @@ HttpClient getStandardHttpClient() {
   return HttpClient();
 }
 
-enum _HttpVerb { delete, get, post, put }
+enum _HttpMethod { delete, get, post, put }
 
 void setRequestHeadersCommon(HttpClientRequest request) {
   final headers = request.headers;
@@ -101,7 +101,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
     String apiRelativeUrlPath,
     Map<String, dynamic> qp,
     String body,
-    _HttpVerb verb) async {
+    _HttpMethod method) async {
   authenticated ??= true;
 
   HttpClientRequest clientReq;
@@ -112,17 +112,17 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
     final parsedUri = Uri.parse(fullUrl);
     final httpClient = getStandardHttpClient();
 
-    switch (verb) {
-      case _HttpVerb.delete:
+    switch (method) {
+      case _HttpMethod.delete:
         clientReq = await httpClient.deleteUrl(parsedUri);
         break;
-      case _HttpVerb.get:
+      case _HttpMethod.get:
         clientReq = await httpClient.getUrl(parsedUri);
         break;
-      case _HttpVerb.post:
+      case _HttpMethod.post:
         clientReq = await httpClient.postUrl(parsedUri);
         break;
-      case _HttpVerb.put:
+      case _HttpMethod.put:
         clientReq = await httpClient.putUrl(parsedUri);
         break;
     }
@@ -149,7 +149,7 @@ Future<String> executeGetRequestWithTextResponse(
   bool authenticated = true,
 }) async {
   final clientResponse = await _executeStandardHttpRequest(
-      authenticated, app, apiRelativeUrlPath, query, body, _HttpVerb.get);
+      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.get);
   final responseBody = await clientResponse.transform(utf8.decoder).join();
   return responseBody;
 }
@@ -162,7 +162,18 @@ Future<void> executeDeleteRequest(
   bool authenticated = true,
 }) async {
   await _executeStandardHttpRequest(
-      authenticated, app, apiRelativeUrlPath, query, body, _HttpVerb.delete);
+      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.delete);
+}
+
+Future<void> executePutRequest(
+  String apiRelativeUrlPath,
+  NucleusOneAppInternal app, {
+  Map<String, dynamic> query,
+  String body,
+  bool authenticated = true,
+}) async {
+  await _executeStandardHttpRequest(
+      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.put);
 }
 
 abstract class apiPaths {
