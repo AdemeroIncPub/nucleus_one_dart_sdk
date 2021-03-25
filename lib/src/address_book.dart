@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
-
-import 'serialization/serializers.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'address_book.g.dart';
 
@@ -11,46 +8,45 @@ class AddressBook {
   final items = <AddressBookItem>[];
 
   static AddressBook fromJson(String jsonString) {
-    // This JSON structure has an array at its root, which is not currently implicitly supported by built_value.
-    // https://github.com/google/built_value.dart/issues/565
+    // This JSON structure has an array at its root, which is not currently implicitly supported by json_serializable.
+    // https://github.com/google/json_serializable.dart/issues/648
 
-    final jsonDecoded = jsonDecode(jsonString);
-    final itemsTemp = deserializeListOf<AddressBookItem>(jsonDecoded);
-
+    final jsonDecodedList = jsonDecode(jsonString) as List;
     final ret = AddressBook();
-    ret.items.addAll(itemsTemp);
+    ret.items.addAll(jsonDecodedList.map((m) => AddressBookItem.fromJson(m)));
     return ret;
   }
 }
 
-abstract class AddressBookItem implements Built<AddressBookItem, AddressBookItemBuilder> {
-  AddressBookItem._();
+// Serializable members must be explicitly marked with [JsonKey]
+@JsonSerializable(ignoreUnannotated: true, includeIfNull: false)
+class AddressBookItem {
+  @JsonKey(name: 'EmailLower')
+  String emailLower;
+  @JsonKey(name: 'Name')
+  String name;
+  @JsonKey(name: 'TenantMemberID')
+  String tenantMemberID;
+  @JsonKey(name: 'RoleID')
+  String roleID;
+  @JsonKey(name: 'FieldID')
+  String fieldID;
+  @JsonKey(name: 'FormTemplateID')
+  String formTemplateID;
+  @JsonKey(name: 'FormTemplateName')
+  String formTemplateName;
+  @JsonKey(name: 'FormTemplateFieldID')
+  String formTemplateFieldID;
 
-  factory AddressBookItem([Function(AddressBookItemBuilder b) updates]) = _$AddressBookItem;
+  AddressBookItem();
 
-  @BuiltValueField(wireName: 'EmailLower')
-  String get emailLower;
-  @BuiltValueField(wireName: 'Name')
-  String get name;
-  @BuiltValueField(wireName: 'TenantMemberID')
-  String get tenantMemberID;
-  @BuiltValueField(wireName: 'RoleID')
-  String get roleID;
-  @BuiltValueField(wireName: 'FieldID')
-  String get fieldID;
-  @BuiltValueField(wireName: 'FormTemplateID')
-  String get formTemplateID;
-  @BuiltValueField(wireName: 'FormTemplateName')
-  String get formTemplateName;
-  @BuiltValueField(wireName: 'FormTemplateFieldID')
-  String get formTemplateFieldID;
-  String toJson() {
-    return json.encode(standardSerializers.serializeWith(AddressBookItem.serializer, this));
-  }
+  /// A necessary factory constructor for creating a new AddressBookItem instance
+  /// from a map. Pass the map to the generated `_$AddressBookItemFromJson()` constructor.
+  /// The constructor is named after the source class, in this case, AddressBookItem.
+  factory AddressBookItem.fromJson(Map<String, dynamic> json) => _$AddressBookItemFromJson(json);
 
-  static AddressBookItem fromJson(String jsonString) {
-    return standardSerializers.deserializeWith(AddressBookItem.serializer, json.decode(jsonString));
-  }
-
-  static Serializer<AddressBookItem> get serializer => _$addressBookItemSerializer;
+  /// `toJson` is the convention for a class to declare support for serialization
+  /// to JSON. The implementation simply calls the private, generated
+  /// helper method `_$CameraPreferencesToJson`.
+  Map<String, dynamic> toJson() => _$AddressBookItemToJson(this);
 }

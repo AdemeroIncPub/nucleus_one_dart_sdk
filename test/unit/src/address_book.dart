@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:test/test.dart';
 
@@ -18,7 +20,7 @@ void main() {
   group('AddressBookItem tests', () {
     test('Serialization test', () {
       try {
-        var abi = AddressBookItem.fromJson(addressBookItem1Json);
+        var abi = AddressBookItem.fromJson(jsonDecode(addressBookItem1Json));
 
         expect(abi.emailLower, '');
         expect(abi.name, 'Accounting');
@@ -29,10 +31,10 @@ void main() {
         expect(abi.formTemplateName, '');
         expect(abi.formTemplateFieldID, '');
 
-        var json = abi.toJson();
-        expect(addressBookItem1Json, json);
+        var jsonMap = abi.toJson();
+        expect(addressBookItem1Json, jsonEncode(jsonMap));
 
-        abi = AddressBookItem.fromJson(addressBookItem2Json);
+        abi = AddressBookItem.fromJson(jsonDecode(addressBookItem2Json));
 
         expect(abi.emailLower, 'asdf@ademero.com');
         expect(abi.name, 'Steve Miller');
@@ -43,11 +45,11 @@ void main() {
         expect(abi.formTemplateName, 'Dev Only');
         expect(abi.formTemplateFieldID, '6nWGcZNS7Nl0w4uLBpZu');
 
-        json = abi.toJson();
-        expect(addressBookItem2Json, json);
+        jsonMap = abi.toJson();
+        expect(addressBookItem2Json, jsonEncode(jsonMap));
       } catch (e) {
-        fail('Boilerplate built_value-generated class methods fromJson/toJson failed the (de)serialization process with the following error.' +
-            '  This is likely because these methods are not using "standardSerializers".\r\n$e');
+        fail(
+            'Boilerplate class methods fromJson/toJson for json_serializable failed the (de)serialization process with the following error.\r\n$e');
       }
     });
   });

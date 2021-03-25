@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart';
 import 'package:test/test.dart';
@@ -108,8 +110,7 @@ void main() {
     });
 
     test('updateDashboardWidgetRanks method test', () async {
-      Future<HttpClientOperationResult> performTest(
-          List<DashboardWidgetToUpdate> dashboardWidgets) async {
+      Future<HttpClientOperationResult> performTest(List<DashboardWidget> dashboardWidgets) async {
         final makeHttpCall = () async {
           // It is a known issue that, when debugging tests, the debugger breaks at the handled
           // exception thrown by the below method call.  While annoying, it is not otherwise harmful.
@@ -124,12 +125,12 @@ void main() {
         );
       }
 
-      await testAssertionErrorAsync(() => performTest(null), 'widgetsToUpdate');
-      await testAssertionErrorAsync(() => performTest([]), 'widgetsToUpdate');
+      await testAssertionErrorAsync(() => performTest(null), 'widgets');
+      await testAssertionErrorAsync(() => performTest([]), 'widgets');
 
       final result = await performTest([
-        DashboardWidgetToUpdate.forRankUpdate('abc', 0, 1),
-        DashboardWidgetToUpdate.forRankUpdate('def', 2, 3),
+        DashboardWidget.forRankUpdate('abc', 0, 1),
+        DashboardWidget.forRankUpdate('def', 2, 3),
       ]);
       expect(result.request.method, HttpMethods.PUT);
       expect(result.requestUri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
 import 'nucleus_one.dart';
@@ -180,4 +181,20 @@ abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
   static const dashboardWidgets = '/dashboardWidgets';
   static const documentCounts = '/documentCounts';
+}
+
+abstract class ApiRequestBodyObject {
+  @protected
+  final map = <String, dynamic>{};
+
+  /// Intended for use by the [jsonEncode] method.
+  Map<String, dynamic> toJson() => map;
+
+  @protected
+  void populateFromJson(String json) {
+    final m = jsonDecode(json) as Map;
+    for (var kvp in m.entries) {
+      map[kvp.key as String] = kvp.value;
+    }
+  }
 }

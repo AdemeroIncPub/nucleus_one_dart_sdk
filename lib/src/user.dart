@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
-import 'package:nucleus_one_dart_sdk/src/dashboard_widget.dart';
 
 import 'address_book.dart';
 import 'common/string.dart';
+import 'dashboard_widget.dart';
 import 'http.dart' as http;
+import 'http.dart';
 import 'nucleus_one.dart';
 
 class User with NucleusOneAppDependent {
@@ -47,14 +48,14 @@ class User with NucleusOneAppDependent {
     await http.executeDeleteRequest(http.apiPaths.addressBookItems, app);
   }
 
-  /// Gets the user's Dashboard widgets.
+  /// Gets all of the user's Dashboard widgets.
   Future<DashboardWidgets> getDashboardWidgets() async {
     final responseBody =
         await http.executeGetRequestWithTextResponse(http.apiPaths.dashboardWidgets, app);
     return DashboardWidgets.fromJson(responseBody);
   }
 
-  /// Deletes the user's Dashboard widget.
+  /// Deletes one or more of the user's Dashboard widgets.
   Future<void> deleteDashboardWidgets(List<String> ids) async {
     assert(ids != null);
 
@@ -68,25 +69,25 @@ class User with NucleusOneAppDependent {
     );
   }
 
-  /// Creates or updates a Dashboard widget for the user.
-  Future<void> createOrUpdateDashboardWidget(
-      String id, DashboardWidgetToUpdate dashboardWidgetToUpdate) async {
-    assert(dashboardWidgetToUpdate != null);
+  // /// Updates a Dashboard widget for the user.
+  // Future<void> updateDashboardWidget(String id, DashboardWidget widget) async {
+  //   assert(widget != null);
 
-    final bodyMap = dashboardWidgetToUpdate;
-    await http.executePutRequest(
-      http.apiPaths.dashboardWidgets + '/' + id,
-      app,
-      body: jsonEncode(bodyMap),
-    );
-  }
+  //   final bodyMap = widget;
+  //   await http.executePutRequest(
+  //     http.apiPaths.dashboardWidgets + '/' + id,
+  //     app,
+  //     body: jsonEncode(bodyMap),
+  //   );
+  // }
 
-  /// Updates the user's Dashboard widgets.
-  Future<void> updateDashboardWidgetRanks(List<DashboardWidgetToUpdate> widgetsToUpdate) async {
-    assert(widgetsToUpdate != null);
-    assert(widgetsToUpdate.isNotEmpty);
+  /// Updates the positions of one or more of the user's Dashboard widgets.  Only the widgets changing
+  /// position should be provided.
+  Future<void> updateDashboardWidgetRanks(List<DashboardWidget> widgets) async {
+    assert(widgets != null);
+    assert(widgets.isNotEmpty);
 
-    final bodyList = widgetsToUpdate;
+    final bodyList = widgets;
     await http.executePutRequest(
       http.apiPaths.dashboardWidgets,
       app,
@@ -95,42 +96,5 @@ class User with NucleusOneAppDependent {
       },
       body: jsonEncode(bodyList),
     );
-  }
-}
-
-abstract class ApiRequestBodyObject {
-  @protected
-  final map = <String, dynamic>{};
-
-  Map<String, dynamic> toJson() => map;
-}
-
-class DashboardWidgetToUpdate extends ApiRequestBodyObject {
-  String get id => map['ID'];
-  set id(String value) => map['ID'] = value;
-
-  String get type => map['Type'];
-  set type(String value) => map['Type'] = value;
-
-  String get name => map['Name'];
-  set name(String value) => map['Name'] = value;
-
-  int get gridColumn => map['GridColumn'] as int;
-  set gridColumn(int value) => map['GridColumn'] = value;
-
-  int get columnRank => map['ColumnRank'] as int;
-  set columnRank(int value) => map['ColumnRank'] = value;
-
-  String get jsonData => map['JsonData'];
-  set jsonData(String value) => map['JsonData'] = value;
-
-  DashboardWidgetToUpdate(String id) {
-    this.id = id;
-  }
-
-  factory DashboardWidgetToUpdate.forRankUpdate(String id, int gridColumn, int columnRank) {
-    return DashboardWidgetToUpdate(id)
-      ..gridColumn = gridColumn
-      ..columnRank = columnRank;
   }
 }

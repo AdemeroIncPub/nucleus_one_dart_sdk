@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:test/test.dart';
 
@@ -16,10 +18,38 @@ void main() {
     });
   });
 
-  group('DashboardWidget tests', () {
+  group('DashboardWidget class tests', () {
+    test('Constructor test', () {
+      final dbw = DashboardWidget();
+
+      expect(dbw.id, null);
+      expect(dbw.tenantID, null);
+      expect(dbw.tenantMemberID, null);
+      expect(dbw.type, null);
+      expect(dbw.gridColumn, null);
+      expect(dbw.columnRank, null);
+      expect(dbw.name, null);
+      expect(dbw.detail, null);
+      expect(dbw.jsonData, null);
+    });
+
+    test('DashboardWidget.forRankUpdate constructor test', () {
+      final dbw = DashboardWidget.forRankUpdate('1', 2, 3);
+
+      expect(dbw.id, '1');
+      expect(dbw.tenantID, null);
+      expect(dbw.tenantMemberID, null);
+      expect(dbw.type, null);
+      expect(dbw.gridColumn, 2);
+      expect(dbw.columnRank, 3);
+      expect(dbw.name, null);
+      expect(dbw.detail, null);
+      expect(dbw.jsonData, null);
+    });
+
     test('Serialization & deserialization test', () {
       try {
-        var dbw = DashboardWidget.fromJson(dashboardWidget1Json);
+        var dbw = DashboardWidget.fromJson(jsonDecode(dashboardWidget1Json));
 
         expect(dbw.id, 'Ub5J5Lgs27RF-tYYziBV776WcFGmWuIaaUtGa7batp4');
         expect(dbw.tenantID, 'yhv0SScPN5LxidjEfZCE');
@@ -31,10 +61,10 @@ void main() {
         expect(dbw.detail, '');
         expect(dbw.jsonData, '');
 
-        var json = dbw.toJson();
-        expect(dashboardWidget1Json, json);
+        var jsonMap = dbw.toJson();
+        expect(dashboardWidget1Json, jsonEncode(jsonMap));
 
-        dbw = DashboardWidget.fromJson(dashboardWidget2Json);
+        dbw = DashboardWidget.fromJson(jsonDecode(dashboardWidget2Json));
 
         expect(dbw.id, 'OUUndeojgzBdMWuvACrK');
         expect(dbw.tenantID, 'yhv0SScPN5LxidjEfZCE');
@@ -47,11 +77,11 @@ void main() {
         expect(dbw.jsonData,
             '{\"FolderType\":\"folderHierarchies\",\"Name\":\"Agreement\",\"UniqueId\":\"oBc7dZx0C0UXpEpf8KOm_ByClassification_v3iBOAzEvGiRM8UFpG6p_1\",\"FolderHierarchyID\":\"oBc7dZx0C0UXpEpf8KOm\",\"ItemIndex\":1,\"HasChildren\":true,\"ApiParams\":{\"classificationID\":\"v3iBOAzEvGiRM8UFpG6p\"},\"SearchClassificationID\":\"v3iBOAzEvGiRM8UFpG6p\",\"ParentFolder\":{\"FolderType\":\"folderHierarchies\",\"FolderHierarchyID\":\"oBc7dZx0C0UXpEpf8KOm\",\"Name\":\"By Classification\",\"ItemIndex\":0,\"UniqueId\":\"oBc7dZx0C0UXpEpf8KOm\"}}');
 
-        json = dbw.toJson();
-        expect(dashboardWidget2Json, json);
+        jsonMap = dbw.toJson();
+        expect(dashboardWidget2Json, jsonEncode(jsonMap));
       } catch (e) {
-        fail('Boilerplate built_value-generated class methods fromJson/toJson failed the (de)serialization process with the following error.' +
-            '  This is likely because these methods are not using "standardSerializers".\r\n$e');
+        fail(
+            'Boilerplate class methods fromJson/toJson for json_serializable failed the (de)serialization process with the following error.\r\n$e');
       }
     });
   });
