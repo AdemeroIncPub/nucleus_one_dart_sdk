@@ -1,3 +1,3 @@
-bool isNotEmpty(String value) {
+bool isNotEmpty(String? value) {
   return (value != null) && value.isNotEmpty;
 }

@@ -8,15 +8,15 @@ part of 'dashboard_widget.dart';
 
 DashboardWidget _$DashboardWidgetFromJson(Map<String, dynamic> json) {
   return DashboardWidget()
-    ..id = json['ID'] as String
-    ..tenantID = json['TenantID'] as String
-    ..tenantMemberID = json['TenantMemberID'] as String
-    ..type = json['Type'] as String
-    ..gridColumn = json['GridColumn'] as int
-    ..columnRank = json['ColumnRank'] as int
-    ..name = json['Name'] as String
-    ..detail = json['Detail'] as String
-    ..jsonData = json['JsonData'] as String;
+    ..id = json['ID'] as String?
+    ..tenantID = json['TenantID'] as String?
+    ..tenantMemberID = json['TenantMemberID'] as String?
+    ..type = json['Type'] as String?
+    ..gridColumn = json['GridColumn'] as int?
+    ..columnRank = json['ColumnRank'] as int?
+    ..name = json['Name'] as String?
+    ..detail = json['Detail'] as String?
+    ..jsonData = json['JsonData'] as String?;
 }
 
 Map<String, dynamic> _$DashboardWidgetToJson(DashboardWidget instance) {

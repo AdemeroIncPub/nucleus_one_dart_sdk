@@ -100,11 +100,9 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
     bool authenticated,
     NucleusOneAppInternal app,
     String apiRelativeUrlPath,
-    Map<String, dynamic> qp,
-    String body,
+    Map<String, dynamic>? qp,
+    String? body,
     _HttpMethod method) async {
-  authenticated ??= true;
-
   HttpClientRequest clientReq;
 
   {
@@ -126,6 +124,8 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
       case _HttpMethod.put:
         clientReq = await httpClient.putUrl(parsedUri);
         break;
+      default:
+        throw UnimplementedError('The $method method has not been implemented.');
     }
   }
 
@@ -145,8 +145,8 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
 Future<String> executeGetRequestWithTextResponse(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
-  Map<String, dynamic> query,
-  String body,
+  Map<String, dynamic>? query,
+  String? body,
   bool authenticated = true,
 }) async {
   final clientResponse = await _executeStandardHttpRequest(
@@ -158,8 +158,8 @@ Future<String> executeGetRequestWithTextResponse(
 Future<void> executeDeleteRequest(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
-  Map<String, dynamic> query,
-  String body,
+  Map<String, dynamic>? query,
+  String? body,
   bool authenticated = true,
 }) async {
   await _executeStandardHttpRequest(
@@ -169,8 +169,8 @@ Future<void> executeDeleteRequest(
 Future<void> executePutRequest(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
-  Map<String, dynamic> query,
-  String body,
+  Map<String, dynamic>? query,
+  String? body,
   bool authenticated = true,
 }) async {
   await _executeStandardHttpRequest(

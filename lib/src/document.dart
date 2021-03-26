@@ -1,13 +1,11 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
-
 import 'http.dart' as http;
 import 'nucleus_one.dart';
 
 class Document with NucleusOneAppDependent {
   Document({
-    @required NucleusOneAppInternal app,
+    required NucleusOneAppInternal app,
   }) {
     this.app = app;
   }
@@ -15,8 +13,8 @@ class Document with NucleusOneAppDependent {
   /// Gets the document count.
   Future<int> getCount(bool ignoreInbox, bool ignoreRecycleBin) async {
     final qp = {
-      'ignoreInbox': ignoreInbox ?? false,
-      'ignoreRecycleBin': ignoreRecycleBin ?? false,
+      'ignoreInbox': ignoreInbox,
+      'ignoreRecycleBin': ignoreRecycleBin,
     };
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.documentCounts,

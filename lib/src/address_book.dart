@@ -22,21 +22,21 @@ class AddressBook {
 @JsonSerializable(ignoreUnannotated: true, includeIfNull: false)
 class AddressBookItem {
   @JsonKey(name: 'EmailLower')
-  String emailLower;
+  String? emailLower;
   @JsonKey(name: 'Name')
-  String name;
+  String? name;
   @JsonKey(name: 'TenantMemberID')
-  String tenantMemberID;
+  String? tenantMemberID;
   @JsonKey(name: 'RoleID')
-  String roleID;
+  String? roleID;
   @JsonKey(name: 'FieldID')
-  String fieldID;
+  String? fieldID;
   @JsonKey(name: 'FormTemplateID')
-  String formTemplateID;
+  String? formTemplateID;
   @JsonKey(name: 'FormTemplateName')
-  String formTemplateName;
+  String? formTemplateName;
   @JsonKey(name: 'FormTemplateFieldID')
-  String formTemplateFieldID;
+  String? formTemplateFieldID;
 
   AddressBookItem();
 

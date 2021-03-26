@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/src/user.dart';
@@ -29,7 +30,7 @@ abstract class NucleusOne {
   /// Initializes a new [NucleusOneApp] instance with [options] and returns the created app.
   /// This method should be called before any usage of any Nucleus One components.
   static Future<NucleusOneApp> initializeApp({
-    NucleusOneOptions options,
+    required NucleusOneOptions options,
   }) async {
     var app = NucleusOne.app();
     if (!(app is NucleusOneAppUninitialized)) {
@@ -48,16 +49,15 @@ class NucleusOneOptions {
   final String baseUrl;
 
   NucleusOneOptions({
-    @required this.baseUrl,
-  }) : assert(baseUrl != null);
+    required this.baseUrl,
+  });
 }
 
 abstract class NucleusOneAppDependent {
-  NucleusOneAppInternal _app;
+  late NucleusOneAppInternal _app;
   NucleusOneAppInternal get app => _app;
   @protected
   set app(NucleusOneAppInternal app) {
-    assert(app != null);
     _app = app;
   }
 }
@@ -69,24 +69,24 @@ class NucleusOneAppUninitialized extends NucleusOneAppInternal {
 class NucleusOneAppInternal extends NucleusOneApp {
   @visibleForTesting
   NucleusOneAppInternal({
-    NucleusOneOptions options,
+    required NucleusOneOptions options,
   }) : this._(options: options);
 
   NucleusOneAppInternal._({
-    @required NucleusOneOptions options,
+    required NucleusOneOptions options,
   }) : super(options: options);
 
   /// Internal use only.
-  void setAuthProvider(AuthProvider authProvider, String sessionId) {
+  void setAuthProvider(AuthProvider authProvider, String? sessionId) {
     _authProvider = authProvider;
     _sessionId = sessionId;
   }
 
   /// Internal use only.
-  String get sessionId => _sessionId;
+  String? get sessionId => _sessionId;
 
   /// Internal use only.
-  AuthProvider get authProvider => _authProvider;
+  AuthProvider? get authProvider => _authProvider;
 
   void setSessionId(String sessionId) {
     _sessionId = sessionId;
@@ -106,27 +106,26 @@ abstract class NucleusOneApp {
 
   @visibleForTesting
   NucleusOneApp({
-    @required this.options,
-  })  : assert(options != null),
-        _baseUrlWithApi = options.baseUrl + apiBaseUrlPath;
+    required this.options,
+  }) : _baseUrlWithApi = options.baseUrl + apiBaseUrlPath;
 
-  String _sessionId;
-  AuthProvider _authProvider;
+  String? _sessionId;
+  AuthProvider? _authProvider;
 
   /// Authentication and authorization
   Auth auth() {
-    return Auth(app: this);
+    return Auth(app: this as NucleusOneAppInternal);
   }
 
   /// Documents
   Document document() {
-    return Document(app: this);
+    return Document(app: this as NucleusOneAppInternal);
   }
 }
 
 class Auth with NucleusOneAppDependent {
   Auth({
-    @required NucleusOneAppInternal app,
+    required NucleusOneAppInternal app,
   }) {
     this.app = app;
   }
@@ -149,9 +148,8 @@ class Auth with NucleusOneAppDependent {
 
     final clientResponse = await clientReq.close();
 
-    final ret = clientResponse.cookies.firstWhere(
+    final ret = clientResponse.cookies.firstWhereOrNull(
       (element) => element.name == 'session_v1',
-      orElse: () => null,
     );
 
     final sessionId = ret?.value;
@@ -173,13 +171,12 @@ enum AuthProvider { google }
 
 class LoginResult {
   final bool success;
-  final String sessionId;
-  final User user;
+  final String? sessionId;
+  final User? user;
 
   LoginResult({
-    @required this.success,
+    required this.success,
     this.sessionId,
     this.user,
-  })  : assert(success != null),
-        assert((!success) || ((sessionId != null) && sessionId.isNotEmpty));
+  }) : assert((!success) || ((sessionId != null) && sessionId.isNotEmpty));
 }

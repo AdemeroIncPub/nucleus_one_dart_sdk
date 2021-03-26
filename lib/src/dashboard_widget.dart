@@ -22,23 +22,23 @@ class DashboardWidgets {
 @JsonSerializable(ignoreUnannotated: true, includeIfNull: false)
 class DashboardWidget {
   @JsonKey(name: 'ID')
-  String id;
+  String? id;
   @JsonKey(name: 'TenantID')
-  String tenantID;
+  String? tenantID;
   @JsonKey(name: 'TenantMemberID')
-  String tenantMemberID;
+  String? tenantMemberID;
   @JsonKey(name: 'Type')
-  String type;
+  String? type;
   @JsonKey(name: 'GridColumn')
-  int gridColumn;
+  int? gridColumn;
   @JsonKey(name: 'ColumnRank')
-  int columnRank;
+  int? columnRank;
   @JsonKey(name: 'Name')
-  String name;
+  String? name;
   @JsonKey(name: 'Detail')
-  String detail;
+  String? detail;
   @JsonKey(name: 'JsonData')
-  String jsonData;
+  String? jsonData;
 
   DashboardWidget();
 

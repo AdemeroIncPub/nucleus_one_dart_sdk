@@ -1,17 +1,14 @@
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
-
 import 'address_book.dart';
 import 'common/string.dart';
 import 'dashboard_widget.dart';
 import 'http.dart' as http;
-import 'http.dart';
 import 'nucleus_one.dart';
 
 class User with NucleusOneAppDependent {
   User({
-    @required NucleusOneAppInternal app,
+    required NucleusOneAppInternal app,
   }) {
     this.app = app;
   }
@@ -22,13 +19,13 @@ class User with NucleusOneAppDependent {
     bool includeRoles = true,
     bool includeFields = true,
     bool includeFormTemplateFields = true,
-    String filter,
+    String? filter,
   }) async {
     final qp = <String, dynamic>{
-      'includeTenantMembers': includeTenantMembers ?? true,
-      'includeRoles': includeRoles ?? true,
-      'includeFields': includeFields ?? true,
-      'includeFormTemplateFields': includeFormTemplateFields ?? true,
+      'includeTenantMembers': includeTenantMembers,
+      'includeRoles': includeRoles,
+      'includeFields': includeFields,
+      'includeFormTemplateFields': includeFormTemplateFields,
     };
     if (isNotEmpty(filter)) {
       qp['filter'] = filter;
@@ -57,7 +54,7 @@ class User with NucleusOneAppDependent {
 
   /// Deletes one or more of the user's Dashboard widgets.
   Future<void> deleteDashboardWidgets(List<String> ids) async {
-    assert(ids != null);
+    assert(ids.isNotEmpty);
 
     final bodyMap = {
       'IDs': ids,
@@ -84,7 +81,6 @@ class User with NucleusOneAppDependent {
   /// Updates the positions of one or more of the user's Dashboard widgets.  Only the widgets changing
   /// position should be provided.
   Future<void> updateDashboardWidgetRanks(List<DashboardWidget> widgets) async {
-    assert(widgets != null);
     assert(widgets.isNotEmpty);
 
     final bodyList = widgets;

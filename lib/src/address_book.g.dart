@@ -8,14 +8,14 @@ part of 'address_book.dart';
 
 AddressBookItem _$AddressBookItemFromJson(Map<String, dynamic> json) {
   return AddressBookItem()
-    ..emailLower = json['EmailLower'] as String
-    ..name = json['Name'] as String
-    ..tenantMemberID = json['TenantMemberID'] as String
-    ..roleID = json['RoleID'] as String
-    ..fieldID = json['FieldID'] as String
-    ..formTemplateID = json['FormTemplateID'] as String
-    ..formTemplateName = json['FormTemplateName'] as String
-    ..formTemplateFieldID = json['FormTemplateFieldID'] as String;
+    ..emailLower = json['EmailLower'] as String?
+    ..name = json['Name'] as String?
+    ..tenantMemberID = json['TenantMemberID'] as String?
+    ..roleID = json['RoleID'] as String?
+    ..fieldID = json['FieldID'] as String?
+    ..formTemplateID = json['FormTemplateID'] as String?
+    ..formTemplateName = json['FormTemplateName'] as String?
+    ..formTemplateFieldID = json['FormTemplateFieldID'] as String?;
 }
 
 Map<String, dynamic> _$AddressBookItemToJson(AddressBookItem instance) {

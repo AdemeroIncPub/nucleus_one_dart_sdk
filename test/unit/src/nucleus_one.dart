@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
@@ -69,8 +71,6 @@ void main() {
 
   group('NucleusOneOptions class tests', () {
     test('Constructor tests', () {
-      testAssertionError(() => NucleusOneOptions(baseUrl: null), 'baseUrl');
-
       testValidAssertion(() => NucleusOneOptions(baseUrl: ''));
 
       final n1Opts = NucleusOneOptions(baseUrl: 'abc');
@@ -80,12 +80,6 @@ void main() {
 
   group('NucleusOneApp class tests', () {
     test('Constructor tests', () {
-      testAssertionError(() {
-        NucleusOneAppInternal(
-          options: null,
-        );
-      }, 'options');
-
       final n1Options = NucleusOneOptions(baseUrl: '');
       final n1App = NucleusOneAppInternal(options: n1Options);
       expect(n1App.options, n1Options);
@@ -126,7 +120,7 @@ void main() {
       for (var i = 0; i <= 2; ++i) {
         final setSession = (i == 1);
         final authenticated = (i == 2);
-        HttpClientOperationResult opResult;
+        HttpClientOperationResult? opResult;
 
         try {
           opResult = await createMockHttpClientScopeForGetRequest(
@@ -156,7 +150,7 @@ void main() {
         }
 
         if (i != 1) {
-          expect(opResult.headers.headers.length, authenticated ? 6 : 5);
+          expect(opResult!.headers.headers.length, authenticated ? 6 : 5);
           opResult.headers.expectContainsAllKeys(
               ['Pragma', 'Cache-Control', 'Accept', 'Content-Type', 'Accept-Encoding']);
           if (authenticated) {
@@ -169,8 +163,6 @@ void main() {
 
   group('Document class tests', () {
     test('Constructor tests', () {
-      testAssertionError(() => Document(app: null), 'app');
-
       final n1App = NucleusOneAppInternal(
         options: NucleusOneOptions(baseUrl: ''),
       );
@@ -200,9 +192,9 @@ void main() {
           responseBody: returnValue.toString().split(''),
         );
 
-        expect(opResult.requestUri.query,
+        expect(opResult.requestUri!.query,
             matches(r'\bignoreInbox=' + queryParamCombination[0].toString() + r'\b'));
-        expect(opResult.requestUri.query,
+        expect(opResult.requestUri!.query,
             matches(r'\bignoreRecycleBin=' + queryParamCombination[1].toString() + r'\b'));
 
         expect(opResult.headers.headers.length, 5);
@@ -219,8 +211,6 @@ void main() {
 
   group('Auth class tests', () {
     test('Constructor tests', () {
-      testAssertionError(() => Auth(app: null), 'app');
-
       final n1App = NucleusOneAppInternal(
         options: NucleusOneOptions(baseUrl: ''),
       );
@@ -237,7 +227,7 @@ void main() {
 
       for (var i = 0; i < 2; ++i) {
         final success = (i == 0);
-        Map<String, String> responseCookies;
+        Map<String, String>? responseCookies;
 
         if (success) {
           responseCookies = {
@@ -289,7 +279,6 @@ void main() {
 
   group('LoginResult class tests', () {
     test('Constructor tests', () {
-      testAssertionError(() => LoginResult(success: null), 'success');
       testAssertionError(() => LoginResult(success: true, sessionId: null), 'sessionId');
       testAssertionError(() => LoginResult(success: true, sessionId: ''), 'sessionId');
 

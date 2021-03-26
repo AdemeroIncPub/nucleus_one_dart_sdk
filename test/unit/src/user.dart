@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart';
 import 'package:test/test.dart';
@@ -18,7 +16,7 @@ void main() {
         bool includeRoles = true,
         bool includeFields = true,
         bool includeFormTemplateFields = true,
-        String filter,
+        String? filter,
       }) async {
         final u = getStandardTestUser();
         final ab = await u.getAddressBook(
@@ -37,9 +35,9 @@ void main() {
       );
 
       expect(result.request.method, HttpMethods.GET);
-      expect(result.requestUri.path, apiRequestPathMatches(apiPaths.addressBookItems));
-      expect(result.requestUri.query, matches(r'\bincludeTenantMembers=true\b'));
-      expect(result.requestUri.query, matches(r'\bincludeRoles=false\b'));
+      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.addressBookItems));
+      expect(result.requestUri!.query, matches(r'\bincludeTenantMembers=true\b'));
+      expect(result.requestUri!.query, matches(r'\bincludeRoles=false\b'));
 
       result = await createMockHttpClientScopeForGetRequest(
         callback: () =>
@@ -48,10 +46,10 @@ void main() {
       );
 
       expect(result.request.method, HttpMethods.GET);
-      expect(result.requestUri.path, apiRequestPathMatches(apiPaths.addressBookItems));
-      expect(result.requestUri.query, matches(r'\bincludeFields=true\b'));
-      expect(result.requestUri.query, matches(r'\bincludeFormTemplateFields=false\b'));
-      expect(result.requestUri.query, matches(r'\bfilter=123\b'));
+      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.addressBookItems));
+      expect(result.requestUri!.query, matches(r'\bincludeFields=true\b'));
+      expect(result.requestUri!.query, matches(r'\bincludeFormTemplateFields=false\b'));
+      expect(result.requestUri!.query, matches(r'\bfilter=123\b'));
     });
 
     test('clearAddressBook method test', () async {
@@ -65,7 +63,7 @@ void main() {
       );
 
       expect(result.request.method, HttpMethods.DELETE);
-      expect(result.requestUri.query, '');
+      expect(result.requestUri!.query, '');
     });
 
     test('getDashboardWidgets method test', () async {
@@ -80,8 +78,8 @@ void main() {
       );
 
       expect(result.request.method, HttpMethods.GET);
-      expect(result.requestUri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.requestUri.query, '');
+      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
+      expect(result.requestUri!.query, '');
     });
 
     test('deleteDashboardWidgets method test', () async {
@@ -100,12 +98,12 @@ void main() {
         );
       }
 
-      await testAssertionErrorAsync(() => performTest(null), 'ids');
+      await testAssertionErrorAsync(() => performTest([]), 'ids');
 
       final result = await performTest(['abc', 'def']);
       expect(result.request.method, HttpMethods.DELETE);
-      expect(result.requestUri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.requestUri.query, '');
+      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
+      expect(result.requestUri!.query, '');
       expect(result.getBodyAsString(), '{"IDs":["abc","def"]}');
     });
 
@@ -125,7 +123,6 @@ void main() {
         );
       }
 
-      await testAssertionErrorAsync(() => performTest(null), 'widgets');
       await testAssertionErrorAsync(() => performTest([]), 'widgets');
 
       final result = await performTest([
@@ -133,8 +130,8 @@ void main() {
         DashboardWidget.forRankUpdate('def', 2, 3),
       ]);
       expect(result.request.method, HttpMethods.PUT);
-      expect(result.requestUri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.requestUri.query, 'onlyRank=true');
+      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
+      expect(result.requestUri!.query, 'onlyRank=true');
       expect(result.getBodyAsString(),
           '[{"ID":"abc","GridColumn":0,"ColumnRank":1},{"ID":"def","GridColumn":2,"ColumnRank":3}]');
     });
