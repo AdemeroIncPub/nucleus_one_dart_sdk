@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:get_it/get_it.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
 import 'package:test/test.dart';
@@ -258,7 +258,7 @@ void main() {
               }
             },
             additionalMockSetup: (client, request, response) {
-              when(request.write(any)).thenAnswer((_) {
+              when(() => request.write(any())).thenAnswer((_) {
                 requestWriteCalled = true;
                 return;
               });

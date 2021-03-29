@@ -2,43 +2,23 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
-import 'http.mocks.dart';
-
 /*
-The intended names of these mock classes (e.g. CustomMockHttpClientRequest) did not originally include
-the "Custom..." prefix.  The "Custom..." prefix was included to workaround an issue (a bug?) with
-mockito (5.0.2) complaining about conflicting class names when it regenerate its mock classes.  For
-example, it was complaining about our "MockHttpClientRequest" class conflicting with the class of the
-same name that it was wanting to generate, even though this behavior is overridden in the "@GenerateMocks"
-attribute to be "BaseMockHttpClientRequest" (and it *is* ultimately generated as such).
+The functionality implemented in these mock classes is only what is applicable for all consumers of
+these classes.  Any test-specific logic is extended via mocktail's "when(...).thenAnswer(...)"
+functionality.
 */
 
-class CustomMockHttpClientRequest extends BaseMockHttpClientRequest {
+class MockHttpClientRequest extends Mock implements HttpClientRequest {
   @override
   String method = '';
 }
 
-class CustomMockHttpClientResponse extends Mock implements BaseMockHttpClientResponse {
-  // @override
-  // Stream<S> transform<S>(StreamTransformer<List<int>, S>? streamTransformer) {
-  //   if (streamTransformer == null) {
-  //     return Stream.empty();
-  //   }
-  //   return streamTransformer.bind(this);
-  // }
+class MockHttpClientResponse extends Mock implements HttpClientResponse {}
 
-  @override
-  Stream<S> transform<S>(StreamTransformer<List<int>, S>? streamTransformer) {
-    final r = super.noSuchMethod(Invocation.method(#transform, [streamTransformer]));
-    return r as Stream<S>;
-  }
-}
-
-class CustomMockHttpHeaders extends BaseMockHttpHeaders {
+class MockHttpHeaders extends Mock implements HttpHeaders {
   final headers = <String, List<String>>{};
 
   void expectContainsAllKeys(List<String> keys) {
@@ -71,51 +51,14 @@ class CustomMockHttpHeaders extends BaseMockHttpHeaders {
   }
 }
 
-/*
 class MockHttpClient extends Mock implements HttpClient {}
-
-class MockHttpClientRequest extends Mock implements HttpClientRequest {
-  set method(String value);
-}
-
-class MockHttpClientResponse extends Mock implements HttpClientResponse {}
-
-class MockHttpHeaders extends Mock implements HttpHeaders {
-  final headers = <String, List<String>>{};
-
-  void expectContainsAllKeys(List<String> keys) {
-    for (var key in keys) {
-      expect(headers.containsKey(key), isTrue, reason: 'The "$key" key is expected');
-    }
-  }
-
-  @override
-  void add(String name, Object value, {bool preserveHeaderCase = false}) {
-    var values = headers[name];
-    if (values == null) {
-      headers[name] = values = <String>[];
-    }
-    if (value is DateTime) {
-      values.add(HttpDate.format(value));
-    } else {
-      values.add(value.toString());
-    }
-  }
-
-  @override
-  void set(String name, Object value, {bool preserveHeaderCase = false}) {
-    headers.remove(name);
-    add(name, value);
-  }
-}
-*/
 
 class HttpClientOperationResult {
   MockHttpClient client;
-  CustomMockHttpClientRequest request;
+  MockHttpClientRequest request;
   Uri? requestUri;
-  CustomMockHttpClientResponse response;
-  CustomMockHttpHeaders headers;
+  MockHttpClientResponse response;
+  MockHttpHeaders headers;
   final body = <int>[];
 
   String getBodyAsString() {
@@ -124,17 +67,16 @@ class HttpClientOperationResult {
 
   HttpClientOperationResult()
       : client = MockHttpClient(),
-        request = CustomMockHttpClientRequest(),
-        response = CustomMockHttpClientResponse(),
-        headers = CustomMockHttpHeaders();
+        request = MockHttpClientRequest(),
+        response = MockHttpClientResponse(),
+        headers = MockHttpHeaders();
 }
 
 /// Mocks HttpClient and prepares it for an HTTP GET request.
-Future<HttpClientOperationResult> createMockHttpClientScopeForGetRequest<T>({
+Future<HttpClientOperationResult> createMockHttpClientScopeForGetRequest({
   required Future<void> Function() callback,
-  void Function(MockHttpClient, CustomMockHttpClientRequest, CustomMockHttpClientResponse)?
-      additionalMockSetup,
-  required List<T> responseBody,
+  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
+  required List<String> responseBody,
   Map<String, String>? responseCookies,
 }) async {
   return _createStandardMockHttpClientScopeForAllRequests(
@@ -146,11 +88,10 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForGetRequest<T>({
 }
 
 /// Mocks HttpClient and prepares it for an HTTP POST request.
-Future<HttpClientOperationResult> createMockHttpClientScopeForPostRequest<T>({
+Future<HttpClientOperationResult> createMockHttpClientScopeForPostRequest({
   required Future<void> Function() callback,
-  void Function(MockHttpClient, CustomMockHttpClientRequest, CustomMockHttpClientResponse)?
-      additionalMockSetup,
-  required List<T> responseBody,
+  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
+  required List<String> responseBody,
   Map<String, String>? responseCookies,
 }) async {
   return _createStandardMockHttpClientScopeForAllRequests(
@@ -162,11 +103,10 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForPostRequest<T>({
 }
 
 /// Mocks HttpClient and prepares it for an HTTP DELETE request.
-Future<HttpClientOperationResult> createMockHttpClientScopeForDeleteRequest<T>({
+Future<HttpClientOperationResult> createMockHttpClientScopeForDeleteRequest({
   required Future<void> Function() callback,
-  void Function(MockHttpClient, CustomMockHttpClientRequest, CustomMockHttpClientResponse)?
-      additionalMockSetup,
-  required List<T> responseBody,
+  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
+  required List<String> responseBody,
   Map<String, String>? responseCookies,
 }) async {
   return _createStandardMockHttpClientScopeForAllRequests(
@@ -178,11 +118,10 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForDeleteRequest<T>({
 }
 
 /// Mocks HttpClient and prepares it for an HTTP PUT request.
-Future<HttpClientOperationResult> createMockHttpClientScopeForPutRequest<T>({
+Future<HttpClientOperationResult> createMockHttpClientScopeForPutRequest({
   required Future<void> Function() callback,
-  void Function(MockHttpClient, CustomMockHttpClientRequest, CustomMockHttpClientResponse)?
-      additionalMockSetup,
-  required List<T> responseBody,
+  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
+  required List<String> responseBody,
   Map<String, String>? responseCookies,
 }) async {
   return _createStandardMockHttpClientScopeForAllRequests(
@@ -194,11 +133,10 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForPutRequest<T>({
 }
 
 /// Creates the standard MockHttpClient scope for all requests.
-Future<HttpClientOperationResult> _createStandardMockHttpClientScopeForAllRequests<T>({
+Future<HttpClientOperationResult> _createStandardMockHttpClientScopeForAllRequests({
   required Future<void> Function() callback,
-  void Function(MockHttpClient, CustomMockHttpClientRequest, CustomMockHttpClientResponse)?
-      additionalMockSetup,
-  required List<T> responseBody,
+  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
+  required List<String> responseBody,
   Map<String, String>? responseCookies,
 }) async {
   return _createMockHttpClientScopeForAllRequestsInternal(
@@ -230,23 +168,9 @@ Future<HttpClientOperationResult> _createMockHttpClientScopeForAllRequestsIntern
   );
 }
 
-@GenerateMocks(
-  [
-    HttpClient,
-    HttpClientRequest,
-    HttpClientResponse,
-    HttpHeaders,
-  ],
-  customMocks: [
-    MockSpec<HttpClientRequest>(as: #BaseMockHttpClientRequest),
-    MockSpec<HttpClientResponse>(as: #BaseMockHttpClientResponse),
-    MockSpec<HttpHeaders>(as: #BaseMockHttpHeaders),
-  ],
-)
-HttpClientOperationResult _createMockHttpClientAllRequests<T>({
-  void Function(MockHttpClient, CustomMockHttpClientRequest, CustomMockHttpClientResponse)?
-      additionalMockSetup,
-  required List<T> responseBody,
+HttpClientOperationResult _createMockHttpClientAllRequests({
+  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
+  required List<String> responseBody,
   Map<String, String>? responseCookies,
 }) {
   responseCookies ??= {};
@@ -263,37 +187,39 @@ HttpClientOperationResult _createMockHttpClientAllRequests<T>({
       return Future.value(request);
     }
 
-    when(client.getUrl(any)).thenAnswer((Invocation invocation) {
+    when(() => client.getUrl(any())).thenAnswer((Invocation invocation) {
       return handleHttpUrlInvocation(invocation, 'GET');
     });
-    when(client.deleteUrl(any)).thenAnswer((Invocation invocation) {
+    when(() => client.deleteUrl(any())).thenAnswer((Invocation invocation) {
       return handleHttpUrlInvocation(invocation, 'DELETE');
     });
-    when(client.postUrl(any)).thenAnswer((Invocation invocation) {
+    when(() => client.postUrl(any())).thenAnswer((Invocation invocation) {
       return handleHttpUrlInvocation(invocation, 'POST');
     });
-    when(client.putUrl(any)).thenAnswer((Invocation invocation) {
+    when(() => client.putUrl(any())).thenAnswer((Invocation invocation) {
       return handleHttpUrlInvocation(invocation, 'PUT');
     });
   }
 
-  when(request.headers).thenReturn(httpOpResult.headers);
-  when(request.close()).thenAnswer((_) => Future<HttpClientResponse>.value(response));
-  when(request.write(any)).thenAnswer((realInvocation) {
+  when(() => request.headers).thenReturn(httpOpResult.headers);
+  when(() => request.close()).thenAnswer((_) => Future<HttpClientResponse>.value(response));
+  when(() => request.write(any())).thenAnswer((realInvocation) {
     final contentAsString = realInvocation.positionalArguments[0].toString();
     httpOpResult.body.addAll(utf8.encode(contentAsString));
   });
 
-  when(response.contentLength).thenReturn(responseBody.length);
-  when(response.statusCode).thenReturn(HttpStatus.ok);
-  when(response.compressionState).thenReturn(HttpClientResponseCompressionState.notCompressed);
-  when(response.cookies).thenReturn(
+  when(() => response.contentLength).thenReturn(responseBody.length);
+  when(() => response.statusCode).thenReturn(HttpStatus.ok);
+  when(() => response.compressionState)
+      .thenReturn(HttpClientResponseCompressionState.notCompressed);
+  when(() => response.cookies).thenReturn(
       responseCookies.entries.map((mapEntry) => Cookie(mapEntry.key, mapEntry.value)).toList());
 
   // Prior to the null safety migration, the "transform" mock was defined as:
   // when(response.transform(any)).thenAnswer((_) => Stream<T>.fromIterable(responseBody));
   if (responseBody is List<String>) {
-    when(response.transform(any)).thenAnswer((_) => Stream<T>.fromIterable(responseBody));
+    when(() => response.transform(utf8.decoder))
+        .thenAnswer((_) => Stream<String>.fromIterable(responseBody));
   } else {
     throw UnimplementedError(
         'A "transform(...) mock must be specifically implemented for this type.');

@@ -1,3 +1,2 @@
 paths:
-- test/integration/index.dart
-- test/unit/index.dart
+- test/index.dart
