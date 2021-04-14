@@ -138,7 +138,7 @@ void main() {
               // This is an arbitrary method call to trigger an HttpClient request
               await n1App.document().getCount(true, true);
             },
-            responseBody: '0'.split(''),
+            responseBody: '0',
           );
         } catch (e) {
           // An exception is only expected on the second iteration, where session id has been set, but
@@ -189,7 +189,7 @@ void main() {
             final docCount = await n1App.document().getCount(ignoreInbox, ignoreRecycleBin);
             expect(docCount, returnValue);
           },
-          responseBody: returnValue.toString().split(''),
+          responseBody: returnValue.toString(),
         );
 
         expect(opResult.requestUri!.query,
@@ -263,7 +263,7 @@ void main() {
                 return;
               });
             },
-            responseBody: '0'.split(''),
+            responseBody: '0',
             responseCookies: responseCookies);
       }
     });

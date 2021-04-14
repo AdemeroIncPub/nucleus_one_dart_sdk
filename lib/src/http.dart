@@ -166,6 +166,17 @@ Future<void> executeDeleteRequest(
       authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.delete);
 }
 
+Future<void> executePostRequest(
+  String apiRelativeUrlPath,
+  NucleusOneAppInternal app, {
+  Map<String, dynamic>? query,
+  String? body,
+  bool authenticated = true,
+}) async {
+  await _executeStandardHttpRequest(
+      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.post);
+}
+
 Future<void> executePutRequest(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
@@ -180,6 +191,7 @@ Future<void> executePutRequest(
 abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
   static const dashboardWidgets = '/dashboardWidgets';
+  static const documents = '/documents';
   static const documentCounts = '/documentCounts';
 }
 

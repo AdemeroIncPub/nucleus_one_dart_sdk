@@ -12,8 +12,8 @@ DashboardWidget _$DashboardWidgetFromJson(Map<String, dynamic> json) {
     ..tenantID = json['TenantID'] as String?
     ..tenantMemberID = json['TenantMemberID'] as String?
     ..type = json['Type'] as String?
-    ..gridColumn = json['GridColumn'] as int?
-    ..columnRank = json['ColumnRank'] as int?
+    ..gridColumn = (json['GridColumn'] as num?)?.toDouble()
+    ..columnRank = (json['ColumnRank'] as num?)?.toDouble()
     ..name = json['Name'] as String?
     ..detail = json['Detail'] as String?
     ..jsonData = json['JsonData'] as String?;
