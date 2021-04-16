@@ -1,7 +1,13 @@
-import '../api_model/preview_metadata_item.dart' as api_model;
+import 'package:get_it/get_it.dart';
 
-class PreviewMetadataItem {
-  PreviewMetadataItem._({required this.item0, required this.item1, required this.item2});
+import '../api_model/preview_metadata_item.dart' as api_model;
+import '../nucleus_one.dart';
+
+class PreviewMetadataItem with NucleusOneAppDependent {
+  PreviewMetadataItem._(
+      {NucleusOneAppInternal? app, required this.item0, required this.item1, required this.item2}) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  }
 
   factory PreviewMetadataItem.fromApiModel(api_model.PreviewMetadataItem apiModel) {
     return PreviewMetadataItem._(

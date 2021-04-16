@@ -1,9 +1,19 @@
-import '../api_model/document.dart' as api_model;
+import 'dart:convert';
+
+import 'package:get_it/get_it.dart';
+
+import '../../nucleus_one_dart_sdk.dart';
+import '../api_model/document.dart' as api_mod;
+import '../api_model/recent_documents.dart' as api_mod;
+import '../http.dart' as http;
+import '../model/recent_documents.dart' as mod;
+import '../nucleus_one.dart';
 import 'preview_metadata_item.dart';
 
-class Document {
+class Document with NucleusOneAppDependent {
   Document._(
-      {required this.uniqueID,
+      {NucleusOneAppInternal? app,
+      required this.uniqueID,
       required this.documentID,
       required this.createdOn,
       required this.purgeDate,
@@ -27,9 +37,42 @@ class Document {
       required this.roleName,
       required this.processName,
       required this.processElementName,
-      required this.score});
+      required this.score}) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  }
 
-  factory Document.fromApiModel(api_model.Document apiModel) {
+  Document({
+    NucleusOneAppInternal? app,
+  }) : this._(
+          app: app,
+          uniqueID: '',
+          documentID: '',
+          createdOn: '',
+          purgeDate: '',
+          name: '',
+          pageCount: 0,
+          fileSize: 0,
+          thumbnailUrl: '',
+          isSigned: false,
+          classificationID: '',
+          classificationName: '',
+          previewMetadata: [],
+          documentApprovalID: '',
+          documentApprovalCreatedOn: '',
+          documentSubscriptionID: '',
+          documentSubscriptionCreatedOn: '',
+          documentSignatureSessionRecipientID: '',
+          documentSignatureSessionID: '',
+          documentSignatureSessionRecipientEmail: '',
+          documentSignatureSessionRecipientFullName: '',
+          documentSignatureSessionRecipientRequestedOn: '',
+          roleName: '',
+          processName: '',
+          processElementName: '',
+          score: 0,
+        );
+
+  factory Document.fromApiModel(api_mod.Document apiModel) {
     return Document._(
         uniqueID: apiModel.uniqueID!,
         documentID: apiModel.documentID!,
@@ -111,8 +154,8 @@ class Document {
 
   int score;
 
-  api_model.Document toApiModel() {
-    return api_model.Document()
+  api_mod.Document toApiModel() {
+    return api_mod.Document()
       ..uniqueID = uniqueID
       ..documentID = documentID
       ..createdOn = createdOn
@@ -138,5 +181,114 @@ class Document {
       ..processName = processName
       ..processElementName = processElementName
       ..score = score;
+  }
+
+  /// Gets the document count.
+  Future<int> getCount(bool ignoreInbox, bool ignoreRecycleBin) async {
+    final qp = {
+      'ignoreInbox': ignoreInbox,
+      'ignoreRecycleBin': ignoreRecycleBin,
+    };
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentCounts,
+      app,
+      query: qp,
+    );
+    return int.parse(responseBody);
+  }
+
+  /*
+  Future<void> getRecent() async {
+    final qp = {
+      'sortDescending': false,
+      'sortType': '',
+      'offset': 0,
+      'cursor': '',
+      'singleRecord': false,
+      
+      'inbox': false,
+      'recycleBin': false,
+      'documentApprovals': false,
+        // 'showForAllInProject': false,
+        // 'documentApprovalsByRole': false,
+        'processID', '',
+        'processElementID', '',
+      'documentSubscriptions': false,
+      'documentSignatureSessionRecipients': false,
+        'showForAllTenantMembers': false,
+    };
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documents,
+      app,
+      query: qp,
+    );
+    return int.parse(responseBody);
+  }
+  */
+
+  Future<mod.RecentDocuments> getRecent([
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+  ]) async {
+    return _getRecentInternal(sortType, sortDescending);
+  }
+
+  Future<mod.RecentDocuments> getApprovalsRecent([
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+  ]) async {
+    return _getRecentInternal(sortType, sortDescending, {
+      'documentApprovals': true,
+    });
+  }
+
+  Future<mod.RecentDocuments> getInboxRecent([
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+  ]) async {
+    return _getRecentInternal(sortType, sortDescending, {
+      'inbox': true,
+    });
+  }
+
+  // Future<mod.RecentDocuments> getNeedSignatureRecent([
+  //   String sortType = 'CreatedOn',
+  //   bool sortDescending = true,
+  // ]) async {
+  //   return _getRecentInternal(sortType, sortDescending, {
+  //     'documentSignatureSessionRecipients': true,
+  //     'showForAllTenantMembers': this.props.isAdmin
+  //   });
+  // }
+
+  Future<mod.RecentDocuments> getDocumentSubscriptionsRecent([
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+  ]) async {
+    return _getRecentInternal(sortType, sortDescending, {
+      'documentSubscriptions': true,
+    });
+  }
+
+  Future<mod.RecentDocuments> _getRecentInternal([
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+    Map<String, Object>? qpAdditional,
+  ]) async {
+    final qp = {
+      'sortType': sortType,
+      'sortDescending': sortDescending,
+    };
+    if (qpAdditional != null) {
+      qp.addAll(qpAdditional);
+    }
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documents,
+      app,
+      query: qp,
+    );
+    final dl = api_mod.RecentDocuments.fromJson(jsonDecode(responseBody));
+    return mod.RecentDocuments.fromApiModel(dl);
   }
 }

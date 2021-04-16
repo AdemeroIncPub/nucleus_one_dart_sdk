@@ -1,20 +1,22 @@
 import 'dart:convert';
 
-import 'api_model/active_tenant_permissions.dart' as api_mod;
+import 'package:get_it/get_it.dart';
+
+import 'api_model/tenant_permissions.dart' as api_mod;
 import 'api_model/address_book.dart' as api_mod;
 import 'api_model/dashboard_widget.dart' as api_mod;
 import 'common/string.dart';
 import 'http.dart' as http;
-import 'model/active_tenant_permissions.dart' as mod;
+import 'model/tenant_permissions.dart' as mod;
 import 'model/address_book.dart' as mod;
 import 'model/dashboard_widget.dart' as mod;
 import 'nucleus_one.dart';
 
 class User with NucleusOneAppDependent {
   User({
-    required NucleusOneAppInternal app,
+    NucleusOneAppInternal? app,
   }) {
-    this.app = app;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
   /// Gets all items in the user's address book.
@@ -126,10 +128,10 @@ class User with NucleusOneAppDependent {
   }
 
   /// Gets all of the user's Dashboard widgets.
-  Future<mod.ActiveTenantPermissions> getActiveTenantPermissions() async {
+  Future<mod.TenantPermissions> getTenantPermissions() async {
     final responseBody =
         await http.executeGetRequestWithTextResponse(http.apiPaths.dashboardWidgets, app);
-    final apiModel = api_mod.ActiveTenantPermissions.fromJson(jsonDecode(responseBody));
-    return mod.ActiveTenantPermissions.fromApiModel(apiModel);
+    final apiModel = api_mod.TenantPermissions.fromJson(jsonDecode(responseBody));
+    return mod.TenantPermissions.fromApiModel(apiModel);
   }
 }

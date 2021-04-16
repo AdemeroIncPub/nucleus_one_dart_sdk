@@ -1,7 +1,12 @@
-import '../api_model/dashboard_widget.dart' as api_model;
+import 'package:get_it/get_it.dart';
 
-class DashboardWidgets {
-  DashboardWidgets._({required this.items});
+import '../api_model/dashboard_widget.dart' as api_model;
+import '../nucleus_one.dart';
+
+class DashboardWidgets with NucleusOneAppDependent {
+  DashboardWidgets._({NucleusOneAppInternal? app, required this.items}) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  }
 
   factory DashboardWidgets.fromApiModel(api_model.DashboardWidgets apiModel) {
     return DashboardWidgets._(
@@ -15,9 +20,10 @@ class DashboardWidgets {
   }
 }
 
-class DashboardWidget {
+class DashboardWidget with NucleusOneAppDependent {
   DashboardWidget._(
-      {required this.id,
+      {NucleusOneAppInternal? app,
+      required this.id,
       required this.tenantID,
       required this.tenantMemberID,
       required this.type,
@@ -25,7 +31,9 @@ class DashboardWidget {
       required this.columnRank,
       required this.name,
       required this.detail,
-      required this.jsonData});
+      required this.jsonData}) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  }
 
   factory DashboardWidget.fromApiModel(api_model.DashboardWidget apiModel) {
     return DashboardWidget._(

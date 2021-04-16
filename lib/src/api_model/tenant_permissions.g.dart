@@ -1,14 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'active_tenant_permissions.dart';
+part of 'tenant_permissions.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ActiveTenantPermissions _$ActiveTenantPermissionsFromJson(
-    Map<String, dynamic> json) {
-  return ActiveTenantPermissions()
+TenantPermissions _$TenantPermissionsFromJson(Map<String, dynamic> json) {
+  return TenantPermissions()
     ..organizationID = json['OrganizationID'] as String?
     ..organizationName = json['OrganizationName'] as String?
     ..tenantID = json['TenantID'] as String?
@@ -21,8 +20,7 @@ ActiveTenantPermissions _$ActiveTenantPermissionsFromJson(
     ..isAdmin = json['IsAdmin'] as bool?;
 }
 
-Map<String, dynamic> _$ActiveTenantPermissionsToJson(
-    ActiveTenantPermissions instance) {
+Map<String, dynamic> _$TenantPermissionsToJson(TenantPermissions instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

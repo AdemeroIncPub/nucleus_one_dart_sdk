@@ -1,3 +1,4 @@
+import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:test/test.dart';
 
 import 'package:nucleus_one_dart_sdk/src/api_model/dashboard_widget.dart' as api_mod;
@@ -12,6 +13,14 @@ import 'address_book.dart';
 
 void main() {
   group('User class tests', () {
+    setUp(() async {
+      await NucleusOne.intializeSdk();
+    });
+
+    tearDown(() async {
+      await NucleusOne.resetSdk();
+    });
+
     test('getAddressBook method test', () async {
       final makeHttpCall = ({
         bool includeTenantMembers = true,
@@ -37,9 +46,9 @@ void main() {
       );
 
       expect(result.request.method, HttpMethods.GET);
-      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.addressBookItems));
-      expect(result.requestUri!.query, matches(r'\bincludeTenantMembers=true\b'));
-      expect(result.requestUri!.query, matches(r'\bincludeRoles=false\b'));
+      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.addressBookItems));
+      expect(result.request.uri.query, matches(r'\bincludeTenantMembers=true\b'));
+      expect(result.request.uri.query, matches(r'\bincludeRoles=false\b'));
 
       result = await createMockHttpClientScopeForGetRequest(
         callback: () =>
@@ -48,10 +57,10 @@ void main() {
       );
 
       expect(result.request.method, HttpMethods.GET);
-      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.addressBookItems));
-      expect(result.requestUri!.query, matches(r'\bincludeFields=true\b'));
-      expect(result.requestUri!.query, matches(r'\bincludeFormTemplateFields=false\b'));
-      expect(result.requestUri!.query, matches(r'\bfilter=123\b'));
+      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.addressBookItems));
+      expect(result.request.uri.query, matches(r'\bincludeFields=true\b'));
+      expect(result.request.uri.query, matches(r'\bincludeFormTemplateFields=false\b'));
+      expect(result.request.uri.query, matches(r'\bfilter=123\b'));
     });
 
     test('clearAddressBook method test', () async {
@@ -65,7 +74,7 @@ void main() {
       );
 
       expect(result.request.method, HttpMethods.DELETE);
-      expect(result.requestUri!.query, '');
+      expect(result.request.uri.query, '');
     });
 
     test('getDashboardWidgets method test', () async {
@@ -80,8 +89,8 @@ void main() {
       );
 
       expect(result.request.method, HttpMethods.GET);
-      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.requestUri!.query, '');
+      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
+      expect(result.request.uri.query, '');
     });
 
     test('deleteDashboardWidgets method test', () async {
@@ -104,8 +113,8 @@ void main() {
 
       final result = await performTest(['abc', 'def']);
       expect(result.request.method, HttpMethods.DELETE);
-      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.requestUri!.query, '');
+      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
+      expect(result.request.uri.query, '');
       expect(result.request.getBodyAsString(), '{"IDs":["abc","def"]}');
     });
 
@@ -144,8 +153,8 @@ void main() {
       final result = await performTest(dw);
       expect(result.request.method, HttpMethods.PUT);
       expect(
-          result.requestUri!.path, apiRequestPathMatches(apiPaths.dashboardWidgets + '/' + dw.id!));
-      expect(result.requestUri!.query, '');
+          result.request.uri.path, apiRequestPathMatches(apiPaths.dashboardWidgets + '/' + dw.id!));
+      expect(result.request.uri.query, '');
       expect(result.getBodyAsString(),
           '{"ID":"1","TenantID":"2","TenantMemberID":"3","Type":"4","GridColumn":5,"ColumnRank":6,"Name":"7","Detail":"8","JsonData":"9"}');
     });
@@ -187,8 +196,8 @@ void main() {
 
       final result = await performTest(dws);
       expect(result.request.method, HttpMethods.POST);
-      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.requestUri!.query, '');
+      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
+      expect(result.request.uri.query, '');
       expect(result.request.getBodyAsString(),
           '[{"ID":"1","TenantID":"2","TenantMemberID":"3","Type":"4","GridColumn":5.0,"ColumnRank":6.0,"Name":"7","Detail":"8","JsonData":"9"}]');
     });
@@ -220,8 +229,8 @@ void main() {
         ];
       final result = await performTest(dws);
       expect(result.request.method, HttpMethods.PUT);
-      expect(result.requestUri!.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.requestUri!.query, 'onlyRank=true');
+      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
+      expect(result.request.uri.query, 'onlyRank=true');
       expect(result.request.getBodyAsString(),
           '[{"ID":"abc","GridColumn":0.0,"ColumnRank":1.0},{"ID":"def","GridColumn":2.0,"ColumnRank":3.0}]');
     });

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/recent_documents.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/model/recent_documents.dart' as mod;
 import 'package:test/test.dart';
@@ -10,6 +11,14 @@ const recentDocumentsJson = r'{"Documents":[' + documentJson + r'],"Cursor":"abc
 
 void main() {
   group('RecentDocuments class tests', () {
+    setUp(() async {
+      await NucleusOne.intializeSdk();
+    });
+
+    tearDown(() async {
+      await NucleusOne.resetSdk();
+    });
+
     test('Serialization test', () {
       void performTests(api_mod.RecentDocuments apiModel) {
         expect(apiModel.documents!.length, 1);

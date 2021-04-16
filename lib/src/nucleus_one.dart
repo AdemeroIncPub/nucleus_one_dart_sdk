@@ -7,8 +7,8 @@ import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/src/user.dart';
 
 import '../nucleus_one_dart_sdk.dart';
-import 'document.dart';
 import 'http.dart' as http;
+import 'model/document.dart';
 
 final _getIt = GetIt.instance;
 
@@ -19,12 +19,23 @@ abstract class NucleusOne {
   }
 
   /// Initializes the SDK.  This must be called prior to calling any other SDK methods.
+  /// See also: [resetSdk].
   static Future<void> intializeSdk() async {
     // This method is intentionally async, even though we don't currently make use of it.  This is
     // because of the high likelihood that it will be needed in the near future.  By making it async
     // now, it won't be a breaking change when we do introduce the need to await within this method.
 
     _getIt.registerSingleton<NucleusOneApp>(NucleusOneAppUninitialized());
+  }
+
+  /// Resets the SDK to its initial state.
+  /// See also: [intializeSdk].
+  static Future<void> resetSdk() async {
+    // This method is intentionally async, even though we don't currently make use of it.  This is
+    // because of the high likelihood that it will be needed in the near future.  By making it async
+    // now, it won't be a breaking change when we do introduce the need to await within this method.
+
+    _getIt.unregister<NucleusOneApp>();
   }
 
   /// Initializes a new [NucleusOneApp] instance with [options] and returns the created app.

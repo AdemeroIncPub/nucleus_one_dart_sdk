@@ -1,8 +1,17 @@
+import 'package:get_it/get_it.dart';
+
 import '../api_model/recent_documents.dart' as api_model;
+import '../nucleus_one.dart';
 import 'document.dart';
 
-class RecentDocuments {
-  RecentDocuments._({required this.documents, required this.cursor, required this.pageSize});
+class RecentDocuments with NucleusOneAppDependent {
+  RecentDocuments._(
+      {NucleusOneAppInternal? app,
+      required this.documents,
+      required this.cursor,
+      required this.pageSize}) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  }
 
   factory RecentDocuments.fromApiModel(api_model.RecentDocuments apiModel) {
     return RecentDocuments._(

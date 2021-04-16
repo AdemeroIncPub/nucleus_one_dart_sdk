@@ -60,12 +60,13 @@ void setRequestHeadersAuthCookie(HttpClientRequest request, NucleusOneAppInterna
         headers.set('Cookie', 'G_AUTHUSER_H=1; session_v1=${app.sessionId}');
         break;
       default:
-        throw 'Invalid auth provider: _authProvider';
+        throw RangeError('Invalid auth provider: ${app.authProvider}');
     }
   }
 }
 
-String _getQueryParamsString(Map<String, dynamic> queryParams) {
+@visibleForTesting
+String getQueryParamsString(Map<String, dynamic> queryParams) {
   Map<String, dynamic> stringifyQueryParamValuesRecursive(Map<String, dynamic> qps) {
     // Ensure the map is an instance of Map<String, dynamic>
     qps = qps.map<String, dynamic>((key, value) => MapEntry(key, value));
@@ -78,13 +79,10 @@ String _getQueryParamsString(Map<String, dynamic> queryParams) {
       final qp = qps[qpKey];
 
       if (!(qp is String)) {
-        if ((qp is bool) || (qp is int)) {
+        if ((qp is bool) || (qp is int) || (qp is double)) {
           qps[qpKey] = qp.toString();
-        } else if (qp is Iterable) {
-          // The only nested structures we support are Map<String, dynamic>
-          qps[qpKey] = stringifyQueryParamValuesRecursive(qp as Map<String, dynamic>);
         } else {
-          throw 'Unsupported value type provided in query parameters.';
+          throw UnsupportedError('Unsupported value type provided in query parameters.');
         }
       }
     }
@@ -106,7 +104,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
   HttpClientRequest clientReq;
 
   {
-    final qpAsString = (qp == null) ? '' : '?' + _getQueryParamsString(qp);
+    final qpAsString = (qp == null) ? '' : '?' + getQueryParamsString(qp);
     final fullUrl = app.getFullUrl(apiRelativeUrlPath) + qpAsString;
     final parsedUri = Uri.parse(fullUrl);
     final httpClient = getStandardHttpClient();
@@ -124,8 +122,6 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
       case _HttpMethod.put:
         clientReq = await httpClient.putUrl(parsedUri);
         break;
-      default:
-        throw UnimplementedError('The $method method has not been implemented.');
     }
   }
 

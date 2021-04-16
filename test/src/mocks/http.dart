@@ -17,6 +17,9 @@ class MockHttpClientRequest extends Mock implements HttpClientRequest {
   @override
   String method = '';
 
+  @override
+  Uri uri = Uri.parse('');
+
   String getBodyAsString() {
     return utf8.decode(_body);
   }
@@ -62,7 +65,6 @@ class MockHttpClient extends Mock implements HttpClient {}
 class HttpClientOperationResult {
   MockHttpClient client;
   MockHttpClientRequest request;
-  Uri? requestUri;
   MockHttpClientResponse response;
   MockHttpHeaders headers;
 
@@ -183,8 +185,9 @@ HttpClientOperationResult _createMockHttpClientAllRequests({
 
   {
     Future<HttpClientRequest> handleHttpUrlInvocation(Invocation invocation, String httpMethod) {
-      httpOpResult.requestUri = invocation.positionalArguments[0];
-      request.method = httpMethod;
+      request
+        ..uri = invocation.positionalArguments[0]
+        ..method = httpMethod;
       return Future.value(request);
     }
 

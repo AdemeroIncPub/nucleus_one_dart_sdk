@@ -7,6 +7,7 @@ import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
 import 'package:test/test.dart';
 
 import '../../src/assertions.dart';
+import '../../src/common.dart';
 import '../../src/mocks/http.dart';
 
 void main() {
@@ -87,25 +88,20 @@ void main() {
 
     test('getFullUrl method tests', () {
       const baseUrl = 'https://abc.com';
-      final n1Options = NucleusOneOptions(baseUrl: baseUrl);
-      final n1App = NucleusOneAppInternal(options: n1Options);
+      final n1App = getStandardN1App(baseUrl);
 
       expect(n1App.getFullUrl('/test'), baseUrl + NucleusOneApp.apiBaseUrlPath + '/test');
     });
 
     test('auth method tests', () {
-      final n1App = NucleusOneAppInternal(
-        options: NucleusOneOptions(baseUrl: 'https://abc.com'),
-      );
+      final n1App = getStandardN1App('https://abc.com');
 
       final auth = n1App.auth();
       expect(auth.app, n1App);
     });
 
     test('document method tests', () {
-      final n1App = NucleusOneAppInternal(
-        options: NucleusOneOptions(baseUrl: ''),
-      );
+      final n1App = getStandardN1App();
 
       final doc = n1App.document();
       expect(doc.app, n1App);
@@ -125,9 +121,7 @@ void main() {
         try {
           opResult = await createMockHttpClientScopeForGetRequest(
             callback: () async {
-              final n1App = NucleusOneAppInternal(
-                options: NucleusOneOptions(baseUrl: ''),
-              );
+              final n1App = getStandardN1App();
 
               if (setSession) {
                 n1App.setSessionId('abc123');
@@ -140,13 +134,13 @@ void main() {
             },
             responseBody: '0',
           );
-        } catch (e) {
+        } on RangeError catch (e) {
           // An exception is only expected on the second iteration, where session id has been set, but
           // not auth provider configured.
           if (i != 1) {
             rethrow;
           }
-          expect(e, 'Invalid auth provider: _authProvider');
+          expect(e.message, startsWith('Invalid auth provider: '));
         }
 
         if (i != 1) {
@@ -163,9 +157,7 @@ void main() {
 
   group('Document class tests', () {
     test('Constructor tests', () {
-      final n1App = NucleusOneAppInternal(
-        options: NucleusOneOptions(baseUrl: ''),
-      );
+      final n1App = getStandardN1App();
 
       final doc = Document(app: n1App);
       expect(doc.app, n1App);
@@ -181,9 +173,7 @@ void main() {
       for (var queryParamCombination in queryParamCombinations) {
         final opResult = await createMockHttpClientScopeForGetRequest(
           callback: () async {
-            final n1App = NucleusOneAppInternal(
-              options: NucleusOneOptions(baseUrl: ''),
-            );
+            final n1App = getStandardN1App();
             final ignoreInbox = queryParamCombination[0],
                 ignoreRecycleBin = queryParamCombination[1];
             final docCount = await n1App.document().getCount(ignoreInbox, ignoreRecycleBin);
@@ -192,9 +182,9 @@ void main() {
           responseBody: returnValue.toString(),
         );
 
-        expect(opResult.requestUri!.query,
+        expect(opResult.request.uri.query,
             matches(r'\bignoreInbox=' + queryParamCombination[0].toString() + r'\b'));
-        expect(opResult.requestUri!.query,
+        expect(opResult.request.uri.query,
             matches(r'\bignoreRecycleBin=' + queryParamCombination[1].toString() + r'\b'));
 
         expect(opResult.headers.headers.length, 5);
@@ -211,9 +201,7 @@ void main() {
 
   group('Auth class tests', () {
     test('Constructor tests', () {
-      final n1App = NucleusOneAppInternal(
-        options: NucleusOneOptions(baseUrl: ''),
-      );
+      final n1App = getStandardN1App();
       final getValidAuthObject = () => Auth(app: n1App);
 
       testValidAssertion(getValidAuthObject);
@@ -238,9 +226,7 @@ void main() {
         var requestWriteCalled = false;
         await createMockHttpClientScopeForPostRequest(
             callback: () async {
-              final n1App = NucleusOneAppInternal(
-                options: NucleusOneOptions(baseUrl: ''),
-              );
+              final n1App = getStandardN1App();
 
               final loginResult = await n1App.auth().loginGoogle(1, 'oauthTokenAbc');
 
