@@ -197,88 +197,155 @@ class Document with NucleusOneAppDependent {
     return int.parse(responseBody);
   }
 
-  /*
-  Future<void> getRecent() async {
-    final qp = {
-      'sortDescending': false,
-      'sortType': '',
-      'offset': 0,
-      'cursor': '',
-      'singleRecord': false,
-      
-      'inbox': false,
-      'recycleBin': false,
-      'documentApprovals': false,
-        // 'showForAllInProject': false,
-        // 'documentApprovalsByRole': false,
-        'processID', '',
-        'processElementID', '',
-      'documentSubscriptions': false,
-      'documentSignatureSessionRecipients': false,
-        'showForAllTenantMembers': false,
-    };
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documents,
-      app,
-      query: qp,
+  Future<mod.RecentDocuments> getRecent({
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
+  }) async {
+    return _getRecentInternal(
+      sortType: sortType,
+      sortDescending: sortDescending,
+      offset: offset,
+      cursor: cursor,
+      singleRecord: singleRecord,
     );
-    return int.parse(responseBody);
-  }
-  */
-
-  Future<mod.RecentDocuments> getRecent([
-    String sortType = 'CreatedOn',
-    bool sortDescending = true,
-  ]) async {
-    return _getRecentInternal(sortType, sortDescending);
   }
 
-  Future<mod.RecentDocuments> getApprovalsRecent([
+  Future<mod.RecentDocuments> getApprovalsRecent({
     String sortType = 'CreatedOn',
     bool sortDescending = true,
-  ]) async {
-    return _getRecentInternal(sortType, sortDescending, {
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
+    bool? showForAllInProject,
+    String? processID,
+    String? processElementID,
+  }) async {
+    final qpAdditional = <String, Object>{
       'documentApprovals': true,
-    });
+    };
+    if (showForAllInProject != null) {
+      qpAdditional['showForAllInProject'] = showForAllInProject;
+    }
+    if (showForAllInProject != true) {
+      if (processID != null) {
+        qpAdditional['processID'] = processID;
+      }
+      if (processElementID != null) {
+        qpAdditional['processElementID'] = processElementID;
+      }
+    }
+
+    return _getRecentInternal(
+      sortType: sortType,
+      sortDescending: sortDescending,
+      offset: offset,
+      cursor: cursor,
+      singleRecord: singleRecord,
+      qpAdditional: qpAdditional,
+    );
   }
 
-  Future<mod.RecentDocuments> getInboxRecent([
+  Future<mod.RecentDocuments> getInboxRecent({
     String sortType = 'CreatedOn',
     bool sortDescending = true,
-  ]) async {
-    return _getRecentInternal(sortType, sortDescending, {
-      'inbox': true,
-    });
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
+  }) async {
+    return _getRecentInternal(
+      sortType: sortType,
+      sortDescending: sortDescending,
+      offset: offset,
+      cursor: cursor,
+      singleRecord: singleRecord,
+      qpAdditional: {
+        'inbox': true,
+      },
+    );
   }
 
-  // Future<mod.RecentDocuments> getNeedSignatureRecent([
+  Future<mod.RecentDocuments> getRecycleBinRecent({
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
+  }) async {
+    return _getRecentInternal(
+      sortType: sortType,
+      sortDescending: sortDescending,
+      offset: offset,
+      cursor: cursor,
+      singleRecord: singleRecord,
+      qpAdditional: {
+        'recycleBin': true,
+      },
+    );
+  }
+
+  // Future<mod.RecentDocuments> getNeedSignatureRecent({
   //   String sortType = 'CreatedOn',
   //   bool sortDescending = true,
-  // ]) async {
-  //   return _getRecentInternal(sortType, sortDescending, {
-  //     'documentSignatureSessionRecipients': true,
-  //     'showForAllTenantMembers': this.props.isAdmin
-  //   });
+  //   int? offset,
+  //   String? cursor,
+  //   bool? singleRecord,
+  // }) async {
+  //   return _getRecentInternal(
+  //     sortType: sortType,
+  //     sortDescending: sortDescending,
+  //     offset: offset,
+  //     cursor: cursor,
+  //     singleRecord: singleRecord,
+  //     qpAdditional: {
+  //       'documentSignatureSessionRecipients': true,
+  //       'showForAllTenantMembers': this.props.isAdmin
+  //     },
+  //   );
   // }
 
-  Future<mod.RecentDocuments> getDocumentSubscriptionsRecent([
+  Future<mod.RecentDocuments> getDocumentSubscriptionsRecent({
     String sortType = 'CreatedOn',
     bool sortDescending = true,
-  ]) async {
-    return _getRecentInternal(sortType, sortDescending, {
-      'documentSubscriptions': true,
-    });
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
+  }) async {
+    return _getRecentInternal(
+      sortType: sortType,
+      sortDescending: sortDescending,
+      offset: offset,
+      cursor: cursor,
+      singleRecord: singleRecord,
+      qpAdditional: {
+        'documentSubscriptions': true,
+      },
+    );
   }
 
-  Future<mod.RecentDocuments> _getRecentInternal([
+  Future<mod.RecentDocuments> _getRecentInternal({
     String sortType = 'CreatedOn',
     bool sortDescending = true,
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
     Map<String, Object>? qpAdditional,
-  ]) async {
+  }) async {
     final qp = {
       'sortType': sortType,
       'sortDescending': sortDescending,
     };
+    if ((offset != null) && (offset >= 0)) {
+      qp['offset'] = offset;
+    }
+    if (cursor != null) {
+      qp['cursor'] = cursor;
+    }
+    if (singleRecord != null) {
+      qp['singleRecord'] = singleRecord;
+    }
     if (qpAdditional != null) {
       qp.addAll(qpAdditional);
     }

@@ -4,6 +4,11 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/model/document.dart' as mod;
 import 'package:test/test.dart';
+import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
+
+import '../../../src/common.dart';
+import '../../../src/mocks/http.dart';
+import 'recent_documents.dart';
 
 const documentJson =
     r'{"UniqueID":"A","DocumentID":"B","CreatedOn":"2021-01-06T17:37:32.327396Z","PurgeDate":"0001-01-31T00:00:00Z","Name":"C","PageCount":21,"FileSize":1234,"ThumbnailUrl":"D","IsSigned":false,"ClassificationID":"E","ClassificationName":"F","PreviewMetadata":[{"0":"A","1":"B","2":"C"}],"DocumentApprovalID":"G","DocumentApprovalCreatedOn":"0001-01-01T00:00:00Z","DocumentSubscriptionID":"H","DocumentSubscriptionCreatedOn":"0001-01-01T00:00:00Z","DocumentSignatureSessionRecipientID":"I","DocumentSignatureSessionID":"J","DocumentSignatureSessionRecipientEmail":"K","DocumentSignatureSessionRecipientFullName":"L","DocumentSignatureSessionRecipientRequestedOn":"0001-01-01T00:00:00Z","RoleName":"M","ProcessName":"N","ProcessElementName":"O","Score":123}';
@@ -54,6 +59,202 @@ void main() {
       // Convert it to a model class then back again
       final apiModelCycled = mod.Document.fromApiModel(apiModelOrig).toApiModel();
       performTests(apiModelCycled);
+    });
+
+    group('_getRecentInternal method consumers tests', () {
+      void verifyRecentDocumentsCommon(RecentDocuments rd) {
+        expect(rd.cursor, isNotNull);
+        expect(rd.documents.length, 1);
+        expect(rd.pageSize, 24);
+      }
+
+      void verifyHttpClientOperationResultsCommon(
+        HttpClientOperationResult result, [
+        int expectedQueryParamCount = 2,
+        String sortType = 'CreatedOn',
+        bool sortDescending = true,
+      ]) {
+        expect(result.request.method, HttpMethods.GET);
+        expect(result.request.uri.path, apiRequestPathMatches(http.apiPaths.documents));
+        final reqUriQuery = result.request.uri.query;
+        expect(result.request.uri.queryParameters.length, expectedQueryParamCount);
+        expect(reqUriQuery, matches(r'\bsortType=' + sortType + r'\b'));
+        expect(reqUriQuery, matches(r'\bsortDescending=' + sortDescending.toString() + r'\b'));
+      }
+
+      Future<void> makeHttpCall(Future<RecentDocuments> Function() getRecentMethodCallback) async {
+        final recent = await getRecentMethodCallback();
+        verifyRecentDocumentsCommon(recent);
+      }
+
+      test('_getRecentInternal method tests', () async {
+        // These tests make use of the getRecent method to invoke _getRecentInternal, but the focus
+        // of these tests are on _getRecentInternal, not getRecent; its tests are further down
+
+        // Test with default parameters
+        var result = await createMockHttpClientScopeForGetRequest(
+          callback: () => makeHttpCall(Document().getRecent),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result);
+
+        // Test with custom sorting
+        result = await createMockHttpClientScopeForGetRequest(
+          callback: () =>
+              makeHttpCall(() => Document().getRecent(sortType: 'A', sortDescending: false)),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 2, 'A', false);
+
+        // Test with optional arguments
+        result = await createMockHttpClientScopeForGetRequest(
+          callback: () =>
+              makeHttpCall(() => Document().getRecent(offset: 1, cursor: 'B', singleRecord: true)),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 5);
+        expect(result.request.uri.query, matches(r'\boffset=1\b'));
+        expect(result.request.uri.query, matches(r'\bcursor=B\b'));
+        expect(result.request.uri.query, matches(r'\bsingleRecord=true\b'));
+      });
+
+      test('getRecent method test', () async {
+        // Test with default parameters
+        var result = await createMockHttpClientScopeForGetRequest(
+          callback: () => makeHttpCall(Document().getRecent),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result);
+
+        // Test with custom sorting
+        result = await createMockHttpClientScopeForGetRequest(
+          callback: () =>
+              makeHttpCall(() => Document().getRecent(sortType: 'A', sortDescending: false)),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 2, 'A', false);
+      });
+
+      test('getApprovalsRecent method test', () async {
+        // Test with default parameters
+        var result = await createMockHttpClientScopeForGetRequest(
+          callback: () => makeHttpCall(() => Document().getApprovalsRecent()),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 3);
+        expect(result.request.uri.query, matches(r'\bdocumentApprovals=true\b'));
+
+        // Test with custom sorting
+        result = await createMockHttpClientScopeForGetRequest(
+          callback: () => makeHttpCall(
+              () => Document().getApprovalsRecent(sortType: 'A', sortDescending: false)),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
+        expect(result.request.uri.query, matches(r'\bdocumentApprovals=true\b'));
+
+        // Test with showForAllInProject = true
+        result = await createMockHttpClientScopeForGetRequest(
+          callback: () => makeHttpCall(() => Document().getApprovalsRecent(
+              showForAllInProject: true, processID: '123', processElementID: '234')),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 4);
+        expect(result.request.uri.query, matches(r'\bdocumentApprovals=true\b'));
+        expect(result.request.uri.query, matches(r'\bshowForAllInProject=true\b'));
+
+        // Test with showForAllInProject = null and = false
+        for (var showForAllInProject in [false, null]) {
+          result = await createMockHttpClientScopeForGetRequest(
+            callback: () => makeHttpCall(() => Document().getApprovalsRecent(
+                showForAllInProject: showForAllInProject,
+                processID: '123',
+                processElementID: '234')),
+            responseBody: recentDocumentsJson,
+          );
+
+          if (showForAllInProject == null) {
+            verifyHttpClientOperationResultsCommon(result, 5);
+          } else {
+            verifyHttpClientOperationResultsCommon(result, 6);
+            expect(result.request.uri.query, matches(r'\bshowForAllInProject=false\b'));
+          }
+          expect(result.request.uri.query, matches(r'\bdocumentApprovals=true\b'));
+          expect(result.request.uri.query, matches(r'\bprocessID=123\b'));
+          expect(result.request.uri.query, matches(r'\bprocessElementID=234\b'));
+        }
+      });
+
+      test('getInboxRecent method test', () async {
+        // Test with default parameters
+        var result = await createMockHttpClientScopeForGetRequest(
+          callback: () => makeHttpCall(() => Document().getInboxRecent()),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 3);
+        expect(result.request.uri.query, matches(r'\binbox=true\b'));
+
+        // Test with custom sorting
+        result = await createMockHttpClientScopeForGetRequest(
+          callback: () =>
+              makeHttpCall(() => Document().getInboxRecent(sortType: 'A', sortDescending: false)),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
+        expect(result.request.uri.query, matches(r'\binbox=true\b'));
+      });
+
+      test('getDocumentSubscriptionsRecent method test', () async {
+        // Test with default parameters
+        var result = await createMockHttpClientScopeForGetRequest(
+          callback: () => makeHttpCall(() => Document().getDocumentSubscriptionsRecent()),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 3);
+        expect(result.request.uri.query, matches(r'\bdocumentSubscriptions=true\b'));
+
+        // Test with custom sorting
+        result = await createMockHttpClientScopeForGetRequest(
+          callback: () => makeHttpCall(() =>
+              Document().getDocumentSubscriptionsRecent(sortType: 'A', sortDescending: false)),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
+        expect(result.request.uri.query, matches(r'\bdocumentSubscriptions=true\b'));
+      });
+
+      test('getRecycleBinRecent method test', () async {
+        // Test with default parameters
+        var result = await createMockHttpClientScopeForGetRequest(
+          callback: () => makeHttpCall(() => Document().getRecycleBinRecent()),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 3);
+        expect(result.request.uri.query, matches(r'\brecycleBin=true\b'));
+
+        // Test with custom sorting
+        result = await createMockHttpClientScopeForGetRequest(
+          callback: () => makeHttpCall(
+              () => Document().getRecycleBinRecent(sortType: 'A', sortDescending: false)),
+          responseBody: recentDocumentsJson,
+        );
+
+        verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
+        expect(result.request.uri.query, matches(r'\brecycleBin=true\b'));
+      });
     });
   });
 }

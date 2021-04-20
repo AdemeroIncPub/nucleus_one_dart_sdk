@@ -126,12 +126,4 @@ class User with NucleusOneAppDependent {
       body: jsonEncode(bodyList),
     );
   }
-
-  /// Gets all of the user's Dashboard widgets.
-  Future<mod.TenantPermissions> getTenantPermissions() async {
-    final responseBody =
-        await http.executeGetRequestWithTextResponse(http.apiPaths.dashboardWidgets, app);
-    final apiModel = api_mod.TenantPermissions.fromJson(jsonDecode(responseBody));
-    return mod.TenantPermissions.fromApiModel(apiModel);
-  }
 }
