@@ -188,6 +188,7 @@ abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
   static const dashboardWidgets = '/dashboardWidgets';
   static const documents = '/documents';
+  static const documentsCommentsFormat = '/documents/<documentId>/comments';
   static const documentCounts = '/documentCounts';
 }
 

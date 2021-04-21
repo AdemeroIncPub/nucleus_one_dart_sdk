@@ -1,11 +1,11 @@
 import 'package:get_it/get_it.dart';
 
-import '../api_model/recent_documents.dart' as api_model;
+import '../api_model/document_results.dart' as api_model;
 import '../nucleus_one.dart';
 import 'document.dart';
 
-class RecentDocuments with NucleusOneAppDependent {
-  RecentDocuments._(
+class DocumentResults with NucleusOneAppDependent {
+  DocumentResults._(
       {NucleusOneAppInternal? app,
       required this.documents,
       required this.cursor,
@@ -13,8 +13,8 @@ class RecentDocuments with NucleusOneAppDependent {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
-  factory RecentDocuments.fromApiModel(api_model.RecentDocuments apiModel) {
-    return RecentDocuments._(
+  factory DocumentResults.fromApiModel(api_model.DocumentResults apiModel) {
+    return DocumentResults._(
         documents: apiModel.documents!.map((x) => Document.fromApiModel(x)).toList(),
         cursor: apiModel.cursor!,
         pageSize: apiModel.pageSize!);
@@ -26,8 +26,8 @@ class RecentDocuments with NucleusOneAppDependent {
 
   int pageSize;
 
-  api_model.RecentDocuments toApiModel() {
-    return api_model.RecentDocuments()
+  api_model.DocumentResults toApiModel() {
+    return api_model.DocumentResults()
       ..documents = documents.map((x) => x.toApiModel()).toList()
       ..cursor = cursor
       ..pageSize = pageSize;

@@ -4,9 +4,11 @@ import 'package:get_it/get_it.dart';
 
 import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/document.dart' as api_mod;
-import '../api_model/recent_documents.dart' as api_mod;
+import '../api_model/document_comments.dart' as api_mod;
+import '../api_model/document_results.dart' as api_mod;
 import '../http.dart' as http;
-import '../model/recent_documents.dart' as mod;
+import 'document_comments.dart' as mod;
+import 'document_results.dart' as mod;
 import '../nucleus_one.dart';
 import 'preview_metadata_item.dart';
 
@@ -184,6 +186,10 @@ class Document with NucleusOneAppDependent {
   }
 
   /// Gets the document count.
+  ///
+  /// [ignoreInbox]: Whether results should contain documents from the Inbox.
+  ///
+  /// [ignoreRecycleBin]: Whether results should contain documents from the Recycle Bin.
   Future<int> getCount(bool ignoreInbox, bool ignoreRecycleBin) async {
     final qp = {
       'ignoreInbox': ignoreInbox,
@@ -197,7 +203,18 @@ class Document with NucleusOneAppDependent {
     return int.parse(responseBody);
   }
 
-  Future<mod.RecentDocuments> getRecent({
+  /// Gets recent documents, by page.
+  ///
+  /// [sortType]: Which field to sort on.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [offset]: The number of initial results to skip.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  ///
+  /// [singleRecord]: Limits the results to a single document.
+  Future<mod.DocumentResults> getRecent({
     String sortType = 'CreatedOn',
     bool sortDescending = true,
     int? offset,
@@ -213,15 +230,32 @@ class Document with NucleusOneAppDependent {
     );
   }
 
-  Future<mod.RecentDocuments> getApprovalsRecent({
+  /// Gets recent Approval documents, by page.
+  ///
+  /// [sortType]: Which field to sort on.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [offset]: The number of initial results to skip.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  ///
+  /// [singleRecord]: Limits the results to a single document.
+  ///
+  /// [processID]: The Approval Process ID to limit the results to.
+  ///
+  /// [processElementID]: The id of the Approval Process stage.  Used in conjunction with [processID].
+  ///
+  /// [showForAllInProject]: Admins only.  Allows viewing of all approvals without a result for the entire Project.
+  Future<mod.DocumentResults> getApprovalsRecent({
     String sortType = 'CreatedOn',
     bool sortDescending = true,
     int? offset,
     String? cursor,
     bool? singleRecord,
-    bool? showForAllInProject,
     String? processID,
     String? processElementID,
+    bool? showForAllInProject,
   }) async {
     final qpAdditional = <String, Object>{
       'documentApprovals': true,
@@ -248,7 +282,18 @@ class Document with NucleusOneAppDependent {
     );
   }
 
-  Future<mod.RecentDocuments> getInboxRecent({
+  /// Gets recent Inbox documents, by page.
+  ///
+  /// [sortType]: Which field to sort on.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [offset]: The number of initial results to skip.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  ///
+  /// [singleRecord]: Limits the results to a single document.
+  Future<mod.DocumentResults> getInboxRecent({
     String sortType = 'CreatedOn',
     bool sortDescending = true,
     int? offset,
@@ -267,7 +312,18 @@ class Document with NucleusOneAppDependent {
     );
   }
 
-  Future<mod.RecentDocuments> getRecycleBinRecent({
+  /// Gets recent Recycle Bin documents, by page.
+  ///
+  /// [sortType]: Which field to sort on.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [offset]: The number of initial results to skip.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  ///
+  /// [singleRecord]: Limits the results to a single document.
+  Future<mod.DocumentResults> getRecycleBinRecent({
     String sortType = 'CreatedOn',
     bool sortDescending = true,
     int? offset,
@@ -286,7 +342,7 @@ class Document with NucleusOneAppDependent {
     );
   }
 
-  // Future<mod.RecentDocuments> getNeedSignatureRecent({
+  // Future<mod.DocumentResults> getNeedSignatureRecent({
   //   String sortType = 'CreatedOn',
   //   bool sortDescending = true,
   //   int? offset,
@@ -306,7 +362,18 @@ class Document with NucleusOneAppDependent {
   //   );
   // }
 
-  Future<mod.RecentDocuments> getDocumentSubscriptionsRecent({
+  /// Gets recent Document Subscriptions documents, by page.
+  ///
+  /// [sortType]: Which field to sort on.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [offset]: The number of initial results to skip.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  ///
+  /// [singleRecord]: Limits the results to a single document.
+  Future<mod.DocumentResults> getDocumentSubscriptionsRecent({
     String sortType = 'CreatedOn',
     bool sortDescending = true,
     int? offset,
@@ -325,7 +392,7 @@ class Document with NucleusOneAppDependent {
     );
   }
 
-  Future<mod.RecentDocuments> _getRecentInternal({
+  Future<mod.DocumentResults> _getRecentInternal({
     String sortType = 'CreatedOn',
     bool sortDescending = true,
     int? offset,
@@ -333,16 +400,12 @@ class Document with NucleusOneAppDependent {
     bool? singleRecord,
     Map<String, Object>? qpAdditional,
   }) async {
-    final qp = {
-      'sortType': sortType,
-      'sortDescending': sortDescending,
-    };
-    if ((offset != null) && (offset >= 0)) {
-      qp['offset'] = offset;
-    }
-    if (cursor != null) {
-      qp['cursor'] = cursor;
-    }
+    final qp = _StandardQueryParams.get([
+      (sqp) => sqp.sortType(sortType),
+      (sqp) => sqp.sortDescending(sortDescending),
+      (sqp) => sqp.cursor(cursor),
+      (sqp) => sqp.offset(offset),
+    ]);
     if (singleRecord != null) {
       qp['singleRecord'] = singleRecord;
     }
@@ -355,7 +418,71 @@ class Document with NucleusOneAppDependent {
       app,
       query: qp,
     );
-    final dl = api_mod.RecentDocuments.fromJson(jsonDecode(responseBody));
-    return mod.RecentDocuments.fromApiModel(dl);
+    final dl = api_mod.DocumentResults.fromJson(jsonDecode(responseBody));
+    return mod.DocumentResults.fromApiModel(dl);
+  }
+
+  /// Gets comments for a document, by page.
+  ///
+  /// [documentId]: The document id.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  Future<mod.DocumentComments> getComments({
+    required String documentId,
+    bool sortDescending = true,
+    String? cursor,
+  }) async {
+    final qp = _StandardQueryParams.get([
+      (sqp) => sqp.cursor(cursor),
+      (sqp) => sqp.sortDescending(sortDescending),
+    ]);
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', documentId),
+      app,
+      query: qp,
+    );
+    final dl = api_mod.DocumentComments.fromJson(jsonDecode(responseBody));
+    return mod.DocumentComments.fromApiModel(dl);
+  }
+}
+
+/// Provides support for adding common query string parameters.  Values are only included if they
+/// are not null.
+class _StandardQueryParams {
+  final _map = <String, dynamic>{};
+
+  static Map<String, dynamic> get(List<void Function(_StandardQueryParams sqp)> callbacks) {
+    final sqp = _StandardQueryParams();
+    for (var cb in callbacks) {
+      cb(sqp);
+    }
+    return sqp._map;
+  }
+
+  void sortDescending(bool? sortDescending) {
+    if (sortDescending != null) {
+      _map['sortDescending'] = sortDescending;
+    }
+  }
+
+  void sortType(String? sortType) {
+    if (sortType != null) {
+      _map['sortType'] = sortType;
+    }
+  }
+
+  void offset(int? offset) {
+    if (offset != null) {
+      _map['offset'] = offset;
+    }
+  }
+
+  void cursor(String? cursor) {
+    if (cursor != null) {
+      _map['cursor'] = cursor;
+    }
   }
 }

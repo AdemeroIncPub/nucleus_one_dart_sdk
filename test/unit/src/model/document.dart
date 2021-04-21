@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/model/document.dart' as mod;
+import 'package:nucleus_one_dart_sdk/src/model/document_comments.dart' as mod;
 import 'package:test/test.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 
 import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
-import 'recent_documents.dart';
+import 'document_comments.dart';
+import 'document_results.dart';
 
 const documentJson =
     r'{"UniqueID":"A","DocumentID":"B","CreatedOn":"2021-01-06T17:37:32.327396Z","PurgeDate":"0001-01-31T00:00:00Z","Name":"C","PageCount":21,"FileSize":1234,"ThumbnailUrl":"D","IsSigned":false,"ClassificationID":"E","ClassificationName":"F","PreviewMetadata":[{"0":"A","1":"B","2":"C"}],"DocumentApprovalID":"G","DocumentApprovalCreatedOn":"0001-01-01T00:00:00Z","DocumentSubscriptionID":"H","DocumentSubscriptionCreatedOn":"0001-01-01T00:00:00Z","DocumentSignatureSessionRecipientID":"I","DocumentSignatureSessionID":"J","DocumentSignatureSessionRecipientEmail":"K","DocumentSignatureSessionRecipientFullName":"L","DocumentSignatureSessionRecipientRequestedOn":"0001-01-01T00:00:00Z","RoleName":"M","ProcessName":"N","ProcessElementName":"O","Score":123}';
@@ -62,7 +64,7 @@ void main() {
     });
 
     group('_getRecentInternal method consumers tests', () {
-      void verifyRecentDocumentsCommon(RecentDocuments rd) {
+      void verifyDocumentResultsCommon(DocumentResults rd) {
         expect(rd.cursor, isNotNull);
         expect(rd.documents.length, 1);
         expect(rd.pageSize, 24);
@@ -82,9 +84,9 @@ void main() {
         expect(reqUriQuery, matches(r'\bsortDescending=' + sortDescending.toString() + r'\b'));
       }
 
-      Future<void> makeHttpCall(Future<RecentDocuments> Function() getRecentMethodCallback) async {
+      Future<void> makeHttpCall(Future<DocumentResults> Function() getRecentMethodCallback) async {
         final recent = await getRecentMethodCallback();
-        verifyRecentDocumentsCommon(recent);
+        verifyDocumentResultsCommon(recent);
       }
 
       test('_getRecentInternal method tests', () async {
@@ -94,7 +96,7 @@ void main() {
         // Test with default parameters
         var result = await createMockHttpClientScopeForGetRequest(
           callback: () => makeHttpCall(Document().getRecent),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result);
@@ -103,7 +105,7 @@ void main() {
         result = await createMockHttpClientScopeForGetRequest(
           callback: () =>
               makeHttpCall(() => Document().getRecent(sortType: 'A', sortDescending: false)),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 2, 'A', false);
@@ -112,7 +114,7 @@ void main() {
         result = await createMockHttpClientScopeForGetRequest(
           callback: () =>
               makeHttpCall(() => Document().getRecent(offset: 1, cursor: 'B', singleRecord: true)),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 5);
@@ -125,7 +127,7 @@ void main() {
         // Test with default parameters
         var result = await createMockHttpClientScopeForGetRequest(
           callback: () => makeHttpCall(Document().getRecent),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result);
@@ -134,7 +136,7 @@ void main() {
         result = await createMockHttpClientScopeForGetRequest(
           callback: () =>
               makeHttpCall(() => Document().getRecent(sortType: 'A', sortDescending: false)),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 2, 'A', false);
@@ -144,7 +146,7 @@ void main() {
         // Test with default parameters
         var result = await createMockHttpClientScopeForGetRequest(
           callback: () => makeHttpCall(() => Document().getApprovalsRecent()),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 3);
@@ -154,7 +156,7 @@ void main() {
         result = await createMockHttpClientScopeForGetRequest(
           callback: () => makeHttpCall(
               () => Document().getApprovalsRecent(sortType: 'A', sortDescending: false)),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
@@ -164,7 +166,7 @@ void main() {
         result = await createMockHttpClientScopeForGetRequest(
           callback: () => makeHttpCall(() => Document().getApprovalsRecent(
               showForAllInProject: true, processID: '123', processElementID: '234')),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 4);
@@ -178,7 +180,7 @@ void main() {
                 showForAllInProject: showForAllInProject,
                 processID: '123',
                 processElementID: '234')),
-            responseBody: recentDocumentsJson,
+            responseBody: documentResultsJson,
           );
 
           if (showForAllInProject == null) {
@@ -197,7 +199,7 @@ void main() {
         // Test with default parameters
         var result = await createMockHttpClientScopeForGetRequest(
           callback: () => makeHttpCall(() => Document().getInboxRecent()),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 3);
@@ -207,7 +209,7 @@ void main() {
         result = await createMockHttpClientScopeForGetRequest(
           callback: () =>
               makeHttpCall(() => Document().getInboxRecent(sortType: 'A', sortDescending: false)),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
@@ -218,7 +220,7 @@ void main() {
         // Test with default parameters
         var result = await createMockHttpClientScopeForGetRequest(
           callback: () => makeHttpCall(() => Document().getDocumentSubscriptionsRecent()),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 3);
@@ -228,7 +230,7 @@ void main() {
         result = await createMockHttpClientScopeForGetRequest(
           callback: () => makeHttpCall(() =>
               Document().getDocumentSubscriptionsRecent(sortType: 'A', sortDescending: false)),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
@@ -239,7 +241,7 @@ void main() {
         // Test with default parameters
         var result = await createMockHttpClientScopeForGetRequest(
           callback: () => makeHttpCall(() => Document().getRecycleBinRecent()),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 3);
@@ -249,12 +251,51 @@ void main() {
         result = await createMockHttpClientScopeForGetRequest(
           callback: () => makeHttpCall(
               () => Document().getRecycleBinRecent(sortType: 'A', sortDescending: false)),
-          responseBody: recentDocumentsJson,
+          responseBody: documentResultsJson,
         );
 
         verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
         expect(result.request.uri.query, matches(r'\brecycleBin=true\b'));
       });
+    });
+
+    test('getComments method tests', () async {
+      final expectedPath =
+          http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', '123');
+
+      Future<void> performTest(Future<mod.DocumentComments> Function() getCommentsCallback,
+          List<String> expectedQueryParams) async {
+        var result = await createMockHttpClientScopeForGetRequest(
+          callback: () async {
+            final dc = await getCommentsCallback();
+            expect(dc.cursor, isNotNull);
+            expect(dc.documentEvents.length, 1);
+            expect(dc.pageSize, 24);
+          },
+          responseBody: documentCommentsJson,
+        );
+
+        expect(result.request.method, HttpMethods.GET);
+        expect(result.request.uri.path, apiRequestPathMatches(expectedPath));
+        expect(result.request.uri.queryParameters.length, expectedQueryParams.length);
+        var reqUriQuery = result.request.uri.query;
+
+        for (var expectedQP in expectedQueryParams) {
+          expect(reqUriQuery, matches('\\b' + expectedQP + '\\b'));
+        }
+      }
+
+      // Test with default parameters
+      await performTest(
+        () => Document().getComments(documentId: '123'),
+        ['sortDescending=true'],
+      );
+
+      // Test with custom sorting and optional arguments
+      await performTest(
+        () => Document().getComments(documentId: '123', sortDescending: false, cursor: 'A'),
+        ['sortDescending=false', 'cursor=A'],
+      );
     });
   });
 }
