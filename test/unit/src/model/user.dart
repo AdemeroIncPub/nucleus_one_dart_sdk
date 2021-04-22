@@ -3,11 +3,11 @@ import 'package:test/test.dart';
 
 import 'package:nucleus_one_dart_sdk/src/api_model/dashboard_widget.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/http.dart';
-import 'package:nucleus_one_dart_sdk/src/model/dashboard_widget.dart' as mod;
 
 import '../../../src/assertions.dart';
 import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
+import '../../../src/model_helper.dart';
 import 'dashboard_widget.dart';
 import 'address_book.dart';
 
@@ -22,111 +22,126 @@ void main() {
     });
 
     test('getAddressBook method test', () async {
-      final makeHttpCall = ({
-        bool includeTenantMembers = true,
-        bool includeRoles = true,
-        bool includeFields = true,
-        bool includeFormTemplateFields = true,
-        String? filter,
-      }) async {
-        final u = getStandardTestUser();
-        final ab = await u.getAddressBook(
-          includeTenantMembers: includeTenantMembers,
-          includeRoles: includeRoles,
-          includeFields: includeFields,
-          includeFormTemplateFields: includeFormTemplateFields,
-          filter: filter,
-        );
-        expect(ab.items.length, 1);
-      };
-
-      var result = await createMockHttpClientScopeForGetRequest(
-        callback: () => makeHttpCall(includeTenantMembers: true, includeRoles: false),
+      // Test with default parameters
+      await performHttpTest<AddressBook>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => getStandardTestUser().getAddressBook(),
         responseBody: addressBookJson,
+        expectedUrlPath: apiPaths.addressBookItems,
+        expectedQueryParams: [
+          'includeTenantMembers=true',
+          'includeRoles=true',
+          'includeFields=true',
+          'includeFormTemplateFields=true',
+        ],
+        additionalValidationsCallback: (x) {
+          expect(x.items.length, 1);
+        },
       );
 
-      expect(result.request.method, HttpMethods.GET);
-      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.addressBookItems));
-      expect(result.request.uri.query, matches(r'\bincludeTenantMembers=true\b'));
-      expect(result.request.uri.query, matches(r'\bincludeRoles=false\b'));
-
-      result = await createMockHttpClientScopeForGetRequest(
-        callback: () =>
-            makeHttpCall(includeFields: true, includeFormTemplateFields: false, filter: '123'),
+      // The following two tests test that individual parameters are set correct
+      
+      await performHttpTest<AddressBook>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => getStandardTestUser().getAddressBook(
+          includeTenantMembers: true,
+          includeRoles: false,
+        ),
         responseBody: addressBookJson,
+        expectedUrlPath: apiPaths.addressBookItems,
+        expectedQueryParams: [
+          'includeTenantMembers=true',
+          'includeRoles=false',
+          'includeFields=true',
+          'includeFormTemplateFields=true',
+        ],
+        additionalValidationsCallback: (x) {
+          expect(x.items.length, 1);
+        },
       );
 
-      expect(result.request.method, HttpMethods.GET);
-      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.addressBookItems));
-      expect(result.request.uri.query, matches(r'\bincludeFields=true\b'));
-      expect(result.request.uri.query, matches(r'\bincludeFormTemplateFields=false\b'));
-      expect(result.request.uri.query, matches(r'\bfilter=123\b'));
+      // Test with three of the parameters set
+      await performHttpTest<AddressBook>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => getStandardTestUser().getAddressBook(
+          includeFields: true,
+          includeFormTemplateFields: false,
+          filter: '123',
+        ),
+        responseBody: addressBookJson,
+        expectedUrlPath: apiPaths.addressBookItems,
+        expectedQueryParams: [
+          'includeTenantMembers=true',
+          'includeRoles=true',
+          'includeFields=true',
+          'includeFormTemplateFields=false',
+          'filter=123',
+        ],
+        additionalValidationsCallback: (x) {
+          expect(x.items.length, 1);
+        },
+      );
     });
 
     test('clearAddressBook method test', () async {
-      final makeHttpCall = () async {
-        await getStandardTestUser().clearAddressBook();
-      };
-
-      final result = await createMockHttpClientScopeForDeleteRequest(
-        callback: () => makeHttpCall(),
+      await performHttpTest(
+        httpMethod: HttpMethods.DELETE,
+        httpCallCallback: () => getStandardTestUser().clearAddressBook(),
         responseBody: '',
+        expectedUrlPath: apiPaths.addressBookItems,
+        expectedQueryParams: [],
       );
-
-      expect(result.request.method, HttpMethods.DELETE);
-      expect(result.request.uri.query, '');
     });
 
     test('getDashboardWidgets method test', () async {
-      final makeHttpCall = () async {
-        final ab = await getStandardTestUser().getDashboardWidgets();
-        expect(ab.items.length, 2);
-      };
-
-      final result = await createMockHttpClientScopeForGetRequest(
-        callback: () => makeHttpCall(),
+      await performHttpTest<DashboardWidgets>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => getStandardTestUser().getDashboardWidgets(),
         responseBody: dashboardWidgetsJson,
+        expectedUrlPath: apiPaths.dashboardWidgets,
+        expectedQueryParams: [],
+        additionalValidationsCallback: (x) {
+          expect(x.items.length, 2);
+        },
       );
-
-      expect(result.request.method, HttpMethods.GET);
-      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.request.uri.query, '');
     });
 
     test('deleteDashboardWidgets method test', () async {
-      Future<HttpClientOperationResult> performTest(List<String> ids) async {
-        final makeHttpCall = () async {
-          // It is a known issue that, when debugging tests, the debugger breaks at the handled
-          // exception thrown by the below method call.  While annoying, it is not otherwise harmful.
-          // This should be addressed shortly in Dart 2.13.
-          // https://github.com/dart-lang/sdk/issues/37953#issuecomment-792305686
-          await getStandardTestUser().deleteDashboardWidgets(ids);
-        };
+      // It is a known issue that, when debugging tests, the debugger breaks at the handled
+      // exception thrown by one or more of the below method calls.  While annoying, it is not
+      // otherwise harmful.  This should be addressed shortly in Dart 2.13.
+      // https://github.com/dart-lang/sdk/issues/37953#issuecomment-792305686
 
-        return await createMockHttpClientScopeForDeleteRequest(
-          callback: () => makeHttpCall(),
-          responseBody: '',
-        );
-      }
+      // Test assertion error when no widgets are provided
+      await testAssertionErrorAsync(
+          () => performHttpTest(
+                httpMethod: HttpMethods.DELETE,
+                httpCallCallback: () => getStandardTestUser().deleteDashboardWidgets([]),
+                responseBody: '',
+                expectedUrlPath: '',
+                expectedQueryParams: [],
+              ),
+          'ids');
 
-      await testAssertionErrorAsync(() => performTest([]), 'ids');
-
-      final result = await performTest(['abc', 'def']);
-      expect(result.request.method, HttpMethods.DELETE);
-      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.request.uri.query, '');
-      expect(result.request.getBodyAsString(), '{"IDs":["abc","def"]}');
+      await performHttpTest(
+        httpMethod: HttpMethods.DELETE,
+        httpCallCallback: () => getStandardTestUser().deleteDashboardWidgets(['abc', 'def']),
+        responseBody: '{"IDs":["abc","def"]}',
+        expectedUrlPath: apiPaths.dashboardWidgets,
+        expectedQueryParams: [],
+      );
     });
 
     // See note on [User.updateDashboardWidget] method, as to why this is commented out.
     // Nonetheless, the following tests should be fully functional.
+    // Needs to be updated to us standard HTTP testing methods, though.
     /*
     test('updateDashboardWidget method test', () async {
       Future<HttpClientOperationResult> performTest(DashboardWidget dashboardWidget) async {
         final makeHttpCall = () async {
           // It is a known issue that, when debugging tests, the debugger breaks at the handled
-          // exception thrown by the below method call.  While annoying, it is not otherwise harmful.
-          // This should be addressed shortly in Dart 2.13.
+          // exception thrown by one or more of the below method calls.  While annoying, it is not
+          // otherwise harmful.  This should be addressed shortly in Dart 2.13.
           // https://github.com/dart-lang/sdk/issues/37953#issuecomment-792305686
           await getStandardTestUser().updateDashboardWidget(dashboardWidget);
         };
@@ -161,24 +176,17 @@ void main() {
     */
 
     test('createDashboardWidgets method test', () async {
-      Future<HttpClientOperationResult> performTest(
-          api_mod.DashboardWidgets dashboardWidgets) async {
-        final makeHttpCall = () async {
-          // It is a known issue that, when debugging tests, the debugger breaks at the handled
-          // exception thrown by the below method call.  While annoying, it is not otherwise harmful.
-          // This should be addressed shortly in Dart 2.13.
-          // https://github.com/dart-lang/sdk/issues/37953#issuecomment-792305686
-          await getStandardTestUser()
-              .createDashboardWidgets(mod.DashboardWidgets.fromApiModel(dashboardWidgets));
-        };
-
-        return await createMockHttpClientScopeForPostRequest(
-          callback: () => makeHttpCall(),
-          responseBody: '',
-        );
-      }
-
-      await testAssertionErrorAsync(() => performTest(api_mod.DashboardWidgets()), 'widgets');
+      // Test assertion error when no widgets are provided
+      await testAssertionErrorAsync(
+          () => performHttpTest(
+                httpMethod: HttpMethods.POST,
+                httpCallCallback: () => getStandardTestUser().createDashboardWidgets(
+                    DashboardWidgets.fromApiModel(api_mod.DashboardWidgets())),
+                responseBody: '',
+                expectedUrlPath: '',
+                expectedQueryParams: [],
+              ),
+          'widgets');
 
       final dws = api_mod.DashboardWidgets()
         ..items = [
@@ -193,46 +201,50 @@ void main() {
             ..detail = '8'
             ..jsonData = '9'
         ];
-
-      final result = await performTest(dws);
-      expect(result.request.method, HttpMethods.POST);
-      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.request.uri.query, '');
-      expect(result.request.getBodyAsString(),
-          '[{"ID":"1","TenantID":"2","TenantMemberID":"3","Type":"4","GridColumn":5.0,"ColumnRank":6.0,"Name":"7","Detail":"8","JsonData":"9"}]');
+      await performHttpTest(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () =>
+            getStandardTestUser().createDashboardWidgets(DashboardWidgets.fromApiModel(dws)),
+        responseBody:
+            '[{"ID":"1","TenantID":"2","TenantMemberID":"3","Type":"4","GridColumn":5.0,"ColumnRank":6.0,"Name":"7","Detail":"8","JsonData":"9"}]',
+        expectedUrlPath: apiPaths.dashboardWidgets,
+        expectedQueryParams: [],
+      );
     });
 
     test('updateDashboardWidgetRanks method test', () async {
-      Future<HttpClientOperationResult> performTest(
-          api_mod.DashboardWidgets dashboardWidgets) async {
-        final makeHttpCall = () async {
-          // It is a known issue that, when debugging tests, the debugger breaks at the handled
-          // exception thrown by the below method call.  While annoying, it is not otherwise harmful.
-          // This should be addressed shortly in Dart 2.13.
-          // https://github.com/dart-lang/sdk/issues/37953#issuecomment-792305686
-          await getStandardTestUser()
-              .updateDashboardWidgetRanks(mod.DashboardWidgets.fromApiModel(dashboardWidgets));
-        };
+      // It is a known issue that, when debugging tests, the debugger breaks at the handled
+      // exception thrown by one or more of the below method calls.  While annoying, it is not
+      // otherwise harmful.  This should be addressed shortly in Dart 2.13.
+      // https://github.com/dart-lang/sdk/issues/37953#issuecomment-792305686
 
-        return await createMockHttpClientScopeForPutRequest(
-          callback: () => makeHttpCall(),
-          responseBody: '',
-        );
-      }
+      // Test assertion error when no widgets are provided
+      await testAssertionErrorAsync(
+          () => performHttpTest(
+                httpMethod: HttpMethods.PUT,
+                httpCallCallback: () => getStandardTestUser().updateDashboardWidgetRanks(
+                    DashboardWidgets.fromApiModel(api_mod.DashboardWidgets())),
+                responseBody: '',
+                expectedUrlPath: '',
+                expectedQueryParams: [],
+              ),
+          'widgets');
 
-      await testAssertionErrorAsync(() => performTest(api_mod.DashboardWidgets()), 'widgets');
-
+      // Test with valid request
       final dws = api_mod.DashboardWidgets()
         ..items = [
           api_mod.DashboardWidget.forRankUpdate('abc', 0, 1),
           api_mod.DashboardWidget.forRankUpdate('def', 2, 3),
         ];
-      final result = await performTest(dws);
-      expect(result.request.method, HttpMethods.PUT);
-      expect(result.request.uri.path, apiRequestPathMatches(apiPaths.dashboardWidgets));
-      expect(result.request.uri.query, 'onlyRank=true');
-      expect(result.request.getBodyAsString(),
-          '[{"ID":"abc","GridColumn":0.0,"ColumnRank":1.0},{"ID":"def","GridColumn":2.0,"ColumnRank":3.0}]');
+      await performHttpTest(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () =>
+            getStandardTestUser().updateDashboardWidgetRanks(DashboardWidgets.fromApiModel(dws)),
+        responseBody:
+            '[{"ID":"abc","GridColumn":0.0,"ColumnRank":1.0},{"ID":"def","GridColumn":2.0,"ColumnRank":3.0}]',
+        expectedUrlPath: apiPaths.dashboardWidgets,
+        expectedQueryParams: ['onlyRank=true'],
+      );
     });
   });
 }

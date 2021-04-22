@@ -9,5 +9,6 @@ export 'src/model/dashboard_widget.dart';
 export 'src/model/document.dart';
 export 'src/model/document_comments.dart';
 export 'src/model/document_event.dart';
+export 'src/model/document_events.dart';
 export 'src/model/document_results.dart';
 export 'src/model/preview_metadata_item.dart';

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/dashboard_widget.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/model/dashboard_widget.dart' as mod;
 import 'package:test/test.dart';
 
 const dashboardWidget1Json =
@@ -24,7 +23,7 @@ void main() {
     group('DashboardWidgets class tests', () {
       test('Serialization test', () {
         final apiModel = api_mod.DashboardWidgets.fromJson(jsonDecode(dashboardWidgetsJson));
-        final dbws = mod.DashboardWidgets.fromApiModel(apiModel);
+        final dbws = DashboardWidgets.fromApiModel(apiModel);
         const itemCount = 2;
         expect(dbws.items.length, itemCount);
       });
@@ -64,7 +63,7 @@ void main() {
       test('Serialization & deserialization test', () {
         try {
           var apiModel = api_mod.DashboardWidget.fromJson(jsonDecode(dashboardWidget1Json));
-          var dbw = mod.DashboardWidget.fromApiModel(apiModel);
+          var dbw = DashboardWidget.fromApiModel(apiModel);
 
           expect(dbw.id, 'Ub5J5Lgs27RF-tYYziBV776WcFGmWuIaaUtGa7batp4');
           expect(dbw.tenantID, 'yhv0SScPN5LxidjEfZCE');
@@ -80,7 +79,7 @@ void main() {
           // expect(dashboardWidget1Json, jsonEncode(jsonMap));
 
           apiModel = api_mod.DashboardWidget.fromJson(jsonDecode(dashboardWidget2Json));
-          dbw = mod.DashboardWidget.fromApiModel(apiModel);
+          dbw = DashboardWidget.fromApiModel(apiModel);
 
           expect(dbw.id, 'OUUndeojgzBdMWuvACrK');
           expect(dbw.tenantID, 'yhv0SScPN5LxidjEfZCE');

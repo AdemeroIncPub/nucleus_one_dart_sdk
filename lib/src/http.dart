@@ -189,6 +189,7 @@ abstract class apiPaths {
   static const dashboardWidgets = '/dashboardWidgets';
   static const documents = '/documents';
   static const documentsCommentsFormat = '/documents/<documentId>/comments';
+  static const documentsEventsFormat = '/documents/<documentId>/events';
   static const documentCounts = '/documentCounts';
 }
 

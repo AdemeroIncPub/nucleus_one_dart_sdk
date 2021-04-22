@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/address_book.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/model/address_book.dart' as mod;
 import 'package:test/test.dart';
 
 const addressBookItemJson =
@@ -25,7 +24,7 @@ void main() {
         expect(apiModelOrig.items.length, 1);
 
         // Convert it to a model class then back again
-        final apiModelCycled = mod.AddressBook.fromApiModel(apiModelOrig).toApiModel();
+        final apiModelCycled = AddressBook.fromApiModel(apiModelOrig).toApiModel();
         expect(apiModelCycled.items.length, 1);
       });
     });
@@ -47,7 +46,7 @@ void main() {
         performTest(apiModelOrig);
 
         // Convert it to a model class then back again
-        final apiModelCycled = mod.AddressBookItem.fromApiModel(apiModelOrig).toApiModel();
+        final apiModelCycled = AddressBookItem.fromApiModel(apiModelOrig).toApiModel();
         performTest(apiModelCycled);
       });
     });

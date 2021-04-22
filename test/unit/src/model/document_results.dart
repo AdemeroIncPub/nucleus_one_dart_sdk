@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_results.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/model/document_results.dart' as mod;
 import 'package:test/test.dart';
 
 import 'document.dart';
 
-const documentResultsJson = r'{"Documents":[' + documentJson + r'],"Cursor":"abc","PageSize":24}';
+const documentResultsJson = r'{"Documents":[' + documentJson + r'],"Cursor":"A","PageSize":24}';
 
 void main() {
   group('DocumentResults class tests', () {
@@ -22,7 +21,7 @@ void main() {
     test('Serialization test', () {
       void performTests(api_mod.DocumentResults apiModel) {
         expect(apiModel.documents!.length, 1);
-        expect(apiModel.cursor, 'abc');
+        expect(apiModel.cursor, 'A');
         expect(apiModel.pageSize, 24);
       }
 
@@ -30,7 +29,7 @@ void main() {
       performTests(apiModelOrig);
 
       // Convert it to a model class then back again
-      final apiModelCycled = mod.DocumentResults.fromApiModel(apiModelOrig).toApiModel();
+      final apiModelCycled = DocumentResults.fromApiModel(apiModelOrig).toApiModel();
       performTests(apiModelCycled);
     });
   });

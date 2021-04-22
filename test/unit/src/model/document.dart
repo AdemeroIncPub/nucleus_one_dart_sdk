@@ -2,14 +2,13 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/model/document.dart' as mod;
-import 'package:nucleus_one_dart_sdk/src/model/document_comments.dart' as mod;
 import 'package:test/test.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 
-import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
+import '../../../src/model_helper.dart';
 import 'document_comments.dart';
+import 'document_events.dart';
 import 'document_results.dart';
 
 const documentJson =
@@ -59,130 +58,137 @@ void main() {
       performTests(apiModelOrig);
 
       // Convert it to a model class then back again
-      final apiModelCycled = mod.Document.fromApiModel(apiModelOrig).toApiModel();
+      final apiModelCycled = Document.fromApiModel(apiModelOrig).toApiModel();
       performTests(apiModelCycled);
     });
 
     group('_getRecentInternal method consumers tests', () {
-      void verifyDocumentResultsCommon(DocumentResults rd) {
-        expect(rd.cursor, isNotNull);
-        expect(rd.documents.length, 1);
-        expect(rd.pageSize, 24);
-      }
-
-      void verifyHttpClientOperationResultsCommon(
-        HttpClientOperationResult result, [
-        int expectedQueryParamCount = 2,
-        String sortType = 'CreatedOn',
-        bool sortDescending = true,
-      ]) {
-        expect(result.request.method, HttpMethods.GET);
-        expect(result.request.uri.path, apiRequestPathMatches(http.apiPaths.documents));
-        final reqUriQuery = result.request.uri.query;
-        expect(result.request.uri.queryParameters.length, expectedQueryParamCount);
-        expect(reqUriQuery, matches(r'\bsortType=' + sortType + r'\b'));
-        expect(reqUriQuery, matches(r'\bsortDescending=' + sortDescending.toString() + r'\b'));
-      }
-
-      Future<void> makeHttpCall(Future<DocumentResults> Function() getRecentMethodCallback) async {
-        final recent = await getRecentMethodCallback();
-        verifyDocumentResultsCommon(recent);
-      }
-
-      test('_getRecentInternal method tests', () async {
-        // These tests make use of the getRecent method to invoke _getRecentInternal, but the focus
-        // of these tests are on _getRecentInternal, not getRecent; its tests are further down
-
-        // Test with default parameters
-        var result = await createMockHttpClientScopeForGetRequest(
-          callback: () => makeHttpCall(Document().getRecent),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result);
-
-        // Test with custom sorting
-        result = await createMockHttpClientScopeForGetRequest(
-          callback: () =>
-              makeHttpCall(() => Document().getRecent(sortType: 'A', sortDescending: false)),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 2, 'A', false);
-
-        // Test with optional arguments
-        result = await createMockHttpClientScopeForGetRequest(
-          callback: () =>
-              makeHttpCall(() => Document().getRecent(offset: 1, cursor: 'B', singleRecord: true)),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 5);
-        expect(result.request.uri.query, matches(r'\boffset=1\b'));
-        expect(result.request.uri.query, matches(r'\bcursor=B\b'));
-        expect(result.request.uri.query, matches(r'\bsingleRecord=true\b'));
-      });
-
       test('getRecent method test', () async {
         // Test with default parameters
-        var result = await createMockHttpClientScopeForGetRequest(
-          callback: () => makeHttpCall(Document().getRecent),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result);
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () => Document().getRecent(),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'sortType=CreatedOn',
+              'sortDescending=true',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
 
         // Test with custom sorting
-        result = await createMockHttpClientScopeForGetRequest(
-          callback: () =>
-              makeHttpCall(() => Document().getRecent(sortType: 'A', sortDescending: false)),
-          responseBody: documentResultsJson,
-        );
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () => Document().getRecent(sortType: 'A', sortDescending: false),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'sortType=A',
+              'sortDescending=false',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
 
-        verifyHttpClientOperationResultsCommon(result, 2, 'A', false);
+        // Test with optional arguments
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () =>
+                Document().getRecent(offset: 1, cursor: 'B', singleRecord: true),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'sortType=CreatedOn',
+              'sortDescending=true',
+              'offset=1',
+              'cursor=B',
+              'singleRecord=true',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
       });
 
       test('getApprovalsRecent method test', () async {
         // Test with default parameters
-        var result = await createMockHttpClientScopeForGetRequest(
-          callback: () => makeHttpCall(() => Document().getApprovalsRecent()),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 3);
-        expect(result.request.uri.query, matches(r'\bdocumentApprovals=true\b'));
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () => Document().getApprovalsRecent(),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'documentApprovals=true',
+              'sortType=CreatedOn',
+              'sortDescending=true',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
 
         // Test with custom sorting
-        result = await createMockHttpClientScopeForGetRequest(
-          callback: () => makeHttpCall(
-              () => Document().getApprovalsRecent(sortType: 'A', sortDescending: false)),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
-        expect(result.request.uri.query, matches(r'\bdocumentApprovals=true\b'));
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () =>
+                Document().getApprovalsRecent(sortType: 'A', sortDescending: false),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'documentApprovals=true',
+              'sortType=A',
+              'sortDescending=false',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
 
         // Test with showForAllInProject = true
-        result = await createMockHttpClientScopeForGetRequest(
-          callback: () => makeHttpCall(() => Document().getApprovalsRecent(
-              showForAllInProject: true, processID: '123', processElementID: '234')),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 4);
-        expect(result.request.uri.query, matches(r'\bdocumentApprovals=true\b'));
-        expect(result.request.uri.query, matches(r'\bshowForAllInProject=true\b'));
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () => Document().getApprovalsRecent(
+                  showForAllInProject: true,
+                  processID: '123',
+                  processElementID: '234',
+                ),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'documentApprovals=true',
+              'showForAllInProject=true',
+              'sortType=CreatedOn',
+              'sortDescending=true',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
 
         // Test with showForAllInProject = null and = false
         for (var showForAllInProject in [false, null]) {
-          result = await createMockHttpClientScopeForGetRequest(
-            callback: () => makeHttpCall(() => Document().getApprovalsRecent(
-                showForAllInProject: showForAllInProject,
-                processID: '123',
-                processElementID: '234')),
-            responseBody: documentResultsJson,
-          );
+          // Test with showForAllInProject = true
+          await performHttpTest<DocumentResults>(
+              httpMethod: HttpMethods.GET,
+              httpCallCallback: () => Document().getApprovalsRecent(
+                    showForAllInProject: showForAllInProject,
+                    processID: '123',
+                    processElementID: '234',
+                  ),
+              responseBody: documentResultsJson,
+              expectedUrlPath: http.apiPaths.documents,
+              expectedQueryParams: [
+                'documentApprovals=true',
+                'sortType=CreatedOn',
+                'sortDescending=true',
+                'processID=123',
+                'processElementID=234',
+                if (showForAllInProject != null) 'showForAllInProject=false',
+              ],
+              additionalValidationsCallback: (x) {
+                expect(x.documents.length, 1);
+              });
+        }
 
+        /*
           if (showForAllInProject == null) {
             verifyHttpClientOperationResultsCommon(result, 5);
           } else {
@@ -192,109 +198,186 @@ void main() {
           expect(result.request.uri.query, matches(r'\bdocumentApprovals=true\b'));
           expect(result.request.uri.query, matches(r'\bprocessID=123\b'));
           expect(result.request.uri.query, matches(r'\bprocessElementID=234\b'));
-        }
+        */
       });
 
       test('getInboxRecent method test', () async {
         // Test with default parameters
-        var result = await createMockHttpClientScopeForGetRequest(
-          callback: () => makeHttpCall(() => Document().getInboxRecent()),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 3);
-        expect(result.request.uri.query, matches(r'\binbox=true\b'));
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () => Document().getInboxRecent(),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'inbox=true',
+              'sortType=CreatedOn',
+              'sortDescending=true',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
 
         // Test with custom sorting
-        result = await createMockHttpClientScopeForGetRequest(
-          callback: () =>
-              makeHttpCall(() => Document().getInboxRecent(sortType: 'A', sortDescending: false)),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
-        expect(result.request.uri.query, matches(r'\binbox=true\b'));
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () => Document().getInboxRecent(sortType: 'A', sortDescending: false),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'inbox=true',
+              'sortType=A',
+              'sortDescending=false',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
       });
 
       test('getDocumentSubscriptionsRecent method test', () async {
         // Test with default parameters
-        var result = await createMockHttpClientScopeForGetRequest(
-          callback: () => makeHttpCall(() => Document().getDocumentSubscriptionsRecent()),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 3);
-        expect(result.request.uri.query, matches(r'\bdocumentSubscriptions=true\b'));
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () => Document().getDocumentSubscriptionsRecent(),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'documentSubscriptions=true',
+              'sortType=CreatedOn',
+              'sortDescending=true',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
 
         // Test with custom sorting
-        result = await createMockHttpClientScopeForGetRequest(
-          callback: () => makeHttpCall(() =>
-              Document().getDocumentSubscriptionsRecent(sortType: 'A', sortDescending: false)),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
-        expect(result.request.uri.query, matches(r'\bdocumentSubscriptions=true\b'));
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () =>
+                Document().getDocumentSubscriptionsRecent(sortType: 'A', sortDescending: false),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'documentSubscriptions=true',
+              'sortType=A',
+              'sortDescending=false',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
       });
 
       test('getRecycleBinRecent method test', () async {
         // Test with default parameters
-        var result = await createMockHttpClientScopeForGetRequest(
-          callback: () => makeHttpCall(() => Document().getRecycleBinRecent()),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 3);
-        expect(result.request.uri.query, matches(r'\brecycleBin=true\b'));
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () => Document().getRecycleBinRecent(),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'recycleBin=true',
+              'sortType=CreatedOn',
+              'sortDescending=true',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
 
         // Test with custom sorting
-        result = await createMockHttpClientScopeForGetRequest(
-          callback: () => makeHttpCall(
-              () => Document().getRecycleBinRecent(sortType: 'A', sortDescending: false)),
-          responseBody: documentResultsJson,
-        );
-
-        verifyHttpClientOperationResultsCommon(result, 3, 'A', false);
-        expect(result.request.uri.query, matches(r'\brecycleBin=true\b'));
+        await performHttpTest<DocumentResults>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () =>
+                Document().getRecycleBinRecent(sortType: 'A', sortDescending: false),
+            responseBody: documentResultsJson,
+            expectedUrlPath: http.apiPaths.documents,
+            expectedQueryParams: [
+              'recycleBin=true',
+              'sortType=A',
+              'sortDescending=false',
+            ],
+            additionalValidationsCallback: (x) {
+              expect(x.documents.length, 1);
+            });
       });
     });
 
     test('getComments method tests', () async {
-      final expectedPath =
+      final expectedUrlPath =
           http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', '123');
 
-      Future<void> performTest(Future<mod.DocumentComments> Function() getCommentsCallback,
-          List<String> expectedQueryParams) async {
-        var result = await createMockHttpClientScopeForGetRequest(
-          callback: () async {
-            final dc = await getCommentsCallback();
-            expect(dc.cursor, isNotNull);
-            expect(dc.documentEvents.length, 1);
-            expect(dc.pageSize, 24);
-          },
+      // Test with default parameters
+      await performHttpTest<DocumentComments>(
+          httpMethod: HttpMethods.GET,
+          httpCallCallback: () => Document().getComments(documentId: '123'),
           responseBody: documentCommentsJson,
-        );
+          expectedUrlPath: expectedUrlPath,
+          expectedQueryParams: ['sortDescending=true'],
+          additionalValidationsCallback: (x) {
+            expect(x.documentEvents.length, 1);
+          });
 
-        expect(result.request.method, HttpMethods.GET);
-        expect(result.request.uri.path, apiRequestPathMatches(expectedPath));
-        expect(result.request.uri.queryParameters.length, expectedQueryParams.length);
-        var reqUriQuery = result.request.uri.query;
+      // Test with custom sorting and optional arguments
+      await performHttpTest<DocumentComments>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () =>
+            Document().getComments(documentId: '123', sortDescending: false, cursor: 'A'),
+        responseBody: documentCommentsJson,
+        expectedUrlPath: expectedUrlPath,
+        expectedQueryParams: ['sortDescending=false', 'cursor=A'],
+      );
+    });
 
-        for (var expectedQP in expectedQueryParams) {
-          expect(reqUriQuery, matches('\\b' + expectedQP + '\\b'));
-        }
-      }
+    test('postComments method tests', () async {
+      final expectedUrlPath =
+          http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', '123');
+
+      // Test with no comments
+      await performHttpTest(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => Document().postComments(
+          documentId: '123',
+          comments: [],
+        ),
+        responseBody: '',
+        expectedUrlPath: expectedUrlPath,
+        expectedQueryParams: [],
+        expectedBody: '{"Comments":[]}',
+      );
+
+      // Test with some comments
+      await performHttpTest(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => Document().postComments(
+          documentId: '123',
+          comments: ['A', 'B'],
+        ),
+        responseBody: '',
+        expectedUrlPath: expectedUrlPath,
+        expectedQueryParams: [],
+        expectedBody: '{"Comments":["A","B"]}',
+      );
+    });
+
+    test('getEvents method tests', () async {
+      final expectedUrlPath =
+          http.apiPaths.documentsEventsFormat.replaceFirst('<documentId>', '123');
 
       // Test with default parameters
-      await performTest(
-        () => Document().getComments(documentId: '123'),
-        ['sortDescending=true'],
+      await performHttpTest(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => Document().getEvents(documentId: '123'),
+        responseBody: documentEventsJson,
+        expectedUrlPath: expectedUrlPath,
+        expectedQueryParams: ['sortDescending=true'],
       );
 
       // Test with custom sorting and optional arguments
-      await performTest(
-        () => Document().getComments(documentId: '123', sortDescending: false, cursor: 'A'),
-        ['sortDescending=false', 'cursor=A'],
+      await performHttpTest(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () =>
+            Document().getEvents(documentId: '123', sortDescending: false, cursor: 'A'),
+        responseBody: documentEventsJson,
+        expectedUrlPath: expectedUrlPath,
+        expectedQueryParams: ['sortDescending=false', 'cursor=A'],
       );
     });
   });

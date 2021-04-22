@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/tenant_permissions.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/model/tenant_permissions.dart' as mod;
 import 'package:test/test.dart';
 
 const activeTenantPermissionsJson =
@@ -37,7 +36,7 @@ void main() {
       performTest(apiModelOrig);
 
       // Convert it to a model class then back again
-      final apiModelCycled = mod.TenantPermissions.fromApiModel(apiModelOrig).toApiModel();
+      final apiModelCycled = TenantPermissions.fromApiModel(apiModelOrig).toApiModel();
       performTest(apiModelCycled);
     });
   });

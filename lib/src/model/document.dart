@@ -5,9 +5,11 @@ import 'package:get_it/get_it.dart';
 import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/document.dart' as api_mod;
 import '../api_model/document_comments.dart' as api_mod;
+import '../api_model/document_events.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
 import '../http.dart' as http;
 import 'document_comments.dart' as mod;
+import 'document_events.dart' as mod;
 import 'document_results.dart' as mod;
 import '../nucleus_one.dart';
 import 'preview_metadata_item.dart';
@@ -446,6 +448,48 @@ class Document with NucleusOneAppDependent {
     );
     final dl = api_mod.DocumentComments.fromJson(jsonDecode(responseBody));
     return mod.DocumentComments.fromApiModel(dl);
+  }
+
+  /// Posts comments for a document.
+  ///
+  /// [documentId]: The document id.
+  ///
+  /// [comments]: The comments to post.
+  Future<void> postComments({
+    required String documentId,
+    required List<String> comments,
+  }) async {
+    await http.executePostRequest(
+      http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', documentId),
+      app,
+      body: jsonEncode({'Comments': comments}),
+    );
+  }
+
+  /// Gets events for a document, by page.
+  ///
+  /// [documentId]: The document id.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  Future<mod.DocumentEvents> getEvents({
+    required String documentId,
+    bool sortDescending = true,
+    String? cursor,
+  }) async {
+    final qp = _StandardQueryParams.get([
+      (sqp) => sqp.cursor(cursor),
+      (sqp) => sqp.sortDescending(sortDescending),
+    ]);
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentsEventsFormat.replaceFirst('<documentId>', documentId),
+      app,
+      query: qp,
+    );
+    final dl = api_mod.DocumentEvents.fromJson(jsonDecode(responseBody));
+    return mod.DocumentEvents.fromApiModel(dl);
   }
 }
 

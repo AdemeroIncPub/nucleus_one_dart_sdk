@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
 
-import 'api_model/tenant_permissions.dart' as api_mod;
 import 'api_model/address_book.dart' as api_mod;
 import 'api_model/dashboard_widget.dart' as api_mod;
 import 'common/string.dart';
 import 'http.dart' as http;
-import 'model/tenant_permissions.dart' as mod;
 import 'model/address_book.dart' as mod;
 import 'model/dashboard_widget.dart' as mod;
 import 'nucleus_one.dart';

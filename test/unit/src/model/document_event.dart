@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/model/document_event.dart' as mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_event.dart' as api_mod;
 import 'package:test/test.dart';
 
@@ -34,7 +33,7 @@ void main() {
       performTests(apiModelOrig);
 
       // Convert it to a model class then back again
-      final apiModelCycled = mod.DocumentEvent.fromApiModel(apiModelOrig).toApiModel();
+      final apiModelCycled = DocumentEvent.fromApiModel(apiModelOrig).toApiModel();
       performTests(apiModelCycled);
     });
   });
