@@ -1,14 +1,18 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:get_it/get_it.dart';
 
 import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/document.dart' as api_mod;
 import '../api_model/document_comments.dart' as api_mod;
+import '../api_model/document_content_package.dart' as api_mod;
 import '../api_model/document_events.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
+import '../common/path.dart' as path;
 import '../http.dart' as http;
 import 'document_comments.dart' as mod;
+import '../model/document_content_package.dart' as mod;
 import 'document_events.dart' as mod;
 import 'document_results.dart' as mod;
 import '../nucleus_one.dart';
@@ -17,7 +21,7 @@ import 'preview_metadata_item.dart';
 class Document with NucleusOneAppDependent {
   Document._(
       {NucleusOneAppInternal? app,
-      required this.uniqueID,
+      required this.id,
       required this.documentID,
       required this.createdOn,
       required this.purgeDate,
@@ -49,7 +53,7 @@ class Document with NucleusOneAppDependent {
     NucleusOneAppInternal? app,
   }) : this._(
           app: app,
-          uniqueID: '',
+          id: '',
           documentID: '',
           createdOn: '',
           purgeDate: '',
@@ -78,7 +82,7 @@ class Document with NucleusOneAppDependent {
 
   factory Document.fromApiModel(api_mod.Document apiModel) {
     return Document._(
-        uniqueID: apiModel.uniqueID!,
+        id: apiModel.id!,
         documentID: apiModel.documentID!,
         createdOn: apiModel.createdOn!,
         purgeDate: apiModel.purgeDate!,
@@ -108,7 +112,7 @@ class Document with NucleusOneAppDependent {
         score: apiModel.score!);
   }
 
-  String uniqueID;
+  String id;
 
   String documentID;
 
@@ -160,7 +164,7 @@ class Document with NucleusOneAppDependent {
 
   api_mod.Document toApiModel() {
     return api_mod.Document()
-      ..uniqueID = uniqueID
+      ..id = id
       ..documentID = documentID
       ..createdOn = createdOn
       ..purgeDate = purgeDate
@@ -229,58 +233,6 @@ class Document with NucleusOneAppDependent {
       offset: offset,
       cursor: cursor,
       singleRecord: singleRecord,
-    );
-  }
-
-  /// Gets recent Approval documents, by page.
-  ///
-  /// [sortType]: Which field to sort on.
-  ///
-  /// [sortDescending]: Sort order.
-  ///
-  /// [offset]: The number of initial results to skip.
-  ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  ///
-  /// [singleRecord]: Limits the results to a single document.
-  ///
-  /// [processID]: The Approval Process ID to limit the results to.
-  ///
-  /// [processElementID]: The id of the Approval Process stage.  Used in conjunction with [processID].
-  ///
-  /// [showForAllInProject]: Admins only.  Allows viewing of all approvals without a result for the entire Project.
-  Future<mod.DocumentResults> getApprovalsRecent({
-    String sortType = 'CreatedOn',
-    bool sortDescending = true,
-    int? offset,
-    String? cursor,
-    bool? singleRecord,
-    String? processID,
-    String? processElementID,
-    bool? showForAllInProject,
-  }) async {
-    final qpAdditional = <String, Object>{
-      'documentApprovals': true,
-    };
-    if (showForAllInProject != null) {
-      qpAdditional['showForAllInProject'] = showForAllInProject;
-    }
-    if (showForAllInProject != true) {
-      if (processID != null) {
-        qpAdditional['processID'] = processID;
-      }
-      if (processElementID != null) {
-        qpAdditional['processElementID'] = processElementID;
-      }
-    }
-
-    return _getRecentInternal(
-      sortType: sortType,
-      sortDescending: sortDescending,
-      offset: offset,
-      cursor: cursor,
-      singleRecord: singleRecord,
-      qpAdditional: qpAdditional,
     );
   }
 
@@ -491,6 +443,72 @@ class Document with NucleusOneAppDependent {
     final dl = api_mod.DocumentEvents.fromJson(jsonDecode(responseBody));
     return mod.DocumentEvents.fromApiModel(dl);
   }
+
+  /// Restores one or more documents from the Recycle Bin.
+  ///
+  /// [documentIds]: The document ids to process.
+  Future<void> restoreFromRecycleBin(List<String> documentIds) async {
+    assert(documentIds.isNotEmpty);
+
+    await http.executePostRequest(
+      http.apiPaths.documentActionsRestoreFromRecycleBin,
+      app,
+      body: jsonEncode({'IDs': documentIds}),
+    );
+  }
+
+  /// Sends one or more documents to the Recycle Bin.
+  ///
+  /// [documentIds]: The document ids to process.
+  Future<void> sendToRecycleBin(List<String> documentIds) async {
+    assert(documentIds.isNotEmpty);
+
+    await http.executePostRequest(
+      http.apiPaths.documentActionsSendToRecycleBin,
+      app,
+      body: jsonEncode({'IDs': documentIds}),
+    );
+  }
+
+  //https://client-api.multi-tenant-dms-staging.com/api/v1/documentContentPackages/6svLAVJGsHjt3WOydoW4?displayInline=false&preview=false&singlePage=false&requireSinglePage=false&pageIndex=0
+
+  /// Returns information needed to download a document.
+  ///
+  /// [documentId]: The document id to process.
+  Future<mod.DocumentContentPackage> getDocumentContentPackage(String documentId) async {
+    final qp = _StandardQueryParams.get();
+    qp['displayInline'] = 'false';
+    qp['preview'] = 'false';
+    qp['singlePage'] = 'false';
+    qp['requireSinglePage'] = 'false';
+    qp['pageIndex'] = '0';
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentContentPackagesFormat.replaceFirst('<documentId>', documentId),
+      app,
+      query: qp,
+    );
+    final dcp = api_mod.DocumentContentPackage.fromJson(jsonDecode(responseBody));
+    return mod.DocumentContentPackage.fromApiModel(dcp);
+  }
+
+  /// Downloads a document to disk.
+  ///
+  /// [documentId]: The document id to process.
+  ///
+  /// [destinationDirectory]: The directory in which to save the downloaded file.
+  Future<String> download(String documentId, String destinationDirectory) async {
+    final dcp = await getDocumentContentPackage(documentId);
+    final destFilePath = path.combine(destinationDirectory, dcp.name);
+
+    // Download the package to disk
+    final request = await HttpClient().getUrl(Uri.parse(dcp.url));
+    final response = await request.close();
+    final fileStream = File(destFilePath).openWrite();
+    await response.pipe(fileStream);
+
+    return destFilePath;
+  }
 }
 
 /// Provides support for adding common query string parameters.  Values are only included if they
@@ -498,10 +516,12 @@ class Document with NucleusOneAppDependent {
 class _StandardQueryParams {
   final _map = <String, dynamic>{};
 
-  static Map<String, dynamic> get(List<void Function(_StandardQueryParams sqp)> callbacks) {
+  static Map<String, dynamic> get([List<void Function(_StandardQueryParams sqp)>? callbacks]) {
     final sqp = _StandardQueryParams();
-    for (var cb in callbacks) {
-      cb(sqp);
+    if (callbacks != null) {
+      for (var cb in callbacks) {
+        cb(sqp);
+      }
     }
     return sqp._map;
   }

@@ -15,8 +15,8 @@ class Document {
   /// The constructor is named after the source class, in this case, Document.
   factory Document.fromJson(Map<String, dynamic> json) => _$DocumentFromJson(json);
 
-  @JsonKey(name: 'UniqueID')
-  String? uniqueID;
+  @JsonKey(name: 'ID')
+  String? id;
 
   @JsonKey(name: 'DocumentID')
   String? documentID;

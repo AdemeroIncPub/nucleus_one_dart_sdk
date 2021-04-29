@@ -8,7 +8,7 @@ part of 'document.dart';
 
 Document _$DocumentFromJson(Map<String, dynamic> json) {
   return Document()
-    ..uniqueID = json['UniqueID'] as String?
+    ..id = json['ID'] as String?
     ..documentID = json['DocumentID'] as String?
     ..createdOn = json['CreatedOn'] as String?
     ..purgeDate = json['PurgeDate'] as String?
@@ -51,7 +51,7 @@ Map<String, dynamic> _$DocumentToJson(Document instance) {
     }
   }
 
-  writeNotNull('UniqueID', instance.uniqueID);
+  writeNotNull('ID', instance.id);
   writeNotNull('DocumentID', instance.documentID);
   writeNotNull('CreatedOn', instance.createdOn);
   writeNotNull('PurgeDate', instance.purgeDate);

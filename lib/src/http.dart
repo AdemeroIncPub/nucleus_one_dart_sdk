@@ -187,6 +187,9 @@ Future<void> executePutRequest(
 abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
   static const dashboardWidgets = '/dashboardWidgets';
+  static const documentActionsRestoreFromRecycleBin = '/documentActions/restoreFromRecycleBin';
+  static const documentActionsSendToRecycleBin = '/documentActions/sendToRecycleBin';
+  static const documentContentPackagesFormat = '/documentContentPackages/<documentId>';
   static const documents = '/documents';
   static const documentsCommentsFormat = '/documents/<documentId>/comments';
   static const documentsEventsFormat = '/documents/<documentId>/events';
