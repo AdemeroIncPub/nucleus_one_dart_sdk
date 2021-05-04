@@ -65,8 +65,12 @@ class NucleusOneOptions {
 }
 
 abstract class NucleusOneAppDependent {
-  late NucleusOneAppInternal _app;
-  NucleusOneAppInternal get app => _app;
+  NucleusOneAppInternal? _app;
+  NucleusOneAppInternal get app {
+    _app ??= GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+    return _app!;
+  }
+
   @protected
   set app(NucleusOneAppInternal app) {
     _app = app;
@@ -129,8 +133,13 @@ abstract class NucleusOneApp {
   }
 
   /// Documents
-  Document document() {
-    return Document(app: this as NucleusOneAppInternal);
+  DocumentCollection documents() {
+    return DocumentCollection(app: this as NucleusOneAppInternal);
+  }
+
+  /// Classifications
+  ClassificationCollection classifications() {
+    return ClassificationCollection(app: this as NucleusOneAppInternal);
   }
 }
 

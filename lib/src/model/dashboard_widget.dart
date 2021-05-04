@@ -1,22 +1,22 @@
 import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 
 import '../api_model/dashboard_widget.dart' as api_model;
 import '../nucleus_one.dart';
 
-class DashboardWidgets with NucleusOneAppDependent {
-  DashboardWidgets._({NucleusOneAppInternal? app, required this.items}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
-  }
+class DashboardWidgetCollection extends EntityCollection<DashboardWidget> {
+  DashboardWidgetCollection({
+    NucleusOneAppInternal? app,
+    List<DashboardWidget>? items,
+  }) : super(app: app, items: items);
 
-  factory DashboardWidgets.fromApiModel(api_model.DashboardWidgets apiModel) {
-    return DashboardWidgets._(
+  factory DashboardWidgetCollection.fromApiModel(api_model.DashboardWidgetCollection apiModel) {
+    return DashboardWidgetCollection(
         items: apiModel.items.map((x) => DashboardWidget.fromApiModel(x)).toList());
   }
 
-  List<DashboardWidget> items;
-
-  api_model.DashboardWidgets toApiModel() {
-    return api_model.DashboardWidgets()..items = items.map((x) => x.toApiModel()).toList();
+  api_model.DashboardWidgetCollection toApiModel() {
+    return api_model.DashboardWidgetCollection()..items = items.map((x) => x.toApiModel()).toList();
   }
 }
 

@@ -1,7 +1,20 @@
+import 'dart:convert';
+
+import 'package:nucleus_one_dart_sdk/src/api_model/document_results.dart' as api_mod;
+import 'package:test/test.dart';
+
+import 'document.dart';
+
+const documentResultsJson = r'{"Documents":[' + documentJson + r'],"Cursor":"A","PageSize":24}';
+
 void main() {
-  /*
-  Because these "API model" classes are purely boilerplate for generated json_serializable logic,
-  it is sufficient to cover the tests for these under the equivalent "model" classes, under
-  ".\model\*", so longer as 100% coverage is achieved.
-  */
+  group('DocumentResults class tests', () {
+    test('Serialization test', () {
+      final apiModel = api_mod.DocumentResults.fromJson(jsonDecode(documentResultsJson));
+
+      expect(apiModel.documents!.length, 1);
+      expect(apiModel.cursor, 'A');
+      expect(apiModel.pageSize, 24);
+    });
+  });
 }

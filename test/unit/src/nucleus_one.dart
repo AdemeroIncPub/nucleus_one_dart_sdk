@@ -103,7 +103,7 @@ void main() {
     test('document method tests', () {
       final n1App = getStandardN1App();
 
-      final doc = n1App.document();
+      final doc = n1App.documents();
       expect(doc.app, n1App);
     });
 
@@ -130,7 +130,7 @@ void main() {
               }
 
               // This is an arbitrary method call to trigger an HttpClient request
-              await n1App.document().getCount(true, true);
+              await n1App.documents().getCount(true, true);
             },
             responseBody: '0',
           );
@@ -176,7 +176,7 @@ void main() {
             final n1App = getStandardN1App();
             final ignoreInbox = queryParamCombination[0],
                 ignoreRecycleBin = queryParamCombination[1];
-            final docCount = await n1App.document().getCount(ignoreInbox, ignoreRecycleBin);
+            final docCount = await n1App.documents().getCount(ignoreInbox, ignoreRecycleBin);
             expect(docCount, returnValue);
           },
           responseBody: returnValue.toString(),

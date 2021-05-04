@@ -2,18 +2,17 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
-import 'package:test/test.dart';
+import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
+import 'package:test/test.dart';
 
 import '../../../src/assertions.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
-import 'document_comments.dart';
-import 'document_events.dart';
-import 'document_results.dart';
-
-const documentJson =
-    r'{"ID":"A","DocumentID":"B","CreatedOn":"2021-01-06T17:37:32.327396Z","PurgeDate":"0001-01-31T00:00:00Z","Name":"C","PageCount":21,"FileSize":1234,"ThumbnailUrl":"D","IsSigned":false,"ClassificationID":"E","ClassificationName":"F","PreviewMetadata":[{"0":"A","1":"B","2":"C"}],"DocumentApprovalID":"G","DocumentApprovalCreatedOn":"0001-01-01T00:00:00Z","DocumentSubscriptionID":"H","DocumentSubscriptionCreatedOn":"0001-01-01T00:00:00Z","DocumentSignatureSessionRecipientID":"I","DocumentSignatureSessionID":"J","DocumentSignatureSessionRecipientEmail":"K","DocumentSignatureSessionRecipientFullName":"L","DocumentSignatureSessionRecipientRequestedOn":"0001-01-01T00:00:00Z","RoleName":"M","ProcessName":"N","ProcessElementName":"O","Score":123}';
+import '../api_model/document.dart';
+import '../api_model/document_comments.dart';
+import '../api_model/document_events.dart';
+import '../api_model/document_results.dart';
 
 void main() {
   group('Document tests', () {
@@ -66,9 +65,9 @@ void main() {
     group('_getRecentInternal method consumers tests', () {
       test('getRecent method test', () async {
         // Test with default parameters
-        await performHttpTest<DocumentResults>(
+        await performHttpTest<QueryResult>(
             httpMethod: HttpMethods.GET,
-            httpCallCallback: () => Document().getRecent(),
+            httpCallCallback: () => DocumentCollection().getRecent(),
             responseBody: documentResultsJson,
             expectedUrlPath: http.apiPaths.documents,
             expectedQueryParams: [
@@ -76,13 +75,14 @@ void main() {
               'sortDescending=true',
             ],
             additionalValidationsCallback: (x) {
-              expect(x.documents.length, 1);
+              expect(x.results.items.length, 1);
             });
 
         // Test with custom sorting
-        await performHttpTest<DocumentResults>(
+        await performHttpTest<QueryResult>(
             httpMethod: HttpMethods.GET,
-            httpCallCallback: () => Document().getRecent(sortType: 'A', sortDescending: false),
+            httpCallCallback: () =>
+                DocumentCollection().getRecent(sortType: 'A', sortDescending: false),
             responseBody: documentResultsJson,
             expectedUrlPath: http.apiPaths.documents,
             expectedQueryParams: [
@@ -90,14 +90,14 @@ void main() {
               'sortDescending=false',
             ],
             additionalValidationsCallback: (x) {
-              expect(x.documents.length, 1);
+              expect(x.results.items.length, 1);
             });
 
         // Test with optional arguments
-        await performHttpTest<DocumentResults>(
+        await performHttpTest<QueryResult>(
             httpMethod: HttpMethods.GET,
             httpCallCallback: () =>
-                Document().getRecent(offset: 1, cursor: 'B', singleRecord: true),
+                DocumentCollection().getRecent(offset: 1, cursor: 'B', singleRecord: true),
             responseBody: documentResultsJson,
             expectedUrlPath: http.apiPaths.documents,
             expectedQueryParams: [
@@ -108,15 +108,15 @@ void main() {
               'singleRecord=true',
             ],
             additionalValidationsCallback: (x) {
-              expect(x.documents.length, 1);
+              expect(x.results.items.length, 1);
             });
       });
 
       test('getInboxRecent method test', () async {
         // Test with default parameters
-        await performHttpTest<DocumentResults>(
+        await performHttpTest<QueryResult>(
             httpMethod: HttpMethods.GET,
-            httpCallCallback: () => Document().getInboxRecent(),
+            httpCallCallback: () => DocumentCollection().getInboxRecent(),
             responseBody: documentResultsJson,
             expectedUrlPath: http.apiPaths.documents,
             expectedQueryParams: [
@@ -125,13 +125,14 @@ void main() {
               'sortDescending=true',
             ],
             additionalValidationsCallback: (x) {
-              expect(x.documents.length, 1);
+              expect(x.results.items.length, 1);
             });
 
         // Test with custom sorting
-        await performHttpTest<DocumentResults>(
+        await performHttpTest<QueryResult>(
             httpMethod: HttpMethods.GET,
-            httpCallCallback: () => Document().getInboxRecent(sortType: 'A', sortDescending: false),
+            httpCallCallback: () =>
+                DocumentCollection().getInboxRecent(sortType: 'A', sortDescending: false),
             responseBody: documentResultsJson,
             expectedUrlPath: http.apiPaths.documents,
             expectedQueryParams: [
@@ -140,15 +141,15 @@ void main() {
               'sortDescending=false',
             ],
             additionalValidationsCallback: (x) {
-              expect(x.documents.length, 1);
+              expect(x.results.items.length, 1);
             });
       });
 
       test('getDocumentSubscriptionsRecent method test', () async {
         // Test with default parameters
-        await performHttpTest<DocumentResults>(
+        await performHttpTest<QueryResult>(
             httpMethod: HttpMethods.GET,
-            httpCallCallback: () => Document().getDocumentSubscriptionsRecent(),
+            httpCallCallback: () => DocumentCollection().getDocumentSubscriptionsRecent(),
             responseBody: documentResultsJson,
             expectedUrlPath: http.apiPaths.documents,
             expectedQueryParams: [
@@ -157,14 +158,14 @@ void main() {
               'sortDescending=true',
             ],
             additionalValidationsCallback: (x) {
-              expect(x.documents.length, 1);
+              expect(x.results.items.length, 1);
             });
 
         // Test with custom sorting
-        await performHttpTest<DocumentResults>(
+        await performHttpTest<QueryResult>(
             httpMethod: HttpMethods.GET,
-            httpCallCallback: () =>
-                Document().getDocumentSubscriptionsRecent(sortType: 'A', sortDescending: false),
+            httpCallCallback: () => DocumentCollection()
+                .getDocumentSubscriptionsRecent(sortType: 'A', sortDescending: false),
             responseBody: documentResultsJson,
             expectedUrlPath: http.apiPaths.documents,
             expectedQueryParams: [
@@ -173,15 +174,15 @@ void main() {
               'sortDescending=false',
             ],
             additionalValidationsCallback: (x) {
-              expect(x.documents.length, 1);
+              expect(x.results.items.length, 1);
             });
       });
 
       test('getRecycleBinRecent method test', () async {
         // Test with default parameters
-        await performHttpTest<DocumentResults>(
+        await performHttpTest<QueryResult>(
             httpMethod: HttpMethods.GET,
-            httpCallCallback: () => Document().getRecycleBinRecent(),
+            httpCallCallback: () => DocumentCollection().getRecycleBinRecent(),
             responseBody: documentResultsJson,
             expectedUrlPath: http.apiPaths.documents,
             expectedQueryParams: [
@@ -190,14 +191,14 @@ void main() {
               'sortDescending=true',
             ],
             additionalValidationsCallback: (x) {
-              expect(x.documents.length, 1);
+              expect(x.results.items.length, 1);
             });
 
         // Test with custom sorting
-        await performHttpTest<DocumentResults>(
+        await performHttpTest<QueryResult>(
             httpMethod: HttpMethods.GET,
             httpCallCallback: () =>
-                Document().getRecycleBinRecent(sortType: 'A', sortDescending: false),
+                DocumentCollection().getRecycleBinRecent(sortType: 'A', sortDescending: false),
             responseBody: documentResultsJson,
             expectedUrlPath: http.apiPaths.documents,
             expectedQueryParams: [
@@ -206,7 +207,7 @@ void main() {
               'sortDescending=false',
             ],
             additionalValidationsCallback: (x) {
-              expect(x.documents.length, 1);
+              expect(x.results.items.length, 1);
             });
       });
     });
@@ -216,21 +217,21 @@ void main() {
           http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', '123');
 
       // Test with default parameters
-      await performHttpTest<DocumentComments>(
+      await performHttpTest<QueryResult2<DocumentCommentCollection>>(
           httpMethod: HttpMethods.GET,
-          httpCallCallback: () => Document().getComments(documentId: '123'),
+          httpCallCallback: () => DocumentCollection().getComments(documentId: '123'),
           responseBody: documentCommentsJson,
           expectedUrlPath: expectedUrlPath,
           expectedQueryParams: ['sortDescending=true'],
           additionalValidationsCallback: (x) {
-            expect(x.documentEvents.length, 1);
+            expect(x.results.items.length, 1);
           });
 
       // Test with custom sorting and optional arguments
-      await performHttpTest<DocumentComments>(
+      await performHttpTest<QueryResult2<DocumentCommentCollection>>(
         httpMethod: HttpMethods.GET,
         httpCallCallback: () =>
-            Document().getComments(documentId: '123', sortDescending: false, cursor: 'A'),
+            DocumentCollection().getComments(documentId: '123', sortDescending: false, cursor: 'A'),
         responseBody: documentCommentsJson,
         expectedUrlPath: expectedUrlPath,
         expectedQueryParams: ['sortDescending=false', 'cursor=A'],
@@ -244,7 +245,7 @@ void main() {
       // Test with no comments
       await performHttpTest(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => Document().postComments(
+        httpCallCallback: () => DocumentCollection().postComments(
           documentId: '123',
           comments: [],
         ),
@@ -257,7 +258,7 @@ void main() {
       // Test with some comments
       await performHttpTest(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => Document().postComments(
+        httpCallCallback: () => DocumentCollection().postComments(
           documentId: '123',
           comments: ['A', 'B'],
         ),
@@ -275,7 +276,7 @@ void main() {
       // Test with default parameters
       await performHttpTest(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => Document().getEvents(documentId: '123'),
+        httpCallCallback: () => DocumentCollection().getEvents(documentId: '123'),
         responseBody: documentEventsJson,
         expectedUrlPath: expectedUrlPath,
         expectedQueryParams: ['sortDescending=true'],
@@ -285,7 +286,7 @@ void main() {
       await performHttpTest(
         httpMethod: HttpMethods.GET,
         httpCallCallback: () =>
-            Document().getEvents(documentId: '123', sortDescending: false, cursor: 'A'),
+            DocumentCollection().getEvents(documentId: '123', sortDescending: false, cursor: 'A'),
         responseBody: documentEventsJson,
         expectedUrlPath: expectedUrlPath,
         expectedQueryParams: ['sortDescending=false', 'cursor=A'],
@@ -299,7 +300,7 @@ void main() {
       testAssertionErrorAsync(
           () async => await performHttpTest(
                 httpMethod: HttpMethods.POST,
-                httpCallCallback: () => Document().restoreFromRecycleBin([]),
+                httpCallCallback: () => DocumentCollection().restoreFromRecycleBin([]),
                 responseBody: '',
                 expectedUrlPath: expectedUrlPath,
                 expectedQueryParams: [],
@@ -310,7 +311,7 @@ void main() {
       // Test with document ids
       await performHttpTest(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => Document().restoreFromRecycleBin(['A', 'B']),
+        httpCallCallback: () => DocumentCollection().restoreFromRecycleBin(['A', 'B']),
         responseBody: '',
         expectedUrlPath: expectedUrlPath,
         expectedQueryParams: [],
@@ -325,7 +326,7 @@ void main() {
       testAssertionErrorAsync(
           () async => await performHttpTest(
                 httpMethod: HttpMethods.POST,
-                httpCallCallback: () => Document().sendToRecycleBin([]),
+                httpCallCallback: () => DocumentCollection().sendToRecycleBin([]),
                 responseBody: '',
                 expectedUrlPath: expectedUrlPath,
                 expectedQueryParams: [],
@@ -336,7 +337,7 @@ void main() {
       // Test with some document ids
       await performHttpTest(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => Document().sendToRecycleBin(['A', 'B']),
+        httpCallCallback: () => DocumentCollection().sendToRecycleBin(['A', 'B']),
         responseBody: '',
         expectedUrlPath: expectedUrlPath,
         expectedQueryParams: [],

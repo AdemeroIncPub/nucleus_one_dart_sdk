@@ -186,6 +186,7 @@ Future<void> executePutRequest(
 
 abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
+  static const classifications = '/classifications';
   static const dashboardWidgets = '/dashboardWidgets';
   static const documentActionsRestoreFromRecycleBin = '/documentActions/restoreFromRecycleBin';
   static const documentActionsSendToRecycleBin = '/documentActions/sendToRecycleBin';
@@ -208,6 +209,46 @@ abstract class ApiRequestBodyObject {
     final m = jsonDecode(json) as Map;
     for (var kvp in m.entries) {
       map[kvp.key as String] = kvp.value;
+    }
+  }
+}
+
+/// Provides support for adding common query string parameters.  Values are only included if they
+/// are not null.
+class StandardQueryParams {
+  final _map = <String, dynamic>{};
+
+  static Map<String, dynamic> get([List<void Function(StandardQueryParams sqp)>? callbacks]) {
+    final sqp = StandardQueryParams();
+    if (callbacks != null) {
+      for (var cb in callbacks) {
+        cb(sqp);
+      }
+    }
+    return sqp._map;
+  }
+
+  void sortDescending(bool? sortDescending) {
+    if (sortDescending != null) {
+      _map['sortDescending'] = sortDescending;
+    }
+  }
+
+  void sortType(String? sortType) {
+    if (sortType != null) {
+      _map['sortType'] = sortType;
+    }
+  }
+
+  void offset(int? offset) {
+    if (offset != null) {
+      _map['offset'] = offset;
+    }
+  }
+
+  void cursor(String? cursor) {
+    if (cursor != null) {
+      _map['cursor'] = cursor;
     }
   }
 }

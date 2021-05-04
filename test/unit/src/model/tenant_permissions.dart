@@ -4,8 +4,7 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/tenant_permissions.dart' as api_mod;
 import 'package:test/test.dart';
 
-const activeTenantPermissionsJson =
-    r'{"OrganizationID":"A","OrganizationName":"B","TenantID":"C","TenantName":"D","TenantMemberID":"E","UserID":"F","UserName":"G","UserEmail":"H","Disabled":false,"IsAdmin":true}';
+import '../api_model/tenant_permissions.dart';
 
 void main() {
   group('AddressBookItem tests', () {

@@ -1,3 +1,7 @@
+const addressBookItemJson =
+    r'{"EmailLower":"","Name":"Accounting","TenantMemberID":"","RoleID":"bpetMevFgCmg4ex6ghJD","FieldID":"","FormTemplateID":"","FormTemplateName":"","FormTemplateFieldID":""}';
+const addressBookJson = '[$addressBookItemJson]';
+
 void main() {
   /*
   Because these "API model" classes are purely boilerplate for generated json_serializable logic,

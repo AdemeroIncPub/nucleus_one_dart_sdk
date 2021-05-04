@@ -4,11 +4,7 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/dashboard_widget.dart' as api_mod;
 import 'package:test/test.dart';
 
-const dashboardWidget1Json =
-    r'{"ID":"Ub5J5Lgs27RF-tYYziBV776WcFGmWuIaaUtGa7batp4","TenantID":"yhv0SScPN5LxidjEfZCE","TenantMemberID":"n8rgN483rSfA9J84yb_T2Ce0okOdO1kNc4j7GXwAGt4","Type":"DashboardWidgetType_Capture","GridColumn":0.0,"ColumnRank":0.0,"Name":"","Detail":"","JsonData":""}';
-const dashboardWidget2Json =
-    r'{"ID":"OUUndeojgzBdMWuvACrK","TenantID":"yhv0SScPN5LxidjEfZCE","TenantMemberID":"n8rgN483rSfA9J84yb_T2Ce0okOdO1kNc4j7GXwAGt4","Type":"DashboardWidgetType_Folder","GridColumn":1.0,"ColumnRank":0.0,"Name":"Agreement","Detail":"","JsonData":"{\"FolderType\":\"folderHierarchies\",\"Name\":\"Agreement\",\"UniqueId\":\"oBc7dZx0C0UXpEpf8KOm_ByClassification_v3iBOAzEvGiRM8UFpG6p_1\",\"FolderHierarchyID\":\"oBc7dZx0C0UXpEpf8KOm\",\"ItemIndex\":1,\"HasChildren\":true,\"ApiParams\":{\"classificationID\":\"v3iBOAzEvGiRM8UFpG6p\"},\"SearchClassificationID\":\"v3iBOAzEvGiRM8UFpG6p\",\"ParentFolder\":{\"FolderType\":\"folderHierarchies\",\"FolderHierarchyID\":\"oBc7dZx0C0UXpEpf8KOm\",\"Name\":\"By Classification\",\"ItemIndex\":0,\"UniqueId\":\"oBc7dZx0C0UXpEpf8KOm\"}}"}';
-const dashboardWidgetsJson = '[$dashboardWidget1Json,$dashboardWidget2Json]';
+import '../api_model/dashboard_widget.dart';
 
 void main() {
   group('DashboardWidgets & DashboardWidget tests', () {
@@ -22,8 +18,8 @@ void main() {
 
     group('DashboardWidgets class tests', () {
       test('Serialization test', () {
-        final apiModel = api_mod.DashboardWidgets.fromJson(jsonDecode(dashboardWidgetsJson));
-        final dbws = DashboardWidgets.fromApiModel(apiModel);
+        final apiModel = api_mod.DashboardWidgetCollection.fromJson(jsonDecode(dashboardWidgetsJson));
+        final dbws = DashboardWidgetCollection.fromApiModel(apiModel);
         const itemCount = 2;
         expect(dbws.items.length, itemCount);
       });

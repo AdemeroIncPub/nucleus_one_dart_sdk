@@ -2,21 +2,345 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 
 import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/document.dart' as api_mod;
-import '../api_model/document_comments.dart' as api_mod;
+import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_content_package.dart' as api_mod;
 import '../api_model/document_events.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
 import '../common/path.dart' as path;
 import '../http.dart' as http;
-import 'document_comments.dart' as mod;
 import '../model/document_content_package.dart' as mod;
-import 'document_events.dart' as mod;
-import 'document_results.dart' as mod;
 import '../nucleus_one.dart';
+import 'document_comment.dart' as mod;
+import 'document_events.dart' as mod;
 import 'preview_metadata_item.dart';
+
+class DocumentCollection extends EntityCollection<Document> {
+  DocumentCollection({
+    NucleusOneAppInternal? app,
+    List<Document>? items,
+  }) : super(app: app, items: items);
+
+  /// Gets the document count.
+  ///
+  /// [ignoreInbox]: Whether results should contain documents from the Inbox.
+  ///
+  /// [ignoreRecycleBin]: Whether results should contain documents from the Recycle Bin.
+  Future<int> getCount(bool ignoreInbox, bool ignoreRecycleBin) async {
+    final qp = {
+      'ignoreInbox': ignoreInbox,
+      'ignoreRecycleBin': ignoreRecycleBin,
+    };
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentCounts,
+      app,
+      query: qp,
+    );
+    return int.parse(responseBody);
+  }
+
+  /// Gets recent documents, by page.
+  ///
+  /// [sortType]: Which field to sort on.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [offset]: The number of initial results to skip.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  ///
+  /// [singleRecord]: Limits the results to a single document.
+  Future<QueryResult<DocumentCollection>> getRecent({
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
+  }) async {
+    return _getRecentInternal(
+      sortType: sortType,
+      sortDescending: sortDescending,
+      offset: offset,
+      cursor: cursor,
+      singleRecord: singleRecord,
+    );
+  }
+
+  /// Gets recent Inbox documents, by page.
+  ///
+  /// [sortType]: Which field to sort on.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [offset]: The number of initial results to skip.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  ///
+  /// [singleRecord]: Limits the results to a single document.
+  Future<QueryResult<DocumentCollection>> getInboxRecent({
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
+  }) async {
+    return _getRecentInternal(
+      sortType: sortType,
+      sortDescending: sortDescending,
+      offset: offset,
+      cursor: cursor,
+      singleRecord: singleRecord,
+      qpAdditional: {
+        'inbox': true,
+      },
+    );
+  }
+
+  /// Gets recent Recycle Bin documents, by page.
+  ///
+  /// [sortType]: Which field to sort on.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [offset]: The number of initial results to skip.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  ///
+  /// [singleRecord]: Limits the results to a single document.
+  Future<QueryResult<DocumentCollection>> getRecycleBinRecent({
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
+  }) async {
+    return _getRecentInternal(
+      sortType: sortType,
+      sortDescending: sortDescending,
+      offset: offset,
+      cursor: cursor,
+      singleRecord: singleRecord,
+      qpAdditional: {
+        'recycleBin': true,
+      },
+    );
+  }
+
+  // Future<mod.DocumentResults> getNeedSignatureRecent({
+  //   String sortType = 'CreatedOn',
+  //   bool sortDescending = true,
+  //   int? offset,
+  //   String? cursor,
+  //   bool? singleRecord,
+  // }) async {
+  //   return _getRecentInternal(
+  //     sortType: sortType,
+  //     sortDescending: sortDescending,
+  //     offset: offset,
+  //     cursor: cursor,
+  //     singleRecord: singleRecord,
+  //     qpAdditional: {
+  //       'documentSignatureSessionRecipients': true,
+  //       'showForAllTenantMembers': this.props.isAdmin
+  //     },
+  //   );
+  // }
+
+  /// Gets recent Document Subscriptions documents, by page.
+  ///
+  /// [sortType]: Which field to sort on.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [offset]: The number of initial results to skip.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  ///
+  /// [singleRecord]: Limits the results to a single document.
+  Future<QueryResult<DocumentCollection>> getDocumentSubscriptionsRecent({
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
+  }) async {
+    return _getRecentInternal(
+      sortType: sortType,
+      sortDescending: sortDescending,
+      offset: offset,
+      cursor: cursor,
+      singleRecord: singleRecord,
+      qpAdditional: {
+        'documentSubscriptions': true,
+      },
+    );
+  }
+
+  Future<QueryResult<DocumentCollection>> _getRecentInternal({
+    String sortType = 'CreatedOn',
+    bool sortDescending = true,
+    int? offset,
+    String? cursor,
+    bool? singleRecord,
+    Map<String, Object>? qpAdditional,
+  }) async {
+    final qp = http.StandardQueryParams.get([
+      (sqp) => sqp.sortType(sortType),
+      (sqp) => sqp.sortDescending(sortDescending),
+      (sqp) => sqp.cursor(cursor),
+      (sqp) => sqp.offset(offset),
+    ]);
+    if (singleRecord != null) {
+      qp['singleRecord'] = singleRecord;
+    }
+    if (qpAdditional != null) {
+      qp.addAll(qpAdditional);
+    }
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documents,
+      app,
+      query: qp,
+    );
+    final drApi = api_mod.DocumentResults.fromJson(jsonDecode(responseBody));
+    return DocumentCollectionQueryResult.fromApiModelDocumentResults(drApi);
+  }
+
+  /// Gets comments for a document, by page.
+  ///
+  /// [documentId]: The document id.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  Future<QueryResult2<mod.DocumentCommentCollection>> getComments({
+    required String documentId,
+    bool sortDescending = true,
+    String? cursor,
+  }) async {
+    final qp = http.StandardQueryParams.get([
+      (sqp) => sqp.cursor(cursor),
+      (sqp) => sqp.sortDescending(sortDescending),
+    ]);
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', documentId),
+      app,
+      query: qp,
+    );
+    final dl = api_mod.DocumentCommentCollection.fromJson(jsonDecode(responseBody));
+    return DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(dl);
+  }
+
+  /// Posts comments for a document.
+  ///
+  /// [documentId]: The document id.
+  ///
+  /// [comments]: The comments to post.
+  Future<void> postComments({
+    required String documentId,
+    required List<String> comments,
+  }) async {
+    await http.executePostRequest(
+      http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', documentId),
+      app,
+      body: jsonEncode({'Comments': comments}),
+    );
+  }
+
+  /// Gets events for a document, by page.
+  ///
+  /// [documentId]: The document id.
+  ///
+  /// [sortDescending]: Sort order.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  Future<mod.DocumentEvents> getEvents({
+    required String documentId,
+    bool sortDescending = true,
+    String? cursor,
+  }) async {
+    final qp = http.StandardQueryParams.get([
+      (sqp) => sqp.cursor(cursor),
+      (sqp) => sqp.sortDescending(sortDescending),
+    ]);
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentsEventsFormat.replaceFirst('<documentId>', documentId),
+      app,
+      query: qp,
+    );
+    final dl = api_mod.DocumentEvents.fromJson(jsonDecode(responseBody));
+    return mod.DocumentEvents.fromApiModel(dl);
+  }
+
+  /// Restores one or more documents from the Recycle Bin.
+  ///
+  /// [documentIds]: The document ids to process.
+  Future<void> restoreFromRecycleBin(List<String> documentIds) async {
+    assert(documentIds.isNotEmpty);
+
+    await http.executePostRequest(
+      http.apiPaths.documentActionsRestoreFromRecycleBin,
+      app,
+      body: jsonEncode({'IDs': documentIds}),
+    );
+  }
+
+  /// Sends one or more documents to the Recycle Bin.
+  ///
+  /// [documentIds]: The document ids to process.
+  Future<void> sendToRecycleBin(List<String> documentIds) async {
+    assert(documentIds.isNotEmpty);
+
+    await http.executePostRequest(
+      http.apiPaths.documentActionsSendToRecycleBin,
+      app,
+      body: jsonEncode({'IDs': documentIds}),
+    );
+  }
+
+  /// Returns information needed to download a document.
+  ///
+  /// [documentId]: The document id to process.
+  Future<mod.DocumentContentPackage> getDocumentContentPackage(String documentId) async {
+    final qp = http.StandardQueryParams.get();
+    qp['displayInline'] = 'false';
+    qp['preview'] = 'false';
+    qp['singlePage'] = 'false';
+    qp['requireSinglePage'] = 'false';
+    qp['pageIndex'] = '0';
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentContentPackagesFormat.replaceFirst('<documentId>', documentId),
+      app,
+      query: qp,
+    );
+    final dcp = api_mod.DocumentContentPackage.fromJson(jsonDecode(responseBody));
+    return mod.DocumentContentPackage.fromApiModel(dcp);
+  }
+
+  /// Downloads a document to disk.
+  ///
+  /// [documentId]: The document id to process.
+  ///
+  /// [destinationDirectory]: The directory in which to save the downloaded file.
+  Future<String> download(String documentId, String destinationDirectory) async {
+    final dcp = await getDocumentContentPackage(documentId);
+    final destFilePath = path.combine(destinationDirectory, dcp.name);
+
+    // Download the package to disk
+    final request = await HttpClient().getUrl(Uri.parse(dcp.url));
+    final response = await request.close();
+    final fileStream = File(destFilePath).openWrite();
+    await response.pipe(fileStream);
+
+    return destFilePath;
+  }
+}
 
 class Document with NucleusOneAppDependent {
   Document._(
@@ -189,364 +513,5 @@ class Document with NucleusOneAppDependent {
       ..processName = processName
       ..processElementName = processElementName
       ..score = score;
-  }
-
-  /// Gets the document count.
-  ///
-  /// [ignoreInbox]: Whether results should contain documents from the Inbox.
-  ///
-  /// [ignoreRecycleBin]: Whether results should contain documents from the Recycle Bin.
-  Future<int> getCount(bool ignoreInbox, bool ignoreRecycleBin) async {
-    final qp = {
-      'ignoreInbox': ignoreInbox,
-      'ignoreRecycleBin': ignoreRecycleBin,
-    };
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentCounts,
-      app,
-      query: qp,
-    );
-    return int.parse(responseBody);
-  }
-
-  /// Gets recent documents, by page.
-  ///
-  /// [sortType]: Which field to sort on.
-  ///
-  /// [sortDescending]: Sort order.
-  ///
-  /// [offset]: The number of initial results to skip.
-  ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  ///
-  /// [singleRecord]: Limits the results to a single document.
-  Future<mod.DocumentResults> getRecent({
-    String sortType = 'CreatedOn',
-    bool sortDescending = true,
-    int? offset,
-    String? cursor,
-    bool? singleRecord,
-  }) async {
-    return _getRecentInternal(
-      sortType: sortType,
-      sortDescending: sortDescending,
-      offset: offset,
-      cursor: cursor,
-      singleRecord: singleRecord,
-    );
-  }
-
-  /// Gets recent Inbox documents, by page.
-  ///
-  /// [sortType]: Which field to sort on.
-  ///
-  /// [sortDescending]: Sort order.
-  ///
-  /// [offset]: The number of initial results to skip.
-  ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  ///
-  /// [singleRecord]: Limits the results to a single document.
-  Future<mod.DocumentResults> getInboxRecent({
-    String sortType = 'CreatedOn',
-    bool sortDescending = true,
-    int? offset,
-    String? cursor,
-    bool? singleRecord,
-  }) async {
-    return _getRecentInternal(
-      sortType: sortType,
-      sortDescending: sortDescending,
-      offset: offset,
-      cursor: cursor,
-      singleRecord: singleRecord,
-      qpAdditional: {
-        'inbox': true,
-      },
-    );
-  }
-
-  /// Gets recent Recycle Bin documents, by page.
-  ///
-  /// [sortType]: Which field to sort on.
-  ///
-  /// [sortDescending]: Sort order.
-  ///
-  /// [offset]: The number of initial results to skip.
-  ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  ///
-  /// [singleRecord]: Limits the results to a single document.
-  Future<mod.DocumentResults> getRecycleBinRecent({
-    String sortType = 'CreatedOn',
-    bool sortDescending = true,
-    int? offset,
-    String? cursor,
-    bool? singleRecord,
-  }) async {
-    return _getRecentInternal(
-      sortType: sortType,
-      sortDescending: sortDescending,
-      offset: offset,
-      cursor: cursor,
-      singleRecord: singleRecord,
-      qpAdditional: {
-        'recycleBin': true,
-      },
-    );
-  }
-
-  // Future<mod.DocumentResults> getNeedSignatureRecent({
-  //   String sortType = 'CreatedOn',
-  //   bool sortDescending = true,
-  //   int? offset,
-  //   String? cursor,
-  //   bool? singleRecord,
-  // }) async {
-  //   return _getRecentInternal(
-  //     sortType: sortType,
-  //     sortDescending: sortDescending,
-  //     offset: offset,
-  //     cursor: cursor,
-  //     singleRecord: singleRecord,
-  //     qpAdditional: {
-  //       'documentSignatureSessionRecipients': true,
-  //       'showForAllTenantMembers': this.props.isAdmin
-  //     },
-  //   );
-  // }
-
-  /// Gets recent Document Subscriptions documents, by page.
-  ///
-  /// [sortType]: Which field to sort on.
-  ///
-  /// [sortDescending]: Sort order.
-  ///
-  /// [offset]: The number of initial results to skip.
-  ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  ///
-  /// [singleRecord]: Limits the results to a single document.
-  Future<mod.DocumentResults> getDocumentSubscriptionsRecent({
-    String sortType = 'CreatedOn',
-    bool sortDescending = true,
-    int? offset,
-    String? cursor,
-    bool? singleRecord,
-  }) async {
-    return _getRecentInternal(
-      sortType: sortType,
-      sortDescending: sortDescending,
-      offset: offset,
-      cursor: cursor,
-      singleRecord: singleRecord,
-      qpAdditional: {
-        'documentSubscriptions': true,
-      },
-    );
-  }
-
-  Future<mod.DocumentResults> _getRecentInternal({
-    String sortType = 'CreatedOn',
-    bool sortDescending = true,
-    int? offset,
-    String? cursor,
-    bool? singleRecord,
-    Map<String, Object>? qpAdditional,
-  }) async {
-    final qp = _StandardQueryParams.get([
-      (sqp) => sqp.sortType(sortType),
-      (sqp) => sqp.sortDescending(sortDescending),
-      (sqp) => sqp.cursor(cursor),
-      (sqp) => sqp.offset(offset),
-    ]);
-    if (singleRecord != null) {
-      qp['singleRecord'] = singleRecord;
-    }
-    if (qpAdditional != null) {
-      qp.addAll(qpAdditional);
-    }
-
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documents,
-      app,
-      query: qp,
-    );
-    final dl = api_mod.DocumentResults.fromJson(jsonDecode(responseBody));
-    return mod.DocumentResults.fromApiModel(dl);
-  }
-
-  /// Gets comments for a document, by page.
-  ///
-  /// [documentId]: The document id.
-  ///
-  /// [sortDescending]: Sort order.
-  ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  Future<mod.DocumentComments> getComments({
-    required String documentId,
-    bool sortDescending = true,
-    String? cursor,
-  }) async {
-    final qp = _StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-      (sqp) => sqp.sortDescending(sortDescending),
-    ]);
-
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', documentId),
-      app,
-      query: qp,
-    );
-    final dl = api_mod.DocumentComments.fromJson(jsonDecode(responseBody));
-    return mod.DocumentComments.fromApiModel(dl);
-  }
-
-  /// Posts comments for a document.
-  ///
-  /// [documentId]: The document id.
-  ///
-  /// [comments]: The comments to post.
-  Future<void> postComments({
-    required String documentId,
-    required List<String> comments,
-  }) async {
-    await http.executePostRequest(
-      http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', documentId),
-      app,
-      body: jsonEncode({'Comments': comments}),
-    );
-  }
-
-  /// Gets events for a document, by page.
-  ///
-  /// [documentId]: The document id.
-  ///
-  /// [sortDescending]: Sort order.
-  ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  Future<mod.DocumentEvents> getEvents({
-    required String documentId,
-    bool sortDescending = true,
-    String? cursor,
-  }) async {
-    final qp = _StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-      (sqp) => sqp.sortDescending(sortDescending),
-    ]);
-
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentsEventsFormat.replaceFirst('<documentId>', documentId),
-      app,
-      query: qp,
-    );
-    final dl = api_mod.DocumentEvents.fromJson(jsonDecode(responseBody));
-    return mod.DocumentEvents.fromApiModel(dl);
-  }
-
-  /// Restores one or more documents from the Recycle Bin.
-  ///
-  /// [documentIds]: The document ids to process.
-  Future<void> restoreFromRecycleBin(List<String> documentIds) async {
-    assert(documentIds.isNotEmpty);
-
-    await http.executePostRequest(
-      http.apiPaths.documentActionsRestoreFromRecycleBin,
-      app,
-      body: jsonEncode({'IDs': documentIds}),
-    );
-  }
-
-  /// Sends one or more documents to the Recycle Bin.
-  ///
-  /// [documentIds]: The document ids to process.
-  Future<void> sendToRecycleBin(List<String> documentIds) async {
-    assert(documentIds.isNotEmpty);
-
-    await http.executePostRequest(
-      http.apiPaths.documentActionsSendToRecycleBin,
-      app,
-      body: jsonEncode({'IDs': documentIds}),
-    );
-  }
-
-  //https://client-api.multi-tenant-dms-staging.com/api/v1/documentContentPackages/6svLAVJGsHjt3WOydoW4?displayInline=false&preview=false&singlePage=false&requireSinglePage=false&pageIndex=0
-
-  /// Returns information needed to download a document.
-  ///
-  /// [documentId]: The document id to process.
-  Future<mod.DocumentContentPackage> getDocumentContentPackage(String documentId) async {
-    final qp = _StandardQueryParams.get();
-    qp['displayInline'] = 'false';
-    qp['preview'] = 'false';
-    qp['singlePage'] = 'false';
-    qp['requireSinglePage'] = 'false';
-    qp['pageIndex'] = '0';
-
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentContentPackagesFormat.replaceFirst('<documentId>', documentId),
-      app,
-      query: qp,
-    );
-    final dcp = api_mod.DocumentContentPackage.fromJson(jsonDecode(responseBody));
-    return mod.DocumentContentPackage.fromApiModel(dcp);
-  }
-
-  /// Downloads a document to disk.
-  ///
-  /// [documentId]: The document id to process.
-  ///
-  /// [destinationDirectory]: The directory in which to save the downloaded file.
-  Future<String> download(String documentId, String destinationDirectory) async {
-    final dcp = await getDocumentContentPackage(documentId);
-    final destFilePath = path.combine(destinationDirectory, dcp.name);
-
-    // Download the package to disk
-    final request = await HttpClient().getUrl(Uri.parse(dcp.url));
-    final response = await request.close();
-    final fileStream = File(destFilePath).openWrite();
-    await response.pipe(fileStream);
-
-    return destFilePath;
-  }
-}
-
-/// Provides support for adding common query string parameters.  Values are only included if they
-/// are not null.
-class _StandardQueryParams {
-  final _map = <String, dynamic>{};
-
-  static Map<String, dynamic> get([List<void Function(_StandardQueryParams sqp)>? callbacks]) {
-    final sqp = _StandardQueryParams();
-    if (callbacks != null) {
-      for (var cb in callbacks) {
-        cb(sqp);
-      }
-    }
-    return sqp._map;
-  }
-
-  void sortDescending(bool? sortDescending) {
-    if (sortDescending != null) {
-      _map['sortDescending'] = sortDescending;
-    }
-  }
-
-  void sortType(String? sortType) {
-    if (sortType != null) {
-      _map['sortType'] = sortType;
-    }
-  }
-
-  void offset(int? offset) {
-    if (offset != null) {
-      _map['offset'] = offset;
-    }
-  }
-
-  void cursor(String? cursor) {
-    if (cursor != null) {
-      _map['cursor'] = cursor;
-    }
   }
 }

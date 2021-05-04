@@ -4,9 +4,7 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/address_book.dart' as api_mod;
 import 'package:test/test.dart';
 
-const addressBookItemJson =
-    r'{"EmailLower":"","Name":"Accounting","TenantMemberID":"","RoleID":"bpetMevFgCmg4ex6ghJD","FieldID":"","FormTemplateID":"","FormTemplateName":"","FormTemplateFieldID":""}';
-const addressBookJson = '[$addressBookItemJson]';
+import '../api_model/address_book.dart';
 
 void main() {
   group('AddressBook & AddressBookItem Tests', () {

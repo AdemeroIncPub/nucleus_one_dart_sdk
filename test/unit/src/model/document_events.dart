@@ -4,11 +4,7 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_events.dart' as api_mod;
 import 'package:test/test.dart';
 
-import 'document_event.dart';
-
-const documentEventsJson = r'{"DocumentEvents":[' +
-    documentEventJson +
-    r'],"Cursor": "A","ReverseCursor":"B","PageSize":24}';
+import '../api_model/document_events.dart';
 
 void main() {
   group('DocumentEvents tests', () {

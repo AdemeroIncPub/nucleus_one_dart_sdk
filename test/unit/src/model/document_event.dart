@@ -4,8 +4,7 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_event.dart' as api_mod;
 import 'package:test/test.dart';
 
-const documentEventJson =
-    r'{"ID":"A","DocumentID":"B","CreatedOn":"2020-09-10T18:55:56.901688Z","CreatedByUserID":"C","CreatedByUserName":"D","CreatedByUserEmail":"E","Type":"Comment","DetailJson":"F"}';
+import '../api_model/document_event.dart';
 
 void main() {
   group('DocumentEvent tests', () {

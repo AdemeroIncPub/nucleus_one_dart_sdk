@@ -1,17 +1,14 @@
 import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/api_model/document_comments.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/document_comment.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:test/test.dart';
 
-import 'document_event.dart';
-
-const documentCommentsJson = r'{"DocumentEvents":[' +
-    documentEventJson +
-    r'],"Cursor":"A","ReverseCursor":"B","PageSize":24}';
+import '../api_model/document_comments.dart';
 
 void main() {
-  group('DocumentComments tests', () {
+  group('DocumentCommentCollection tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();
     });
@@ -21,18 +18,18 @@ void main() {
     });
 
     test('Serialization test', () {
-      void performTests(api_mod.DocumentComments apiModel) {
+      void performTests(api_mod.DocumentCommentCollection apiModel) {
         expect(apiModel.documentEvents!.length, 1);
         expect(apiModel.cursor, 'A');
         expect(apiModel.reverseCursor, 'B');
         expect(apiModel.pageSize, 24);
       }
 
-      final apiModelOrig = api_mod.DocumentComments.fromJson(jsonDecode(documentCommentsJson));
+      final apiModelOrig = api_mod.DocumentCommentCollection.fromJson(jsonDecode(documentCommentsJson));
       performTests(apiModelOrig);
 
       // Convert it to a model class then back again
-      final apiModelCycled = DocumentComments.fromApiModel(apiModelOrig).toApiModel();
+      final apiModelCycled = DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(apiModelOrig).results.toApiModel();
       performTests(apiModelCycled);
     });
   });

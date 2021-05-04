@@ -8,8 +8,8 @@ import '../../../src/assertions.dart';
 import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
-import 'dashboard_widget.dart';
-import 'address_book.dart';
+import '../api_model/address_book.dart';
+import '../api_model/dashboard_widget.dart';
 
 void main() {
   group('User class tests', () {
@@ -40,7 +40,7 @@ void main() {
       );
 
       // The following two tests test that individual parameters are set correct
-      
+
       await performHttpTest<AddressBook>(
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => getStandardTestUser().getAddressBook(
@@ -94,7 +94,7 @@ void main() {
     });
 
     test('getDashboardWidgets method test', () async {
-      await performHttpTest<DashboardWidgets>(
+      await performHttpTest<DashboardWidgetCollection>(
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => getStandardTestUser().getDashboardWidgets(),
         responseBody: dashboardWidgetsJson,
@@ -181,14 +181,14 @@ void main() {
           () => performHttpTest(
                 httpMethod: HttpMethods.POST,
                 httpCallCallback: () => getStandardTestUser().createDashboardWidgets(
-                    DashboardWidgets.fromApiModel(api_mod.DashboardWidgets())),
+                    DashboardWidgetCollection.fromApiModel(api_mod.DashboardWidgetCollection())),
                 responseBody: '',
                 expectedUrlPath: '',
                 expectedQueryParams: [],
               ),
           'widgets');
 
-      final dws = api_mod.DashboardWidgets()
+      final dws = api_mod.DashboardWidgetCollection()
         ..items = [
           api_mod.DashboardWidget()
             ..id = '1'
@@ -204,7 +204,7 @@ void main() {
       await performHttpTest(
         httpMethod: HttpMethods.POST,
         httpCallCallback: () =>
-            getStandardTestUser().createDashboardWidgets(DashboardWidgets.fromApiModel(dws)),
+            getStandardTestUser().createDashboardWidgets(DashboardWidgetCollection.fromApiModel(dws)),
         responseBody:
             '[{"ID":"1","TenantID":"2","TenantMemberID":"3","Type":"4","GridColumn":5.0,"ColumnRank":6.0,"Name":"7","Detail":"8","JsonData":"9"}]',
         expectedUrlPath: apiPaths.dashboardWidgets,
@@ -223,7 +223,7 @@ void main() {
           () => performHttpTest(
                 httpMethod: HttpMethods.PUT,
                 httpCallCallback: () => getStandardTestUser().updateDashboardWidgetRanks(
-                    DashboardWidgets.fromApiModel(api_mod.DashboardWidgets())),
+                    DashboardWidgetCollection.fromApiModel(api_mod.DashboardWidgetCollection())),
                 responseBody: '',
                 expectedUrlPath: '',
                 expectedQueryParams: [],
@@ -231,7 +231,7 @@ void main() {
           'widgets');
 
       // Test with valid request
-      final dws = api_mod.DashboardWidgets()
+      final dws = api_mod.DashboardWidgetCollection()
         ..items = [
           api_mod.DashboardWidget.forRankUpdate('abc', 0, 1),
           api_mod.DashboardWidget.forRankUpdate('def', 2, 3),
@@ -239,7 +239,7 @@ void main() {
       await performHttpTest(
         httpMethod: HttpMethods.PUT,
         httpCallCallback: () =>
-            getStandardTestUser().updateDashboardWidgetRanks(DashboardWidgets.fromApiModel(dws)),
+            getStandardTestUser().updateDashboardWidgetRanks(DashboardWidgetCollection.fromApiModel(dws)),
         responseBody:
             '[{"ID":"abc","GridColumn":0.0,"ColumnRank":1.0},{"ID":"def","GridColumn":2.0,"ColumnRank":3.0}]',
         expectedUrlPath: apiPaths.dashboardWidgets,

@@ -51,11 +51,11 @@ class User with NucleusOneAppDependent {
   }
 
   /// Gets all of the user's Dashboard widgets.
-  Future<mod.DashboardWidgets> getDashboardWidgets() async {
+  Future<mod.DashboardWidgetCollection> getDashboardWidgets() async {
     final responseBody =
         await http.executeGetRequestWithTextResponse(http.apiPaths.dashboardWidgets, app);
-    final apiModel = api_mod.DashboardWidgets.fromJson(jsonDecode(responseBody));
-    return mod.DashboardWidgets.fromApiModel(apiModel);
+    final apiModel = api_mod.DashboardWidgetCollection.fromJson(jsonDecode(responseBody));
+    return mod.DashboardWidgetCollection.fromApiModel(apiModel);
   }
 
   /// Deletes one or more of the user's Dashboard widgets.
@@ -89,7 +89,7 @@ class User with NucleusOneAppDependent {
 
   /// Updates the positions of one or more of the user's Dashboard widgets.  Only the widgets changing
   /// position should be provided.
-  Future<void> updateDashboardWidgetRanks(mod.DashboardWidgets widgets) async {
+  Future<void> updateDashboardWidgetRanks(mod.DashboardWidgetCollection widgets) async {
     assert(widgets.items.isNotEmpty);
 
     final bodyList = widgets.toApiModel().items;
@@ -114,7 +114,7 @@ class User with NucleusOneAppDependent {
   }
 
   /// Creates one or more Dashboard widgets for the user.
-  Future<void> createDashboardWidgets(mod.DashboardWidgets widgets) async {
+  Future<void> createDashboardWidgets(mod.DashboardWidgetCollection widgets) async {
     assert(widgets.items.isNotEmpty);
 
     final bodyList = widgets.toApiModel().items;

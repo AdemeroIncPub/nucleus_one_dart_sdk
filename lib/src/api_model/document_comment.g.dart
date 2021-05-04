@@ -1,13 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'document_comments.dart';
+part of 'document_comment.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentComments _$DocumentCommentsFromJson(Map<String, dynamic> json) {
-  return DocumentComments()
+DocumentCommentCollection _$DocumentCommentCollectionFromJson(
+    Map<String, dynamic> json) {
+  return DocumentCommentCollection()
     ..documentEvents = (json['DocumentEvents'] as List<dynamic>?)
         ?.map((e) => DocumentEvent.fromJson(e as Map<String, dynamic>))
         .toList()
@@ -16,7 +17,8 @@ DocumentComments _$DocumentCommentsFromJson(Map<String, dynamic> json) {
     ..pageSize = json['PageSize'] as int?;
 }
 
-Map<String, dynamic> _$DocumentCommentsToJson(DocumentComments instance) {
+Map<String, dynamic> _$DocumentCommentCollectionToJson(
+    DocumentCommentCollection instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
