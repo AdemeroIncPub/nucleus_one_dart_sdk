@@ -1,7 +1,28 @@
 import 'package:get_it/get_it.dart';
 
 import '../api_model/document_event.dart' as api_mod;
+import '../common/model.dart';
 import '../nucleus_one.dart';
+
+class DocumentEventCollection
+    extends EntityCollection<DocumentEvent, api_mod.DocumentEventCollection> {
+  DocumentEventCollection({
+    NucleusOneAppInternal? app,
+    List<DocumentEvent>? items,
+  }) : super(app: app, items: items);
+
+  @override
+  api_mod.DocumentEventCollection toApiModel() {
+    return api_mod.DocumentEventCollection()
+      ..documentEvents = items.map((x) => x.toApiModel()).toList();
+  }
+
+  // @override
+  // api_mod.DocumentEventCollection toApiModel<api_mod.DocumentEventCollection>() {
+  //   return api_mod.DocumentEventCollection()
+  //     ..documentEvents = items.map((x) => x.toApiModel()).toList();
+  // }
+}
 
 class DocumentEvent with NucleusOneAppDependent {
   DocumentEvent._(

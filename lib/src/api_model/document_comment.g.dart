@@ -11,10 +11,7 @@ DocumentCommentCollection _$DocumentCommentCollectionFromJson(
   return DocumentCommentCollection()
     ..documentEvents = (json['DocumentEvents'] as List<dynamic>?)
         ?.map((e) => DocumentEvent.fromJson(e as Map<String, dynamic>))
-        .toList()
-    ..cursor = json['Cursor'] as String?
-    ..reverseCursor = json['ReverseCursor'] as String?
-    ..pageSize = json['PageSize'] as int?;
+        .toList();
 }
 
 Map<String, dynamic> _$DocumentCommentCollectionToJson(
@@ -28,8 +25,5 @@ Map<String, dynamic> _$DocumentCommentCollectionToJson(
   }
 
   writeNotNull('DocumentEvents', instance.documentEvents);
-  writeNotNull('Cursor', instance.cursor);
-  writeNotNull('ReverseCursor', instance.reverseCursor);
-  writeNotNull('PageSize', instance.pageSize);
   return val;
 }

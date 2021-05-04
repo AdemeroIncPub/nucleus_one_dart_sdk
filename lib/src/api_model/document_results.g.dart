@@ -6,16 +6,16 @@ part of 'document_results.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentResults _$DocumentResultsFromJson(Map<String, dynamic> json) {
-  return DocumentResults()
+DocumentResultCollection _$DocumentResultCollectionFromJson(
+    Map<String, dynamic> json) {
+  return DocumentResultCollection()
     ..documents = (json['Documents'] as List<dynamic>?)
         ?.map((e) => Document.fromJson(e as Map<String, dynamic>))
-        .toList()
-    ..cursor = json['Cursor'] as String?
-    ..pageSize = json['PageSize'] as int?;
+        .toList();
 }
 
-Map<String, dynamic> _$DocumentResultsToJson(DocumentResults instance) {
+Map<String, dynamic> _$DocumentResultCollectionToJson(
+    DocumentResultCollection instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -25,7 +25,5 @@ Map<String, dynamic> _$DocumentResultsToJson(DocumentResults instance) {
   }
 
   writeNotNull('Documents', instance.documents);
-  writeNotNull('Cursor', instance.cursor);
-  writeNotNull('PageSize', instance.pageSize);
   return val;
 }

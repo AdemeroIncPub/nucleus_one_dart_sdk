@@ -1,22 +1,24 @@
 import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 
-import '../api_model/dashboard_widget.dart' as api_model;
+import '../api_model/dashboard_widget.dart' as api_mod;
 import '../nucleus_one.dart';
 
-class DashboardWidgetCollection extends EntityCollection<DashboardWidget> {
+class DashboardWidgetCollection
+    extends EntityCollection<DashboardWidget, api_mod.DashboardWidgetCollection> {
   DashboardWidgetCollection({
     NucleusOneAppInternal? app,
     List<DashboardWidget>? items,
   }) : super(app: app, items: items);
 
-  factory DashboardWidgetCollection.fromApiModel(api_model.DashboardWidgetCollection apiModel) {
+  factory DashboardWidgetCollection.fromApiModel(api_mod.DashboardWidgetCollection apiModel) {
     return DashboardWidgetCollection(
         items: apiModel.items.map((x) => DashboardWidget.fromApiModel(x)).toList());
   }
 
-  api_model.DashboardWidgetCollection toApiModel() {
-    return api_model.DashboardWidgetCollection()..items = items.map((x) => x.toApiModel()).toList();
+  @override
+  api_mod.DashboardWidgetCollection toApiModel() {
+    return api_mod.DashboardWidgetCollection()..items = items.map((x) => x.toApiModel()).toList();
   }
 }
 
@@ -35,7 +37,7 @@ class DashboardWidget with NucleusOneAppDependent {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
-  factory DashboardWidget.fromApiModel(api_model.DashboardWidget apiModel) {
+  factory DashboardWidget.fromApiModel(api_mod.DashboardWidget apiModel) {
     return DashboardWidget._(
         id: apiModel.id!,
         tenantID: apiModel.tenantID!,
@@ -66,8 +68,8 @@ class DashboardWidget with NucleusOneAppDependent {
 
   String jsonData;
 
-  api_model.DashboardWidget toApiModel() {
-    return api_model.DashboardWidget()
+  api_mod.DashboardWidget toApiModel() {
+    return api_mod.DashboardWidget()
       ..id = id
       ..tenantID = tenantID
       ..tenantMemberID = tenantMemberID

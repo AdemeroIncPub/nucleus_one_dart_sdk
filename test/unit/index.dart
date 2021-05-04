@@ -4,7 +4,6 @@ import 'src/api_model/dashboard_widget.dart' as api_mod__dashboard_widget;
 import 'src/api_model/document.dart' as api_mod__document;
 import 'src/api_model/document_comments.dart' as api_mod__document_comments;
 import 'src/api_model/document_event.dart' as api_mod__document_event;
-import 'src/api_model/document_events.dart' as api_mod__document_events;
 import 'src/api_model/document_results.dart' as api_mod__document_results;
 import 'src/api_model/user.dart' as api_mod__user;
 import 'src/model/tenant_permissions.dart' as mod__tenant_permissions;
@@ -13,7 +12,6 @@ import 'src/model/dashboard_widget.dart' as mod__dashboard_widget;
 import 'src/model/document.dart' as mod__document;
 import 'src/model/document_comment.dart' as mod__document_comments;
 import 'src/model/document_event.dart' as mod__document_event;
-import 'src/model/document_events.dart' as mod__document_events;
 import 'src/model/user.dart' as mod__user;
 import 'src/nucleus_one.dart' as n1;
 import 'src/common/string.dart' as common_string;
@@ -34,7 +32,6 @@ void _apiModelTests() {
   api_mod__document.main();
   api_mod__document_comments.main();
   api_mod__document_event.main();
-  api_mod__document_events.main();
   api_mod__document_results.main();
   api_mod__user.main();
 }
@@ -46,7 +43,6 @@ void _modelTests() {
   mod__document.main();
   mod__document_comments.main();
   mod__document_event.main();
-  mod__document_events.main();
   mod__user.main();
 }
 

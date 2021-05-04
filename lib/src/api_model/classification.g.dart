@@ -11,9 +11,7 @@ ClassificationCollection _$ClassificationCollectionFromJson(
   return ClassificationCollection()
     ..classifications = (json['ClassificationCollection'] as List<dynamic>?)
         ?.map((e) => Classification.fromJson(e as Map<String, dynamic>))
-        .toList()
-    ..cursor = json['Cursor'] as String?
-    ..pageSize = json['PageSize'] as int?;
+        .toList();
 }
 
 Map<String, dynamic> _$ClassificationCollectionToJson(
@@ -27,8 +25,6 @@ Map<String, dynamic> _$ClassificationCollectionToJson(
   }
 
   writeNotNull('ClassificationCollection', instance.classifications);
-  writeNotNull('Cursor', instance.cursor);
-  writeNotNull('PageSize', instance.pageSize);
   return val;
 }
 

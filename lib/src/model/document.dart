@@ -8,21 +8,27 @@ import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/document.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_content_package.dart' as api_mod;
-import '../api_model/document_events.dart' as api_mod;
+import '../api_model/document_event.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
+import '../api_model/query_result.dart' as api_mod;
 import '../common/path.dart' as path;
 import '../http.dart' as http;
-import '../model/document_content_package.dart' as mod;
 import '../nucleus_one.dart';
-import 'document_comment.dart' as mod;
-import 'document_events.dart' as mod;
+import 'document_comment.dart';
+import 'document_content_package.dart';
+import 'document_event.dart';
 import 'preview_metadata_item.dart';
+import 'query_result.dart';
 
-class DocumentCollection extends EntityCollection<Document> {
+class DocumentCollection extends EntityCollection<Document, void> {
   DocumentCollection({
     NucleusOneAppInternal? app,
     List<Document>? items,
   }) : super(app: app, items: items);
+
+  @override
+  void toApiModel() =>
+      throw UnsupportedError('toApiModel() is not supported for this collection type.');
 
   /// Gets the document count.
   ///
@@ -205,8 +211,9 @@ class DocumentCollection extends EntityCollection<Document> {
       app,
       query: qp,
     );
-    final drApi = api_mod.DocumentResults.fromJson(jsonDecode(responseBody));
-    return DocumentCollectionQueryResult.fromApiModelDocumentResults(drApi);
+    final apiModel =
+        api_mod.QueryResult<api_mod.DocumentResultCollection>.fromJson(jsonDecode(responseBody));
+    return DocumentCollectionQueryResult.fromApiModelDocumentResultCollection(apiModel);
   }
 
   /// Gets comments for a document, by page.
@@ -216,7 +223,7 @@ class DocumentCollection extends EntityCollection<Document> {
   /// [sortDescending]: Sort order.
   ///
   /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  Future<QueryResult2<mod.DocumentCommentCollection>> getComments({
+  Future<QueryResult2<DocumentCommentCollection>> getComments({
     required String documentId,
     bool sortDescending = true,
     String? cursor,
@@ -231,8 +238,9 @@ class DocumentCollection extends EntityCollection<Document> {
       app,
       query: qp,
     );
-    final dl = api_mod.DocumentCommentCollection.fromJson(jsonDecode(responseBody));
-    return DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(dl);
+    final apiModel =
+        api_mod.QueryResult2<api_mod.DocumentCommentCollection>.fromJson(jsonDecode(responseBody));
+    return DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(apiModel);
   }
 
   /// Posts comments for a document.
@@ -258,7 +266,7 @@ class DocumentCollection extends EntityCollection<Document> {
   /// [sortDescending]: Sort order.
   ///
   /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  Future<mod.DocumentEvents> getEvents({
+  Future<QueryResult2<DocumentEventCollection>> getEvents({
     required String documentId,
     bool sortDescending = true,
     String? cursor,
@@ -273,8 +281,10 @@ class DocumentCollection extends EntityCollection<Document> {
       app,
       query: qp,
     );
-    final dl = api_mod.DocumentEvents.fromJson(jsonDecode(responseBody));
-    return mod.DocumentEvents.fromApiModel(dl);
+    final apiModel =
+        api_mod.QueryResult2<api_mod.DocumentEventCollection>.fromJson(jsonDecode(responseBody));
+
+    return DocumentEventCollectionQueryResult.fromApiModelDocumentEventCollection(apiModel);
   }
 
   /// Restores one or more documents from the Recycle Bin.
@@ -306,7 +316,7 @@ class DocumentCollection extends EntityCollection<Document> {
   /// Returns information needed to download a document.
   ///
   /// [documentId]: The document id to process.
-  Future<mod.DocumentContentPackage> getDocumentContentPackage(String documentId) async {
+  Future<DocumentContentPackage> getDocumentContentPackage(String documentId) async {
     final qp = http.StandardQueryParams.get();
     qp['displayInline'] = 'false';
     qp['preview'] = 'false';
@@ -319,8 +329,8 @@ class DocumentCollection extends EntityCollection<Document> {
       app,
       query: qp,
     );
-    final dcp = api_mod.DocumentContentPackage.fromJson(jsonDecode(responseBody));
-    return mod.DocumentContentPackage.fromApiModel(dcp);
+    final apiModel = api_mod.DocumentContentPackage.fromJson(jsonDecode(responseBody));
+    return DocumentContentPackage.fromApiModel(apiModel);
   }
 
   /// Downloads a document to disk.

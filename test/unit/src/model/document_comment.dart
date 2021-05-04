@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_comment.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:test/test.dart';
 
@@ -18,18 +19,25 @@ void main() {
     });
 
     test('Serialization test', () {
-      void performTests(api_mod.DocumentCommentCollection apiModel) {
-        expect(apiModel.documentEvents!.length, 1);
+      void performTests(api_mod.QueryResult2<api_mod.DocumentCommentCollection> apiModel) {
+        expect(apiModel.results!.documentEvents!.length, 1);
         expect(apiModel.cursor, 'A');
         expect(apiModel.reverseCursor, 'B');
         expect(apiModel.pageSize, 24);
       }
 
-      final apiModelOrig = api_mod.DocumentCommentCollection.fromJson(jsonDecode(documentCommentsJson));
+      var apiModelOrig = api_mod.QueryResult2<api_mod.DocumentCommentCollection>.fromJson(
+          jsonDecode(documentCommentsJson));
       performTests(apiModelOrig);
 
+      final a =
+          DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(apiModelOrig);
+      final b = a.toApiModel();
+
       // Convert it to a model class then back again
-      final apiModelCycled = DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(apiModelOrig).results.toApiModel();
+      final api_mod.QueryResult2<api_mod.DocumentCommentCollection> apiModelCycled =
+          DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(apiModelOrig)
+              .toApiModel<api_mod.DocumentCommentCollection>();
       performTests(apiModelCycled);
     });
   });

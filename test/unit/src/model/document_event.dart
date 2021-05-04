@@ -2,11 +2,42 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_event.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:test/test.dart';
 
 import '../api_model/document_event.dart';
 
 void main() {
+  group('DocumentEventCollection tests', () {
+    setUp(() async {
+      await NucleusOne.intializeSdk();
+    });
+
+    tearDown(() async {
+      await NucleusOne.resetSdk();
+    });
+
+    test('Serialization test', () {
+      void performTests(api_mod.QueryResult2<api_mod.DocumentEventCollection> apiModel) {
+        expect(apiModel.results!.documentEvents!.length, 1);
+        expect(apiModel.cursor, 'A');
+        expect(apiModel.reverseCursor, 'B');
+        expect(apiModel.pageSize, 24);
+      }
+
+      final apiModelOrig = api_mod.QueryResult2<api_mod.DocumentEventCollection>.fromJson(
+          jsonDecode(documentEventsJson));
+      performTests(apiModelOrig);
+
+      // Convert it to a model class then back again
+      final apiModelCycled =
+          DocumentEventCollectionQueryResult.fromApiModelDocumentEventCollection(apiModelOrig)
+              .toApiModel<api_mod.DocumentEventCollection>();
+      performTests(apiModelCycled);
+    });
+  });
+
   group('DocumentEvent tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();

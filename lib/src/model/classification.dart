@@ -1,25 +1,16 @@
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 
 import '../api_model/classification.dart' as api_mod;
+import '../api_model/query_result.dart' as api_mod;
+import '../common/model.dart';
 import '../http.dart' as http;
 import '../nucleus_one.dart';
+import 'query_result.dart';
 
-abstract class _ClassificationCollectionQueryResult {
-  static QueryResult<ClassificationCollection> fromApiModelClassificationCollection(
-      api_mod.ClassificationCollection apiModel) {
-    return QueryResult(
-      results: ClassificationCollection(
-          items: apiModel.classifications!.map((x) => Classification.fromApiModel(x)).toList()),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
-  }
-}
-
-class ClassificationCollection extends EntityCollection<Classification> {
+class ClassificationCollection
+    extends EntityCollection<Classification, api_mod.ClassificationCollection> {
   ClassificationCollection({
     NucleusOneAppInternal? app,
     List<Classification>? items,
@@ -64,8 +55,23 @@ class ClassificationCollection extends EntityCollection<Classification> {
       app,
       query: qp,
     );
-    final api = api_mod.ClassificationCollection.fromJson(jsonDecode(responseBody));
-    return _ClassificationCollectionQueryResult.fromApiModelClassificationCollection(api);
+    final apiModel =
+        api_mod.QueryResult<api_mod.ClassificationCollection>.fromJson(jsonDecode(responseBody));
+
+    return QueryResult(
+      results: ClassificationCollection(
+          items: apiModel.results!.classifications!
+              .map((x) => Classification.fromApiModel(x))
+              .toList()),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+
+  @override
+  api_mod.ClassificationCollection toApiModel() {
+    return api_mod.ClassificationCollection()
+      ..classifications = items.map((x) => x.toApiModel()).toList();
   }
 }
 

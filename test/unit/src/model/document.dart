@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
@@ -11,7 +10,7 @@ import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/document.dart';
 import '../api_model/document_comments.dart';
-import '../api_model/document_events.dart';
+import '../api_model/document_event.dart';
 import '../api_model/document_results.dart';
 
 void main() {
@@ -282,15 +281,15 @@ void main() {
         expectedQueryParams: ['sortDescending=true'],
       );
 
-      // Test with custom sorting and optional arguments
-      await performHttpTest(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () =>
-            DocumentCollection().getEvents(documentId: '123', sortDescending: false, cursor: 'A'),
-        responseBody: documentEventsJson,
-        expectedUrlPath: expectedUrlPath,
-        expectedQueryParams: ['sortDescending=false', 'cursor=A'],
-      );
+      // // Test with custom sorting and optional arguments
+      // await performHttpTest(
+      //   httpMethod: HttpMethods.GET,
+      //   httpCallCallback: () =>
+      //       DocumentCollection().getEvents(documentId: '123', sortDescending: false, cursor: 'A'),
+      //   responseBody: documentEventsJson,
+      //   expectedUrlPath: expectedUrlPath,
+      //   expectedQueryParams: ['sortDescending=false', 'cursor=A'],
+      // );
     });
 
     test('restoreFromRecycleBin method tests', () async {

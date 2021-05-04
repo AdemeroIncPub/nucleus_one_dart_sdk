@@ -1,5 +1,8 @@
 const documentEventJson =
     r'{"ID":"A","DocumentID":"B","CreatedOn":"2020-09-10T18:55:56.901688Z","CreatedByUserID":"C","CreatedByUserName":"D","CreatedByUserEmail":"E","Type":"Comment","DetailJson":"F"}';
+const documentEventsJson = r'{"DocumentEvents":[' +
+    documentEventJson +
+    r'],"Cursor":"A","ReverseCursor":"B","PageSize":24}';
 
 void main() {
   /*

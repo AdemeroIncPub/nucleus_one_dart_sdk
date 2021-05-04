@@ -9,7 +9,7 @@ class ClassificationCollection {
   ClassificationCollection();
 
   /// A necessary factory constructor for creating a new ClassificationCollection instance
-  /// from a map. Pass the map to the generated [_$ClassificationCollectionFromJson()] constructor.
+  /// from a map. Pass the map to the generated [_$DocumentCommentsFromJson()] constructor.
   /// The constructor is named after the source class, in this case, ClassificationCollection.
   factory ClassificationCollection.fromJson(Map<String, dynamic> json) =>
       _$ClassificationCollectionFromJson(json);
@@ -17,16 +17,10 @@ class ClassificationCollection {
   @JsonKey(name: 'ClassificationCollection')
   List<Classification>? classifications;
 
-  @JsonKey(name: 'Cursor')
-  String? cursor;
-
-  @JsonKey(name: 'PageSize')
-  int? pageSize;
-
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated
-  /// helper method [_$ClassificationCollectionToJson].
+  /// helper method [_$DocumentCommentsToJson].
   Map<String, dynamic> toJson() => _$ClassificationCollectionToJson(this);
   // coverage:ignore-end
 }
