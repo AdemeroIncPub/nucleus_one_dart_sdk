@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:file/file.dart' as file;
+import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/src/user.dart';
@@ -26,6 +28,7 @@ abstract class NucleusOne {
     // now, it won't be a breaking change when we do introduce the need to await within this method.
 
     _getIt.registerSingleton<NucleusOneApp>(NucleusOneAppUninitialized());
+    _getIt.registerSingleton<file.FileSystem>(const file.LocalFileSystem());
   }
 
   /// Resets the SDK to its initial state.
@@ -36,6 +39,7 @@ abstract class NucleusOne {
     // now, it won't be a breaking change when we do introduce the need to await within this method.
 
     _getIt.unregister<NucleusOneApp>();
+    _getIt.unregister<file.FileSystem>();
   }
 
   /// Initializes a new [NucleusOneApp] instance with [options] and returns the created app.

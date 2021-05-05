@@ -30,10 +30,6 @@ void main() {
           jsonDecode(documentCommentsJson));
       performTests(apiModelOrig);
 
-      final a =
-          DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(apiModelOrig);
-      final b = a.toApiModel();
-
       // Convert it to a model class then back again
       final api_mod.QueryResult2<api_mod.DocumentCommentCollection> apiModelCycled =
           DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(apiModelOrig)

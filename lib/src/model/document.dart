@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
@@ -11,7 +10,6 @@ import '../api_model/document_content_package.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
-import '../common/path.dart' as path;
 import '../http.dart' as http;
 import '../nucleus_one.dart';
 import 'document_comment.dart';
@@ -331,24 +329,6 @@ class DocumentCollection extends EntityCollection<Document, void> {
     );
     final apiModel = api_mod.DocumentContentPackage.fromJson(jsonDecode(responseBody));
     return DocumentContentPackage.fromApiModel(apiModel);
-  }
-
-  /// Downloads a document to disk.
-  ///
-  /// [documentId]: The document id to process.
-  ///
-  /// [destinationDirectory]: The directory in which to save the downloaded file.
-  Future<String> download(String documentId, String destinationDirectory) async {
-    final dcp = await getDocumentContentPackage(documentId);
-    final destFilePath = path.combine(destinationDirectory, dcp.name);
-
-    // Download the package to disk
-    final request = await HttpClient().getUrl(Uri.parse(dcp.url));
-    final response = await request.close();
-    final fileStream = File(destFilePath).openWrite();
-    await response.pipe(fileStream);
-
-    return destFilePath;
   }
 }
 

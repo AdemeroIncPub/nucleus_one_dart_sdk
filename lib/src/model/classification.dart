@@ -30,18 +30,12 @@ class ClassificationCollection
   ///
   /// [singleRecord]: Limits the results to a single document.
   Future<QueryResult<ClassificationCollection>> get({
-    String sortType = 'CreatedOn',
-    bool sortDescending = true,
-    int? offset,
     String? cursor,
     bool? getAll,
     bool? includeDisabled,
   }) async {
     final qp = http.StandardQueryParams.get([
-      // (sqp) => sqp.sortType(sortType),
-      // (sqp) => sqp.sortDescending(sortDescending),
-      // (sqp) => sqp.cursor(cursor),
-      // (sqp) => sqp.offset(offset),
+      (sqp) => sqp.cursor(cursor),
     ]);
     if (getAll != null) {
       qp['getAll'] = getAll;

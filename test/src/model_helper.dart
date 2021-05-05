@@ -1,3 +1,4 @@
+import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:test/test.dart';
 
@@ -13,13 +14,18 @@ Future<void> performHttpTest<T>({
   String? expectedBody,
   void Function(T modelEntity)? additionalValidationsCallback,
 }) async {
-  var result = await createMockHttpClientScopeForGetRequest(
+  final result = await createMockHttpClientScopeForGetRequest(
     callback: () async {
       final modelEntity = await httpCallCallback();
-      if (modelEntity is IModelPagingCursor2) {
-        validateIModelPagingCursor2(modelEntity, 'A', 24, 'B');
-      } else if (modelEntity is IModelPagingCursor) {
-        validateIModelPagingCursor(modelEntity, 'A', 24);
+
+      // If T isn't the void type then the returned value should be an instance of T
+      if (T.toString() != 'void') {
+        expect(modelEntity, isNotNull);
+      }
+      if (modelEntity is QueryResult2) {
+        validateQueryResult2(modelEntity, 'A', 24, 'B');
+      } else if (modelEntity is QueryResult) {
+        validateQueryResult(modelEntity, 'A', 24);
       }
       if (additionalValidationsCallback != null) {
         additionalValidationsCallback(modelEntity);
@@ -56,13 +62,12 @@ void validateIApiModelPagingCursor2(
   expect(o.reverseCursor, reverseCursor);
 }
 
-void validateIModelPagingCursor(IModelPagingCursor o, dynamic cursor, dynamic pageSize) {
+void validateQueryResult(QueryResult o, dynamic cursor, dynamic pageSize) {
   expect(o.cursor, cursor);
   expect(o.pageSize, pageSize);
 }
 
-void validateIModelPagingCursor2(
-    IModelPagingCursor2 o, dynamic cursor, dynamic pageSize, dynamic reverseCursor) {
-  validateIModelPagingCursor(o, cursor, pageSize);
+void validateQueryResult2(QueryResult2 o, dynamic cursor, dynamic pageSize, dynamic reverseCursor) {
+  validateQueryResult(o, cursor, pageSize);
   expect(o.reverseCursor, reverseCursor);
 }

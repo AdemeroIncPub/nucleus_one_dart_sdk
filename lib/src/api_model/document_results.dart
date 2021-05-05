@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 
 import 'document.dart';
 

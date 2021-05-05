@@ -9,7 +9,7 @@ part of 'classification.dart';
 ClassificationCollection _$ClassificationCollectionFromJson(
     Map<String, dynamic> json) {
   return ClassificationCollection()
-    ..classifications = (json['ClassificationCollection'] as List<dynamic>?)
+    ..classifications = (json['Classifications'] as List<dynamic>?)
         ?.map((e) => Classification.fromJson(e as Map<String, dynamic>))
         .toList();
 }
@@ -24,7 +24,7 @@ Map<String, dynamic> _$ClassificationCollectionToJson(
     }
   }
 
-  writeNotNull('ClassificationCollection', instance.classifications);
+  writeNotNull('Classifications', instance.classifications);
   return val;
 }
 

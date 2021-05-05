@@ -9,6 +9,7 @@ export 'src/model/classification.dart';
 export 'src/model/dashboard_widget.dart';
 export 'src/model/document.dart';
 export 'src/model/document_comment.dart';
+export 'src/model/document_content_package.dart';
 export 'src/model/document_event.dart';
 export 'src/model/preview_metadata_item.dart';
 export 'src/model/query_result.dart';

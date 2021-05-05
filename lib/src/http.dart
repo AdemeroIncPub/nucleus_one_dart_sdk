@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:file/file.dart' as file;
+import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
@@ -182,6 +184,21 @@ Future<void> executePutRequest(
 }) async {
   await _executeStandardHttpRequest(
       authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.put);
+}
+
+/// Downloads a file to disk.
+///
+/// [documentId]: The document id to process.
+///
+/// [destinationDirectory]: The directory in which to save the downloaded file.
+Future<String> download(String url, String destFilePath) async {
+  final request = await HttpClient().getUrl(Uri.parse(url));
+  final response = await request.close();
+  final fs = GetIt.instance.get<file.FileSystem>();
+  final fileStream = fs.file(destFilePath).openWrite();
+  await response.pipe(fileStream);
+
+  return destFilePath;
 }
 
 abstract class apiPaths {

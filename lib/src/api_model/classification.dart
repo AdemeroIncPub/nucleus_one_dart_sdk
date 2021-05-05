@@ -9,12 +9,12 @@ class ClassificationCollection {
   ClassificationCollection();
 
   /// A necessary factory constructor for creating a new ClassificationCollection instance
-  /// from a map. Pass the map to the generated [_$DocumentCommentsFromJson()] constructor.
+  /// from a map. Pass the map to the generated [_$ClassificationCollectionFromJson()] constructor.
   /// The constructor is named after the source class, in this case, ClassificationCollection.
   factory ClassificationCollection.fromJson(Map<String, dynamic> json) =>
       _$ClassificationCollectionFromJson(json);
 
-  @JsonKey(name: 'ClassificationCollection')
+  @JsonKey(name: 'Classifications')
   List<Classification>? classifications;
 
   // coverage:ignore-start

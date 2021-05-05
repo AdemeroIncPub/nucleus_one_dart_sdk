@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:file/file.dart' as file;
+import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
@@ -20,9 +22,14 @@ void main() {
         await NucleusOne.intializeSdk();
         expect(getIt.isRegistered<NucleusOneApp>(), isTrue);
         expect(getIt.get<NucleusOneApp>(), isA<NucleusOneAppUninitialized>());
+        expect(getIt.isRegistered<file.FileSystem>(), isTrue);
+        expect(getIt.get<file.FileSystem>(), isA<file.LocalFileSystem>());
       } finally {
         if (getIt.isRegistered<NucleusOneApp>()) {
           getIt.unregister<NucleusOneApp>(instance: getIt.get<NucleusOneApp>());
+        }
+        if (getIt.isRegistered<file.FileSystem>()) {
+          getIt.unregister<file.FileSystem>(instance: getIt.get<file.FileSystem>());
         }
       }
     });
@@ -100,7 +107,14 @@ void main() {
       expect(auth.app, n1App);
     });
 
-    test('document method tests', () {
+    test('classifications method tests', () {
+      final n1App = getStandardN1App();
+
+      final c = n1App.classifications();
+      expect(c.app, n1App);
+    });
+
+    test('documents method tests', () {
       final n1App = getStandardN1App();
 
       final doc = n1App.documents();
