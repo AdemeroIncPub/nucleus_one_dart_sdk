@@ -11,6 +11,11 @@ class DocumentCommentCollection
     List<DocumentEvent>? items,
   }) : super(app: app, items: items);
 
+  factory DocumentCommentCollection.fromApiModel(api_mod.DocumentCommentCollection apiModel) {
+    return DocumentCommentCollection(
+        items: apiModel.documentEvents?.map((x) => DocumentEvent.fromApiModel(x)).toList());
+  }
+
   @override
   api_mod.DocumentCommentCollection toApiModel() {
     return api_mod.DocumentCommentCollection()

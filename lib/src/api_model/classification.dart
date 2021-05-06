@@ -20,7 +20,7 @@ class ClassificationCollection {
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated
-  /// helper method [_$DocumentCommentsToJson].
+  /// helper method [_$ClassificationCollectionToJson].
   Map<String, dynamic> toJson() => _$ClassificationCollectionToJson(this);
   // coverage:ignore-end
 }

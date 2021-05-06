@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
+import 'package:meta/meta.dart';
 
 import '../api_model/classification.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
@@ -16,7 +17,10 @@ class ClassificationCollection
     List<Classification>? items,
   }) : super(app: app, items: items);
 
-  // https://client-api.multi-tenant-dms-staging.com/api/v1/classifications?getAll=true&includeDisabled=true
+  factory ClassificationCollection.fromApiModel(api_mod.ClassificationCollection apiModel) {
+    return ClassificationCollection(
+        items: apiModel.classifications?.map((x) => Classification.fromApiModel(x)).toList());
+  }
 
   /// Gets recent documents, by page.
   ///
@@ -33,6 +37,8 @@ class ClassificationCollection
     String? cursor,
     bool? getAll,
     bool? includeDisabled,
+    String? filter,
+    List<FieldFilter>? fieldFilters,
   }) async {
     final qp = http.StandardQueryParams.get([
       (sqp) => sqp.cursor(cursor),
@@ -42,6 +48,14 @@ class ClassificationCollection
     }
     if (includeDisabled != null) {
       qp['includeDisabled'] = includeDisabled;
+    }
+    if (filter != null) {
+      qp['filter'] = filter;
+    }
+    if (fieldFilters != null) {
+      for (var ff in fieldFilters) {
+        qp.addAll(ff.toQueryStringParams());
+      }
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
@@ -106,5 +120,29 @@ class Classification with NucleusOneAppDependent {
       ..name = name
       ..nameLower = nameLower
       ..isActive = isActive;
+  }
+}
+
+@immutable
+class FieldFilter {
+  final int itemIndex;
+  final String id;
+  final String value;
+  final String type;
+  final String valueType;
+
+  FieldFilter(this.itemIndex, this.id, this.value, this.type, this.valueType);
+
+  Map<String, String> toQueryStringParams() {
+    final idLocal = Uri.encodeComponent(id);
+    final valueLocal = Uri.encodeComponent(value);
+    final typeLocal = Uri.encodeComponent(type);
+    final valueTypeLocal = Uri.encodeComponent(valueType);
+    return {
+      'fieldID$itemIndex': idLocal,
+      'fieldValue$itemIndex': valueLocal,
+      'fieldType$itemIndex': typeLocal,
+      'fieldValueType$itemIndex': valueTypeLocal,
+    };
   }
 }

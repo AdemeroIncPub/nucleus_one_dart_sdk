@@ -79,14 +79,31 @@ void main() {
       // Test with cursor and optional arguments
       await performHttpTest<QueryResult<ClassificationCollection>>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () =>
-            ClassificationCollection().get(cursor: 'A', getAll: true, includeDisabled: false),
+        httpCallCallback: () => ClassificationCollection().get(
+          cursor: 'A',
+          getAll: true,
+          includeDisabled: false,
+          filter: 'B',
+          fieldFilters: [
+            FieldFilter(0, 'fi0', 'fv0', 'ft0', 'fvt0'),
+            FieldFilter(1, 'fi1', 'fv1', 'ft1', 'fvt1'),
+          ],
+        ),
         responseBody: classificationCollectionJson,
         expectedUrlPath: expectedUrlPath,
         expectedQueryParams: [
           'cursor=A',
           'getAll=true',
           'includeDisabled=false',
+          'filter=B',
+          'fieldID0=fi0',
+          'fieldValue0=fv0',
+          'fieldType0=ft0',
+          'fieldValueType0=fvt0',
+          'fieldID1=fi1',
+          'fieldValue1=fv1',
+          'fieldType1=ft1',
+          'fieldValueType1=fvt1',
         ],
       );
     });
