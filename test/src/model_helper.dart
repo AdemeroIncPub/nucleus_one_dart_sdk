@@ -1,65 +1,43 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:test/test.dart';
 
-import 'common.dart';
-import 'mocks/http.dart';
+import 'http_helper.dart' as http_helper;
 
 Future<void> performHttpTest<T>({
   required String httpMethod,
   required Future<T> Function() httpCallCallback,
   required String responseBody,
+  Map<String, String>? responseCookies,
   required String expectedUrlPath,
   required List<String> expectedQueryParams,
   String? expectedBody,
-  void Function(T modelEntity)? additionalValidationsCallback,
+  void Function(T resultEntity)? additionalValidationsCallback,
 }) async {
-  final result = await createMockHttpClientScopeForGetRequest(
-    callback: () async {
-      final modelEntity = await httpCallCallback();
-
+  // Use the stock performHttpTest method, passing in additional tests specific to the model
+  return http_helper.performHttpTest<T>(
+    httpMethod: httpMethod,
+    httpCallCallback: httpCallCallback,
+    responseBody: responseBody,
+    responseCookies: responseCookies,
+    expectedUrlPath: expectedUrlPath,
+    expectedQueryParams: expectedQueryParams,
+    expectedBody: expectedBody,
+    additionalValidationsCallback: (resultEntity) {
       // If T isn't the void type then the returned value should be an instance of T
       if (T.toString() != 'void') {
-        expect(modelEntity, isNotNull);
+        expect(resultEntity, isNotNull);
       }
-      if (modelEntity is QueryResult2) {
-        validateQueryResult2(modelEntity, 'A', 24, 'B');
-      } else if (modelEntity is QueryResult) {
-        validateQueryResult(modelEntity, 'A', 24);
+      if (resultEntity is QueryResult2) {
+        validateQueryResult2(resultEntity, 'A', 24, 'B');
+      } else if (resultEntity is QueryResult) {
+        validateQueryResult(resultEntity, 'A', 24);
       }
+
       if (additionalValidationsCallback != null) {
-        additionalValidationsCallback(modelEntity);
+        additionalValidationsCallback(resultEntity);
       }
     },
-    responseBody: responseBody,
   );
-
-  expect(result.request.method, httpMethod);
-  expect(result.request.uri.path, apiRequestPathMatches(expectedUrlPath));
-  expect(result.request.uri.queryParameters.length, expectedQueryParams.length,
-      reason: 'Details:\r\n  Expected (in any order): ' +
-          expectedQueryParams.join(',') +
-          '\r\n  Actual: ' +
-          result.request.uri.queryParameters.entries.map((x) => x.key + '=' + x.value).join(','));
-  if (expectedBody != null) {
-    expect(result.request.getBodyAsString(), expectedBody);
-  }
-
-  final reqUriQuery = result.request.uri.query;
-  for (var expectedQP in expectedQueryParams) {
-    expect(reqUriQuery, matches('\\b' + expectedQP + '\\b'));
-  }
-}
-
-void validateIApiModelPagingCursor(IApiModelPagingCursor o, dynamic cursor, dynamic pageSize) {
-  expect(o.cursor, cursor);
-  expect(o.pageSize, pageSize);
-}
-
-void validateIApiModelPagingCursor2(
-    IApiModelPagingCursor2 o, dynamic cursor, dynamic pageSize, dynamic reverseCursor) {
-  validateIApiModelPagingCursor(o, cursor, pageSize);
-  expect(o.reverseCursor, reverseCursor);
 }
 
 void validateQueryResult(QueryResult o, dynamic cursor, dynamic pageSize) {

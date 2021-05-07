@@ -1,7 +1,8 @@
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:test/test.dart';
 
+import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/dashboard_widget.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/user_profile.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/http.dart';
 
 import '../../../src/assertions.dart';
@@ -10,6 +11,7 @@ import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/address_book.dart';
 import '../api_model/dashboard_widget.dart';
+import '../api_model/user_profile.dart';
 
 void main() {
   group('User class tests', () {
@@ -203,8 +205,8 @@ void main() {
         ];
       await performHttpTest(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () =>
-            getStandardTestUser().createDashboardWidgets(DashboardWidgetCollection.fromApiModel(dws)),
+        httpCallCallback: () => getStandardTestUser()
+            .createDashboardWidgets(DashboardWidgetCollection.fromApiModel(dws)),
         responseBody:
             '[{"ID":"1","TenantID":"2","TenantMemberID":"3","Type":"4","GridColumn":5.0,"ColumnRank":6.0,"Name":"7","Detail":"8","JsonData":"9"}]',
         expectedUrlPath: apiPaths.dashboardWidgets,
@@ -238,12 +240,39 @@ void main() {
         ];
       await performHttpTest(
         httpMethod: HttpMethods.PUT,
-        httpCallCallback: () =>
-            getStandardTestUser().updateDashboardWidgetRanks(DashboardWidgetCollection.fromApiModel(dws)),
+        httpCallCallback: () => getStandardTestUser()
+            .updateDashboardWidgetRanks(DashboardWidgetCollection.fromApiModel(dws)),
         responseBody:
             '[{"ID":"abc","GridColumn":0.0,"ColumnRank":1.0},{"ID":"def","GridColumn":2.0,"ColumnRank":3.0}]',
         expectedUrlPath: apiPaths.dashboardWidgets,
         expectedQueryParams: ['onlyRank=true'],
+      );
+    });
+
+    test('getProfile method test', () async {
+      await performHttpTest<UserProfile>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => getStandardTestUser().getProfile(),
+        responseBody: userProfileJson,
+        expectedUrlPath: apiPaths.userProfile,
+        expectedQueryParams: [],
+      );
+    });
+
+    test('updateProfile method test', () async {
+      final up = api_mod.UserProfile()
+        ..userProvider = 'A'
+        ..userEmail = 'B'
+        ..userName = 'C'
+        ..otpsmsNumber = 'D';
+
+      await performHttpTest(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () => getStandardTestUser().updateProfile(UserProfile.fromApiModel(up)),
+        responseBody: '',
+        expectedUrlPath: apiPaths.userProfile,
+        expectedQueryParams: [],
+        expectedBody: '{"UserProvider":"A","UserEmail":"B","UserName":"C","OTPSMSNumber":"D"}',
       );
     });
   });

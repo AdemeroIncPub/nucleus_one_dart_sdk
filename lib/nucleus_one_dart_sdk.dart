@@ -13,3 +13,4 @@ export 'src/model/document_content_package.dart';
 export 'src/model/document_event.dart';
 export 'src/model/preview_metadata_item.dart';
 export 'src/model/query_result.dart';
+export 'src/model/user_profile.dart';

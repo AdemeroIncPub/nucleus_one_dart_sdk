@@ -39,6 +39,7 @@ class ClassificationCollection
     bool? includeDisabled,
     String? filter,
     List<FieldFilter>? fieldFilters,
+    List<String>? includeClassificationIds,
   }) async {
     final qp = http.StandardQueryParams.get([
       (sqp) => sqp.cursor(cursor),
@@ -53,9 +54,12 @@ class ClassificationCollection
       qp['filter'] = filter;
     }
     if (fieldFilters != null) {
-      for (var ff in fieldFilters) {
-        qp.addAll(ff.toQueryStringParams());
+      for (var count = fieldFilters.length, i = 0; i < count; ++i) {
+        qp.addAll(fieldFilters[i].toQueryStringParams(i));
       }
+    }
+    if ((includeClassificationIds != null) && includeClassificationIds.isNotEmpty) {
+      qp['includeClassificationIds_json'] = jsonEncode(includeClassificationIds);
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
@@ -125,15 +129,14 @@ class Classification with NucleusOneAppDependent {
 
 @immutable
 class FieldFilter {
-  final int itemIndex;
   final String id;
   final String value;
   final String type;
   final String valueType;
 
-  FieldFilter(this.itemIndex, this.id, this.value, this.type, this.valueType);
+  FieldFilter(this.id, this.value, this.type, this.valueType);
 
-  Map<String, String> toQueryStringParams() {
+  Map<String, String> toQueryStringParams(int itemIndex) {
     final idLocal = Uri.encodeComponent(id);
     final valueLocal = Uri.encodeComponent(value);
     final typeLocal = Uri.encodeComponent(type);

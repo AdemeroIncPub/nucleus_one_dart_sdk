@@ -147,10 +147,25 @@ Future<String> executeGetRequestWithTextResponse(
   String? body,
   bool authenticated = true,
 }) async {
-  final clientResponse = await _executeStandardHttpRequest(
+  HttpClientResponse clientResponse =
+      await _executeGetRequestInternal(authenticated, app, apiRelativeUrlPath, query, body);
+  return await clientResponse.transform(utf8.decoder).join();
+}
+
+Future<void> executeGetRequest(
+  String apiRelativeUrlPath,
+  NucleusOneAppInternal app, {
+  Map<String, dynamic>? query,
+  String? body,
+  bool authenticated = true,
+}) async {
+  await _executeGetRequestInternal(authenticated, app, apiRelativeUrlPath, query, body);
+}
+
+Future<HttpClientResponse> _executeGetRequestInternal(bool authenticated, NucleusOneAppInternal app,
+    String apiRelativeUrlPath, Map<String, dynamic>? query, String? body) async {
+  return await _executeStandardHttpRequest(
       authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.get);
-  final responseBody = await clientResponse.transform(utf8.decoder).join();
-  return responseBody;
 }
 
 Future<void> executeDeleteRequest(
@@ -212,6 +227,9 @@ abstract class apiPaths {
   static const documentsCommentsFormat = '/documents/<documentId>/comments';
   static const documentsEventsFormat = '/documents/<documentId>/events';
   static const documentCounts = '/documentCounts';
+  static const userLogin = '/user/login';
+  static const userLogout = '/user/logout';
+  static const userProfile = '/user/profile';
 }
 
 abstract class ApiRequestBodyObject {

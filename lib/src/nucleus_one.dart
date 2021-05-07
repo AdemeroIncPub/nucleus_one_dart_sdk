@@ -96,9 +96,9 @@ class NucleusOneAppInternal extends NucleusOneApp {
   }) : super(options: options);
 
   /// Internal use only.
-  void setAuthProvider(AuthProvider authProvider, String? sessionId) {
+  void setAuthProvider(AuthProvider? authProvider, String? sessionId) {
     _authProvider = authProvider;
-    _sessionId = sessionId;
+    _sessionId = (authProvider == null) ? null : sessionId;
   }
 
   /// Internal use only.
@@ -165,7 +165,7 @@ class Auth with NucleusOneAppDependent {
     };
 
     final client = http.getStandardHttpClient();
-    final clientReq = await client.postUrl(Uri.parse(app.getFullUrl('/user/login')));
+    final clientReq = await client.postUrl(Uri.parse(app.getFullUrl(http.apiPaths.userLogin)));
     http.setRequestHeadersCommon(clientReq);
 
     clientReq.write(jsonEncode(signInPackage));
@@ -188,6 +188,15 @@ class Auth with NucleusOneAppDependent {
       sessionId: success ? sessionId : null,
       user: User(app: app),
     );
+  }
+
+  Future<void> logout() async {
+    await http.executeGetRequest(
+      http.apiPaths.userLogout,
+      app,
+    );
+
+    app.setAuthProvider(null, null);
   }
 }
 

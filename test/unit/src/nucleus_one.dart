@@ -3,14 +3,16 @@ import 'dart:async';
 import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/http.dart';
 import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
 import 'package:test/test.dart';
 
 import '../../src/assertions.dart';
 import '../../src/common.dart';
 import '../../src/mocks/http.dart';
+import '../../src/http_helper.dart' as http_helper;
+import '../../src/model_helper.dart';
 
 void main() {
   final getIt = GetIt.instance;
@@ -237,35 +239,45 @@ void main() {
           };
         }
 
-        var requestWriteCalled = false;
-        await createMockHttpClientScopeForPostRequest(
-            callback: () async {
-              final n1App = getStandardN1App();
-
-              final loginResult = await n1App.auth().loginGoogle(1, 'oauthTokenAbc');
-
-              expect(requestWriteCalled, isTrue);
-              if (success) {
-                expect(loginResult.success, isTrue);
-                expect(loginResult.sessionId, sessionId);
-                expect(n1App.sessionId, sessionId);
-                expect(n1App.authProvider, AuthProvider.google);
-              } else {
-                expect(loginResult.success, isFalse);
-                expect(loginResult.sessionId, isNull);
-                expect(n1App.sessionId, isNull);
-                expect(n1App.authProvider, isNull);
-              }
-            },
-            additionalMockSetup: (client, request, response) {
-              when(() => request.write(any())).thenAnswer((_) {
-                requestWriteCalled = true;
-                return;
-              });
-            },
-            responseBody: '0',
-            responseCookies: responseCookies);
+        final n1App = getStandardN1App();
+        await http_helper.performHttpTest<LoginResult>(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () => n1App.auth().loginGoogle(1, 'oauthTokenAbc'),
+          responseBody: '',
+          responseCookies: responseCookies,
+          expectedUrlPath: apiPaths.userLogin,
+          expectedQueryParams: [],
+          additionalValidationsCallback: (loginResult) {
+            if (success) {
+              expect(loginResult.success, isTrue);
+              expect(loginResult.sessionId, sessionId);
+              expect(n1App.sessionId, sessionId);
+              expect(n1App.authProvider, AuthProvider.google);
+            } else {
+              expect(loginResult.success, isFalse);
+              expect(loginResult.sessionId, isNull);
+              expect(n1App.sessionId, isNull);
+              expect(n1App.authProvider, isNull);
+            }
+          },
+        );
       }
+    });
+
+    test('logout method tests', () async {
+      final n1App = getStandardN1App();
+      n1App.setAuthProvider(AuthProvider.google, '123');
+
+      await http_helper.performHttpTest(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: n1App.auth().logout,
+        responseBody: '',
+        expectedUrlPath: apiPaths.userLogout,
+        expectedQueryParams: [],
+      );
+
+      expect(n1App.sessionId, isNull);
+      expect(n1App.authProvider, isNull);
     });
   });
 

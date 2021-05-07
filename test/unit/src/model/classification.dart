@@ -85,9 +85,10 @@ void main() {
           includeDisabled: false,
           filter: 'B',
           fieldFilters: [
-            FieldFilter(0, 'fi0', 'fv0', 'ft0', 'fvt0'),
-            FieldFilter(1, 'fi1', 'fv1', 'ft1', 'fvt1'),
+            FieldFilter('fi0', 'fv0', 'ft0', 'fvt0'),
+            FieldFilter('fi1', 'fv1', 'ft1', 'fvt1'),
           ],
+          includeClassificationIds: ['cA', 'cB'],
         ),
         responseBody: classificationCollectionJson,
         expectedUrlPath: expectedUrlPath,
@@ -104,6 +105,7 @@ void main() {
           'fieldValue1=fv1',
           'fieldType1=ft1',
           'fieldValueType1=fvt1',
+          'includeClassificationIds_json=%5B%22cA%22%2C%22cB%22%5D', // Encoded JSON
         ],
       );
     });
