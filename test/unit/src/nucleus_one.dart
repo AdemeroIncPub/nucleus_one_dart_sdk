@@ -12,7 +12,6 @@ import '../../src/assertions.dart';
 import '../../src/common.dart';
 import '../../src/mocks/http.dart';
 import '../../src/http_helper.dart' as http_helper;
-import '../../src/model_helper.dart';
 
 void main() {
   final getIt = GetIt.instance;

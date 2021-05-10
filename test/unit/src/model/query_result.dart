@@ -20,11 +20,11 @@ void main() {
 
     void performTests<T>(api_mod.QueryResult<dynamic> apiModel) {
       expect(apiModel.results.length, 0);
-      expect(apiModel.cursor, 'A');
+      expect(apiModel.cursor, 'QueryResultA');
       expect(apiModel.pageSize, 24);
 
       if (apiModel is api_mod.QueryResult2<dynamic>) {
-        expect(apiModel.reverseCursor, 'B');
+        expect(apiModel.reverseCursor, 'QueryResultB');
       }
     }
 

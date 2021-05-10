@@ -1,8 +1,5 @@
-import 'document_event.dart';
-
-const documentCommentsJson = r'{"DocumentEvents":[' +
-    documentEventJson +
-    r'],"Cursor":"QueryResultA","ReverseCursor":"QueryResultB","PageSize":24}';
+const fieldListItemJson = '{"ID":"A","ParentValue":"B","Value":"C"}';
+const fieldListItemCollectionJson = '[' + fieldListItemJson + ']';
 
 void main() {
   /*

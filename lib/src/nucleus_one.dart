@@ -11,6 +11,7 @@ import 'package:nucleus_one_dart_sdk/src/user.dart';
 import '../nucleus_one_dart_sdk.dart';
 import 'http.dart' as http;
 import 'model/document.dart';
+import 'model/field.dart';
 
 final _getIt = GetIt.instance;
 
@@ -144,6 +145,11 @@ abstract class NucleusOneApp {
   /// Classifications
   ClassificationCollection classifications() {
     return ClassificationCollection(app: this as NucleusOneAppInternal);
+  }
+
+  /// Classifications
+  FieldCollection fields() {
+    return FieldCollection(app: this as NucleusOneAppInternal);
   }
 }
 

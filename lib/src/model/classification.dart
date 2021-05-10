@@ -22,17 +22,25 @@ class ClassificationCollection
         items: apiModel.classifications?.map((x) => Classification.fromApiModel(x)).toList());
   }
 
-  /// Gets recent documents, by page.
-  ///
-  /// [sortType]: Which field to sort on.
-  ///
-  /// [sortDescending]: Sort order.
-  ///
-  /// [offset]: The number of initial results to skip.
+  @override
+  api_mod.ClassificationCollection toApiModel() {
+    return api_mod.ClassificationCollection()
+      ..classifications = items.map((x) => x.toApiModel()).toList();
+  }
+
+  /// Gets classifications, by page.
   ///
   /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
   ///
-  /// [singleRecord]: Limits the results to a single document.
+  /// [getAll]: Whether to retrieve all classifications.
+  ///
+  /// [includeDisabled]: Whether to include disabled fields in the results.  The default is false.
+  ///
+  /// [filter]: Limits results to fields whose name contains this text.
+  ///
+  /// [fieldFilters]: Limits results to fields which fit these criteria.
+  ///
+  /// [includeClassificationIds]: Limits the results to fields beloning to these classifications.
   Future<QueryResult<ClassificationCollection>> get({
     String? cursor,
     bool? getAll,
@@ -78,12 +86,6 @@ class ClassificationCollection
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
-  }
-
-  @override
-  api_mod.ClassificationCollection toApiModel() {
-    return api_mod.ClassificationCollection()
-      ..classifications = items.map((x) => x.toApiModel()).toList();
   }
 }
 

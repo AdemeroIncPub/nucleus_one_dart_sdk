@@ -28,9 +28,9 @@ Future<void> performHttpTest<T>({
         expect(resultEntity, isNotNull);
       }
       if (resultEntity is QueryResult2) {
-        validateQueryResult2(resultEntity, 'A', 24, 'B');
+        validateQueryResult2(resultEntity, 'QueryResultA', 24, 'QueryResultB');
       } else if (resultEntity is QueryResult) {
-        validateQueryResult(resultEntity, 'A', 24);
+        validateQueryResult(resultEntity, 'QueryResultA', 24);
       }
 
       if (additionalValidationsCallback != null) {

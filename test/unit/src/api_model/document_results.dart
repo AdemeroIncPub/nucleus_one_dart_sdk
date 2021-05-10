@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 import 'document.dart';
 
-const documentResultsJson = r'{"Documents":[' + documentJson + r'],"Cursor":"A","PageSize":24}';
+const documentResultsJson = r'{"Documents":[' + documentJson + r'],"Cursor":"QueryResultA","PageSize":24}';
 
 void main() {
   group('DocumentResultCollection class tests', () {
@@ -15,7 +15,7 @@ void main() {
           jsonDecode(documentResultsJson));
 
       expect(apiModel.results!.documents!.length, 1);
-      expect(apiModel.cursor, 'A');
+      expect(apiModel.cursor, 'QueryResultA');
       expect(apiModel.pageSize, 24);
     });
   });

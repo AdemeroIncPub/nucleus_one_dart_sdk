@@ -227,6 +227,9 @@ abstract class apiPaths {
   static const documentsCommentsFormat = '/documents/<documentId>/comments';
   static const documentsEventsFormat = '/documents/<documentId>/events';
   static const documentCounts = '/documentCounts';
+  static const fields = '/fields';
+  static const fieldsFormat = '/fields/<fieldId>';
+  static const fieldsListItemsFormat = '/fields/<fieldId>/listItems';
   static const userLogin = '/user/login';
   static const userLogout = '/user/logout';
   static const userProfile = '/user/profile';

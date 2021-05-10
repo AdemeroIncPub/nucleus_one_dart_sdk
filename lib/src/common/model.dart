@@ -3,12 +3,14 @@ import '../model/classification.dart' as mod;
 import '../model/document.dart' as mod;
 import '../model/document_comment.dart' as mod;
 import '../model/document_event.dart' as mod;
+import '../model/field.dart' as mod;
 import '../model/query_result.dart' as mod;
 import '../api_model/classification.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
+import '../api_model/field.dart' as api_mod;
 
 import '../nucleus_one.dart';
 
@@ -120,6 +122,18 @@ abstract class ClassificationCollectionQueryResult {
           items: apiModel.results!.classifications!
               .map((x) => mod.Classification.fromApiModel(x))
               .toList()),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class FieldCollectionQueryResult {
+  static mod.QueryResult<mod.FieldCollection> fromApiModelFieldCollection(
+      api_mod.QueryResult<api_mod.FieldCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.FieldCollection(
+          items: apiModel.results!.fields!.map((x) => mod.Field.fromApiModel(x)).toList()),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );

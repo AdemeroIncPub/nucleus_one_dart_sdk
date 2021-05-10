@@ -1,5 +1,5 @@
 //const queryResult2Json = r'{"Documents":[],"Cursor":"A","ReverseCursor":"B","PageSize":24}';
-const queryResult2Json = r'{"Cursor":"A","ReverseCursor":"B","PageSize":24}';
+const queryResult2Json = r'{"Cursor":"QueryResultA","ReverseCursor":"QueryResultB","PageSize":24}';
 
 void main() {
   /*

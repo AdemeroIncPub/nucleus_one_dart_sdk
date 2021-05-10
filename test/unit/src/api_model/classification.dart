@@ -1,7 +1,7 @@
 const classificationJson =
     '{"ID":"B","CreatedOn":"2020-09-03T20:03:35.964878Z","Name":"C","NameLower":"D","IsActive":true}';
 const classificationCollectionJson =
-    '{"Classifications":[$classificationJson],"Cursor":"A","PageSize":24}';
+    '{"Classifications":[$classificationJson],"Cursor":"QueryResultA","PageSize":24}';
 
 void main() {
   /*

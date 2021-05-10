@@ -21,8 +21,8 @@ void main() {
     test('Serialization test', () {
       void performTests(api_mod.QueryResult2<api_mod.DocumentEventCollection> apiModel) {
         expect(apiModel.results!.documentEvents!.length, 1);
-        expect(apiModel.cursor, 'A');
-        expect(apiModel.reverseCursor, 'B');
+        expect(apiModel.cursor, 'QueryResultA');
+        expect(apiModel.reverseCursor, 'QueryResultB');
         expect(apiModel.pageSize, 24);
       }
 
