@@ -75,8 +75,8 @@ void main() {
           httpMethod: HttpMethods.GET,
           httpCallCallback: () => ClassificationCollection().get(),
           responseBody: classificationCollectionJson,
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: [],
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [],
           additionalValidationsCallback: (x) {
             expect(x.results.items.length, 1);
           });
@@ -87,8 +87,8 @@ void main() {
           httpCallCallback: () =>
               ClassificationCollection().get(cursor: 'A', getAll: true, includeDisabled: false),
           responseBody: classificationCollectionJson,
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: ['cursor=A', 'getAll=true', 'includeDisabled=false'],
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: ['cursor=A', 'getAll=true', 'includeDisabled=false'],
           additionalValidationsCallback: (x) {
             expect(x.results.items.length, 1);
           });

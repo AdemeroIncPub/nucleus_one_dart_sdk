@@ -17,6 +17,8 @@ final _getIt = GetIt.instance;
 
 /// The entry point for accessing Nucleus One.
 abstract class NucleusOne {
+  static bool _sdkInitialized = false;
+
   static NucleusOneApp app() {
     return _getIt<NucleusOneApp>();
   }
@@ -28,8 +30,13 @@ abstract class NucleusOne {
     // because of the high likelihood that it will be needed in the near future.  By making it async
     // now, it won't be a breaking change when we do introduce the need to await within this method.
 
+    if (_sdkInitialized) {
+      throw 'The SDK is already initialized.';
+    }
+
     _getIt.registerSingleton<NucleusOneApp>(NucleusOneAppUninitialized());
     _getIt.registerSingleton<file.FileSystem>(const file.LocalFileSystem());
+    _sdkInitialized = true;
   }
 
   /// Resets the SDK to its initial state.
@@ -39,8 +46,12 @@ abstract class NucleusOne {
     // because of the high likelihood that it will be needed in the near future.  By making it async
     // now, it won't be a breaking change when we do introduce the need to await within this method.
 
+    if (!_sdkInitialized) {
+      return;
+    }
     _getIt.unregister<NucleusOneApp>();
     _getIt.unregister<file.FileSystem>();
+    _sdkInitialized = false;
   }
 
   /// Initializes a new [NucleusOneApp] instance with [options] and returns the created app.
@@ -53,7 +64,9 @@ abstract class NucleusOne {
       throw 'The app is already initialized.';
     }
 
-    _getIt.unregister<NucleusOneApp>(instance: app);
+    // This is effectively the same as "_getIt.unregister<NucleusOneApp>()".
+    // We already have the app though, so use it, instead
+    _getIt.unregister(instance: app);
 
     app = NucleusOneAppInternal._(options: options);
     _getIt.registerSingleton<NucleusOneApp>(app);

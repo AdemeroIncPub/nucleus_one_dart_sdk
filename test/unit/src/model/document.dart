@@ -77,8 +77,8 @@ void main() {
           httpMethod: HttpMethods.GET,
           httpCallCallback: () => DocumentCollection().getCount(true, false),
           responseBody: '1',
-          expectedUrlPath: http.apiPaths.documentCounts,
-          expectedQueryParams: [
+          expectedRequestUrlPath: http.apiPaths.documentCounts,
+          expectedRequestQueryParams: [
             'ignoreInbox=true',
             'ignoreRecycleBin=false',
           ],
@@ -95,8 +95,8 @@ void main() {
             httpMethod: HttpMethods.GET,
             httpCallCallback: () => DocumentCollection().getRecent(),
             responseBody: documentResultsJson,
-            expectedUrlPath: http.apiPaths.documents,
-            expectedQueryParams: [
+            expectedRequestUrlPath: http.apiPaths.documents,
+            expectedRequestQueryParams: [
               'sortType=CreatedOn',
               'sortDescending=true',
             ],
@@ -108,8 +108,8 @@ void main() {
             httpCallCallback: () =>
                 DocumentCollection().getRecent(sortType: 'A', sortDescending: false),
             responseBody: documentResultsJson,
-            expectedUrlPath: http.apiPaths.documents,
-            expectedQueryParams: [
+            expectedRequestUrlPath: http.apiPaths.documents,
+            expectedRequestQueryParams: [
               'sortType=A',
               'sortDescending=false',
             ],
@@ -121,8 +121,8 @@ void main() {
             httpCallCallback: () =>
                 DocumentCollection().getRecent(offset: 1, cursor: 'B', singleRecord: true),
             responseBody: documentResultsJson,
-            expectedUrlPath: http.apiPaths.documents,
-            expectedQueryParams: [
+            expectedRequestUrlPath: http.apiPaths.documents,
+            expectedRequestQueryParams: [
               'sortType=CreatedOn',
               'sortDescending=true',
               'offset=1',
@@ -138,8 +138,8 @@ void main() {
             httpMethod: HttpMethods.GET,
             httpCallCallback: () => DocumentCollection().getInboxRecent(),
             responseBody: documentResultsJson,
-            expectedUrlPath: http.apiPaths.documents,
-            expectedQueryParams: [
+            expectedRequestUrlPath: http.apiPaths.documents,
+            expectedRequestQueryParams: [
               'inbox=true',
               'sortType=CreatedOn',
               'sortDescending=true',
@@ -152,8 +152,8 @@ void main() {
             httpCallCallback: () =>
                 DocumentCollection().getInboxRecent(sortType: 'A', sortDescending: false),
             responseBody: documentResultsJson,
-            expectedUrlPath: http.apiPaths.documents,
-            expectedQueryParams: [
+            expectedRequestUrlPath: http.apiPaths.documents,
+            expectedRequestQueryParams: [
               'inbox=true',
               'sortType=A',
               'sortDescending=false',
@@ -167,8 +167,8 @@ void main() {
             httpMethod: HttpMethods.GET,
             httpCallCallback: () => DocumentCollection().getDocumentSubscriptionsRecent(),
             responseBody: documentResultsJson,
-            expectedUrlPath: http.apiPaths.documents,
-            expectedQueryParams: [
+            expectedRequestUrlPath: http.apiPaths.documents,
+            expectedRequestQueryParams: [
               'documentSubscriptions=true',
               'sortType=CreatedOn',
               'sortDescending=true',
@@ -181,8 +181,8 @@ void main() {
             httpCallCallback: () => DocumentCollection()
                 .getDocumentSubscriptionsRecent(sortType: 'A', sortDescending: false),
             responseBody: documentResultsJson,
-            expectedUrlPath: http.apiPaths.documents,
-            expectedQueryParams: [
+            expectedRequestUrlPath: http.apiPaths.documents,
+            expectedRequestQueryParams: [
               'documentSubscriptions=true',
               'sortType=A',
               'sortDescending=false',
@@ -196,8 +196,8 @@ void main() {
             httpMethod: HttpMethods.GET,
             httpCallCallback: () => DocumentCollection().getRecycleBinRecent(),
             responseBody: documentResultsJson,
-            expectedUrlPath: http.apiPaths.documents,
-            expectedQueryParams: [
+            expectedRequestUrlPath: http.apiPaths.documents,
+            expectedRequestQueryParams: [
               'recycleBin=true',
               'sortType=CreatedOn',
               'sortDescending=true',
@@ -210,8 +210,8 @@ void main() {
             httpCallCallback: () =>
                 DocumentCollection().getRecycleBinRecent(sortType: 'A', sortDescending: false),
             responseBody: documentResultsJson,
-            expectedUrlPath: http.apiPaths.documents,
-            expectedQueryParams: [
+            expectedRequestUrlPath: http.apiPaths.documents,
+            expectedRequestQueryParams: [
               'recycleBin=true',
               'sortType=A',
               'sortDescending=false',
@@ -229,8 +229,8 @@ void main() {
           httpMethod: HttpMethods.GET,
           httpCallCallback: () => DocumentCollection().getComments(documentId: '123'),
           responseBody: documentCommentsJson,
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: ['sortDescending=true'],
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: ['sortDescending=true'],
         );
 
         // Test with custom sorting and optional arguments
@@ -239,8 +239,8 @@ void main() {
           httpCallCallback: () =>
               DocumentCollection().getComments(documentId: '123', sortDescending: false, cursor: 'A'),
           responseBody: documentCommentsJson,
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: ['sortDescending=false', 'cursor=A'],
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: ['sortDescending=false', 'cursor=A'],
         );
       });
 
@@ -256,9 +256,9 @@ void main() {
             comments: [],
           ),
           responseBody: '',
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: [],
-          expectedBody: '{"Comments":[]}',
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [],
+          expectedRequestBody: '{"Comments":[]}',
         );
 
         // Test with some comments
@@ -269,9 +269,9 @@ void main() {
             comments: ['A', 'B'],
           ),
           responseBody: '',
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: [],
-          expectedBody: '{"Comments":["A","B"]}',
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [],
+          expectedRequestBody: '{"Comments":["A","B"]}',
         );
       });
 
@@ -284,8 +284,8 @@ void main() {
           httpMethod: HttpMethods.GET,
           httpCallCallback: () => DocumentCollection().getEvents(documentId: '123'),
           responseBody: documentEventsJson,
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: ['sortDescending=true'],
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: ['sortDescending=true'],
         );
 
         // Test with custom sorting and optional arguments
@@ -294,8 +294,8 @@ void main() {
           httpCallCallback: () =>
               DocumentCollection().getEvents(documentId: '123', sortDescending: false, cursor: 'A'),
           responseBody: documentEventsJson,
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: ['sortDescending=false', 'cursor=A'],
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: ['sortDescending=false', 'cursor=A'],
         );
       });
 
@@ -308,9 +308,9 @@ void main() {
                   httpMethod: HttpMethods.POST,
                   httpCallCallback: () => DocumentCollection().restoreFromRecycleBin([]),
                   responseBody: '',
-                  expectedUrlPath: expectedUrlPath,
-                  expectedQueryParams: [],
-                  expectedBody: '',
+                  expectedRequestUrlPath: expectedUrlPath,
+                  expectedRequestQueryParams: [],
+                  expectedRequestBody: '',
                 ),
             'documentIds');
 
@@ -319,9 +319,9 @@ void main() {
           httpMethod: HttpMethods.POST,
           httpCallCallback: () => DocumentCollection().restoreFromRecycleBin(['A', 'B']),
           responseBody: '',
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: [],
-          expectedBody: '{"IDs":["A","B"]}',
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [],
+          expectedRequestBody: '{"IDs":["A","B"]}',
         );
       });
 
@@ -334,9 +334,9 @@ void main() {
                   httpMethod: HttpMethods.POST,
                   httpCallCallback: () => DocumentCollection().sendToRecycleBin([]),
                   responseBody: '',
-                  expectedUrlPath: expectedUrlPath,
-                  expectedQueryParams: [],
-                  expectedBody: '',
+                  expectedRequestUrlPath: expectedUrlPath,
+                  expectedRequestQueryParams: [],
+                  expectedRequestBody: '',
                 ),
             'documentIds');
 
@@ -345,9 +345,9 @@ void main() {
           httpMethod: HttpMethods.POST,
           httpCallCallback: () => DocumentCollection().sendToRecycleBin(['A', 'B']),
           responseBody: '',
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: [],
-          expectedBody: '{"IDs":["A","B"]}',
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [],
+          expectedRequestBody: '{"IDs":["A","B"]}',
         );
       });
 
@@ -360,8 +360,8 @@ void main() {
           httpMethod: HttpMethods.GET,
           httpCallCallback: () => DocumentCollection().getDocumentContentPackage('123'),
           responseBody: documentContentPackageJson,
-          expectedUrlPath: expectedUrlPath,
-          expectedQueryParams: [
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [
             'displayInline=false',
             'preview=false',
             'singlePage=false',

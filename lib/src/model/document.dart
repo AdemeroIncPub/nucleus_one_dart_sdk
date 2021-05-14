@@ -311,7 +311,7 @@ class DocumentCollection extends EntityCollection<Document, void> {
     );
   }
 
-  /// Returns information needed to download a document.
+  /// Gets information needed to download a document.
   ///
   /// [documentId]: The document id to process.
   Future<DocumentContentPackage> getDocumentContentPackage(String documentId) async {

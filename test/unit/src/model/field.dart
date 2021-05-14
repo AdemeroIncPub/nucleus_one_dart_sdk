@@ -1,5 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:file/memory.dart' as file;
+import 'package:file/file.dart' as file;
+import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/field.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
@@ -90,8 +94,8 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => FieldCollection().get(),
         responseBody: fieldCollectionJson,
-        expectedUrlPath: expectedUrlPath,
-        expectedQueryParams: [],
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
       );
 
       // Test with cursor and optional arguments
@@ -104,8 +108,8 @@ void main() {
           includeClassificationIds: ['cA', 'cB'],
         ),
         responseBody: fieldCollectionJson,
-        expectedUrlPath: expectedUrlPath,
-        expectedQueryParams: [
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
           'cursor=A',
           'getAll=true',
           'filter=B',
@@ -122,8 +126,8 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => FieldCollection().getById('123'),
         responseBody: fieldJson,
-        expectedUrlPath: expectedUrlPath,
-        expectedQueryParams: [],
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
       );
     });
 
@@ -135,8 +139,8 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => FieldCollection().getListItems(id: '123'),
         responseBody: fieldListItemCollectionJson,
-        expectedUrlPath: expectedUrlPath,
-        expectedQueryParams: [],
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
       );
 
       // Test with optional arguments
@@ -145,12 +149,76 @@ void main() {
         httpCallCallback: () =>
             FieldCollection().getListItems(id: '123', parentValue: '234', valueFilter: '345'),
         responseBody: fieldListItemCollectionJson,
-        expectedUrlPath: expectedUrlPath,
-        expectedQueryParams: [
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
           'parentValue=234',
           'valueFilter=345',
         ],
       );
+    });
+
+    test('downloadListItems method tests', () async {
+      final expectedUrlPath = http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', '123');
+      const outputFileName = '123.csv';
+      const responseBody = 'abc';
+
+      Future<void> performTests(Future<void> Function() callback) async {
+        file.FileSystem? fsPrev;
+        try {
+          fsPrev = GetIt.instance.get<file.FileSystem>();
+          GetIt.instance.unregister(instance: fsPrev);
+
+          final mfs = file.MemoryFileSystem();
+          GetIt.instance.registerSingleton<file.FileSystem>(mfs);
+
+          await callback();
+
+          // Read the output from the memory stream
+          final pipedOutput = await mfs.file(outputFileName).readAsString();
+          expect(pipedOutput, responseBody);
+        } finally {
+          if (fsPrev != null) {
+            GetIt.instance.unregister<file.FileSystem>();
+            GetIt.instance.registerSingleton<file.FileSystem>(fsPrev);
+          }
+        }
+      }
+
+      await performTests(() async {
+        // Test with default arguments
+        await performHttpTest<void>(
+          httpMethod: HttpMethods.GET,
+          httpCallCallback: () =>
+              FieldCollection().downloadListItems(id: '123', destinationFilePath: outputFileName),
+          responseBody: responseBody,
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [
+            'getAllAsFlatFile=true',
+          ],
+        );
+      });
+
+      await performTests(() async {
+        // Test with optional arguments
+        await performHttpTest<void>(
+          httpMethod: HttpMethods.GET,
+          httpCallCallback: () => FieldCollection().downloadListItems(
+            id: '123',
+            destinationFilePath: outputFileName,
+            parentValue: 'A',
+            valueFilter: 'B',
+            cursor: 'C',
+          ),
+          responseBody: responseBody,
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [
+            'getAllAsFlatFile=true',
+            'parentValue=A',
+            'valueFilter=B',
+            'cursor=C',
+          ],
+        );
+      });
     });
   });
 }

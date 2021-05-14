@@ -25,7 +25,12 @@ class MockHttpClientRequest extends Mock implements HttpClientRequest {
   }
 }
 
-class MockHttpClientResponse extends Mock implements HttpClientResponse {}
+class MockHttpClientResponse extends Mock implements HttpClientResponse {
+  @override
+  Future pipe(StreamConsumer<List<int>> streamConsumer) {
+    return streamConsumer.addStream(this).then((_) => streamConsumer.close());
+  }
+}
 
 class MockHttpHeaders extends Mock implements HttpHeaders {
   final headers = <String, List<String>>{};
@@ -218,7 +223,28 @@ HttpClientOperationResult _createMockHttpClientAllRequests({
       .thenReturn(HttpClientResponseCompressionState.notCompressed);
   when(() => response.cookies).thenReturn(
       responseCookies.entries.map((mapEntry) => Cookie(mapEntry.key, mapEntry.value)).toList());
-  when(() => response.transform(utf8.decoder)).thenAnswer((_) => Stream.value(responseBody));
+  when(() => response.transform(utf8.decoder)).thenAnswer((_) {
+    return Stream.value(responseBody);
+  });
+  // Originally from https://stackoverflow.com/a/49642337
+  when(() => response.listen(
+        any(),
+        onError: any(named: 'onError'),
+        onDone: any(named: 'onDone'),
+        cancelOnError: any(named: 'cancelOnError'),
+      )).thenAnswer((Invocation invocation) {
+    final void Function(List<int>) onData = invocation.positionalArguments[0];
+    final void Function() onDone = invocation.namedArguments[#onDone];
+    final void Function(Object, StackTrace) onError = invocation.namedArguments[#onError];
+    final bool cancelOnError = invocation.namedArguments[#cancelOnError];
+    final responseBodyBytes = utf8.encode(responseBody);
+    return Stream<List<int>>.value(responseBodyBytes).listen(
+      onData,
+      onDone: onDone,
+      onError: onError,
+      cancelOnError: cancelOnError,
+    );
+  });
 
   if (additionalMockSetup != null) {
     additionalMockSetup(client, request, response);

@@ -29,8 +29,8 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => getStandardTestUser().getAddressBook(),
         responseBody: addressBookJson,
-        expectedUrlPath: apiPaths.addressBookItems,
-        expectedQueryParams: [
+        expectedRequestUrlPath: apiPaths.addressBookItems,
+        expectedRequestQueryParams: [
           'includeTenantMembers=true',
           'includeRoles=true',
           'includeFields=true',
@@ -50,8 +50,8 @@ void main() {
           includeRoles: false,
         ),
         responseBody: addressBookJson,
-        expectedUrlPath: apiPaths.addressBookItems,
-        expectedQueryParams: [
+        expectedRequestUrlPath: apiPaths.addressBookItems,
+        expectedRequestQueryParams: [
           'includeTenantMembers=true',
           'includeRoles=false',
           'includeFields=true',
@@ -71,8 +71,8 @@ void main() {
           filter: '123',
         ),
         responseBody: addressBookJson,
-        expectedUrlPath: apiPaths.addressBookItems,
-        expectedQueryParams: [
+        expectedRequestUrlPath: apiPaths.addressBookItems,
+        expectedRequestQueryParams: [
           'includeTenantMembers=true',
           'includeRoles=true',
           'includeFields=true',
@@ -90,8 +90,8 @@ void main() {
         httpMethod: HttpMethods.DELETE,
         httpCallCallback: () => getStandardTestUser().clearAddressBook(),
         responseBody: '',
-        expectedUrlPath: apiPaths.addressBookItems,
-        expectedQueryParams: [],
+        expectedRequestUrlPath: apiPaths.addressBookItems,
+        expectedRequestQueryParams: [],
       );
     });
 
@@ -100,8 +100,8 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => getStandardTestUser().getDashboardWidgets(),
         responseBody: dashboardWidgetsJson,
-        expectedUrlPath: apiPaths.dashboardWidgets,
-        expectedQueryParams: [],
+        expectedRequestUrlPath: apiPaths.dashboardWidgets,
+        expectedRequestQueryParams: [],
         additionalValidationsCallback: (x) {
           expect(x.items.length, 2);
         },
@@ -120,8 +120,8 @@ void main() {
                 httpMethod: HttpMethods.DELETE,
                 httpCallCallback: () => getStandardTestUser().deleteDashboardWidgets([]),
                 responseBody: '',
-                expectedUrlPath: '',
-                expectedQueryParams: [],
+                expectedRequestUrlPath: '',
+                expectedRequestQueryParams: [],
               ),
           'ids');
 
@@ -129,8 +129,8 @@ void main() {
         httpMethod: HttpMethods.DELETE,
         httpCallCallback: () => getStandardTestUser().deleteDashboardWidgets(['abc', 'def']),
         responseBody: '{"IDs":["abc","def"]}',
-        expectedUrlPath: apiPaths.dashboardWidgets,
-        expectedQueryParams: [],
+        expectedRequestUrlPath: apiPaths.dashboardWidgets,
+        expectedRequestQueryParams: [],
       );
     });
 
@@ -185,8 +185,8 @@ void main() {
                 httpCallCallback: () => getStandardTestUser().createDashboardWidgets(
                     DashboardWidgetCollection.fromApiModel(api_mod.DashboardWidgetCollection())),
                 responseBody: '',
-                expectedUrlPath: '',
-                expectedQueryParams: [],
+                expectedRequestUrlPath: '',
+                expectedRequestQueryParams: [],
               ),
           'widgets');
 
@@ -209,8 +209,8 @@ void main() {
             .createDashboardWidgets(DashboardWidgetCollection.fromApiModel(dws)),
         responseBody:
             '[{"ID":"1","TenantID":"2","TenantMemberID":"3","Type":"4","GridColumn":5.0,"ColumnRank":6.0,"Name":"7","Detail":"8","JsonData":"9"}]',
-        expectedUrlPath: apiPaths.dashboardWidgets,
-        expectedQueryParams: [],
+        expectedRequestUrlPath: apiPaths.dashboardWidgets,
+        expectedRequestQueryParams: [],
       );
     });
 
@@ -227,8 +227,8 @@ void main() {
                 httpCallCallback: () => getStandardTestUser().updateDashboardWidgetRanks(
                     DashboardWidgetCollection.fromApiModel(api_mod.DashboardWidgetCollection())),
                 responseBody: '',
-                expectedUrlPath: '',
-                expectedQueryParams: [],
+                expectedRequestUrlPath: '',
+                expectedRequestQueryParams: [],
               ),
           'widgets');
 
@@ -244,8 +244,8 @@ void main() {
             .updateDashboardWidgetRanks(DashboardWidgetCollection.fromApiModel(dws)),
         responseBody:
             '[{"ID":"abc","GridColumn":0.0,"ColumnRank":1.0},{"ID":"def","GridColumn":2.0,"ColumnRank":3.0}]',
-        expectedUrlPath: apiPaths.dashboardWidgets,
-        expectedQueryParams: ['onlyRank=true'],
+        expectedRequestUrlPath: apiPaths.dashboardWidgets,
+        expectedRequestQueryParams: ['onlyRank=true'],
       );
     });
 
@@ -254,8 +254,8 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => getStandardTestUser().getProfile(),
         responseBody: userProfileJson,
-        expectedUrlPath: apiPaths.userProfile,
-        expectedQueryParams: [],
+        expectedRequestUrlPath: apiPaths.userProfile,
+        expectedRequestQueryParams: [],
       );
     });
 
@@ -270,9 +270,9 @@ void main() {
         httpMethod: HttpMethods.PUT,
         httpCallCallback: () => getStandardTestUser().updateProfile(UserProfile.fromApiModel(up)),
         responseBody: '',
-        expectedUrlPath: apiPaths.userProfile,
-        expectedQueryParams: [],
-        expectedBody: '{"UserProvider":"A","UserEmail":"B","UserName":"C","OTPSMSNumber":"D"}',
+        expectedRequestUrlPath: apiPaths.userProfile,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: '{"UserProvider":"A","UserEmail":"B","UserName":"C","OTPSMSNumber":"D"}',
       );
     });
   });

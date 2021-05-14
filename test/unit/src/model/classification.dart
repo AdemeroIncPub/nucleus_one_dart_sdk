@@ -72,8 +72,8 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => ClassificationCollection().get(),
         responseBody: classificationCollectionJson,
-        expectedUrlPath: expectedUrlPath,
-        expectedQueryParams: [],
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
       );
 
       // Test with cursor and optional arguments
@@ -91,8 +91,8 @@ void main() {
           includeClassificationIds: ['cA', 'cB'],
         ),
         responseBody: classificationCollectionJson,
-        expectedUrlPath: expectedUrlPath,
-        expectedQueryParams: [
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
           'cursor=A',
           'getAll=true',
           'includeDisabled=false',

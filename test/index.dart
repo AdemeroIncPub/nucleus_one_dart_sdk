@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:mocktail/mocktail.dart';
@@ -20,7 +21,10 @@ void main() {
 void _deleteExistingCoverageOutput() {
   try {
     if (Directory.current.path.endsWith('nucleus_one_dart_sdk')) {
-      Directory(Directory.current.path + '/coverage').deleteSync(recursive: true);
+      final coverageDir = Directory(Directory.current.path + '/coverage');
+      if (coverageDir.existsSync()) {
+        coverageDir.deleteSync(recursive: true);
+      }
     }
   } catch (e) {
     print(
@@ -32,5 +36,14 @@ void _deleteExistingCoverageOutput() {
 void _registerMocktailFallbackValues() {
   setUpAll(() {
     registerFallbackValue<Uri>(Uri());
+    registerFallbackValue<StreamConsumer<List<int>>>(_FakeStreamConsumer<List<int>>());
   });
+}
+
+class _FakeStreamConsumer<T> implements StreamConsumer<T> {
+  @override
+  Future addStream(Stream<T> stream) => throw UnimplementedError();
+
+  @override
+  Future close() => throw UnimplementedError();
 }

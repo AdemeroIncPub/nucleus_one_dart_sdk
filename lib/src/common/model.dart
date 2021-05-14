@@ -88,10 +88,7 @@ abstract class DocumentCommentCollectionQueryResult {
   static mod.QueryResult2<mod.DocumentCommentCollection> fromApiModelDocumentCommentCollection(
       api_mod.QueryResult2<api_mod.DocumentCommentCollection> apiModel) {
     return mod.QueryResult2(
-      results: mod.DocumentCommentCollection(
-          items: apiModel.results!.documentEvents!
-              .map((x) => mod.DocumentEvent.fromApiModel(x))
-              .toList()),
+      results: mod.DocumentCommentCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
       reverseCursor: apiModel.reverseCursor!,
       pageSize: apiModel.pageSize!,
@@ -103,10 +100,7 @@ abstract class DocumentEventCollectionQueryResult {
   static mod.QueryResult2<mod.DocumentEventCollection> fromApiModelDocumentEventCollection(
       api_mod.QueryResult2<api_mod.DocumentEventCollection> apiModel) {
     return mod.QueryResult2(
-      results: mod.DocumentEventCollection(
-          items: apiModel.results!.documentEvents!
-              .map((x) => mod.DocumentEvent.fromApiModel(x))
-              .toList()),
+      results: mod.DocumentEventCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
       reverseCursor: apiModel.reverseCursor!,
       pageSize: apiModel.pageSize!,
@@ -118,10 +112,7 @@ abstract class ClassificationCollectionQueryResult {
   static mod.QueryResult<mod.ClassificationCollection> fromApiModelClassificationCollection(
       api_mod.QueryResult<api_mod.ClassificationCollection> apiModel) {
     return mod.QueryResult(
-      results: mod.ClassificationCollection(
-          items: apiModel.results!.classifications!
-              .map((x) => mod.Classification.fromApiModel(x))
-              .toList()),
+      results: mod.ClassificationCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
@@ -132,8 +123,7 @@ abstract class FieldCollectionQueryResult {
   static mod.QueryResult<mod.FieldCollection> fromApiModelFieldCollection(
       api_mod.QueryResult<api_mod.FieldCollection> apiModel) {
     return mod.QueryResult(
-      results: mod.FieldCollection(
-          items: apiModel.results!.fields!.map((x) => mod.Field.fromApiModel(x)).toList()),
+      results: mod.FieldCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );

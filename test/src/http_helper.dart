@@ -8,9 +8,9 @@ Future<void> performHttpTest<T>({
   required Future<T> Function() httpCallCallback,
   required String responseBody,
   Map<String, String>? responseCookies,
-  required String expectedUrlPath,
-  required List<String> expectedQueryParams,
-  String? expectedBody,
+  required String expectedRequestUrlPath,
+  required List<String> expectedRequestQueryParams,
+  String? expectedRequestBody,
   void Function(T resultEntity)? additionalValidationsCallback,
 }) async {
   Future<HttpClientOperationResult> Function({
@@ -51,18 +51,18 @@ Future<void> performHttpTest<T>({
   );
 
   expect(result.request.method, httpMethod);
-  expect(result.request.uri.path, apiRequestPathMatches(expectedUrlPath));
-  expect(result.request.uri.queryParameters.length, expectedQueryParams.length,
+  expect(result.request.uri.path, apiRequestPathMatches(expectedRequestUrlPath));
+  expect(result.request.uri.queryParameters.length, expectedRequestQueryParams.length,
       reason: 'Details:\r\n  Expected (in any order): ' +
-          expectedQueryParams.join(',') +
+          expectedRequestQueryParams.join(',') +
           '\r\n  Actual: ' +
           result.request.uri.queryParameters.entries.map((x) => x.key + '=' + x.value).join(','));
-  if (expectedBody != null) {
-    expect(result.request.getBodyAsString(), expectedBody);
+  if (expectedRequestBody != null) {
+    expect(result.request.getBodyAsString(), expectedRequestBody);
   }
 
   final reqUriQuery = result.request.uri.query;
-  for (var expectedQP in expectedQueryParams) {
+  for (var expectedQP in expectedRequestQueryParams) {
     expect(reqUriQuery, matches('\\b' + RegExp.escape(expectedQP) + '\\b'));
   }
 }

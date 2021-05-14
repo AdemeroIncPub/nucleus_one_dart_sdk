@@ -83,8 +83,11 @@ class FieldCollection extends EntityCollection<Field, api_mod.FieldCollection> {
     return Field.fromApiModel(apiModel);
   }
 
-  Map<String, dynamic> _getListItemsQueryParams(String? parentValue, String? valueFilter) {
-    final qp = http.StandardQueryParams.get();
+  Map<String, dynamic> _getListItemsQueryParams(
+      String? cursor, String? parentValue, String? valueFilter) {
+    final qp = http.StandardQueryParams.get([
+      (sqp) => sqp.cursor(cursor),
+    ]);
     if (parentValue != null) {
       qp['parentValue'] = parentValue;
     }
@@ -94,19 +97,22 @@ class FieldCollection extends EntityCollection<Field, api_mod.FieldCollection> {
     return qp;
   }
 
-  /// Gets a field's list items.
+  /// Downloads a field's list items, by page.
   ///
   /// [id]: The id of the field.
   ///
   /// [parentValue]: The value of parent field.
   ///
   /// [valueFilter]: Limits results to fields whose value contains this text.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
   Future<FieldListItemCollection> getListItems({
     required String id,
     String? parentValue,
     String? valueFilter,
+    String? cursor,
   }) async {
-    final qp = _getListItemsQueryParams(parentValue, valueFilter);
+    final qp = _getListItemsQueryParams(cursor, parentValue, valueFilter);
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id),
       app,
@@ -114,6 +120,20 @@ class FieldCollection extends EntityCollection<Field, api_mod.FieldCollection> {
     );
     final apiModel = api_mod.FieldListItemCollection.fromJson(jsonDecode(responseBody));
     return FieldListItemCollection.fromApiModel(apiModel);
+  }
+
+  Future<void> downloadListItems({
+    required String id,
+    String? parentValue,
+    String? valueFilter,
+    required String destinationFilePath,
+    String? cursor,
+  }) async {
+    final qp = _getListItemsQueryParams(cursor, parentValue, valueFilter);
+    qp['getAllAsFlatFile'] = true;
+    await http.downloadAuthenticated(
+        http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id), destinationFilePath, app,
+        query: qp);
   }
 
   // TODO: Continue here

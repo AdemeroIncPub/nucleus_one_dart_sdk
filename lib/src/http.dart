@@ -152,14 +152,14 @@ Future<String> executeGetRequestWithTextResponse(
   return await clientResponse.transform(utf8.decoder).join();
 }
 
-Future<void> executeGetRequest(
+Future<HttpClientResponse> executeGetRequest(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
   Map<String, dynamic>? query,
   String? body,
   bool authenticated = true,
 }) async {
-  await _executeGetRequestInternal(authenticated, app, apiRelativeUrlPath, query, body);
+  return await _executeGetRequestInternal(authenticated, app, apiRelativeUrlPath, query, body);
 }
 
 Future<HttpClientResponse> _executeGetRequestInternal(bool authenticated, NucleusOneAppInternal app,
@@ -206,14 +206,16 @@ Future<void> executePutRequest(
 /// [documentId]: The document id to process.
 ///
 /// [destinationDirectory]: The directory in which to save the downloaded file.
-Future<String> download(String url, String destFilePath) async {
-  final request = await HttpClient().getUrl(Uri.parse(url));
-  final response = await request.close();
+Future<void> downloadAuthenticated(
+  String apiRelativeUrlPath,
+  String destFilePath,
+  NucleusOneAppInternal app, {
+  Map<String, dynamic>? query,
+}) async {
+  final response = await _executeGetRequestInternal(true, app, apiRelativeUrlPath, query, null);
   final fs = GetIt.instance.get<file.FileSystem>();
   final fileStream = fs.file(destFilePath).openWrite();
   await response.pipe(fileStream);
-
-  return destFilePath;
 }
 
 abstract class apiPaths {

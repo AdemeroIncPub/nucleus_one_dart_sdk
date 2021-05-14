@@ -17,22 +17,17 @@ void main() {
   final getIt = GetIt.instance;
 
   group('NucleusOne class tests', () {
-    test('intializeSdk method test', () async {
-      try {
-        expect(getIt.isRegistered<NucleusOneApp>(), isFalse);
-        await NucleusOne.intializeSdk();
-        expect(getIt.isRegistered<NucleusOneApp>(), isTrue);
-        expect(getIt.get<NucleusOneApp>(), isA<NucleusOneAppUninitialized>());
-        expect(getIt.isRegistered<file.FileSystem>(), isTrue);
-        expect(getIt.get<file.FileSystem>(), isA<file.LocalFileSystem>());
-      } finally {
-        if (getIt.isRegistered<NucleusOneApp>()) {
-          getIt.unregister<NucleusOneApp>(instance: getIt.get<NucleusOneApp>());
-        }
-        if (getIt.isRegistered<file.FileSystem>()) {
-          getIt.unregister<file.FileSystem>(instance: getIt.get<file.FileSystem>());
-        }
-      }
+    test('intializeSdk & resetSdk methods test', () async {
+      expect(getIt.isRegistered<NucleusOneApp>(), isFalse);
+      await NucleusOne.intializeSdk();
+      expect(getIt.isRegistered<NucleusOneApp>(), isTrue);
+      expect(getIt.get<NucleusOneApp>(), isA<NucleusOneAppUninitialized>());
+      expect(getIt.isRegistered<file.FileSystem>(), isTrue);
+      expect(getIt.get<file.FileSystem>(), isA<file.LocalFileSystem>());
+
+      await NucleusOne.resetSdk();
+      expect(getIt.isRegistered<NucleusOneApp>(), isFalse);
+      expect(getIt.isRegistered<file.FileSystem>(), isFalse);
     });
 
     group('Tests depending on NucleusOneApp singleton', () {
@@ -42,7 +37,7 @@ void main() {
 
       tearDown(() {
         // Unregister the singleton, so that this can be reinitialized later
-        getIt.unregister<NucleusOneApp>(instance: NucleusOne.app());
+        getIt.unregister<NucleusOneApp>();
       });
 
       test('Uninitialized NucleusOne app', () {
@@ -69,7 +64,7 @@ void main() {
 
         // Unregister then reregister the singleton, so that we can verify that initializeApp is correctly
         // operating on the singleton
-        getIt.unregister<NucleusOneApp>(instance: n1App);
+        getIt.unregister<NucleusOneApp>();
         getIt.registerSingleton<NucleusOneApp>(NucleusOneAppUninitialized());
 
         n1App = await _reinitializeApp();
@@ -112,6 +107,7 @@ void main() {
       final n1App = getStandardN1App();
 
       final c = n1App.classifications();
+      expect(c, isA<ClassificationCollection>());
       expect(c.app, n1App);
     });
 
@@ -119,7 +115,16 @@ void main() {
       final n1App = getStandardN1App();
 
       final doc = n1App.documents();
+      expect(doc, isA<DocumentCollection>());
       expect(doc.app, n1App);
+    });
+
+    test('fields method tests', () {
+      final n1App = getStandardN1App();
+
+      final c = n1App.fields();
+      expect(c, isA<FieldCollection>());
+      expect(c.app, n1App);
     });
 
     test('Request headers tests (_setRequestHeadersCommon && _setRequestHeadersAuthCookie)',
@@ -244,8 +249,8 @@ void main() {
           httpCallCallback: () => n1App.auth().loginGoogle(1, 'oauthTokenAbc'),
           responseBody: '',
           responseCookies: responseCookies,
-          expectedUrlPath: apiPaths.userLogin,
-          expectedQueryParams: [],
+          expectedRequestUrlPath: apiPaths.userLogin,
+          expectedRequestQueryParams: [],
           additionalValidationsCallback: (loginResult) {
             if (success) {
               expect(loginResult.success, isTrue);
@@ -271,8 +276,8 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: n1App.auth().logout,
         responseBody: '',
-        expectedUrlPath: apiPaths.userLogout,
-        expectedQueryParams: [],
+        expectedRequestUrlPath: apiPaths.userLogout,
+        expectedRequestQueryParams: [],
       );
 
       expect(n1App.sessionId, isNull);

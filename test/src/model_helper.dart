@@ -8,9 +8,9 @@ Future<void> performHttpTest<T>({
   required Future<T> Function() httpCallCallback,
   required String responseBody,
   Map<String, String>? responseCookies,
-  required String expectedUrlPath,
-  required List<String> expectedQueryParams,
-  String? expectedBody,
+  required String expectedRequestUrlPath,
+  required List<String> expectedRequestQueryParams,
+  String? expectedRequestBody,
   void Function(T resultEntity)? additionalValidationsCallback,
 }) async {
   // Use the stock performHttpTest method, passing in additional tests specific to the model
@@ -19,9 +19,9 @@ Future<void> performHttpTest<T>({
     httpCallCallback: httpCallCallback,
     responseBody: responseBody,
     responseCookies: responseCookies,
-    expectedUrlPath: expectedUrlPath,
-    expectedQueryParams: expectedQueryParams,
-    expectedBody: expectedBody,
+    expectedRequestUrlPath: expectedRequestUrlPath,
+    expectedRequestQueryParams: expectedRequestQueryParams,
+    expectedRequestBody: expectedRequestBody,
     additionalValidationsCallback: (resultEntity) {
       // If T isn't the void type then the returned value should be an instance of T
       if (T.toString() != 'void') {
