@@ -11,6 +11,7 @@ import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
+import '../../../src/assertions.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/field.dart';
@@ -219,6 +220,96 @@ void main() {
           ],
         );
       });
+    });
+
+    test('addListItems method tests', () async {
+      final expectedUrlPath = http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', '123');
+
+      try {
+        await performHttpTest(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () =>
+              FieldCollection().addListItems(id: '', items: FieldListItemCollection()),
+          responseBody: '',
+          expectedRequestUrlPath: '',
+          expectedRequestQueryParams: [],
+        );
+        fail('An error should have been thrown.');
+      } on ArgumentError catch (e) {
+        expect(e.name, 'id');
+      }
+
+      try {
+        await performHttpTest(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () =>
+              FieldCollection().addListItems(id: '123', items: FieldListItemCollection()),
+          responseBody: '',
+          expectedRequestUrlPath: '',
+          expectedRequestQueryParams: [],
+        );
+        fail('An error should have been thrown.');
+      } on ArgumentError catch (e) {
+        expect(e.name, 'items');
+      }
+
+      final newListItems = FieldListItemCollection(
+        items: [FieldListItem.createNew(parentValue: 'LI_A', value: 'LI_B')],
+      );
+      // Test a successful operation
+      await performHttpTest(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => FieldCollection().addListItems(
+          id: '123',
+          items: newListItems,
+        ),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: '[{"ParentValue":"LI_A","Value":"LI_B"}]',
+      );
+    });
+
+    test('setListItems method tests', () async {
+      final expectedUrlPath = http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', '123');
+
+      try {
+        await performHttpTest(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () => FieldCollection().setListItems(id: '', values: []),
+          responseBody: '',
+          expectedRequestUrlPath: '',
+          expectedRequestQueryParams: [],
+        );
+        fail('An error should have been thrown.');
+      } on ArgumentError catch (e) {
+        expect(e.name, 'id');
+      }
+
+      try {
+        await performHttpTest(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () => FieldCollection().setListItems(id: '123', values: []),
+          responseBody: '',
+          expectedRequestUrlPath: '',
+          expectedRequestQueryParams: [],
+        );
+        fail('An error should have been thrown.');
+      } on ArgumentError catch (e) {
+        expect(e.name, 'values');
+      }
+
+      // Test a successful operation
+      await performHttpTest(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => FieldCollection().setListItems(id: '123', values: ['A', 'B']),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'type=file',
+        ],
+        expectedRequestBody: 'A\nB\n',
+      );
     });
   });
 }

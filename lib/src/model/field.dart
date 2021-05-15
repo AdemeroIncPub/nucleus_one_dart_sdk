@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
 import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/field.dart' as api_mod;
@@ -97,7 +98,7 @@ class FieldCollection extends EntityCollection<Field, api_mod.FieldCollection> {
     return qp;
   }
 
-  /// Downloads a field's list items, by page.
+  /// Gets a field's list items, by page.
   ///
   /// [id]: The id of the field.
   ///
@@ -122,6 +123,17 @@ class FieldCollection extends EntityCollection<Field, api_mod.FieldCollection> {
     return FieldListItemCollection.fromApiModel(apiModel);
   }
 
+  /// Downloads a field's list items, by page.
+  ///
+  /// [id]: The id of the field.
+  ///
+  /// [parentValue]: The value of parent field.
+  ///
+  /// [valueFilter]: Limits results to fields whose value contains this text.
+  ///
+  /// [destinationFilePath]: The file path where the download should be saved.
+  ///
+  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
   Future<void> downloadListItems({
     required String id,
     String? parentValue,
@@ -136,20 +148,63 @@ class FieldCollection extends EntityCollection<Field, api_mod.FieldCollection> {
         query: qp);
   }
 
-  // TODO: Continue here
-  // Add ability to download via "getAllAsFlatFile" query parameter
+  /// Adds list items to a field's selection list.
+  ///
+  /// [id]: The id of the field.
+  ///
+  /// [listItems]: The list items to add or update.
+  Future<void> addListItems({required String id, required FieldListItemCollection items}) async {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'Value cannot be blank.');
+    }
+    if (items.items.isEmpty) {
+      throw ArgumentError.value(items, 'items', 'Cannot be empty.');
+    }
 
-  // /// Updates a field's list items.
-  // ///
-  // /// [id]: The id of the field.
-  // Future<FieldListItemCollection> updateListItems(String id) async {
-  //   final responseBody = await http.executeGetRequestWithTextResponse(
-  //     http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id),
-  //     app,
-  //   );
-  //   final apiModel = api_mod.FieldListItemCollection.fromJson(jsonDecode(responseBody));
-  //   return FieldListItemCollection.fromApiModel(apiModel);
-  // }
+    final bodyList = items.toApiModel().items;
+
+    // Only keep the properties needed for this operation
+    final jsonList = bodyList.map((x) {
+      final jsonMap = x.toJson();
+      jsonMap.removeWhere((key, value) {
+        return (key == 'ID') ? isNullOrEmpty(value) : false;
+      });
+      return jsonMap;
+    }).toList();
+
+    final qp = http.StandardQueryParams.get();
+
+    await http.executePostRequest(
+      http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id),
+      app,
+      query: qp,
+      body: jsonEncode(jsonList),
+    );
+  }
+
+  /// Sets or replaces a field's selection list items.
+  ///
+  /// [id]: The id of the field.
+  ///
+  /// [listItems]: The list items to add or update.
+  Future<void> setListItems({required String id, required List<String> values}) async {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'Value cannot be blank.');
+    }
+    if (values.isEmpty) {
+      throw ArgumentError.value(items, 'values', 'Cannot be empty.');
+    }
+
+    final qp = http.StandardQueryParams.get();
+    qp['type'] = 'file';
+
+    await http.executePostRequest(
+      http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id),
+      app,
+      query: qp,
+      body: values.join('\n') + '\n',
+    );
+  }
 }
 
 class Field with NucleusOneAppDependent {

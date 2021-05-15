@@ -31,6 +31,10 @@ class FieldListItem with NucleusOneAppDependent {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
+  factory FieldListItem.createNew({required String parentValue, required String value}) {
+    return FieldListItem._(id: '', parentValue: parentValue, value: value);
+  }
+
   factory FieldListItem.fromApiModel(api_mod.FieldListItem apiModel) {
     return FieldListItem._(
         id: apiModel.id!, parentValue: apiModel.parentValue!, value: apiModel.value!);
