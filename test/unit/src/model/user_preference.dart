@@ -1,0 +1,58 @@
+import 'dart:convert';
+
+import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/user_preference.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_users.dart';
+import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
+import 'package:test/test.dart';
+
+import '../api_model/user_preference.dart';
+import '../../../src/common.dart';
+import '../../../src/model_helper.dart';
+import '../../../src/mocks/http.dart';
+
+void main() {
+  group('UserPreference class tests', () {
+    setUp(() async {
+      await NucleusOne.intializeSdk();
+    });
+
+    tearDown(() async {
+      await NucleusOne.resetSdk();
+    });
+
+    test('Serialization test', () {
+      void performTests(api_mod.UserPreference apiModel) {
+        expect(apiModel.id, 'A');
+        expect(apiModel.userID, 'B');
+        expect(apiModel.userName, 'C');
+        expect(apiModel.userEmail, 'D');
+        expect(apiModel.stringValue, 'E');
+        expect(apiModel.boolValue, false);
+        expect(apiModel.intValue, 0);
+        expect(apiModel.floatValue, 0.1);
+        expect(apiModel.mapValue, '[{"0":"A","1":"B","2":"C"}]');
+      }
+
+      final apiModelOrig = api_mod.UserPreference.fromJson(jsonDecode(userPreferenceJson));
+      performTests(apiModelOrig);
+
+      // Convert it to a model class then back again
+      final apiModelCycled = UserPreference.fromApiModel(apiModelOrig).toApiModel();
+      performTests(apiModelCycled);
+    });
+
+    test('getById method tests', () async {
+      final expectedUrlPath =
+          http.apiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', 'ABC');
+      final n1App = getStandardN1App();
+      await performHttpTest<UserPreference>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppUsers(app: n1App).getPreferencesById('ABC'),
+        responseBody: userPreferenceJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+  });
+}

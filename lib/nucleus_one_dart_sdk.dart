@@ -16,3 +16,6 @@ export 'src/model/field_list_item.dart';
 export 'src/model/preview_metadata_item.dart';
 export 'src/model/query_result.dart';
 export 'src/model/user_profile.dart';
+export 'src/model/user_preferences.dart';
+export 'src/model/selected_twain_device.dart';
+export 'src/model/user_preference.dart';

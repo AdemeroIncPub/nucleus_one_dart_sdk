@@ -235,6 +235,8 @@ abstract class apiPaths {
   static const userLogin = '/user/login';
   static const userLogout = '/user/logout';
   static const userProfile = '/user/profile';
+  static const userPreferences = '/user/preferences';
+  static const userPreferenceFormat = '/user/preferences/<singleUserPreferenceId>';
 }
 
 abstract class ApiRequestBodyObject {

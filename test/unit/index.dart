@@ -12,6 +12,9 @@ import 'src/api_model/query_result.dart' as api_mod__query_result;
 import 'src/api_model/tenant_permissions.dart' as api_mod__tenant_permissions;
 import 'src/api_model/user.dart' as api_mod__user;
 import 'src/api_model/user_profile.dart' as api_mod__user_profile;
+import 'src/api_model/user_preferences.dart' as api_mod__user_preferences;
+import 'src/api_model/selected_twain_device.dart' as api_mod__selected_twain_device;
+import 'src/api_model/user_preference.dart' as api_mod__user_preference;
 import 'src/model/_common.dart' as mod___common;
 import 'src/model/address_book.dart' as mod__address_book;
 import 'src/model/classification.dart' as mod__classification;
@@ -26,6 +29,9 @@ import 'src/model/query_result.dart' as mod__query_result;
 import 'src/model/tenant_permissions.dart' as mod__tenant_permissions;
 import 'src/model/user.dart' as mod__user;
 import 'src/model/user_profile.dart' as mod__user_profile;
+import 'src/model/user_preferences.dart' as mod__user_preferences;
+import 'src/model/selected_twain_device.dart' as mod__selected_twain_device;
+import 'src/model/user_preference.dart' as mod__user_preference;
 import 'src/nucleus_one.dart' as n1;
 import 'src/common/string.dart' as common_string;
 import 'src/http.dart' as http;
@@ -53,6 +59,9 @@ void _apiModelTests() {
   api_mod__tenant_permissions.main();
   api_mod__user.main();
   api_mod__user_profile.main();
+  api_mod__user_preferences.main();
+  api_mod__selected_twain_device.main();
+  api_mod__user_preference.main();
 }
 
 void _modelTests() {
@@ -70,6 +79,9 @@ void _modelTests() {
   mod__tenant_permissions.main();
   mod__user.main();
   mod__user_profile.main();
+  mod__user_preferences.main();
+  mod__selected_twain_device.main();
+  mod__user_preference.main();
 }
 
 void _commonTests() {

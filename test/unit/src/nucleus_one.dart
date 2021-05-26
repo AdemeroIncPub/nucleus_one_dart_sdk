@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart';
 import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_users.dart';
 import 'package:test/test.dart';
 
 import '../../src/assertions.dart';
@@ -124,6 +125,14 @@ void main() {
 
       final c = n1App.fields();
       expect(c, isA<FieldCollection>());
+      expect(c.app, n1App);
+    });
+
+    test('NucleusOneAppUsers method tests', () {
+      final n1App = getStandardN1App();
+
+      final c = n1App.users();
+      expect(c, isA<NucleusOneAppUsers>());
       expect(c.app, n1App);
     });
 
