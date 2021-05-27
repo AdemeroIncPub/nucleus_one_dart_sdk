@@ -52,7 +52,7 @@ void main() {
       // Test with default parameters
       await performHttpTest<UserPreferences>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppUsers(app: n1App).get(),
+        httpCallCallback: () => NucleusOneAppUsers(app: n1App).getPreferences(),
         responseBody: userPreferencesJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
