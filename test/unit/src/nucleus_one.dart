@@ -4,6 +4,7 @@ import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_fields.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart';
 import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_users.dart';
@@ -124,7 +125,7 @@ void main() {
       final n1App = getStandardN1App();
 
       final c = n1App.fields();
-      expect(c, isA<FieldCollection>());
+      expect(c, isA<NucleusOneAppFields>());
       expect(c.app, n1App);
     });
 
