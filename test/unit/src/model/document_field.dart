@@ -78,6 +78,7 @@ void main() {
     test('get method tests', () async {
       final expectedUrlPath = http.apiPaths.documentFields;
       final n1App = getStandardN1App();
+
       // Test with default parameters
       await performHttpTest<QueryResult<DocumentFieldCollection>>(
         httpMethod: HttpMethods.GET,
@@ -85,6 +86,37 @@ void main() {
         responseBody: documentFieldCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
+      );
+
+      // Test with cursor and optional arguments
+      await performHttpTest<QueryResult<DocumentFieldCollection>>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppFields(app: n1App).getDocumentFields(
+          fieldId: 'A',
+          fieldValueType: 'B',
+          classificationId: 'C',
+          cursor: 'D',
+          fieldFilters: [
+            FieldFilter('fi0', 'fv0', 'ft0', 'fvt0'),
+            FieldFilter('fi1', 'fv1', 'ft1', 'fvt1'),
+          ],
+        ),
+        responseBody: documentFieldCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'fieldID=A',
+          'fieldValueType=B',
+          'classificationID=C',
+          'cursor=D',
+          'fieldID0=fi0',
+          'fieldValue0=fv0',
+          'fieldType0=ft0',
+          'fieldValueType0=fvt0',
+          'fieldID1=fi1',
+          'fieldValue1=fv1',
+          'fieldType1=ft1',
+          'fieldValueType1=fvt1',
+        ],
       );
     });
   });
