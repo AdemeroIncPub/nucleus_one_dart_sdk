@@ -57,13 +57,15 @@ void setRequestHeadersAuthCookie(HttpClientRequest request, NucleusOneAppInterna
     // headers.set('Cookie',
     //     'LoginUserName=ssouser@qwertyuiop.com; G_AUTHUSER_H=1; session_v1=IPY07xOR9mycvzscLy-yZTY5n3YqBqlqKNZ8Vg6aHlI');
 
-    switch (app.authProvider) {
-      case AuthProvider.google:
-        headers.set('Cookie', 'G_AUTHUSER_H=1; session_v1=${app.sessionId}');
-        break;
-      default:
-        throw RangeError('Invalid auth provider: ${app.authProvider}');
-    }
+    // switch (app.authProvider) {
+    //   case AuthProvider.google:
+    //     headers.set('Cookie', 'G_AUTHUSER_H=1; session_v1=${app.sessionId}');
+    //     break;
+    //   default:
+    //     throw RangeError('Invalid auth provider: ${app.authProvider}');
+    // }
+
+    headers.set('Cookie', 'session_v1=${app.sessionId}');
   }
 }
 
@@ -106,7 +108,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
   HttpClientRequest clientReq;
 
   {
-    final qpAsString = (qp == null) ? '' : '?' + getQueryParamsString(qp);
+    final qpAsString = ((qp == null) || qp.isEmpty) ? '' : '?' + getQueryParamsString(qp);
     final fullUrl = app.getFullUrl(apiRelativeUrlPath) + qpAsString;
     final parsedUri = Uri.parse(fullUrl);
     final httpClient = getStandardHttpClient();

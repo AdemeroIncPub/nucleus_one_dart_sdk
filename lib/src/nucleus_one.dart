@@ -111,20 +111,16 @@ class NucleusOneAppInternal extends NucleusOneApp {
   }) : super(options: options);
 
   /// Internal use only.
-  void setAuthProvider(AuthProvider? authProvider, String? sessionId) {
-    _authProvider = authProvider;
-    _sessionId = (authProvider == null) ? null : sessionId;
+  void setAuthenticationState(String? sessionId) {
+    _authenticated = (sessionId != null) && sessionId.isNotEmpty;
+    _sessionId = sessionId;
   }
+
+  /// Internal use only.
+  bool get authenticated => _authenticated;
 
   /// Internal use only.
   String? get sessionId => _sessionId;
-
-  /// Internal use only.
-  AuthProvider? get authProvider => _authProvider;
-
-  void setSessionId(String sessionId) {
-    _sessionId = sessionId;
-  }
 
   /// Internal use only.
   String getFullUrl(String apiRelativeUrlPath) {
@@ -143,8 +139,8 @@ abstract class NucleusOneApp {
     required this.options,
   }) : _baseUrlWithApi = options.baseUrl + apiBaseUrlPath;
 
+  bool _authenticated = false;
   String? _sessionId;
-  AuthProvider? _authProvider;
 
   /// Authentication and authorization
   Auth auth() {
@@ -179,6 +175,21 @@ class Auth with NucleusOneAppDependent {
     this.app = app;
   }
 
+  /// Reestablishes the authentication state to be with the provided auth provider and session id.
+  ///
+  /// [authProvider]: The authentication provider.
+  ///
+  /// [sessionId]: An existing session id with the authentication provider.
+  LoginResult reestablishExistingSession(String sessionId) {
+    app.setAuthenticationState(sessionId);
+
+    return LoginResult(
+      success: true,
+      sessionId: sessionId,
+      user: User(app: app),
+    );
+  }
+
   /// Logs in to Nucleus One using Google Sign-In.  If successful, the session information is stored
   /// internally, for use in future requests.
   /// A result is returned, regardless of success.
@@ -205,7 +216,7 @@ class Auth with NucleusOneAppDependent {
     final success = (sessionId != null) && sessionId.isNotEmpty;
 
     if (success) {
-      app.setAuthProvider(AuthProvider.google, sessionId);
+      app.setAuthenticationState(sessionId);
     }
 
     return LoginResult(
@@ -221,11 +232,9 @@ class Auth with NucleusOneAppDependent {
       app,
     );
 
-    app.setAuthProvider(null, null);
+    app.setAuthenticationState(null);
   }
 }
-
-enum AuthProvider { google }
 
 class LoginResult {
   final bool success;

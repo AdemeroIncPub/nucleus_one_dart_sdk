@@ -140,40 +140,27 @@ void main() {
         () async {
       // Test in three iterations:
       // 1) No session
-      // 2) Session, but AuthProvider
-      // 3) Session and AuthProvider
-      for (var i = 0; i <= 2; ++i) {
-        final setSession = (i == 1);
-        final authenticated = (i == 2);
+      // 2) Session
+      for (var i = 0; i <= 1; ++i) {
+        final authenticated = (i == 1);
         HttpClientOperationResult? opResult;
 
-        try {
-          opResult = await createMockHttpClientScopeForGetRequest(
-            callback: () async {
-              final n1App = getStandardN1App();
+        opResult = await createMockHttpClientScopeForGetRequest(
+          callback: () async {
+            final n1App = getStandardN1App();
 
-              if (setSession) {
-                n1App.setSessionId('abc123');
-              } else if (authenticated) {
-                n1App.setAuthProvider(AuthProvider.google, 'abc123');
-              }
+            if (authenticated) {
+              n1App.setAuthenticationState('abc123');
+            }
 
-              // This is an arbitrary method call to trigger an HttpClient request
-              await n1App.documents().getCount(true, true);
-            },
-            responseBody: '0',
-          );
-        } on RangeError catch (e) {
-          // An exception is only expected on the second iteration, where session id has been set, but
-          // not auth provider configured.
-          if (i != 1) {
-            rethrow;
-          }
-          expect(e.message, startsWith('Invalid auth provider: '));
-        }
+            // This is an arbitrary method call to trigger an HttpClient request
+            await n1App.documents().getCount(true, true);
+          },
+          responseBody: '0',
+        );
 
         if (i != 1) {
-          expect(opResult!.headers.headers.length, authenticated ? 6 : 5);
+          expect(opResult.headers.headers.length, authenticated ? 6 : 5);
           opResult.headers.expectContainsAllKeys(
               ['Pragma', 'Cache-Control', 'Accept', 'Content-Type', 'Accept-Encoding']);
           if (authenticated) {
@@ -239,6 +226,16 @@ void main() {
       expect(auth.app, n1App);
     });
 
+    test('reestablishExistingSession method tests', () {
+      final n1App = getStandardN1App();
+      final auth = n1App.auth();
+
+      final r = auth.reestablishExistingSession('abc');
+      expect(r.success, isTrue);
+      expect(r.sessionId, 'abc');
+      expect(r.user, isNotNull);
+    });
+
     test('loginGoogle method tests', () async {
       const sessionId = 'abc';
 
@@ -265,12 +262,12 @@ void main() {
               expect(loginResult.success, isTrue);
               expect(loginResult.sessionId, sessionId);
               expect(n1App.sessionId, sessionId);
-              expect(n1App.authProvider, AuthProvider.google);
+              expect(n1App.authenticated, isTrue);
             } else {
               expect(loginResult.success, isFalse);
               expect(loginResult.sessionId, isNull);
               expect(n1App.sessionId, isNull);
-              expect(n1App.authProvider, isNull);
+              expect(n1App.authenticated, isFalse);
             }
           },
         );
@@ -279,7 +276,7 @@ void main() {
 
     test('logout method tests', () async {
       final n1App = getStandardN1App();
-      n1App.setAuthProvider(AuthProvider.google, '123');
+      n1App.setAuthenticationState('123');
 
       await http_helper.performHttpTest(
         httpMethod: HttpMethods.GET,
@@ -290,15 +287,7 @@ void main() {
       );
 
       expect(n1App.sessionId, isNull);
-      expect(n1App.authProvider, isNull);
-    });
-  });
-
-  group('AuthProvider enum tests', () {
-    test('Value count tests', () {
-      expect(AuthProvider.values.length, 1);
-      expect(AuthProvider.values[0], AuthProvider.google,
-          reason: 'Unexpected enum value at this index');
+      expect(n1App.authenticated, isFalse);
     });
   });
 

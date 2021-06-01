@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart';
-import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
 import 'package:test/test.dart';
 
 import '../../src/common.dart';
@@ -43,8 +41,7 @@ void main() {
     await createMockHttpClientScopeForGetRequest(
       additionalMockSetup: (client, requestLocal, response) {
         final n1App = getStandardN1App();
-        n1App.setAuthProvider(AuthProvider.google, '234');
-        n1App.setSessionId('123');
+        n1App.setAuthenticationState('123');
         setAuthenticatedRequestHeaders(requestLocal, n1App);
         headers = requestLocal.headers as MockHttpHeaders;
       },
@@ -78,35 +75,12 @@ void main() {
       expect(headers.headers['Cookie'], isNull);
     });
 
-    test('Invalid auth provider', () async {
-      final op = () async => await createMockHttpClientScopeForGetRequest(
-            additionalMockSetup: (client, requestLocal, response) {
-              final n1App = getStandardN1App();
-              n1App.setSessionId('123');
-              setRequestHeadersAuthCookie(requestLocal, n1App);
-            },
-            callback: () async {
-              // This is an arbitrary http call to trigger HTTP request execution
-              await HttpClient().getUrl(Uri.parse('https://google.com'));
-            },
-            responseBody: '',
-          );
-
-      expect(
-          op,
-          throwsA(allOf(
-            isRangeError,
-            predicate((RangeError e) => e.message.toString().startsWith('Invalid auth provider:')),
-          )));
-    });
-
     test('Sucessful', () async {
       late MockHttpHeaders headers;
       await createMockHttpClientScopeForGetRequest(
         additionalMockSetup: (client, requestLocal, response) {
           final n1App = getStandardN1App();
-          n1App.setSessionId('123');
-          n1App.setAuthProvider(AuthProvider.google, '234');
+          n1App.setAuthenticationState('123');
           setRequestHeadersAuthCookie(requestLocal, n1App);
           headers = requestLocal.headers as MockHttpHeaders;
         },
@@ -117,7 +91,7 @@ void main() {
         responseBody: '',
       );
 
-      expect(headers.headers['Cookie'], ['G_AUTHUSER_H=1; session_v1=234']);
+      expect(headers.headers['Cookie'], ['session_v1=123']);
     });
   });
 
@@ -149,8 +123,7 @@ void main() {
           callback: () async {
             final n1App = getStandardN1App();
             if (reqAuthenticated) {
-              n1App.setAuthProvider(AuthProvider.google, '234');
-              n1App.setSessionId('123');
+              n1App.setAuthenticationState('123');
             }
             responseText = await executeGetRequestWithTextResponse(
               '',
