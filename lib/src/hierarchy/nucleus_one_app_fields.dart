@@ -22,21 +22,18 @@ class NucleusOneAppFields with NucleusOneAppDependent {
   ///
   ///
   Future<QueryResult<DocumentFieldCollection>> getDocumentFields({
-    String? fieldId,
-    String? fieldValueType,
-    String? classificationId,
+    required String fieldId,
+    required String fieldValueType,
     String? cursor,
+    String? classificationId,
     List<FieldFilter>? fieldFilters,
   }) async {
     final qp = http.StandardQueryParams.get([
       (sqp) => sqp.cursor(cursor),
     ]);
-    if (fieldId != null) {
-      qp['fieldID'] = fieldId;
-    }
-    if (fieldValueType != null) {
-      qp['fieldValueType'] = fieldValueType;
-    }
+    qp['fieldID'] = fieldId;
+    qp['fieldValueType'] = fieldValueType;
+
     if (classificationId != null) {
       qp['classificationID'] = classificationId;
     }

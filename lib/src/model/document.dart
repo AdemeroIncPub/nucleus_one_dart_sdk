@@ -333,33 +333,52 @@ class DocumentCollection extends EntityCollection<Document, void> {
 }
 
 class Document with NucleusOneAppDependent {
-  Document._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.documentID,
-      required this.createdOn,
-      required this.purgeDate,
-      required this.name,
-      required this.pageCount,
-      required this.fileSize,
-      required this.thumbnailUrl,
-      required this.isSigned,
-      required this.classificationID,
-      required this.classificationName,
-      required this.previewMetadata,
-      required this.documentApprovalID,
-      required this.documentApprovalCreatedOn,
-      required this.documentSubscriptionID,
-      required this.documentSubscriptionCreatedOn,
-      required this.documentSignatureSessionRecipientID,
-      required this.documentSignatureSessionID,
-      required this.documentSignatureSessionRecipientEmail,
-      required this.documentSignatureSessionRecipientFullName,
-      required this.documentSignatureSessionRecipientRequestedOn,
-      required this.roleName,
-      required this.processName,
-      required this.processElementName,
-      required this.score}) {
+  Document._({
+    NucleusOneAppInternal? app,
+    required this.id,
+    required this.documentID,
+    required this.createdOn,
+    required this.purgeDate,
+    required this.name,
+    required this.pageCount,
+    required this.fileSize,
+    required this.thumbnailUrl,
+    required this.isSigned,
+    required this.classificationID,
+    required this.classificationName,
+    required this.previewMetadata,
+    required this.documentApprovalID,
+    required this.documentApprovalCreatedOn,
+    required this.documentSubscriptionID,
+    required this.documentSubscriptionCreatedOn,
+    required this.documentSignatureSessionRecipientID,
+    required this.documentSignatureSessionID,
+    required this.documentSignatureSessionRecipientEmail,
+    required this.documentSignatureSessionRecipientFullName,
+    required this.documentSignatureSessionRecipientRequestedOn,
+    required this.roleName,
+    required this.processName,
+    required this.processElementName,
+    required this.score,
+    required this.createdByUserID,
+    required this.createdByUserEmail,
+    required this.createdByUserName,
+    required this.nameLower,
+    required this.origin,
+    required this.isActive,
+    required this.isClassified,
+    required this.isMarkedForPurge,
+    required this.signatureSessionIsActive,
+    required this.hasSinglePageImages,
+    required this.signaturesCompletedOn,
+    required this.purgeMarkedOn,
+    required this.failedBuildAttempts,
+    required this.lastError,
+    required this.bucketName,
+    required this.sourceObjectName,
+    required this.thumbnailObjectName,
+    required this.classificationNameLower,
+  }) {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
@@ -392,38 +411,75 @@ class Document with NucleusOneAppDependent {
           processName: '',
           processElementName: '',
           score: 0,
+          createdByUserID: '',
+          createdByUserEmail: '',
+          createdByUserName: '',
+          nameLower: '',
+          origin: '',
+          isActive: false,
+          isClassified: false,
+          isMarkedForPurge: false,
+          signatureSessionIsActive: false,
+          hasSinglePageImages: false,
+          signaturesCompletedOn: '',
+          purgeMarkedOn: '',
+          failedBuildAttempts: false,
+          lastError: '',
+          bucketName: '',
+          sourceObjectName: '',
+          thumbnailObjectName: '',
+          classificationNameLower: '',
         );
 
   factory Document.fromApiModel(api_mod.Document apiModel) {
     return Document._(
-        id: apiModel.id!,
-        documentID: apiModel.documentID!,
-        createdOn: apiModel.createdOn!,
-        purgeDate: apiModel.purgeDate!,
-        name: apiModel.name!,
-        pageCount: apiModel.pageCount!,
-        fileSize: apiModel.fileSize!,
-        thumbnailUrl: apiModel.thumbnailUrl!,
-        isSigned: apiModel.isSigned!,
-        classificationID: apiModel.classificationID!,
-        classificationName: apiModel.classificationName!,
-        previewMetadata:
-            apiModel.previewMetadata?.map((x) => PreviewMetadataItem.fromApiModel(x)).toList(),
-        documentApprovalID: apiModel.documentApprovalID!,
-        documentApprovalCreatedOn: apiModel.documentApprovalCreatedOn!,
-        documentSubscriptionID: apiModel.documentSubscriptionID!,
-        documentSubscriptionCreatedOn: apiModel.documentSubscriptionCreatedOn!,
-        documentSignatureSessionRecipientID: apiModel.documentSignatureSessionRecipientID!,
-        documentSignatureSessionID: apiModel.documentSignatureSessionID!,
-        documentSignatureSessionRecipientEmail: apiModel.documentSignatureSessionRecipientEmail!,
-        documentSignatureSessionRecipientFullName:
-            apiModel.documentSignatureSessionRecipientFullName!,
-        documentSignatureSessionRecipientRequestedOn:
-            apiModel.documentSignatureSessionRecipientRequestedOn!,
-        roleName: apiModel.roleName!,
-        processName: apiModel.processName!,
-        processElementName: apiModel.processElementName!,
-        score: apiModel.score!);
+      id: apiModel.id!,
+      documentID: apiModel.documentID!,
+      createdOn: apiModel.createdOn!,
+      purgeDate: apiModel.purgeDate!,
+      name: apiModel.name!,
+      pageCount: apiModel.pageCount!,
+      fileSize: apiModel.fileSize!,
+      thumbnailUrl: apiModel.thumbnailUrl!,
+      isSigned: apiModel.isSigned!,
+      classificationID: apiModel.classificationID!,
+      classificationName: apiModel.classificationName!,
+      previewMetadata:
+          apiModel.previewMetadata?.map((x) => PreviewMetadataItem.fromApiModel(x)).toList(),
+      documentApprovalID: apiModel.documentApprovalID!,
+      documentApprovalCreatedOn: apiModel.documentApprovalCreatedOn!,
+      documentSubscriptionID: apiModel.documentSubscriptionID!,
+      documentSubscriptionCreatedOn: apiModel.documentSubscriptionCreatedOn!,
+      documentSignatureSessionRecipientID: apiModel.documentSignatureSessionRecipientID!,
+      documentSignatureSessionID: apiModel.documentSignatureSessionID!,
+      documentSignatureSessionRecipientEmail: apiModel.documentSignatureSessionRecipientEmail!,
+      documentSignatureSessionRecipientFullName:
+          apiModel.documentSignatureSessionRecipientFullName!,
+      documentSignatureSessionRecipientRequestedOn:
+          apiModel.documentSignatureSessionRecipientRequestedOn!,
+      roleName: apiModel.roleName!,
+      processName: apiModel.processName!,
+      processElementName: apiModel.processElementName!,
+      score: apiModel.score!,
+      createdByUserID: apiModel.createdByUserID!,
+      createdByUserEmail: apiModel.createdByUserEmail!,
+      createdByUserName: apiModel.createdByUserName!,
+      nameLower: apiModel.nameLower!,
+      origin: apiModel.origin!,
+      isActive: apiModel.isActive!,
+      isClassified: apiModel.isClassified!,
+      isMarkedForPurge: apiModel.isMarkedForPurge!,
+      signatureSessionIsActive: apiModel.signatureSessionIsActive!,
+      hasSinglePageImages: apiModel.hasSinglePageImages!,
+      signaturesCompletedOn: apiModel.signaturesCompletedOn!,
+      purgeMarkedOn: apiModel.purgeMarkedOn!,
+      failedBuildAttempts: apiModel.failedBuildAttempts!,
+      lastError: apiModel.lastError!,
+      bucketName: apiModel.bucketName!,
+      sourceObjectName: apiModel.sourceObjectName!,
+      thumbnailObjectName: apiModel.thumbnailObjectName!,
+      classificationNameLower: apiModel.classificationNameLower!,
+    );
   }
 
   String id;
@@ -476,6 +532,42 @@ class Document with NucleusOneAppDependent {
 
   int score;
 
+  String createdByUserID;
+
+  String createdByUserEmail;
+
+  String createdByUserName;
+
+  String nameLower;
+
+  String origin;
+
+  bool isActive;
+
+  bool isClassified;
+
+  bool isMarkedForPurge;
+
+  bool signatureSessionIsActive;
+
+  bool hasSinglePageImages;
+
+  String signaturesCompletedOn;
+
+  String purgeMarkedOn;
+
+  bool failedBuildAttempts;
+
+  String lastError;
+
+  String bucketName;
+
+  String sourceObjectName;
+
+  String thumbnailObjectName;
+
+  String classificationNameLower;
+
   api_mod.Document toApiModel() {
     return api_mod.Document()
       ..id = id
@@ -502,6 +594,24 @@ class Document with NucleusOneAppDependent {
       ..roleName = roleName
       ..processName = processName
       ..processElementName = processElementName
-      ..score = score;
+      ..score = score
+      ..createdByUserID = createdByUserID
+      ..createdByUserEmail = createdByUserEmail
+      ..createdByUserName = createdByUserName
+      ..nameLower = nameLower
+      ..origin = origin
+      ..isActive = isActive
+      ..isClassified = isClassified
+      ..isMarkedForPurge = isMarkedForPurge
+      ..signatureSessionIsActive = signatureSessionIsActive
+      ..hasSinglePageImages = hasSinglePageImages
+      ..signaturesCompletedOn = signaturesCompletedOn
+      ..purgeMarkedOn = purgeMarkedOn
+      ..failedBuildAttempts = failedBuildAttempts
+      ..lastError = lastError
+      ..bucketName = bucketName
+      ..sourceObjectName = sourceObjectName
+      ..thumbnailObjectName = thumbnailObjectName
+      ..classificationNameLower = classificationNameLower;
   }
 }

@@ -82,10 +82,16 @@ void main() {
       // Test with default parameters
       await performHttpTest<QueryResult<DocumentFieldCollection>>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppFields(app: n1App).getDocumentFields(),
+        httpCallCallback: () => NucleusOneAppFields(app: n1App).getDocumentFields(
+          fieldId: 'A',
+          fieldValueType: 'B',
+        ),
         responseBody: documentFieldCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
+        expectedRequestQueryParams: [
+          'fieldID=A',
+          'fieldValueType=B',
+        ],
       );
 
       // Test with cursor and optional arguments
@@ -94,8 +100,8 @@ void main() {
         httpCallCallback: () => NucleusOneAppFields(app: n1App).getDocumentFields(
           fieldId: 'A',
           fieldValueType: 'B',
-          classificationId: 'C',
-          cursor: 'D',
+          cursor: 'C',
+          classificationId: 'D',
           fieldFilters: [
             FieldFilter('fi0', 'fv0', 'ft0', 'fvt0'),
             FieldFilter('fi1', 'fv1', 'ft1', 'fvt1'),
@@ -106,8 +112,8 @@ void main() {
         expectedRequestQueryParams: [
           'fieldID=A',
           'fieldValueType=B',
-          'classificationID=C',
-          'cursor=D',
+          'cursor=C',
+          'classificationID=D',
           'fieldID0=fi0',
           'fieldValue0=fv0',
           'fieldType0=ft0',

@@ -39,7 +39,25 @@ Document _$DocumentFromJson(Map<String, dynamic> json) {
     ..roleName = json['RoleName'] as String?
     ..processName = json['ProcessName'] as String?
     ..processElementName = json['ProcessElementName'] as String?
-    ..score = json['Score'] as int?;
+    ..score = json['Score'] as int?
+    ..createdByUserID = json['CreatedByUserID'] as String?
+    ..createdByUserEmail = json['CreatedByUserEmail'] as String?
+    ..createdByUserName = json['CreatedByUserName'] as String?
+    ..nameLower = json['NameLower'] as String?
+    ..origin = json['Origin'] as String?
+    ..isActive = json['IsActive'] as bool?
+    ..isClassified = json['IsClassified'] as bool?
+    ..isMarkedForPurge = json['IsMarkedForPurge'] as bool?
+    ..signatureSessionIsActive = json['SignatureSessionIsActive'] as bool?
+    ..hasSinglePageImages = json['HasSinglePageImages'] as bool?
+    ..signaturesCompletedOn = json['SignaturesCompletedOn'] as String?
+    ..purgeMarkedOn = json['PurgeMarkedOn'] as String?
+    ..failedBuildAttempts = json['FailedBuildAttempts'] as bool?
+    ..lastError = json['LastError'] as String?
+    ..bucketName = json['BucketName'] as String?
+    ..sourceObjectName = json['SourceObjectName'] as String?
+    ..thumbnailObjectName = json['ThumbnailObjectName'] as String?
+    ..classificationNameLower = json['ClassificationNameLower'] as String?;
 }
 
 Map<String, dynamic> _$DocumentToJson(Document instance) {
@@ -82,5 +100,23 @@ Map<String, dynamic> _$DocumentToJson(Document instance) {
   writeNotNull('ProcessName', instance.processName);
   writeNotNull('ProcessElementName', instance.processElementName);
   writeNotNull('Score', instance.score);
+  writeNotNull('CreatedByUserID', instance.createdByUserID);
+  writeNotNull('CreatedByUserEmail', instance.createdByUserEmail);
+  writeNotNull('CreatedByUserName', instance.createdByUserName);
+  writeNotNull('NameLower', instance.nameLower);
+  writeNotNull('Origin', instance.origin);
+  writeNotNull('IsActive', instance.isActive);
+  writeNotNull('IsClassified', instance.isClassified);
+  writeNotNull('IsMarkedForPurge', instance.isMarkedForPurge);
+  writeNotNull('SignatureSessionIsActive', instance.signatureSessionIsActive);
+  writeNotNull('HasSinglePageImages', instance.hasSinglePageImages);
+  writeNotNull('SignaturesCompletedOn', instance.signaturesCompletedOn);
+  writeNotNull('PurgeMarkedOn', instance.purgeMarkedOn);
+  writeNotNull('FailedBuildAttempts', instance.failedBuildAttempts);
+  writeNotNull('LastError', instance.lastError);
+  writeNotNull('BucketName', instance.bucketName);
+  writeNotNull('SourceObjectName', instance.sourceObjectName);
+  writeNotNull('ThumbnailObjectName', instance.thumbnailObjectName);
+  writeNotNull('ClassificationNameLower', instance.classificationNameLower);
   return val;
 }

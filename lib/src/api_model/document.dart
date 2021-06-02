@@ -90,6 +90,60 @@ class Document {
   @JsonKey(name: 'Score')
   int? score;
 
+  @JsonKey(name: 'CreatedByUserID')
+  String? createdByUserID;
+
+  @JsonKey(name: 'CreatedByUserEmail')
+  String? createdByUserEmail;
+
+  @JsonKey(name: 'CreatedByUserName')
+  String? createdByUserName;
+
+  @JsonKey(name: 'NameLower')
+  String? nameLower;
+
+  @JsonKey(name: 'Origin')
+  String? origin;
+
+  @JsonKey(name: 'IsActive')
+  bool? isActive;
+
+  @JsonKey(name: 'IsClassified')
+  bool? isClassified;
+
+  @JsonKey(name: 'IsMarkedForPurge')
+  bool? isMarkedForPurge;
+
+  @JsonKey(name: 'SignatureSessionIsActive')
+  bool? signatureSessionIsActive;
+
+  @JsonKey(name: 'HasSinglePageImages')
+  bool? hasSinglePageImages;
+
+  @JsonKey(name: 'SignaturesCompletedOn')
+  String? signaturesCompletedOn;
+
+  @JsonKey(name: 'PurgeMarkedOn')
+  String? purgeMarkedOn;
+
+  @JsonKey(name: 'FailedBuildAttempts')
+  bool? failedBuildAttempts;
+
+  @JsonKey(name: 'LastError')
+  String? lastError;
+
+  @JsonKey(name: 'BucketName')
+  String? bucketName;
+
+  @JsonKey(name: 'SourceObjectName')
+  String? sourceObjectName;
+
+  @JsonKey(name: 'ThumbnailObjectName')
+  String? thumbnailObjectName;
+
+  @JsonKey(name: 'ClassificationNameLower')
+  String? classificationNameLower;
+
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated
