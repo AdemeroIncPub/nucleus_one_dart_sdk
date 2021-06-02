@@ -101,11 +101,29 @@ void main() {
     // method, which only needs to be tested in one place; not for all operations.
     test('executeGetRequestWithTextResponse method Tests', () async {
       final requestCombinations = [
-        {'query': null, 'body': null, 'authenticated': true},
+        {
+          'query': null,
+          'body': null,
+          'authenticated': true,
+          'responseHttpStatus': HttpStatus.ok,
+        },
         {
           'query': {'A': 1},
           'body': 'B',
-          'authenticated': false
+          'authenticated': false,
+          'responseHttpStatus': HttpStatus.ok,
+        },
+        {
+          'query': {'A': 1},
+          'body': 'B',
+          'authenticated': false,
+          'responseHttpStatus': HttpStatus.unauthorized,
+        },
+        {
+          'query': {'A': 1},
+          'body': 'B',
+          'authenticated': false,
+          'responseHttpStatus': HttpStatus.internalServerError,
         },
       ];
 
@@ -115,40 +133,53 @@ void main() {
         final reqQuery = requestCombo['query'] as Map<String, dynamic>?;
         final reqBody = requestCombo['body'] as String?;
         final reqAuthenticated = requestCombo['authenticated'] as bool;
+        final responseHttpStatus = requestCombo['responseHttpStatus'] as int;
+        final responseIsError = (responseHttpStatus != HttpStatus.ok);
 
-        final opResult = await createMockHttpClientScopeForGetRequest(
-          additionalMockSetup: (client, requestLocal, response) {
-            headers = requestLocal.headers as MockHttpHeaders;
-          },
-          callback: () async {
-            final n1App = getStandardN1App();
-            if (reqAuthenticated) {
-              n1App.setAuthenticationState('123');
-            }
-            responseText = await executeGetRequestWithTextResponse(
-              '',
-              n1App,
-              query: reqQuery,
-              body: reqBody,
-              authenticated: reqAuthenticated,
-            );
-          },
-          responseBody: '123',
-        );
+        late HttpClientOperationResult opResult;
+        try {
+          opResult = await createMockHttpClientScopeForGetRequest(
+            additionalMockSetup: (client, requestLocal, response) {
+              headers = requestLocal.headers as MockHttpHeaders;
+            },
+            callback: () async {
+              final n1App = getStandardN1App();
+              if (reqAuthenticated) {
+                n1App.setAuthenticationState('123');
+              }
+              responseText = await executeGetRequestWithTextResponse(
+                '',
+                n1App,
+                query: reqQuery,
+                body: reqBody,
+                authenticated: reqAuthenticated,
+              );
+            },
+            responseBody: '123',
+            responseHttpStatus: responseHttpStatus,
+          );
+        } on HttpException catch (e) {
+          // Verify that an exception was expected and that it has the right HTTP status
+          expect(responseIsError, isTrue);
+          expect(e.status, responseHttpStatus);
+          expect(e.message, '123');
+        }
 
-        expect(opResult.request.method, 'GET');
-        expect(responseText, '123');
-        (reqQuery == null)
-            ? expect(opResult.request.uri.query, '')
-            : expect(opResult.request.uri.query, 'A=1');
-        expect(opResult.request.getBodyAsString(), reqBody ?? '');
+        if (!responseIsError) {
+          expect(opResult.request.method, 'GET');
+          expect(responseText, '123');
+          (reqQuery == null)
+              ? expect(opResult.request.uri.query, '')
+              : expect(opResult.request.uri.query, 'A=1');
+          expect(opResult.request.getBodyAsString(), reqBody ?? '');
 
-        if (reqAuthenticated) {
-          expect(headers.headers.length, greaterThan(expectedCommonHeaderCount));
-          expect(headers.headers['Cookie'], isNotNull);
-        } else {
-          expect(headers.headers.length, expectedCommonHeaderCount);
-          expect(headers.headers['Cookie'], isNull);
+          if (reqAuthenticated) {
+            expect(headers.headers.length, greaterThan(expectedCommonHeaderCount));
+            expect(headers.headers['Cookie'], isNotNull);
+          } else {
+            expect(headers.headers.length, expectedCommonHeaderCount);
+            expect(headers.headers['Cookie'], isNull);
+          }
         }
       }
     });
@@ -245,9 +276,31 @@ void main() {
     test('toJson method tests', () {
       final arbo = _ApiRequestBodyObjectTest();
       expect(arbo.toJson().length, 0);
-      
+
       arbo.populateFromJsonPublic(json);
       validateMapContents(arbo.toJson());
+    });
+  });
+
+  group('HttpException class tests', () {
+    test('Constructor test', () {
+      var e = HttpException(200);
+      expect(e.status, 200);
+      expect(e.message, isNull);
+
+      e = HttpException(500, 'abc');
+      expect(e.status, 500);
+      expect(e.message, 'abc');
+    });
+
+    test('fromJsonSafe factory constructor test', () {
+      var e = HttpException.fromJsonSafe(200, 'abc');
+      expect(e.status, 200);
+      expect(e.message, 'abc');
+
+      e = HttpException.fromJsonSafe(500, '{"message":"xyz"}');
+      expect(e.status, 500);
+      expect(e.message, 'xyz');
     });
   });
 }

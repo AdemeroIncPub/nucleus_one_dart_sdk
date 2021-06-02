@@ -85,12 +85,14 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForGetRequest({
   required Future<void> Function() callback,
   void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
   required String responseBody,
+  int responseHttpStatus = HttpStatus.ok,
   Map<String, String>? responseCookies,
 }) async {
   return _createStandardMockHttpClientScopeForAllRequests(
     callback: callback,
     additionalMockSetup: additionalMockSetup,
     responseBody: responseBody,
+    responseHttpStatus: responseHttpStatus,
     responseCookies: responseCookies,
   );
 }
@@ -100,12 +102,14 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForPostRequest({
   required Future<void> Function() callback,
   void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
   required String responseBody,
+  int responseHttpStatus = HttpStatus.ok,
   Map<String, String>? responseCookies,
 }) async {
   return _createStandardMockHttpClientScopeForAllRequests(
     callback: callback,
     additionalMockSetup: additionalMockSetup,
     responseBody: responseBody,
+    responseHttpStatus: responseHttpStatus,
     responseCookies: responseCookies,
   );
 }
@@ -115,12 +119,14 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForDeleteRequest({
   required Future<void> Function() callback,
   void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
   required String responseBody,
+  int responseHttpStatus = HttpStatus.ok,
   Map<String, String>? responseCookies,
 }) async {
   return _createStandardMockHttpClientScopeForAllRequests(
     callback: callback,
     additionalMockSetup: additionalMockSetup,
     responseBody: responseBody,
+    responseHttpStatus: responseHttpStatus,
     responseCookies: responseCookies,
   );
 }
@@ -130,12 +136,14 @@ Future<HttpClientOperationResult> createMockHttpClientScopeForPutRequest({
   required Future<void> Function() callback,
   void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
   required String responseBody,
+  int responseHttpStatus = HttpStatus.ok,
   Map<String, String>? responseCookies,
 }) async {
   return _createStandardMockHttpClientScopeForAllRequests(
     callback: callback,
     additionalMockSetup: additionalMockSetup,
     responseBody: responseBody,
+    responseHttpStatus: responseHttpStatus,
     responseCookies: responseCookies,
   );
 }
@@ -145,6 +153,7 @@ Future<HttpClientOperationResult> _createStandardMockHttpClientScopeForAllReques
   required Future<void> Function() callback,
   void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
   required String responseBody,
+  int responseHttpStatus = HttpStatus.ok,
   Map<String, String>? responseCookies,
 }) async {
   return _createMockHttpClientScopeForAllRequestsInternal(
@@ -153,6 +162,7 @@ Future<HttpClientOperationResult> _createStandardMockHttpClientScopeForAllReques
       return _createMockHttpClientAllRequests(
         additionalMockSetup: additionalMockSetup,
         responseBody: responseBody,
+        responseHttpStatus: responseHttpStatus,
         responseCookies: responseCookies,
       );
     },
@@ -179,6 +189,7 @@ Future<HttpClientOperationResult> _createMockHttpClientScopeForAllRequestsIntern
 HttpClientOperationResult _createMockHttpClientAllRequests({
   void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
   required String responseBody,
+  int responseHttpStatus = HttpStatus.ok,
   Map<String, String>? responseCookies,
 }) {
   responseCookies ??= {};
@@ -218,7 +229,7 @@ HttpClientOperationResult _createMockHttpClientAllRequests({
   });
 
   when(() => response.contentLength).thenReturn(responseBody.length);
-  when(() => response.statusCode).thenReturn(HttpStatus.ok);
+  when(() => response.statusCode).thenReturn(responseHttpStatus);
   when(() => response.compressionState)
       .thenReturn(HttpClientResponseCompressionState.notCompressed);
   when(() => response.cookies).thenReturn(

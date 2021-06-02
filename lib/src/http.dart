@@ -139,7 +139,14 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
     clientReq.write(body);
   }
 
-  return await clientReq.close();
+  final resp = await clientReq.close();
+
+  if (resp.statusCode != HttpStatus.ok) {
+    final respBody = await resp.transform(utf8.decoder).join();
+    throw HttpException.fromJsonSafe(resp.statusCode, respBody);
+  }
+
+  return resp;
 }
 
 Future<String> executeGetRequestWithTextResponse(
@@ -149,9 +156,10 @@ Future<String> executeGetRequestWithTextResponse(
   String? body,
   bool authenticated = true,
 }) async {
-  HttpClientResponse clientResponse =
+  final clientResponse =
       await _executeGetRequestInternal(authenticated, app, apiRelativeUrlPath, query, body);
-  return await clientResponse.transform(utf8.decoder).join();
+  final respBody = await clientResponse.transform(utf8.decoder).join();
+  return respBody;
 }
 
 Future<HttpClientResponse> executeGetRequest(
@@ -294,5 +302,25 @@ class StandardQueryParams {
     if (cursor != null) {
       _map['cursor'] = cursor;
     }
+  }
+}
+
+@immutable
+class HttpException implements Exception {
+  final String? message;
+  final int status;
+
+  HttpException(this.status, [this.message]);
+
+  factory HttpException.fromJsonSafe(int status, String json) {
+    String? message;
+    try {
+      message = (jsonDecode(json) as Map)['message'];
+    } catch (e) {
+      // The above logic assumes a standard error response from the API, if that wasn't received,
+      // then just set the "json" as the message
+      message = json;
+    }
+    return HttpException(status, message);
   }
 }
