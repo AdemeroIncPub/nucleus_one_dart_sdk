@@ -4,6 +4,7 @@ import 'index_field.dart';
 import 'document.dart';
 import 'document_subscription.dart';
 import 'classification_field.dart';
+import 'approval.dart';
 
 part 'document_package.g.dart';
 
@@ -25,7 +26,7 @@ class DocumentPackage {
   DocumentSubscription? documentSubscription;
 
   @JsonKey(name: 'Approval')
-  dynamic? approval;
+  Approval? approval;
 
   @JsonKey(name: 'ClassificationField')
   ClassificationField? classificationField;

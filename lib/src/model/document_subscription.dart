@@ -76,7 +76,7 @@ class DocumentSubscription with NucleusOneAppDependent {
       ..documentFileSize = documentFileSize
       ..documentClassificationID = documentClassificationID
       ..documentClassificationName = documentClassificationName
-      ..documentPreviewMetadata = documentPreviewMetadata.map((x) => x.toApiModel()).toList()
+      ..documentPreviewMetadata = documentPreviewMetadata!.map((x) => x.toApiModel()).toList()
       ..documentIsSigned = documentIsSigned;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/src/model/classification_field.dart';
 import 'package:nucleus_one_dart_sdk/src/model/document.dart';
+import 'package:nucleus_one_dart_sdk/src/model/approval.dart';
 import 'package:nucleus_one_dart_sdk/src/model/document_subscription.dart';
 
 import '../api_model/document_package.dart' as api_mod;
@@ -22,7 +23,7 @@ class DocumentPackage with NucleusOneAppDependent {
     return DocumentPackage._(
         document: Document.fromApiModel(apiModel.document!),
         documentSubscription: DocumentSubscription.fromApiModel(apiModel.documentSubscription!),
-        approval: apiModel.approval,
+        approval: Approval.fromApiModel(apiModel.approval!),
         classificationField: ClassificationField.fromApiModel(apiModel.classificationField!),
         indexFields: apiModel.indexFields!.map((x) => IndexField.fromApiModel(x)).toList());
   }
@@ -31,7 +32,7 @@ class DocumentPackage with NucleusOneAppDependent {
 
   DocumentSubscription documentSubscription;
 
-  dynamic? approval;
+  Approval approval;
 
   ClassificationField classificationField;
 
@@ -41,7 +42,7 @@ class DocumentPackage with NucleusOneAppDependent {
     return api_mod.DocumentPackage()
       ..document = document.toApiModel()
       ..documentSubscription = documentSubscription.toApiModel()
-      ..approval = approval
+      ..approval = approval.toApiModel()
       ..classificationField = classificationField.toApiModel()
       ..indexFields = indexFields.map((x) => (x).toApiModel()).toList();
   }

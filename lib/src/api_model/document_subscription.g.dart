@@ -18,7 +18,10 @@ DocumentSubscription _$DocumentSubscriptionFromJson(Map<String, dynamic> json) {
     ..documentFileSize = json['DocumentFileSize'] as int?
     ..documentClassificationID = json['DocumentClassificationID'] as String?
     ..documentClassificationName = json['DocumentClassificationName'] as String?
-    ..documentPreviewMetadata = json['DocumentPreviewMetadata']
+    ..documentPreviewMetadata = (json['DocumentPreviewMetadata']
+            as List<dynamic>?)
+        ?.map((e) => PreviewMetadataItem.fromJson(e as Map<String, dynamic>))
+        .toList()
     ..documentIsSigned = json['DocumentIsSigned'] as bool?;
 }
 

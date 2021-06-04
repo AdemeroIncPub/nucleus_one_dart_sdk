@@ -8,10 +8,20 @@ part of 'document_package.dart';
 
 DocumentPackage _$DocumentPackageFromJson(Map<String, dynamic> json) {
   return DocumentPackage()
-    ..document = json['Document']
-    ..documentSubscription = json['DocumentSubscription']
-    ..approval = json['Approval']
-    ..classificationField = json['ClassificationField']
+    ..document = json['Document'] == null
+        ? null
+        : Document.fromJson(json['Document'] as Map<String, dynamic>)
+    ..documentSubscription = json['DocumentSubscription'] == null
+        ? null
+        : DocumentSubscription.fromJson(
+            json['DocumentSubscription'] as Map<String, dynamic>)
+    ..approval = json['Approval'] == null
+        ? null
+        : Approval.fromJson(json['Approval'] as Map<String, dynamic>)
+    ..classificationField = json['ClassificationField'] == null
+        ? null
+        : ClassificationField.fromJson(
+            json['ClassificationField'] as Map<String, dynamic>)
     ..indexFields = (json['IndexFields'] as List<dynamic>?)
         ?.map((e) => IndexField.fromJson(e as Map<String, dynamic>))
         .toList();
