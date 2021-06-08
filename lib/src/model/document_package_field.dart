@@ -1,10 +1,10 @@
 import 'package:get_it/get_it.dart';
 
-import '../api_model/classification_field.dart' as api_mod;
+import '../api_model/document_package_field.dart' as api_mod;
 import '../nucleus_one.dart';
 
-class ClassificationField with NucleusOneAppDependent {
-  ClassificationField._(
+class DocumentPackageField with NucleusOneAppDependent {
+  DocumentPackageField._(
       {NucleusOneAppInternal? app,
       required this.classificationFieldID,
       required this.classificationFieldRank,
@@ -29,8 +29,8 @@ class ClassificationField with NucleusOneAppDependent {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
-  factory ClassificationField.fromApiModel(api_mod.ClassificationField apiModel) {
-    return ClassificationField._(
+  factory DocumentPackageField.fromApiModel(api_mod.DocumentPackageField apiModel) {
+    return DocumentPackageField._(
         classificationFieldID: apiModel.classificationFieldID!,
         classificationFieldRank: apiModel.classificationFieldRank!,
         fieldID: apiModel.fieldID!,
@@ -93,8 +93,8 @@ class ClassificationField with NucleusOneAppDependent {
 
   String textMatchType;
 
-  api_mod.ClassificationField toApiModel() {
-    return api_mod.ClassificationField()
+  api_mod.DocumentPackageField toApiModel() {
+    return api_mod.DocumentPackageField()
       ..classificationFieldID = classificationFieldID
       ..classificationFieldRank = classificationFieldRank
       ..fieldID = fieldID

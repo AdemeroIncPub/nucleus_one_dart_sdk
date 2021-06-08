@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_documents.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
 import '../../../src/assertions.dart';
+import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/document.dart';
@@ -91,9 +93,10 @@ void main() {
     });
 
     test('getCount method tests', () async {
+      final n1App = getStandardN1App();
       await performHttpTest<int>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => DocumentCollection().getCount(true, false),
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getDocumentCount(true, false),
         responseBody: '1',
         expectedRequestUrlPath: http.apiPaths.documentCounts,
         expectedRequestQueryParams: [

@@ -75,7 +75,7 @@ class Approval with NucleusOneAppDependent {
         processElementID: apiModel.processElementID!,
         processElementName: apiModel.processElementName!,
         participationType: apiModel.participationType!,
-        approvingTenantMemberIDs: apiModel.approvingTenantMemberIDs!,
+        approvingTenantMemberIDs: apiModel.approvingTenantMemberIDs,
         result: apiModel.result!,
         itemType: apiModel.itemType!,
         itemID: apiModel.itemID!,
@@ -124,7 +124,7 @@ class Approval with NucleusOneAppDependent {
 
   String participationType;
 
-  String approvingTenantMemberIDs;
+  Map<String, bool>? approvingTenantMemberIDs;
 
   String result;
 

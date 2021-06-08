@@ -20,3 +20,4 @@ export 'src/model/user_preferences.dart';
 export 'src/model/selected_twain_device.dart';
 export 'src/model/user_preference.dart';
 export 'src/model/document_field.dart';
+export 'src/model/approval.dart';

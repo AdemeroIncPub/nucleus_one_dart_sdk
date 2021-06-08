@@ -65,7 +65,7 @@ class Approval {
   String? participationType;
 
   @JsonKey(name: 'ApprovingTenantMemberIDs')
-  String? approvingTenantMemberIDs;
+  Map<String, bool>? approvingTenantMemberIDs;
 
   @JsonKey(name: 'Result')
   String? result;

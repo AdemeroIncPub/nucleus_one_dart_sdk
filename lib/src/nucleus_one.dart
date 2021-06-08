@@ -6,14 +6,14 @@ import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_approvals.dart';
 import 'package:nucleus_one_dart_sdk/src/user.dart';
 
+import 'hierarchy/nucleus_one_app_documents.dart';
 import 'hierarchy/nucleus_one_app_fields.dart';
 import 'hierarchy/nucleus_one_app_users.dart';
 import '../nucleus_one_dart_sdk.dart';
 import 'http.dart' as http;
-import 'model/document.dart';
-import 'model/field.dart';
 
 final _getIt = GetIt.instance;
 
@@ -149,8 +149,8 @@ abstract class NucleusOneApp {
   }
 
   /// Documents
-  DocumentCollection documents() {
-    return DocumentCollection(app: this as NucleusOneAppInternal);
+  NucleusOneAppDocuments documents() {
+    return NucleusOneAppDocuments(app: this as NucleusOneAppInternal);
   }
 
   /// Classifications
@@ -166,6 +166,11 @@ abstract class NucleusOneApp {
   /// Users
   NucleusOneAppUsers users() {
     return NucleusOneAppUsers(app: this as NucleusOneAppInternal);
+  }
+
+  /// Approvals
+  NucleusOneAppApprovals approvals() {
+    return NucleusOneAppApprovals(app: this as NucleusOneAppInternal);
   }
 }
 

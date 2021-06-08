@@ -1,9 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'index_field.dart';
 import 'document.dart';
 import 'document_subscription.dart';
-import 'classification_field.dart';
+import 'document_package_field.dart';
 import 'approval.dart';
 
 part 'document_package.g.dart';
@@ -29,10 +28,10 @@ class DocumentPackage {
   Approval? approval;
 
   @JsonKey(name: 'ClassificationField')
-  ClassificationField? classificationField;
+  DocumentPackageField? classificationField;
 
   @JsonKey(name: 'IndexFields')
-  List<IndexField>? indexFields;
+  List<DocumentPackageField>? indexFields;
 
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization

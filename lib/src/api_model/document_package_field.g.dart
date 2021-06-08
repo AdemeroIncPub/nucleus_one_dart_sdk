@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'index_field.dart';
+part of 'document_package_field.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-IndexField _$IndexFieldFromJson(Map<String, dynamic> json) {
-  return IndexField()
+DocumentPackageField _$DocumentPackageFieldFromJson(Map<String, dynamic> json) {
+  return DocumentPackageField()
     ..classificationFieldID = json['ClassificationFieldID'] as String?
     ..classificationFieldRank = json['ClassificationFieldRank'] as int?
     ..fieldID = json['FieldID'] as String?
@@ -30,7 +30,8 @@ IndexField _$IndexFieldFromJson(Map<String, dynamic> json) {
     ..textMatchType = json['TextMatchType'] as String?;
 }
 
-Map<String, dynamic> _$IndexFieldToJson(IndexField instance) {
+Map<String, dynamic> _$DocumentPackageFieldToJson(
+    DocumentPackageField instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

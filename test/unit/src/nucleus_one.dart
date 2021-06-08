@@ -4,6 +4,8 @@ import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_approvals.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_documents.dart';
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_fields.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart';
 import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
@@ -113,15 +115,15 @@ void main() {
       expect(c.app, n1App);
     });
 
-    test('documents method tests', () {
+    test('NucleusOneAppDocuments method tests', () {
       final n1App = getStandardN1App();
 
       final doc = n1App.documents();
-      expect(doc, isA<DocumentCollection>());
+      expect(doc, isA<NucleusOneAppDocuments>());
       expect(doc.app, n1App);
     });
 
-    test('fields method tests', () {
+    test('NucleusOneAppFields method tests', () {
       final n1App = getStandardN1App();
 
       final c = n1App.fields();
@@ -134,6 +136,14 @@ void main() {
 
       final c = n1App.users();
       expect(c, isA<NucleusOneAppUsers>());
+      expect(c.app, n1App);
+    });
+
+    test('NucleusOneAppApprovals method tests', () {
+      final n1App = getStandardN1App();
+
+      final c = n1App.approvals();
+      expect(c, isA<NucleusOneAppApprovals>());
       expect(c.app, n1App);
     });
 
@@ -155,7 +165,7 @@ void main() {
             }
 
             // This is an arbitrary method call to trigger an HttpClient request
-            await n1App.documents().getCount(true, true);
+            await NucleusOneAppDocuments(app: n1App).getDocumentCount(true, true);
           },
           responseBody: '0',
         );
@@ -193,7 +203,8 @@ void main() {
             final n1App = getStandardN1App();
             final ignoreInbox = queryParamCombination[0],
                 ignoreRecycleBin = queryParamCombination[1];
-            final docCount = await n1App.documents().getCount(ignoreInbox, ignoreRecycleBin);
+            final docCount = await NucleusOneAppDocuments(app: n1App)
+                .getDocumentCount(ignoreInbox, ignoreRecycleBin);
             expect(docCount, returnValue);
           },
           responseBody: returnValue.toString(),

@@ -20,10 +20,10 @@ DocumentPackage _$DocumentPackageFromJson(Map<String, dynamic> json) {
         : Approval.fromJson(json['Approval'] as Map<String, dynamic>)
     ..classificationField = json['ClassificationField'] == null
         ? null
-        : ClassificationField.fromJson(
+        : DocumentPackageField.fromJson(
             json['ClassificationField'] as Map<String, dynamic>)
     ..indexFields = (json['IndexFields'] as List<dynamic>?)
-        ?.map((e) => IndexField.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => DocumentPackageField.fromJson(e as Map<String, dynamic>))
         .toList();
 }
 

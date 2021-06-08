@@ -37,7 +37,10 @@ Approval _$ApprovalFromJson(Map<String, dynamic> json) {
     ..processElementID = json['ProcessElementID'] as String?
     ..processElementName = json['ProcessElementName'] as String?
     ..participationType = json['ParticipationType'] as String?
-    ..approvingTenantMemberIDs = json['ApprovingTenantMemberIDs'] as String?
+    ..approvingTenantMemberIDs =
+        (json['ApprovingTenantMemberIDs'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, e as bool),
+    )
     ..result = json['Result'] as String?
     ..itemType = json['ItemType'] as String?
     ..itemID = json['ItemID'] as String?

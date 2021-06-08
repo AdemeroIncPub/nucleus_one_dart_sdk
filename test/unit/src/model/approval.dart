@@ -35,7 +35,7 @@ void main() {
         expect(apiModel.processElementID, 'F');
         expect(apiModel.processElementName, 'G');
         expect(apiModel.participationType, 'H');
-        expect(apiModel.approvingTenantMemberIDs, 'I');
+        expect(apiModel.approvingTenantMemberIDs, '[{"0":false,"1":false,"2":false}]');
         expect(apiModel.result, 'J');
         expect(apiModel.itemType, 'K');
         expect(apiModel.itemID, 'L');

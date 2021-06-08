@@ -241,6 +241,7 @@ abstract class apiPaths {
   static const userPreferenceFormat = '/user/preferences/<singleUserPreferenceId>';
   static const documentFields = '/documentFields';
   static const approvals = '/approvals';
+  static const documentPackageFormat = '/documentPackages/<documentId>';
 }
 
 abstract class ApiRequestBodyObject {
