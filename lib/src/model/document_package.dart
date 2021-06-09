@@ -12,17 +12,21 @@ class DocumentPackage with NucleusOneAppDependent {
       {NucleusOneAppInternal? app,
       required this.document,
       required this.documentSubscription,
-      required this.approval,
+      this.approval,
       required this.classificationField,
       required this.indexFields}) {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
   factory DocumentPackage.fromApiModel(api_mod.DocumentPackage apiModel) {
+    Approval? approval;
+    if (apiModel.approval != null) {
+      approval = Approval.fromApiModel(apiModel.approval!);
+    }
     return DocumentPackage._(
         document: Document.fromApiModel(apiModel.document!),
         documentSubscription: DocumentSubscription.fromApiModel(apiModel.documentSubscription!),
-        approval: Approval.fromApiModel(apiModel.approval!),
+        approval: approval,
         classificationField: DocumentPackageField.fromApiModel(apiModel.classificationField!),
         indexFields:
             apiModel.indexFields!.map((x) => DocumentPackageField.fromApiModel(x)).toList());
@@ -32,7 +36,7 @@ class DocumentPackage with NucleusOneAppDependent {
 
   DocumentSubscription documentSubscription;
 
-  Approval approval;
+  Approval? approval;
 
   DocumentPackageField classificationField;
 
@@ -42,7 +46,7 @@ class DocumentPackage with NucleusOneAppDependent {
     return api_mod.DocumentPackage()
       ..document = document.toApiModel()
       ..documentSubscription = documentSubscription.toApiModel()
-      ..approval = approval.toApiModel()
+      ..approval = approval?.toApiModel()
       ..classificationField = classificationField.toApiModel()
       ..indexFields = indexFields.map((x) => (x).toApiModel()).toList();
   }

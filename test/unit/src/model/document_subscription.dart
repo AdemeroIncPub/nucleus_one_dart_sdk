@@ -22,17 +22,16 @@ void main() {
       void performTests(api_mod.DocumentSubscription apiModel) {
         expect(apiModel.subscribed, false);
         expect(apiModel.notify, false);
-        expect(apiModel.createdOn, 'A');
-        expect(apiModel.documentID, 'B');
-        expect(apiModel.documentCreatedOn, 'C');
-        expect(apiModel.documentName, 'D');
+        expect(apiModel.createdOn, '0001-01-01T00:00:00Z');
+        expect(apiModel.documentID, 'A');
+        expect(apiModel.documentCreatedOn, '0001-01-01T00:00:00Z');
+        expect(apiModel.documentName, 'B');
         expect(apiModel.documentPageCount, 0);
         expect(apiModel.documentFileSize, 1);
-        expect(apiModel.documentClassificationID, 'E');
-        expect(apiModel.documentClassificationName, 'F');
-        expect(apiModel.documentPreviewMetadata, [
-          {'0': 'A', '1': 'B', '2': 'C'}
-        ]);
+        expect(apiModel.documentClassificationID, 'C');
+        expect(apiModel.documentClassificationName, 'D');
+        expect(apiModel.documentPreviewMetadata, isNotNull);
+        expect(apiModel.documentPreviewMetadata!.length, 1);
         expect(apiModel.documentIsSigned, false);
       }
 

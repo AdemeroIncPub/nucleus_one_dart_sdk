@@ -18,77 +18,8 @@ class Document {
   @JsonKey(name: 'ID')
   String? id;
 
-  @JsonKey(name: 'DocumentID')
-  String? documentID;
-
   @JsonKey(name: 'CreatedOn')
   String? createdOn;
-
-  @JsonKey(name: 'PurgeDate')
-  String? purgeDate;
-
-  @JsonKey(name: 'Name')
-  String? name;
-
-  @JsonKey(name: 'PageCount')
-  int? pageCount;
-
-  @JsonKey(name: 'FileSize')
-  int? fileSize;
-
-  @JsonKey(name: 'ThumbnailUrl')
-  String? thumbnailUrl;
-
-  @JsonKey(name: 'IsSigned')
-  bool? isSigned;
-
-  @JsonKey(name: 'ClassificationID')
-  String? classificationID;
-
-  @JsonKey(name: 'ClassificationName')
-  String? classificationName;
-
-  @JsonKey(name: 'PreviewMetadata')
-  List<PreviewMetadataItem>? previewMetadata;
-
-  @JsonKey(name: 'DocumentApprovalID')
-  String? documentApprovalID;
-
-  @JsonKey(name: 'DocumentApprovalCreatedOn')
-  String? documentApprovalCreatedOn;
-
-  @JsonKey(name: 'DocumentSubscriptionID')
-  String? documentSubscriptionID;
-
-  @JsonKey(name: 'DocumentSubscriptionCreatedOn')
-  String? documentSubscriptionCreatedOn;
-
-  @JsonKey(name: 'DocumentSignatureSessionRecipientID')
-  String? documentSignatureSessionRecipientID;
-
-  @JsonKey(name: 'DocumentSignatureSessionID')
-  String? documentSignatureSessionID;
-
-  @JsonKey(name: 'DocumentSignatureSessionRecipientEmail')
-  String? documentSignatureSessionRecipientEmail;
-
-  @JsonKey(name: 'DocumentSignatureSessionRecipientFullName')
-  String? documentSignatureSessionRecipientFullName;
-
-  @JsonKey(name: 'DocumentSignatureSessionRecipientRequestedOn')
-  String? documentSignatureSessionRecipientRequestedOn;
-
-  @JsonKey(name: 'RoleName')
-  String? roleName;
-
-  @JsonKey(name: 'ProcessName')
-  String? processName;
-
-  @JsonKey(name: 'ProcessElementName')
-  String? processElementName;
-
-  @JsonKey(name: 'Score')
-  int? score;
 
   @JsonKey(name: 'CreatedByUserID')
   String? createdByUserID;
@@ -98,6 +29,9 @@ class Document {
 
   @JsonKey(name: 'CreatedByUserName')
   String? createdByUserName;
+
+  @JsonKey(name: 'Name')
+  String? name;
 
   @JsonKey(name: 'NameLower')
   String? nameLower;
@@ -113,6 +47,9 @@ class Document {
 
   @JsonKey(name: 'IsMarkedForPurge')
   bool? isMarkedForPurge;
+
+  @JsonKey(name: 'IsSigned')
+  bool? isSigned;
 
   @JsonKey(name: 'SignatureSessionIsActive')
   bool? signatureSessionIsActive;
@@ -132,6 +69,12 @@ class Document {
   @JsonKey(name: 'LastError')
   String? lastError;
 
+  @JsonKey(name: 'PageCount')
+  int? pageCount;
+
+  @JsonKey(name: 'FileSize')
+  int? fileSize;
+
   @JsonKey(name: 'BucketName')
   String? bucketName;
 
@@ -141,8 +84,17 @@ class Document {
   @JsonKey(name: 'ThumbnailObjectName')
   String? thumbnailObjectName;
 
+  @JsonKey(name: 'ClassificationID')
+  String? classificationID;
+
+  @JsonKey(name: 'ClassificationName')
+  String? classificationName;
+
   @JsonKey(name: 'ClassificationNameLower')
   String? classificationNameLower;
+
+  @JsonKey(name: 'PreviewMetadata')
+  List<PreviewMetadataItem>? previewMetadata;
 
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization

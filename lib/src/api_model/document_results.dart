@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'document.dart';
+import 'document_for_client.dart';
 
 part 'document_results.g.dart';
 
@@ -13,10 +13,11 @@ class DocumentResultCollection {
   /// A necessary factory constructor for creating a new DocumentResultCollection instance
   /// from a map. Pass the map to the generated [_$DocumentResultCollectionFromJson()] constructor.
   /// The constructor is named after the source class, in this case, DocumentResultCollection.
-  factory DocumentResultCollection.fromJson(Map<String, dynamic> json) => _$DocumentResultCollectionFromJson(json);
+  factory DocumentResultCollection.fromJson(Map<String, dynamic> json) =>
+      _$DocumentResultCollectionFromJson(json);
 
   @JsonKey(name: 'Documents')
-  List<Document>? documents;
+  List<DocumentForClient>? documents;
 
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization

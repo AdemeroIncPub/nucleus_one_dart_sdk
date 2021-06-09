@@ -35,7 +35,7 @@ void main() {
         expect(apiModel.processElementID, 'F');
         expect(apiModel.processElementName, 'G');
         expect(apiModel.participationType, 'H');
-        expect(apiModel.approvingTenantMemberIDs, '[{"0":false,"1":false,"2":false}]');
+        expect(apiModel.approvingTenantMemberIDs, {'0': false, '1': false, '2': false});
         expect(apiModel.result, 'J');
         expect(apiModel.itemType, 'K');
         expect(apiModel.itemID, 'L');
@@ -43,7 +43,7 @@ void main() {
         expect(apiModel.itemCreatedByUserID, 'M');
         expect(apiModel.itemCreatedByUserEmail, 'N');
         expect(apiModel.itemCreatedByUserName, 'O');
-        expect(apiModel.itemCompletedOn, '0001-01-01T00:00:02Z');
+        expect(apiModel.itemCompletedOn, '0001-01-01T00:00:01Z');
         expect(apiModel.itemCompletedByUserID, 'P');
         expect(apiModel.itemCompletedByUserEmail, 'Q');
         expect(apiModel.itemCompletedByUserName, 'R');
@@ -58,9 +58,8 @@ void main() {
         expect(apiModel.documentFileSize, 1);
         expect(apiModel.documentClassificationID, 'Y');
         expect(apiModel.documentClassificationName, 'Z');
-        expect(apiModel.documentPreviewMetadata, [
-          {'0': 'A', '1': 'B', '2': 'C'}
-        ]);
+        expect(apiModel.documentPreviewMetadata, isNotNull);
+        expect(apiModel.documentPreviewMetadata!.length, 1);
         expect(apiModel.documentIsSigned, false);
         expect(apiModel.workTaskDueOn, '0001-01-01T00:00:01Z');
         expect(apiModel.thumbnailUrl, 'AA');
@@ -116,9 +115,9 @@ void main() {
         responseBody: approvalCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [
-          'processElementId=A',
+          'processElementID=A',
           'sortDescending=false',
-          'processId=B',
+          'processID=B',
           'sortType=C',
         ],
       );

@@ -87,10 +87,10 @@ QueryResult2 QueryResult2_fromApiModel(api_mod.QueryResult2 apiModel) {
   );
 }
 
-class DummyCollection extends EntityCollection<Document, List> {
+class DummyCollection extends EntityCollection<DocumentForClient, List> {
   DummyCollection({
     NucleusOneAppInternal? app,
-    List<Document>? items,
+    List<DocumentForClient>? items,
   }) : super(app: app, items: items);
 
   @override

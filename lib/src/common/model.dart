@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import '../model/classification.dart' as mod;
-import '../model/document.dart' as mod;
+import '../model/document_for_client.dart' as mod;
 import '../model/document_comment.dart' as mod;
 import '../model/document_event.dart' as mod;
 import '../model/field.dart' as mod;
@@ -76,12 +76,14 @@ abstract class EntityCollection<TResult extends NucleusOneAppDependent, TApiMode
   TApiModel toApiModel();
 }
 
-abstract class DocumentCollectionQueryResult {
-  static mod.QueryResult<mod.DocumentCollection> fromApiModelDocumentResultCollection(
+abstract class DocumentForClientCollectionQueryResult {
+  static mod.QueryResult<mod.DocumentForClientCollection> fromApiModelDocumentResultCollection(
       api_mod.QueryResult<api_mod.DocumentResultCollection> apiModel) {
     return mod.QueryResult(
-      results: mod.DocumentCollection(
-          items: apiModel.results!.documents!.map((x) => mod.Document.fromApiModel(x)).toList()),
+      results: mod.DocumentForClientCollection(
+          items: apiModel.results!.documents!
+              .map((x) => mod.DocumentForClient.fromApiModel(x))
+              .toList()),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );

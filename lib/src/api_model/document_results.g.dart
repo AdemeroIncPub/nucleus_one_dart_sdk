@@ -10,7 +10,7 @@ DocumentResultCollection _$DocumentResultCollectionFromJson(
     Map<String, dynamic> json) {
   return DocumentResultCollection()
     ..documents = (json['Documents'] as List<dynamic>?)
-        ?.map((e) => Document.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => DocumentForClient.fromJson(e as Map<String, dynamic>))
         .toList();
 }
 

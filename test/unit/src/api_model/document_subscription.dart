@@ -1,5 +1,5 @@
 const documentSubscriptionJson =
-    r'{"Subscribed":false,"Notify":false,"CreatedOn":"0001-01-01T00:00:00Z","DocumentID":"A","DocumentCreatedOn":"0001-01-01T00:00:00Z","DocumentName":"B","DocumentPageCount":0,"DocumentFileSize":1,"DocumentClassificationID":"C","DocumentClassificationName":"D","DocumentPreviewMetadata":"[{"0":"A","1":"B","2":"C"}]","DocumentIsSigned":false,}';
+    r'{"Subscribed":false,"Notify":false,"CreatedOn":"0001-01-01T00:00:00Z","DocumentID":"A","DocumentCreatedOn":"0001-01-01T00:00:00Z","DocumentName":"B","DocumentPageCount":0,"DocumentFileSize":1,"DocumentClassificationID":"C","DocumentClassificationName":"D","DocumentPreviewMetadata":[{"0":"A","1":"B","2":"C"}],"DocumentIsSigned":false}';
 
 void main() {
   /*

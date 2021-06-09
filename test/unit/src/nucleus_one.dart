@@ -165,7 +165,7 @@ void main() {
             }
 
             // This is an arbitrary method call to trigger an HttpClient request
-            await NucleusOneAppDocuments(app: n1App).getDocumentCount(true, true);
+            await NucleusOneAppDocuments(app: n1App).getCount(true, true);
           },
           responseBody: '0',
         );
@@ -182,15 +182,15 @@ void main() {
     });
   });
 
-  group('Document class tests', () {
+  group('DocumentForClient class tests', () {
     test('Constructor tests', () {
       final n1App = getStandardN1App();
 
-      final doc = Document(app: n1App);
+      final doc = DocumentForClient(app: n1App);
       expect(doc.app, n1App);
     });
 
-    test('getCount method tests', () async {
+    test('getDocumentCount method tests', () async {
       final returnValue = 123;
       final queryParamCombinations = [
         [false, true],
@@ -203,8 +203,8 @@ void main() {
             final n1App = getStandardN1App();
             final ignoreInbox = queryParamCombination[0],
                 ignoreRecycleBin = queryParamCombination[1];
-            final docCount = await NucleusOneAppDocuments(app: n1App)
-                .getDocumentCount(ignoreInbox, ignoreRecycleBin);
+            final docCount =
+                await NucleusOneAppDocuments(app: n1App).getCount(ignoreInbox, ignoreRecycleBin);
             expect(docCount, returnValue);
           },
           responseBody: returnValue.toString(),
