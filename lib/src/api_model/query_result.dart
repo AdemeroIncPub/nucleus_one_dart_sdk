@@ -4,6 +4,8 @@ import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
 import '../api_model/field.dart' as api_mod;
+import '../api_model/document_field.dart' as api_mod;
+import '../api_model/approval.dart' as api_mod;
 
 part 'query_result.g.dart';
 
@@ -31,6 +33,8 @@ class QueryResult<T> {
     api_mod.ClassificationCollection: (x) => api_mod.ClassificationCollection.fromJson(x),
     api_mod.DocumentResultCollection: (x) => api_mod.DocumentResultCollection.fromJson(x),
     api_mod.FieldCollection: (x) => api_mod.FieldCollection.fromJson(x),
+    api_mod.DocumentFieldCollection: (x) => api_mod.DocumentFieldCollection.fromJson(x),
+    api_mod.ApprovalCollection: (x) => api_mod.ApprovalCollection.fromJson(x),
   };
 
   QueryResult();

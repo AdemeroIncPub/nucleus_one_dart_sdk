@@ -4,9 +4,10 @@ import 'package:nucleus_one_dart_sdk/src/api_model/document_results.dart' as api
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:test/test.dart';
 
-import 'document.dart';
+import 'document_for_client.dart';
 
-const documentResultsJson = r'{"Documents":[' + documentJson + r'],"Cursor":"QueryResultA","PageSize":24}';
+const documentResultsJson =
+    r'{"Documents":[' + documentForClientJson + r'],"Cursor":"QueryResultA","PageSize":24}';
 
 void main() {
   group('DocumentResultCollection class tests', () {

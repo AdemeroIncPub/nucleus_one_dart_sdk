@@ -8,10 +8,12 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/field.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_fields.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
 import '../../../src/assertions.dart';
+import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/field.dart';
@@ -89,11 +91,11 @@ void main() {
 
     test('get method tests', () async {
       final expectedUrlPath = http.apiPaths.fields;
-
+      final n1App = getStandardN1App();
       // Test with default parameters
       await performHttpTest<QueryResult<FieldCollection>>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => FieldCollection().get(),
+        httpCallCallback: () => NucleusOneAppFields(app: n1App).getFields(),
         responseBody: fieldCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
@@ -102,7 +104,7 @@ void main() {
       // Test with cursor and optional arguments
       await performHttpTest<QueryResult<FieldCollection>>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => FieldCollection().get(
+        httpCallCallback: () => NucleusOneAppFields(app: n1App).getFields(
           cursor: 'A',
           getAll: true,
           filter: 'B',
@@ -121,11 +123,11 @@ void main() {
 
     test('getById method tests', () async {
       final expectedUrlPath = http.apiPaths.fieldsFormat.replaceFirst('<fieldId>', '123');
-
+      final n1App = getStandardN1App();
       // Test with cursor and optional arguments
       await performHttpTest<Field>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => FieldCollection().getById('123'),
+        httpCallCallback: () => NucleusOneAppFields(app: n1App).getFieldById('123'),
         responseBody: fieldJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
@@ -134,11 +136,11 @@ void main() {
 
     test('getListItems method tests', () async {
       final expectedUrlPath = http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', '123');
-
+      final n1App = getStandardN1App();
       // Test with default arguments
       await performHttpTest<FieldListItemCollection>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => FieldCollection().getListItems(id: '123'),
+        httpCallCallback: () => NucleusOneAppFields(app: n1App).getFieldListItems(id: '123'),
         responseBody: fieldListItemCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
@@ -147,8 +149,8 @@ void main() {
       // Test with optional arguments
       await performHttpTest<FieldListItemCollection>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () =>
-            FieldCollection().getListItems(id: '123', parentValue: '234', valueFilter: '345'),
+        httpCallCallback: () => NucleusOneAppFields(app: n1App)
+            .getFieldListItems(id: '123', parentValue: '234', valueFilter: '345'),
         responseBody: fieldListItemCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [
@@ -160,6 +162,7 @@ void main() {
 
     test('downloadListItems method tests', () async {
       final expectedUrlPath = http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', '123');
+      final n1App = getStandardN1App();
       const outputFileName = '123.csv';
       const responseBody = 'abc';
 
@@ -189,8 +192,8 @@ void main() {
         // Test with default arguments
         await performHttpTest<void>(
           httpMethod: HttpMethods.GET,
-          httpCallCallback: () =>
-              FieldCollection().downloadListItems(id: '123', destinationFilePath: outputFileName),
+          httpCallCallback: () => NucleusOneAppFields(app: n1App)
+              .downloadFieldListItems(id: '123', destinationFilePath: outputFileName),
           responseBody: responseBody,
           expectedRequestUrlPath: expectedUrlPath,
           expectedRequestQueryParams: [
@@ -203,7 +206,7 @@ void main() {
         // Test with optional arguments
         await performHttpTest<void>(
           httpMethod: HttpMethods.GET,
-          httpCallCallback: () => FieldCollection().downloadListItems(
+          httpCallCallback: () => NucleusOneAppFields(app: n1App).downloadFieldListItems(
             id: '123',
             destinationFilePath: outputFileName,
             parentValue: 'A',
@@ -224,12 +227,12 @@ void main() {
 
     test('addListItems method tests', () async {
       final expectedUrlPath = http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', '123');
-
+      final n1App = getStandardN1App();
       try {
         await performHttpTest(
           httpMethod: HttpMethods.POST,
-          httpCallCallback: () =>
-              FieldCollection().addListItems(id: '', items: FieldListItemCollection()),
+          httpCallCallback: () => NucleusOneAppFields(app: n1App)
+              .addFieldListItems(id: '', items: FieldListItemCollection()),
           responseBody: '',
           expectedRequestUrlPath: '',
           expectedRequestQueryParams: [],
@@ -242,8 +245,8 @@ void main() {
       try {
         await performHttpTest(
           httpMethod: HttpMethods.POST,
-          httpCallCallback: () =>
-              FieldCollection().addListItems(id: '123', items: FieldListItemCollection()),
+          httpCallCallback: () => NucleusOneAppFields(app: n1App)
+              .addFieldListItems(id: '123', items: FieldListItemCollection()),
           responseBody: '',
           expectedRequestUrlPath: '',
           expectedRequestQueryParams: [],
@@ -259,7 +262,7 @@ void main() {
       // Test a successful operation
       await performHttpTest(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => FieldCollection().addListItems(
+        httpCallCallback: () => NucleusOneAppFields(app: n1App).addFieldListItems(
           id: '123',
           items: newListItems,
         ),
@@ -272,11 +275,12 @@ void main() {
 
     test('setListItems method tests', () async {
       final expectedUrlPath = http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', '123');
-
+      final n1App = getStandardN1App();
       try {
         await performHttpTest(
           httpMethod: HttpMethods.POST,
-          httpCallCallback: () => FieldCollection().setListItems(id: '', values: []),
+          httpCallCallback: () =>
+              NucleusOneAppFields(app: n1App).setFieldListItems(id: '', values: []),
           responseBody: '',
           expectedRequestUrlPath: '',
           expectedRequestQueryParams: [],
@@ -289,7 +293,8 @@ void main() {
       try {
         await performHttpTest(
           httpMethod: HttpMethods.POST,
-          httpCallCallback: () => FieldCollection().setListItems(id: '123', values: []),
+          httpCallCallback: () =>
+              NucleusOneAppFields(app: n1App).setFieldListItems(id: '123', values: []),
           responseBody: '',
           expectedRequestUrlPath: '',
           expectedRequestQueryParams: [],
@@ -302,7 +307,8 @@ void main() {
       // Test a successful operation
       await performHttpTest(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => FieldCollection().setListItems(id: '123', values: ['A', 'B']),
+        httpCallCallback: () =>
+            NucleusOneAppFields(app: n1App).setFieldListItems(id: '123', values: ['A', 'B']),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [

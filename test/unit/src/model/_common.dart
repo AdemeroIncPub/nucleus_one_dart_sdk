@@ -17,7 +17,7 @@ void main() {
     }
 
     // Class names include here do not need to implement the factory method
-    final classExceptions = ['DocumentCollection'];
+    final classExceptions = ['DocumentForClientCollection'];
 
     bool foundEntityCollectionClasses = false;
     final mirrorSystem = currentMirrorSystem();
