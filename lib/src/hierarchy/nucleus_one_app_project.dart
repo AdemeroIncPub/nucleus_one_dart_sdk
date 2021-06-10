@@ -11,8 +11,12 @@ class NucleusOneAppProjects with NucleusOneAppDependent {
     this.app = app;
   }
 
-  /// Gets project permissions.
+  /// Gets project permissions for the current user.
   Future<ProjectPermissions> getPermissions(String projectId) async {
+    if (projectId.isEmpty) {
+      throw ArgumentError.value(projectId, 'projectId', 'Value cannot be blank.');
+    }
+    
     final qp = http.StandardQueryParams.get();
 
     final responseBody = await http.executeGetRequestWithTextResponse(

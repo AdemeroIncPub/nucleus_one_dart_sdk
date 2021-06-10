@@ -350,6 +350,19 @@ void main() {
           expectedRequestBody: '{"BrowserFingerprint":0,"Email":"1@2.com","UserProvider":"email"}',
         );
       });
+
+      test('emailLoginSendOneTimePasscode method tests', () async {
+        final n1App = getStandardN1App();
+        await http_helper.performHttpTest<void>(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () => n1App.auth().emailLoginSendOneTimePasscode('1@2.com'),
+          responseBody: '',
+          expectedRequestUrlPath: apiPaths.userEmailLoginOTPSend,
+          expectedRequestQueryParams: [],
+          expectedRequestBody:
+              '{"BrowserFingerprint":0,"UserProvider":"email","Email":"1@2.com","AuthType":"email"}',
+        );
+      });
     });
 
     test('logout method tests', () async {

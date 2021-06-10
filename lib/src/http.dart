@@ -270,6 +270,7 @@ abstract class apiPaths {
       '/formTemplatesPublic/<formTemplateId>/fields/<formTemplateFieldId>/listItems';
   static const formTemplatesPublicSubmissions = '/formTemplatesPublic/<formTemplateId>/submissions';
   static const tenantPermissionsFormat = '/tenants/<tenantId>/permissions';
+  static const userEmailLoginOTPSend = '/user/emailLoginOTPSend';
   static const userEmailLoginVerify = '/user/emailLoginVerify';
   static const userLogin = '/user/login';
   static const userLogout = '/user/logout';

@@ -307,6 +307,21 @@ class Auth with NucleusOneAppDependent {
     final apiModel = api_mod.EmailLoginOptions.fromJson(jsonDecode(responseBody));
     return EmailLoginOptions.fromApiModel(apiModel);
   }
+
+  Future<void> emailLoginSendOneTimePasscode(String email) async {
+    final reqBody = {
+      'BrowserFingerprint': _getIt.get<NucleusOneApp>().options.browserFingerprint,
+      'UserProvider': 'email',
+      'Email': email,
+      'AuthType': 'email'
+    };
+
+    await http.executePostRequest(
+      http.apiPaths.userEmailLoginOTPSend,
+      app,
+      body: jsonEncode(reqBody),
+    );
+  }
 }
 
 class LoginResult {
