@@ -291,6 +291,9 @@ class Auth with NucleusOneAppDependent {
     app.setAuthenticationState(null);
   }
 
+  /// Verifies whether the provided email address is valid for login.
+  ///
+  /// [email] The email address.
   Future<EmailLoginOptions> verifyEmailLogin(String email) async {
     final reqBody = {
       'BrowserFingerprint': _getIt.get<NucleusOneApp>().options.browserFingerprint,
@@ -308,6 +311,9 @@ class Auth with NucleusOneAppDependent {
     return EmailLoginOptions.fromApiModel(apiModel);
   }
 
+  /// Causes a one-time passcode to be sent to the provided email address.
+  ///
+  /// [email] The email address.
   Future<void> emailLoginSendOneTimePasscode(String email) async {
     final reqBody = {
       'BrowserFingerprint': _getIt.get<NucleusOneApp>().options.browserFingerprint,
@@ -320,6 +326,50 @@ class Auth with NucleusOneAppDependent {
       http.apiPaths.userEmailLoginOTPSend,
       app,
       body: jsonEncode(reqBody),
+    );
+  }
+
+  /// Verifies whether the current email user's email address can be changed to a given email address.
+  /// If not, an exception is thrown.
+  ///
+  /// [newEmail] The new email address to check.
+  Future<void> emailLoginVerifyIfAddressCanBeChangedTo(String newEmail) async {
+    final reqBody = {
+      'Email': newEmail,
+    };
+
+    await http.executePostRequest(
+      http.apiPaths.userEmailAddressVerifications,
+      app,
+      body: jsonEncode(reqBody),
+    );
+  }
+
+  /// Changes the current email user's email address.  If successful, a confirmation email will be
+  /// sent to the new email address, which must be confirmed before the email address change will
+  /// become valid.
+  ///
+  /// [newEmail] The new email address.
+  Future<void> emailLoginChangeAddress(String newEmail) async {
+    final reqBody = {
+      'Email': newEmail,
+    };
+
+    await http.executePostRequest(
+      http.apiPaths.userEmailAddresses,
+      app,
+      body: jsonEncode(reqBody),
+    );
+  }
+
+  /// Completes an email address change request by providing the emailed confirmation code.
+  ///
+  /// [confirmationCode] The confirmation code provided in the change-confirmation email.
+  Future<void> emailLoginConfirmAddressChange(String confirmationCode) async {
+    await http.executePutRequest(
+      http.apiPaths.userEmailAddressesEmailChangeCodeFormat
+          .replaceFirst('<emailChangeCode>', confirmationCode),
+      app,
     );
   }
 }

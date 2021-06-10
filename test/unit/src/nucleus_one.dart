@@ -363,6 +363,43 @@ void main() {
               '{"BrowserFingerprint":0,"UserProvider":"email","Email":"1@2.com","AuthType":"email"}',
         );
       });
+
+      test('emailLoginVerifyIfAddressCanBeChangedTo method tests', () async {
+        final n1App = getStandardN1App();
+        await http_helper.performHttpTest<void>(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () => n1App.auth().emailLoginVerifyIfAddressCanBeChangedTo('1@2.com'),
+          responseBody: '',
+          expectedRequestUrlPath: apiPaths.userEmailAddressVerifications,
+          expectedRequestQueryParams: [],
+          expectedRequestBody: '{"Email":"1@2.com"}',
+        );
+      });
+
+      test('emailLoginChangeAddress method tests', () async {
+        final n1App = getStandardN1App();
+        await http_helper.performHttpTest<void>(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () => n1App.auth().emailLoginChangeAddress('1@2.com'),
+          responseBody: '',
+          expectedRequestUrlPath: apiPaths.userEmailAddresses,
+          expectedRequestQueryParams: [],
+          expectedRequestBody: '{"Email":"1@2.com"}',
+        );
+      });
+
+      test('emailLoginConfirmAddressChange method tests', () async {
+        final n1App = getStandardN1App();
+        await http_helper.performHttpTest<void>(
+          httpMethod: HttpMethods.PUT,
+          httpCallCallback: () => n1App.auth().emailLoginConfirmAddressChange('123'),
+          responseBody: '',
+          expectedRequestUrlPath: apiPaths.userEmailAddressesEmailChangeCodeFormat
+              .replaceFirst('<emailChangeCode>', '123'),
+          expectedRequestQueryParams: [],
+          expectedRequestBody: '',
+        );
+      });
     });
 
     test('logout method tests', () async {
