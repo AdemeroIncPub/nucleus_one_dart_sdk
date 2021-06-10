@@ -189,6 +189,19 @@ Future<void> executeDeleteRequest(
       authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.delete);
 }
 
+Future<String> executePostRequestWithTextResponse(
+  String apiRelativeUrlPath,
+  NucleusOneAppInternal app, {
+  Map<String, dynamic>? query,
+  String? body,
+  bool authenticated = true,
+}) async {
+  final clientResponse = await _executeStandardHttpRequest(
+      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.post);
+  final respBody = await clientResponse.transform(utf8.decoder).join();
+  return respBody;
+}
+
 Future<void> executePostRequest(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
@@ -230,11 +243,14 @@ Future<void> downloadAuthenticated(
 
 abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
+  static const approvals = '/approvals';
   static const classifications = '/classifications';
   static const dashboardWidgets = '/dashboardWidgets';
   static const documentActionsRestoreFromRecycleBin = '/documentActions/restoreFromRecycleBin';
   static const documentActionsSendToRecycleBin = '/documentActions/sendToRecycleBin';
   static const documentContentPackagesFormat = '/documentContentPackages/<documentId>';
+  static const documentFields = '/documentFields';
+  static const documentPackageFormat = '/documentPackages/<documentId>';
   static const documents = '/documents';
   static const documentsCommentsFormat = '/documents/<documentId>/comments';
   static const documentsEventsFormat = '/documents/<documentId>/events';
@@ -242,14 +258,24 @@ abstract class apiPaths {
   static const fields = '/fields';
   static const fieldsFormat = '/fields/<fieldId>';
   static const fieldsListItemsFormat = '/fields/<fieldId>/listItems';
+  static const folderHierarchies = '/folderHierarchies';
+  static const folderHierarchiesFormat = '/folderHierarchies/<folderHierarchyId>';
+  static const folderHierarchiesItemsFormat = '/folderHierarchies/<folderHierarchyId>/items';
+  static const folderHierarchiesItemsItemFormat =
+      '/folderHierarchies/<folderHierarchyId>/items/<folderHierarchyItemId>';
+  static const formTemplates = '/formTemplates';
+  static const formTemplatesPublicFormat = '/formTemplatesPublic/<formTemplateId>';
+  static const formTemplatesPublicFieldsFormat = '/formTemplatesPublic/<formTemplateId>/fields';
+  static const formTemplatesPublicFieldListItemsFormat =
+      '/formTemplatesPublic/<formTemplateId>/fields/<formTemplateFieldId>/listItems';
+  static const formTemplatesPublicSubmissions = '/formTemplatesPublic/<formTemplateId>/submissions';
+  static const tenantPermissionsFormat = '/tenants/<tenantId>/permissions';
+  static const userEmailLoginVerify = '/user/emailLoginVerify';
   static const userLogin = '/user/login';
   static const userLogout = '/user/logout';
   static const userProfile = '/user/profile';
   static const userPreferences = '/user/preferences';
   static const userPreferenceFormat = '/user/preferences/<singleUserPreferenceId>';
-  static const documentFields = '/documentFields';
-  static const approvals = '/approvals';
-  static const documentPackageFormat = '/documentPackages/<documentId>';
 }
 
 abstract class ApiRequestBodyObject {

@@ -11,6 +11,7 @@ Future<void> performHttpTest<T>({
   required String expectedRequestUrlPath,
   required List<String> expectedRequestQueryParams,
   String? expectedRequestBody,
+  int? expectedQueryResultPageSize = 24,
   void Function(T resultEntity)? additionalValidationsCallback,
 }) async {
   // Use the stock performHttpTest method, passing in additional tests specific to the model
@@ -28,9 +29,10 @@ Future<void> performHttpTest<T>({
         expect(resultEntity, isNotNull);
       }
       if (resultEntity is QueryResult2) {
-        validateQueryResult2(resultEntity, 'QueryResultA', 24, 'QueryResultB');
+        validateQueryResult2(
+            resultEntity, 'QueryResultA', expectedQueryResultPageSize, 'QueryResultB');
       } else if (resultEntity is QueryResult) {
-        validateQueryResult(resultEntity, 'QueryResultA', 24);
+        validateQueryResult(resultEntity, 'QueryResultA', expectedQueryResultPageSize);
       }
 
       if (additionalValidationsCallback != null) {

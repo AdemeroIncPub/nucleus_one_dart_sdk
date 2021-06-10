@@ -4,15 +4,10 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/approval.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_approvals.dart';
-import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:nucleus_one_dart_sdk/src/model/approval.dart';
 import 'package:test/test.dart';
 
 import '../api_model/approval.dart';
-import '../../../src/common.dart';
-import '../../../src/model_helper.dart';
-import '../../../src/mocks/http.dart';
 
 void main() {
   group('Approval class tests', () {
@@ -97,30 +92,6 @@ void main() {
           ApprovalCollectionQueryResult.fromApiModelApprovalCollection(apiModelOrig)
               .toApiModel<api_mod.ApprovalCollection>();
       performTests(apiModelCycled);
-    });
-
-    test('get method tests', () async {
-      final expectedUrlPath = http.apiPaths.approvals;
-      final n1App = getStandardN1App();
-
-      // Test with default parameters
-      await performHttpTest<QueryResult<ApprovalCollection>>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppApprovals(app: n1App).getApprovals(
-          processElementId: 'A',
-          sortDescending: false,
-          processId: 'B',
-          sortType: 'C',
-        ),
-        responseBody: approvalCollectionJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [
-          'processElementID=A',
-          'sortDescending=false',
-          'processID=B',
-          'sortType=C',
-        ],
-      );
     });
   });
 }

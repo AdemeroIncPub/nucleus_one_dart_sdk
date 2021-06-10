@@ -7,13 +7,16 @@ import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_approvals.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_project.dart';
 import 'package:nucleus_one_dart_sdk/src/user.dart';
 
 import 'hierarchy/nucleus_one_app_documents.dart';
 import 'hierarchy/nucleus_one_app_fields.dart';
+import 'api_model/email_login_options.dart' as api_mod;
 import 'hierarchy/nucleus_one_app_users.dart';
 import '../nucleus_one_dart_sdk.dart';
 import 'http.dart' as http;
+import 'model/email_login_options.dart';
 
 final _getIt = GetIt.instance;
 
@@ -78,9 +81,11 @@ abstract class NucleusOne {
 
 class NucleusOneOptions {
   final String baseUrl;
+  final int browserFingerprint;
 
   NucleusOneOptions({
     required this.baseUrl,
+    required this.browserFingerprint,
   });
 }
 
@@ -98,7 +103,13 @@ abstract class NucleusOneAppDependent {
 }
 
 class NucleusOneAppUninitialized extends NucleusOneAppInternal {
-  NucleusOneAppUninitialized() : super(options: NucleusOneOptions(baseUrl: ''));
+  NucleusOneAppUninitialized()
+      : super(
+          options: NucleusOneOptions(
+            baseUrl: '',
+            browserFingerprint: 0,
+          ),
+        );
 }
 
 class NucleusOneAppInternal extends NucleusOneApp {
@@ -163,6 +174,21 @@ abstract class NucleusOneApp {
     return NucleusOneAppFields(app: this as NucleusOneAppInternal);
   }
 
+  /// Folder Hierarchies
+  FolderHierarchyCollection folderHierarchies() {
+    return FolderHierarchyCollection(app: this as NucleusOneAppInternal);
+  }
+
+  /// Folder Hierarchy Items
+  FolderHierarchyItemCollection folderHierarchyItems() {
+    return FolderHierarchyItemCollection(app: this as NucleusOneAppInternal);
+  }
+
+  /// FormTemplates
+  FormTemplateCollection forms() {
+    return FormTemplateCollection(app: this as NucleusOneAppInternal);
+  }
+
   /// Users
   NucleusOneAppUsers users() {
     return NucleusOneAppUsers(app: this as NucleusOneAppInternal);
@@ -171,6 +197,11 @@ abstract class NucleusOneApp {
   /// Approvals
   NucleusOneAppApprovals approvals() {
     return NucleusOneAppApprovals(app: this as NucleusOneAppInternal);
+  }
+
+  /// Projects
+  NucleusOneAppProjects projects() {
+    return NucleusOneAppProjects(app: this as NucleusOneAppInternal);
   }
 }
 
@@ -199,13 +230,32 @@ class Auth with NucleusOneAppDependent {
   /// Logs in to Nucleus One using Google Sign-In.  If successful, the session information is stored
   /// internally, for use in future requests.
   /// A result is returned, regardless of success.
-  Future<LoginResult> loginGoogle(int browserFingerprint, String oauthIdToken) async {
+  Future<LoginResult> loginGoogle(String oauthIdToken) async {
     final signInPackage = {
-      'BrowserFingerprint': browserFingerprint,
+      'BrowserFingerprint': _getIt.get<NucleusOneApp>().options.browserFingerprint,
       'UserProvider': 'google',
       'OAuthIdToken': oauthIdToken,
     };
 
+    return await _loginInternal(signInPackage);
+  }
+
+  /// Logs in to Nucleus One using an email and a one-time passcode.  If successful, the session
+  /// information is stored internally, for use in future requests.
+  /// A result is returned, regardless of success.
+  Future<LoginResult> loginEmailAndOTP(String email, String otp) async {
+    final signInPackage = {
+      'AuthType': 'email',
+      'BrowserFingerprint': _getIt.get<NucleusOneApp>().options.browserFingerprint,
+      'Email': email,
+      'OTP': otp,
+      'UserProvider': 'email',
+    };
+
+    return await _loginInternal(signInPackage);
+  }
+
+  Future<LoginResult> _loginInternal(Map<String, Object> signInPackage) async {
     final client = http.getStandardHttpClient();
     final clientReq = await client.postUrl(Uri.parse(app.getFullUrl(http.apiPaths.userLogin)));
     http.setRequestHeadersCommon(clientReq);
@@ -239,6 +289,23 @@ class Auth with NucleusOneAppDependent {
     );
 
     app.setAuthenticationState(null);
+  }
+
+  Future<EmailLoginOptions> verifyEmailLogin(String email) async {
+    final reqBody = {
+      'BrowserFingerprint': _getIt.get<NucleusOneApp>().options.browserFingerprint,
+      'Email': email,
+      'UserProvider': 'email',
+    };
+
+    final responseBody = await http.executePostRequestWithTextResponse(
+      http.apiPaths.userEmailLoginVerify,
+      app,
+      body: jsonEncode(reqBody),
+    );
+
+    final apiModel = api_mod.EmailLoginOptions.fromJson(jsonDecode(responseBody));
+    return EmailLoginOptions.fromApiModel(apiModel);
   }
 }
 

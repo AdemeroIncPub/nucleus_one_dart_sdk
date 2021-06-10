@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/src/common/string.dart';
+import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:nucleus_one_dart_sdk/src/model/document_field.dart';
 
 import '../nucleus_one.dart';
@@ -107,7 +107,7 @@ class NucleusOneAppFields with NucleusOneAppDependent {
     );
   }
 
-  /// Gets as field by its id.
+  /// Gets a field by its id.
   ///
   /// [id]: The id of the field.
   Future<Field> getFieldById(String id) async {
@@ -176,11 +176,17 @@ class NucleusOneAppFields with NucleusOneAppDependent {
     required String destinationFilePath,
     String? cursor,
   }) async {
-    final qp = _getFieldListItemsQueryParams(cursor, parentValue, valueFilter);
-    qp['getAllAsFlatFile'] = true;
-    await http.downloadAuthenticated(
-        http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id), destinationFilePath, app,
-        query: qp);
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'Value cannot be blank.');
+    }
+    await ListItems.downloadListItems(
+      app: app,
+      apiRelativeUrlPath: http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id),
+      parentValue: parentValue,
+      valueFilter: valueFilter,
+      destinationFilePath: destinationFilePath,
+      cursor: cursor,
+    );
   }
 
   /// Adds list items to a field's selection list.
@@ -193,28 +199,10 @@ class NucleusOneAppFields with NucleusOneAppDependent {
     if (id.isEmpty) {
       throw ArgumentError.value(id, 'id', 'Value cannot be blank.');
     }
-    if (items.items.isEmpty) {
-      throw ArgumentError.value(items, 'items', 'Cannot be empty.');
-    }
-
-    final bodyList = items.toApiModel().items;
-
-    // Only keep the properties needed for this operation
-    final jsonList = bodyList.map((x) {
-      final jsonMap = x.toJson();
-      jsonMap.removeWhere((key, value) {
-        return (key == 'ID') ? isNullOrEmpty(value) : false;
-      });
-      return jsonMap;
-    }).toList();
-
-    final qp = http.StandardQueryParams.get();
-
-    await http.executePostRequest(
-      http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id),
-      app,
-      query: qp,
-      body: jsonEncode(jsonList),
+    await ListItems.addListItems(
+      app: app,
+      apiRelativeUrlPath: http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id),
+      items: items,
     );
   }
 
@@ -227,18 +215,10 @@ class NucleusOneAppFields with NucleusOneAppDependent {
     if (id.isEmpty) {
       throw ArgumentError.value(id, 'id', 'Value cannot be blank.');
     }
-    if (values.isEmpty) {
-      throw ArgumentError.value(values, 'values', 'Cannot be empty.');
-    }
-
-    final qp = http.StandardQueryParams.get();
-    qp['type'] = 'file';
-
-    await http.executePostRequest(
-      http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id),
-      app,
-      query: qp,
-      body: values.join('\n') + '\n',
+    await ListItems.setListItems(
+      app: app,
+      apiRelativeUrlPath: http.apiPaths.fieldsListItemsFormat.replaceFirst('<fieldId>', id),
+      values: values,
     );
   }
 }

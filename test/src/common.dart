@@ -8,9 +8,9 @@ User getStandardTestUser() {
   );
 }
 
-NucleusOneAppInternal getStandardN1App([String baseUrl = '']) {
+NucleusOneAppInternal getStandardN1App([String baseUrl = '', int browserFingerprint = 0]) {
   return NucleusOneAppInternal(
-    options: NucleusOneOptions(baseUrl: baseUrl),
+    options: NucleusOneOptions(baseUrl: baseUrl, browserFingerprint: browserFingerprint),
   );
 }
 
