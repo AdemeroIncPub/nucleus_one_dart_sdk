@@ -23,3 +23,9 @@ dev_dependencies:
   test: ^1.17.5
 
 dependency_overrides:
+  # This is temporarily needed until the next version is released, which contains
+  # a fix for "coverage:ignore-start" comments not always being honored
+  coverage:
+    git:
+      url: https://github.com/dart-lang/coverage.git
+      ref: 4cf2e67b027b1e940b2019c463e7f9947f6a1b66

@@ -270,6 +270,7 @@ abstract class apiPaths {
       '/formTemplatesPublic/<formTemplateId>/fields/<formTemplateFieldId>/listItems';
   static const formTemplatesPublicSubmissions = '/formTemplatesPublic/<formTemplateId>/submissions';
   static const tenantPermissionsFormat = '/tenants/<tenantId>/permissions';
+  static const tenantPackagesForCurrentUser = '/tenantPackagesForCurrentUser';
   static const userEmailAddresses = '/user/emailAddresses';
   static const userEmailAddressesEmailChangeCodeFormat = '/user/emailAddresses/<emailChangeCode>';
   static const userEmailAddressVerifications = '/user/emailAddressVerifications';
@@ -280,6 +281,8 @@ abstract class apiPaths {
   static const userProfile = '/user/profile';
   static const userPreferences = '/user/preferences';
   static const userPreferenceFormat = '/user/preferences/<singleUserPreferenceId>';
+  static const userSmsNumbers = '/user/smsNumbers';
+  static const userSmsNumbersSmsChangeCodeFormat = '/user/smsNumbers/<smsChangeCode>';
 }
 
 abstract class ApiRequestBodyObject {

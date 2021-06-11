@@ -45,18 +45,5 @@ void main() {
       final apiModelCycled = UserPreferences.fromApiModel(apiModelOrig).toApiModel();
       performTests(apiModelCycled);
     });
-
-    test('get method tests', () async {
-      final expectedUrlPath = http.apiPaths.userPreferences;
-      final n1App = getStandardN1App();
-      // Test with default parameters
-      await performHttpTest<UserPreferences>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppUsers(app: n1App).getPreferences(),
-        responseBody: userPreferencesJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
-    });
   });
 }

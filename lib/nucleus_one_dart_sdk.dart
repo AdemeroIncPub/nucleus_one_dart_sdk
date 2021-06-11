@@ -9,6 +9,8 @@ export 'src/hierarchy/nucleus_one_app_fields.dart';
 export 'src/hierarchy/nucleus_one_app_folder_hierarchies.dart';
 export 'src/hierarchy/nucleus_one_app_project.dart';
 export 'src/hierarchy/nucleus_one_app_users.dart';
+export 'src/model/project.dart';
+export 'src/model/project_packages.dart';
 export 'src/model/project_permissions.dart';
 export 'src/model/address_book.dart';
 export 'src/model/classification.dart';

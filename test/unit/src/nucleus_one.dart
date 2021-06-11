@@ -149,6 +149,14 @@ void main() {
       expect(c.app, n1App);
     });
 
+    test('projects method tests', () {
+      final n1App = getStandardN1App();
+
+      final c = n1App.projects();
+      expect(c, isA<NucleusOneAppProjects>());
+      expect(c.app, n1App);
+    });
+
     test('Request headers tests (_setRequestHeadersCommon && _setRequestHeadersAuthCookie)',
         () async {
       // Test in three iterations:
