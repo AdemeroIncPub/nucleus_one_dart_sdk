@@ -21,6 +21,7 @@ import 'src/api_model/approval.dart' as api_mod__approval;
 import 'src/api_model/document_subscription.dart' as api_mod__document_subscription;
 import 'src/api_model/document_package_field.dart' as api_mod__document_package_field;
 import 'src/api_model/document_package.dart' as api_mod__document_package;
+import 'src/api_model/document_upload.dart' as api_mod__document_upload;
 import 'src/model/_common.dart' as mod___common;
 import 'src/model/address_book.dart' as mod__address_book;
 import 'src/model/classification.dart' as mod__classification;
@@ -44,6 +45,7 @@ import 'src/model/approval.dart' as mod__approval;
 import 'src/model/document_subscription.dart' as mod__document_subscription;
 import 'src/model/document_package_field.dart' as mod__document_package_field;
 import 'src/model/document_package.dart' as mod__document_package;
+import 'src/model/document_upload.dart' as mod__document_upload;
 import 'src/nucleus_one.dart' as n1;
 import 'src/common/string.dart' as common_string;
 import 'src/http.dart' as http;
@@ -80,6 +82,7 @@ void _apiModelTests() {
   api_mod__document_subscription.main();
   api_mod__document_package_field.main();
   api_mod__document_package.main();
+  api_mod__document_upload.main();
 }
 
 void _modelTests() {
@@ -106,6 +109,7 @@ void _modelTests() {
   mod__document_subscription.main();
   mod__document_package_field.main();
   mod__document_package.main();
+  mod__document_upload.main();
 }
 
 void _commonTests() {

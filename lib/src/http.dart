@@ -250,6 +250,7 @@ abstract class apiPaths {
   static const documentFields = '/documentFields';
   static const approvals = '/approvals';
   static const documentPackageFormat = '/documentPackages/<documentId>';
+  static const documentUpload = '/documentUploads';
 }
 
 abstract class ApiRequestBodyObject {

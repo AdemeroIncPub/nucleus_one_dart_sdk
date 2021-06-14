@@ -23,3 +23,4 @@ export 'src/model/document_field.dart';
 export 'src/model/approval.dart';
 export 'src/model/document_package.dart';
 export 'src/model/document.dart';
+export 'src/model/document_upload.dart';

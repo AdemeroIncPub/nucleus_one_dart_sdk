@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:nucleus_one_dart_sdk/src/model/document_for_client.dart';
+import 'package:nucleus_one_dart_sdk/src/model/document_upload.dart';
 
 import '../nucleus_one.dart';
 import '../model/document_package.dart';
@@ -13,12 +14,25 @@ import '../api_model/query_result.dart' as api_mod;
 import '../api_model/document_package.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
+import '../api_model/document_upload.dart' as api_mod;
 
 class NucleusOneAppDocuments with NucleusOneAppDependent {
   NucleusOneAppDocuments({
     required NucleusOneAppInternal app,
   }) {
     this.app = app;
+  }
+
+  /// Gets a Document Upload.
+  ///
+  ///
+  Future<DocumentUpload> getDocumentUpload() async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentUpload,
+      app,
+    );
+    final apiModel = api_mod.DocumentUpload.fromJson(jsonDecode(responseBody));
+    return DocumentUpload.fromApiModel(apiModel);
   }
 
   /// Gets the document count.
