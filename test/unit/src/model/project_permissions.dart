@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/api_model/tenant_permissions.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/project_permissions.dart' as api_mod;
 import 'package:test/test.dart';
 
-import '../api_model/tenant_permissions.dart';
+import '../api_model/project_permissions.dart';
 
 void main() {
-  group('AddressBookItem tests', () {
+  group('ProjectPermissions class tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();
     });
@@ -17,7 +17,7 @@ void main() {
     });
 
     test('Serialization test', () {
-      void performTest(api_mod.TenantPermissions apiModel) {
+      void performTest(api_mod.ProjectPermissions apiModel) {
         expect(apiModel.organizationID, 'A');
         expect(apiModel.organizationName, 'B');
         expect(apiModel.tenantID, 'C');
@@ -28,14 +28,15 @@ void main() {
         expect(apiModel.userEmail, 'H');
         expect(apiModel.disabled, false);
         expect(apiModel.isAdmin, true);
+        expect(apiModel.isReadOnly, false);
       }
 
       final apiModelOrig =
-          api_mod.TenantPermissions.fromJson(jsonDecode(activeTenantPermissionsJson));
+          api_mod.ProjectPermissions.fromJson(jsonDecode(activeProjectPermissionsJson));
       performTest(apiModelOrig);
 
       // Convert it to a model class then back again
-      final apiModelCycled = TenantPermissions.fromApiModel(apiModelOrig).toApiModel();
+      final apiModelCycled = ProjectPermissions.fromApiModel(apiModelOrig).toApiModel();
       performTest(apiModelCycled);
     });
   });

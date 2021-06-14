@@ -14,9 +14,7 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
     this.app = app;
   }
 
-  /// Gets UserPreferences.
-  ///
-  ///
+  /// Gets the current user's preferences.
   Future<UserPreferences> getPreferences() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.userPreferences,
@@ -26,7 +24,7 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
     return UserPreferences.fromApiModel(apiModel);
   }
 
-  /// Gets a UserPreference by its id.
+  /// Gets the current user's preference by its id.
   ///
   /// [id]: The id of the field.
   Future<UserPreference> getPreferencesById(String id) async {
@@ -36,5 +34,38 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
     );
     final apiModel = api_mod_up.UserPreference.fromJson(jsonDecode(responseBody));
     return UserPreference.fromApiModel(apiModel);
+  }
+
+  /// Sets the current user's SMS number.
+  ///
+  /// [smsNumber] The SMS number, including the beginning "+" and country code.
+  Future<void> setSmsNumber(String smsNumber) async {
+    final reqBody = {
+      'SMSNumber': smsNumber,
+    };
+    await http.executePostRequest(
+      http.apiPaths.userSmsNumbers,
+      app,
+      body: jsonEncode(reqBody),
+    );
+  }
+
+  /// Verifies the changing of the current user's SMS number.
+  ///
+  /// [smsNumber] The verification code received via text message.
+  Future<void> verifySmsNumber(String verificationCode) async {
+    await http.executePutRequest(
+      http.apiPaths.userSmsNumbersSmsChangeCodeFormat
+          .replaceFirst('<smsChangeCode>', verificationCode),
+      app,
+    );
+  }
+
+  /// Deletes the current user's SMS number.
+  Future<void> deleteSmsNumber() async {
+    await http.executeDeleteRequest(
+      http.apiPaths.userSmsNumbers,
+      app,
+    );
   }
 }

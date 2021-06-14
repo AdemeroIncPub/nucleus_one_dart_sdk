@@ -16,10 +16,16 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^1.12.2
-  coverage: ^1.0.2
-  mocktail: ^0.1.2
+  coverage: ^1.0.3
+  mocktail: ^0.1.4
   pedantic: ^1.11.0
   remove_from_coverage: ^2.0.0
-  test: ^1.17.4
+  test: ^1.17.5
 
 dependency_overrides:
+  # This is temporarily needed until the next version is released, which contains
+  # a fix for "coverage:ignore-start" comments not always being honored
+  coverage:
+    git:
+      url: https://github.com/dart-lang/coverage.git
+      ref: 4cf2e67b027b1e940b2019c463e7f9947f6a1b66

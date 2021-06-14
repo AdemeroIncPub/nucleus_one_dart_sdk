@@ -16,6 +16,7 @@ import '../../src/assertions.dart';
 import '../../src/common.dart';
 import '../../src/mocks/http.dart';
 import '../../src/http_helper.dart' as http_helper;
+import 'api_model/email_login_options.dart';
 
 void main() {
   final getIt = GetIt.instance;
@@ -52,7 +53,7 @@ void main() {
       test('Initialized NucleusOne app', () async {
         Future<NucleusOneApp> _reinitializeApp() async {
           return await NucleusOne.initializeApp(
-            options: NucleusOneOptions(baseUrl: 'https://steve.com/'),
+            options: NucleusOneOptions(baseUrl: 'https://steve.com/', browserFingerprint: 0),
           );
         }
 
@@ -79,16 +80,17 @@ void main() {
 
   group('NucleusOneOptions class tests', () {
     test('Constructor tests', () {
-      testValidAssertion(() => NucleusOneOptions(baseUrl: ''));
+      testValidAssertion(() => NucleusOneOptions(baseUrl: '', browserFingerprint: 0));
 
-      final n1Opts = NucleusOneOptions(baseUrl: 'abc');
+      final n1Opts = NucleusOneOptions(baseUrl: 'abc', browserFingerprint: 1);
       expect(n1Opts.baseUrl, 'abc');
+      expect(n1Opts.browserFingerprint, 1);
     });
   });
 
   group('NucleusOneApp class tests', () {
     test('Constructor tests', () {
-      final n1Options = NucleusOneOptions(baseUrl: '');
+      final n1Options = NucleusOneOptions(baseUrl: '', browserFingerprint: 0);
       final n1App = NucleusOneAppInternal(options: n1Options);
       expect(n1App.options, n1Options);
     });
@@ -115,7 +117,7 @@ void main() {
       expect(c.app, n1App);
     });
 
-    test('NucleusOneAppDocuments method tests', () {
+    test('documents method tests', () {
       final n1App = getStandardN1App();
 
       final doc = n1App.documents();
@@ -123,7 +125,7 @@ void main() {
       expect(doc.app, n1App);
     });
 
-    test('NucleusOneAppFields method tests', () {
+    test('fields method tests', () {
       final n1App = getStandardN1App();
 
       final c = n1App.fields();
@@ -131,7 +133,7 @@ void main() {
       expect(c.app, n1App);
     });
 
-    test('NucleusOneAppUsers method tests', () {
+    test('users method tests', () {
       final n1App = getStandardN1App();
 
       final c = n1App.users();
@@ -139,11 +141,19 @@ void main() {
       expect(c.app, n1App);
     });
 
-    test('NucleusOneAppApprovals method tests', () {
+    test('approvals method tests', () {
       final n1App = getStandardN1App();
 
       final c = n1App.approvals();
       expect(c, isA<NucleusOneAppApprovals>());
+      expect(c.app, n1App);
+    });
+
+    test('projects method tests', () {
+      final n1App = getStandardN1App();
+
+      final c = n1App.projects();
+      expect(c, isA<NucleusOneAppProjects>());
       expect(c.app, n1App);
     });
 
@@ -248,42 +258,156 @@ void main() {
       expect(r.user, isNotNull);
     });
 
-    test('loginGoogle method tests', () async {
-      const sessionId = 'abc';
+    group('Methods dependent on SDK being initialized', () {
+      setUp(() async {
+        await NucleusOne.intializeSdk();
+      });
 
-      for (var i = 0; i < 2; ++i) {
-        final success = (i == 0);
-        Map<String, String>? responseCookies;
+      tearDown(() async {
+        await NucleusOne.resetSdk();
+      });
 
-        if (success) {
-          responseCookies = {
-            'session_v1': sessionId,
-          };
+      test('loginGoogle method tests', () async {
+        const sessionId = 'abc';
+
+        for (var i = 0; i < 2; ++i) {
+          final success = (i == 0);
+          Map<String, String>? responseCookies;
+
+          if (success) {
+            responseCookies = {
+              'session_v1': sessionId,
+            };
+          }
+
+          final n1App = getStandardN1App();
+          await http_helper.performHttpTest<LoginResult>(
+            httpMethod: HttpMethods.POST,
+            httpCallCallback: () => n1App.auth().loginGoogle('oauthTokenAbc'),
+            responseBody: '',
+            responseCookies: responseCookies,
+            expectedRequestUrlPath: apiPaths.userLogin,
+            expectedRequestQueryParams: [],
+            expectedRequestBody:
+                '{"BrowserFingerprint":0,"UserProvider":"google","OAuthIdToken":"oauthTokenAbc"}',
+            additionalValidationsCallback: (loginResult) {
+              if (success) {
+                expect(loginResult.success, isTrue);
+                expect(loginResult.sessionId, sessionId);
+                expect(n1App.sessionId, sessionId);
+                expect(n1App.authenticated, isTrue);
+              } else {
+                expect(loginResult.success, isFalse);
+                expect(loginResult.sessionId, isNull);
+                expect(n1App.sessionId, isNull);
+                expect(n1App.authenticated, isFalse);
+              }
+            },
+          );
         }
+      });
 
+      test('loginEmailAndOTP method tests', () async {
+        const sessionId = 'abc';
+
+        for (var i = 0; i < 2; ++i) {
+          final success = (i == 0);
+          Map<String, String>? responseCookies;
+
+          if (success) {
+            responseCookies = {
+              'session_v1': sessionId,
+            };
+          }
+
+          final n1App = getStandardN1App();
+          await http_helper.performHttpTest<LoginResult>(
+            httpMethod: HttpMethods.POST,
+            httpCallCallback: () => n1App.auth().loginEmailAndOTP('1@2.com', 'qwe'),
+            responseBody: '',
+            responseCookies: responseCookies,
+            expectedRequestUrlPath: apiPaths.userLogin,
+            expectedRequestQueryParams: [],
+            expectedRequestBody:
+                '{"AuthType":"email","BrowserFingerprint":0,"Email":"1@2.com","OTP":"qwe","UserProvider":"email"}',
+            additionalValidationsCallback: (loginResult) {
+              if (success) {
+                expect(loginResult.success, isTrue);
+                expect(loginResult.sessionId, sessionId);
+                expect(n1App.sessionId, sessionId);
+                expect(n1App.authenticated, isTrue);
+              } else {
+                expect(loginResult.success, isFalse);
+                expect(loginResult.sessionId, isNull);
+                expect(n1App.sessionId, isNull);
+                expect(n1App.authenticated, isFalse);
+              }
+            },
+          );
+        }
+      });
+
+      test('verifyEmailLogin method tests', () async {
         final n1App = getStandardN1App();
-        await http_helper.performHttpTest<LoginResult>(
+        await http_helper.performHttpTest<EmailLoginOptions>(
           httpMethod: HttpMethods.POST,
-          httpCallCallback: () => n1App.auth().loginGoogle(1, 'oauthTokenAbc'),
-          responseBody: '',
-          responseCookies: responseCookies,
-          expectedRequestUrlPath: apiPaths.userLogin,
+          httpCallCallback: () => n1App.auth().verifyEmailLogin('1@2.com'),
+          responseBody: emailLoginOptionsJson,
+          expectedRequestUrlPath: apiPaths.userEmailLoginVerify,
           expectedRequestQueryParams: [],
-          additionalValidationsCallback: (loginResult) {
-            if (success) {
-              expect(loginResult.success, isTrue);
-              expect(loginResult.sessionId, sessionId);
-              expect(n1App.sessionId, sessionId);
-              expect(n1App.authenticated, isTrue);
-            } else {
-              expect(loginResult.success, isFalse);
-              expect(loginResult.sessionId, isNull);
-              expect(n1App.sessionId, isNull);
-              expect(n1App.authenticated, isFalse);
-            }
-          },
+          expectedRequestBody: '{"BrowserFingerprint":0,"Email":"1@2.com","UserProvider":"email"}',
         );
-      }
+      });
+
+      test('emailLoginSendOneTimePasscode method tests', () async {
+        final n1App = getStandardN1App();
+        await http_helper.performHttpTest<void>(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () => n1App.auth().emailLoginSendOneTimePasscode('1@2.com'),
+          responseBody: '',
+          expectedRequestUrlPath: apiPaths.userEmailLoginOTPSend,
+          expectedRequestQueryParams: [],
+          expectedRequestBody:
+              '{"BrowserFingerprint":0,"UserProvider":"email","Email":"1@2.com","AuthType":"email"}',
+        );
+      });
+
+      test('emailLoginVerifyIfAddressCanBeChangedTo method tests', () async {
+        final n1App = getStandardN1App();
+        await http_helper.performHttpTest<void>(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () => n1App.auth().emailLoginVerifyIfAddressCanBeChangedTo('1@2.com'),
+          responseBody: '',
+          expectedRequestUrlPath: apiPaths.userEmailAddressVerifications,
+          expectedRequestQueryParams: [],
+          expectedRequestBody: '{"Email":"1@2.com"}',
+        );
+      });
+
+      test('emailLoginChangeAddress method tests', () async {
+        final n1App = getStandardN1App();
+        await http_helper.performHttpTest<void>(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () => n1App.auth().emailLoginChangeAddress('1@2.com'),
+          responseBody: '',
+          expectedRequestUrlPath: apiPaths.userEmailAddresses,
+          expectedRequestQueryParams: [],
+          expectedRequestBody: '{"Email":"1@2.com"}',
+        );
+      });
+
+      test('emailLoginConfirmAddressChange method tests', () async {
+        final n1App = getStandardN1App();
+        await http_helper.performHttpTest<void>(
+          httpMethod: HttpMethods.PUT,
+          httpCallCallback: () => n1App.auth().emailLoginConfirmAddressChange('123'),
+          responseBody: '',
+          expectedRequestUrlPath: apiPaths.userEmailAddressesEmailChangeCodeFormat
+              .replaceFirst('<emailChangeCode>', '123'),
+          expectedRequestQueryParams: [],
+          expectedRequestBody: '',
+        );
+      });
     });
 
     test('logout method tests', () async {

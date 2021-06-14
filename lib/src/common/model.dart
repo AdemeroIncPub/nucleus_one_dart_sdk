@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:get_it/get_it.dart';
+import '../http.dart' as http;
 import '../model/classification.dart' as mod;
 import '../model/document_for_client.dart' as mod;
 import '../model/document_comment.dart' as mod;
@@ -6,6 +9,9 @@ import '../model/document_event.dart' as mod;
 import '../model/field.dart' as mod;
 import '../model/document_field.dart' as mod;
 import '../model/approval.dart' as mod;
+import '../model/field_list_item.dart' as mod;
+import '../model/folder_hierarchies.dart' as mod;
+import '../model/form_template.dart' as mod;
 import '../model/query_result.dart' as mod;
 import '../api_model/classification.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
@@ -15,6 +21,8 @@ import '../api_model/document_results.dart' as api_mod;
 import '../api_model/field.dart' as api_mod;
 import '../api_model/document_field.dart' as api_mod;
 import '../api_model/approval.dart' as api_mod;
+import '../api_model/folder_hierarchies.dart' as api_mod;
+import '../api_model/form_template.dart' as api_mod;
 
 import '../nucleus_one.dart';
 
@@ -74,6 +82,74 @@ abstract class EntityCollection<TResult extends NucleusOneAppDependent, TApiMode
   // T operator [](int i) => _items[i];
 
   TApiModel toApiModel();
+}
+
+abstract class ListItems {
+  static Map<String, dynamic> getListItemsQueryParams(
+      String? cursor, String? parentValue, String? valueFilter) {
+    final qp = http.StandardQueryParams.get([
+      (sqp) => sqp.cursor(cursor),
+    ]);
+    if (parentValue != null) {
+      qp['parentValue'] = parentValue;
+    }
+    if (valueFilter != null) {
+      qp['valueFilter'] = valueFilter;
+    }
+    return qp;
+  }
+
+  static Future<void> downloadListItems({
+    required NucleusOneAppInternal app,
+    required String apiRelativeUrlPath,
+    String? parentValue,
+    String? valueFilter,
+    required String destinationFilePath,
+    String? cursor,
+  }) async {
+    final qp = getListItemsQueryParams(cursor, parentValue, valueFilter);
+    qp['getAllAsFlatFile'] = true;
+    await http.downloadAuthenticated(apiRelativeUrlPath, destinationFilePath, app, query: qp);
+  }
+
+  static Future<void> addListItems({
+    required NucleusOneAppInternal app,
+    required String apiRelativeUrlPath,
+    required mod.FieldListItemCollection items,
+    Map<String, dynamic>? additionalQueryParams,
+  }) async {
+    final qp = http.StandardQueryParams.get();
+    if (additionalQueryParams != null) {
+      qp.addAll(additionalQueryParams);
+    }
+
+    await http.executePostRequest(
+      apiRelativeUrlPath,
+      app,
+      query: qp,
+      body: jsonEncode(items.toApiModel()),
+    );
+  }
+
+  static Future<void> setListItems({
+    required NucleusOneAppInternal app,
+    required String apiRelativeUrlPath,
+    required List<String> values,
+    Map<String, dynamic>? additionalQueryParams,
+  }) async {
+    final qp = http.StandardQueryParams.get();
+    qp['type'] = 'file';
+    if (additionalQueryParams != null) {
+      qp.addAll(additionalQueryParams);
+    }
+
+    await http.executePostRequest(
+      apiRelativeUrlPath,
+      app,
+      query: qp,
+      body: values.join('\n') + '\n',
+    );
+  }
 }
 
 abstract class DocumentForClientCollectionQueryResult {
@@ -152,6 +228,29 @@ abstract class ApprovalCollectionQueryResult {
       api_mod.QueryResult<api_mod.ApprovalCollection> apiModel) {
     return mod.QueryResult(
       results: mod.ApprovalCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class FolderHierarchyCollectionQueryResult {
+  static mod.QueryResult<mod.FolderHierarchyCollection> fromApiModelFolderHierarchyCollection(
+      api_mod.QueryResult<api_mod.FolderHierarchyCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.FolderHierarchyCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      // At the time of writing this, the API call for this didn't support this property
+      pageSize: 0,
+    );
+  }
+}
+
+abstract class FormTemplateCollectionQueryResult {
+  static mod.QueryResult<mod.FormTemplateCollection> fromApiModelFormTemplateCollection(
+      api_mod.QueryResult<api_mod.FormTemplateCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.FormTemplateCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );

@@ -1,10 +1,10 @@
 import 'package:get_it/get_it.dart';
 
-import '../api_model/tenant_permissions.dart' as api_mod;
+import '../api_model/project_permissions.dart' as api_mod;
 import '../nucleus_one.dart';
 
-class TenantPermissions with NucleusOneAppDependent {
-  TenantPermissions._(
+class ProjectPermissions with NucleusOneAppDependent {
+  ProjectPermissions._(
       {NucleusOneAppInternal? app,
       required this.organizationID,
       required this.organizationName,
@@ -15,12 +15,13 @@ class TenantPermissions with NucleusOneAppDependent {
       required this.userName,
       required this.userEmail,
       required this.disabled,
-      required this.isAdmin}) {
+      required this.isAdmin,
+      required this.isReadOnly}) {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
-  factory TenantPermissions.fromApiModel(api_mod.TenantPermissions apiModel) {
-    return TenantPermissions._(
+  factory ProjectPermissions.fromApiModel(api_mod.ProjectPermissions apiModel) {
+    return ProjectPermissions._(
         organizationID: apiModel.organizationID!,
         organizationName: apiModel.organizationName!,
         tenantID: apiModel.tenantID!,
@@ -30,7 +31,8 @@ class TenantPermissions with NucleusOneAppDependent {
         userName: apiModel.userName!,
         userEmail: apiModel.userEmail!,
         disabled: apiModel.disabled!,
-        isAdmin: apiModel.isAdmin!);
+        isAdmin: apiModel.isAdmin!,
+        isReadOnly: apiModel.isReadOnly!);
   }
 
   String organizationID;
@@ -53,8 +55,10 @@ class TenantPermissions with NucleusOneAppDependent {
 
   bool isAdmin;
 
-  api_mod.TenantPermissions toApiModel() {
-    return api_mod.TenantPermissions()
+  bool isReadOnly;
+
+  api_mod.ProjectPermissions toApiModel() {
+    return api_mod.ProjectPermissions()
       ..organizationID = organizationID
       ..organizationName = organizationName
       ..tenantID = tenantID
@@ -64,6 +68,7 @@ class TenantPermissions with NucleusOneAppDependent {
       ..userName = userName
       ..userEmail = userEmail
       ..disabled = disabled
-      ..isAdmin = isAdmin;
+      ..isAdmin = isAdmin
+      ..isReadOnly = isReadOnly;
   }
 }

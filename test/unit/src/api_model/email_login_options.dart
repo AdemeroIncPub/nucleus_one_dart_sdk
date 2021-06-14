@@ -1,5 +1,4 @@
-const activeTenantPermissionsJson =
-    r'{"OrganizationID":"A","OrganizationName":"B","TenantID":"C","TenantName":"D","TenantMemberID":"E","UserID":"F","UserName":"G","UserEmail":"H","Disabled":false,"IsAdmin":true}';
+const emailLoginOptionsJson = '{"UserExists":true,"SMSNumberLast2":"12"}';
 
 void main() {
   /*

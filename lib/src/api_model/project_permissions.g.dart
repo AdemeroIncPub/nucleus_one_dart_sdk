@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tenant_permissions.dart';
+part of 'project_permissions.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TenantPermissions _$TenantPermissionsFromJson(Map<String, dynamic> json) {
-  return TenantPermissions()
+ProjectPermissions _$ProjectPermissionsFromJson(Map<String, dynamic> json) {
+  return ProjectPermissions()
     ..organizationID = json['OrganizationID'] as String?
     ..organizationName = json['OrganizationName'] as String?
     ..tenantID = json['TenantID'] as String?
@@ -17,10 +17,11 @@ TenantPermissions _$TenantPermissionsFromJson(Map<String, dynamic> json) {
     ..userName = json['UserName'] as String?
     ..userEmail = json['UserEmail'] as String?
     ..disabled = json['Disabled'] as bool?
-    ..isAdmin = json['IsAdmin'] as bool?;
+    ..isAdmin = json['IsAdmin'] as bool?
+    ..isReadOnly = json['IsReadOnly'] as bool?;
 }
 
-Map<String, dynamic> _$TenantPermissionsToJson(TenantPermissions instance) {
+Map<String, dynamic> _$ProjectPermissionsToJson(ProjectPermissions instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -39,5 +40,6 @@ Map<String, dynamic> _$TenantPermissionsToJson(TenantPermissions instance) {
   writeNotNull('UserEmail', instance.userEmail);
   writeNotNull('Disabled', instance.disabled);
   writeNotNull('IsAdmin', instance.isAdmin);
+  writeNotNull('IsReadOnly', instance.isReadOnly);
   return val;
 }

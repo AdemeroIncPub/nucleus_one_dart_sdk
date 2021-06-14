@@ -6,6 +6,8 @@ import '../api_model/document_results.dart' as api_mod;
 import '../api_model/field.dart' as api_mod;
 import '../api_model/document_field.dart' as api_mod;
 import '../api_model/approval.dart' as api_mod;
+import '../api_model/folder_hierarchies.dart' as api_mod;
+import '../api_model/form_template.dart' as api_mod;
 
 part 'query_result.g.dart';
 
@@ -35,6 +37,8 @@ class QueryResult<T> {
     api_mod.FieldCollection: (x) => api_mod.FieldCollection.fromJson(x),
     api_mod.DocumentFieldCollection: (x) => api_mod.DocumentFieldCollection.fromJson(x),
     api_mod.ApprovalCollection: (x) => api_mod.ApprovalCollection.fromJson(x),
+    api_mod.FolderHierarchyCollection: (x) => api_mod.FolderHierarchyCollection.fromJson(x),
+    api_mod.FormTemplateCollection: (x) => api_mod.FormTemplateCollection.fromJson(x),
   };
 
   QueryResult();
