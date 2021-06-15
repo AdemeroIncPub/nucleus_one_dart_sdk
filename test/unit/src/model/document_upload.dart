@@ -43,7 +43,7 @@ void main() {
     });
 
     test('get method tests', () async {
-      final expectedUrlPath = http.apiPaths.documentUpload;
+      final expectedUrlPath = http.apiPaths.documentUploads;
       final n1App = getStandardN1App();
       // Test with default parameters
       await performHttpTest<DocumentUpload>(

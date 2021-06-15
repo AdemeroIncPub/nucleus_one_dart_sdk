@@ -283,7 +283,11 @@ abstract class apiPaths {
   static const userPreferenceFormat = '/user/preferences/<singleUserPreferenceId>';
   static const userSmsNumbers = '/user/smsNumbers';
   static const userSmsNumbersSmsChangeCodeFormat = '/user/smsNumbers/<smsChangeCode>';
-  static const documentUpload = '/documentUploads';
+  static const documentUploads = '/documentUploads';
+  static const inboxCounts = '/inboxCounts';
+  static const pageCounts = '/pageCounts';
+  static const recycleBinDocumentCounts = '/recycleBinDocumentCounts';
+  static const recycleBinInboxCounts = '/recycleBinInboxCounts';
 }
 
 abstract class ApiRequestBodyObject {

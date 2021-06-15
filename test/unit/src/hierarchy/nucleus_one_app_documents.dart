@@ -22,22 +22,83 @@ void main() {
     tearDown(() async {
       await NucleusOne.resetSdk();
     });
-    
-    test('getCount method tests', () async {
-      final n1App = getStandardN1App();
-      await performHttpTest<int>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getCount(true, false),
-        responseBody: '1',
-        expectedRequestUrlPath: http.apiPaths.documentCounts,
-        expectedRequestQueryParams: [
-          'ignoreInbox=true',
-          'ignoreRecycleBin=false',
-        ],
-        additionalValidationsCallback: (x) {
-          expect(x, 1);
-        },
-      );
+
+    group('getCount method tests', () {
+      test('getDocumentCount method test', () async {
+        final n1App = getStandardN1App();
+        await performHttpTest<int>(
+          httpMethod: HttpMethods.GET,
+          httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getDocumentCount(true, false),
+          responseBody: '1',
+          expectedRequestUrlPath: http.apiPaths.documentCounts,
+          expectedRequestQueryParams: [
+            'ignoreInbox=true',
+            'ignoreRecycleBin=false',
+          ],
+          additionalValidationsCallback: (x) {
+            expect(x, 1);
+          },
+        );
+      });
+
+      test('getPageCount method test', () async {
+        final n1App = getStandardN1App();
+        await performHttpTest<int>(
+          httpMethod: HttpMethods.GET,
+          httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getPageCount(),
+          responseBody: '1',
+          expectedRequestUrlPath: http.apiPaths.pageCounts,
+          expectedRequestQueryParams: [],
+          additionalValidationsCallback: (x) {
+            expect(x, 1);
+          },
+        );
+      });
+
+      test('getRecycleBinDocumentCount method test', () async {
+        final n1App = getStandardN1App();
+        await performHttpTest<int>(
+          httpMethod: HttpMethods.GET,
+          httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getRecycleBinDocumentCount(),
+          responseBody: '1',
+          expectedRequestUrlPath: http.apiPaths.recycleBinDocumentCounts,
+          expectedRequestQueryParams: [],
+          additionalValidationsCallback: (x) {
+            expect(x, 1);
+          },
+        );
+      });
+
+      test('getRecycleBinInboxDocumentCount method test', () async {
+        final n1App = getStandardN1App();
+        await performHttpTest<int>(
+          httpMethod: HttpMethods.GET,
+          httpCallCallback: () =>
+              NucleusOneAppDocuments(app: n1App).getRecycleBinInboxDocumentCount(),
+          responseBody: '1',
+          expectedRequestUrlPath: http.apiPaths.recycleBinInboxCounts,
+          expectedRequestQueryParams: [],
+          additionalValidationsCallback: (x) {
+            expect(x, 1);
+          },
+        );
+      });
+
+      test('getInboxDocumentCount method test', () async {
+        final n1App = getStandardN1App();
+        await performHttpTest<int>(
+          httpMethod: HttpMethods.GET,
+          httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getInboxDocumentCount(true),
+          responseBody: '1',
+          expectedRequestUrlPath: http.apiPaths.inboxCounts,
+          expectedRequestQueryParams: [
+            'ignoreRecycleBin=true',
+          ],
+          additionalValidationsCallback: (x) {
+            expect(x, 1);
+          },
+        );
+      });
     });
 
     group('_getRecentInternal method consumers tests', () {

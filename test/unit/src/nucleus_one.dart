@@ -112,9 +112,9 @@ void main() {
     test('classifications method tests', () {
       final n1App = getStandardN1App();
 
-      final c = n1App.classifications();
-      expect(c, isA<ClassificationCollection>());
-      expect(c.app, n1App);
+      final classifications = n1App.classifications();
+      expect(classifications, isA<ClassificationCollection>());
+      expect(classifications.app, n1App);
     });
 
     test('documents method tests', () {
@@ -128,33 +128,57 @@ void main() {
     test('fields method tests', () {
       final n1App = getStandardN1App();
 
-      final c = n1App.fields();
-      expect(c, isA<NucleusOneAppFields>());
-      expect(c.app, n1App);
+      final fields = n1App.fields();
+      expect(fields, isA<NucleusOneAppFields>());
+      expect(fields.app, n1App);
     });
 
     test('users method tests', () {
       final n1App = getStandardN1App();
 
-      final c = n1App.users();
-      expect(c, isA<NucleusOneAppUsers>());
-      expect(c.app, n1App);
+      final users = n1App.users();
+      expect(users, isA<NucleusOneAppUsers>());
+      expect(users.app, n1App);
     });
 
     test('approvals method tests', () {
       final n1App = getStandardN1App();
 
-      final c = n1App.approvals();
-      expect(c, isA<NucleusOneAppApprovals>());
-      expect(c.app, n1App);
+      final approvals = n1App.approvals();
+      expect(approvals, isA<NucleusOneAppApprovals>());
+      expect(approvals.app, n1App);
     });
 
     test('projects method tests', () {
       final n1App = getStandardN1App();
 
-      final c = n1App.projects();
-      expect(c, isA<NucleusOneAppProjects>());
-      expect(c.app, n1App);
+      final projects = n1App.projects();
+      expect(projects, isA<NucleusOneAppProjects>());
+      expect(projects.app, n1App);
+    });
+
+    test('folderHierarchies method tests', () {
+      final n1App = getStandardN1App();
+
+      final folderHierarchies = n1App.folderHierarchies();
+      expect(folderHierarchies, isA<FolderHierarchyCollection>());
+      expect(folderHierarchies.app, n1App);
+    });
+
+    test('folderHierarchyItems method tests', () {
+      final n1App = getStandardN1App();
+
+      final folderHierarchyItems = n1App.folderHierarchyItems();
+      expect(folderHierarchyItems, isA<FolderHierarchyItemCollection>());
+      expect(folderHierarchyItems.app, n1App);
+    });
+
+    test('forms method tests', () {
+      final n1App = getStandardN1App();
+
+      final forms = n1App.forms();
+      expect(forms, isA<FormTemplateCollection>());
+      expect(forms.app, n1App);
     });
 
     test('Request headers tests (_setRequestHeadersCommon && _setRequestHeadersAuthCookie)',
@@ -175,7 +199,7 @@ void main() {
             }
 
             // This is an arbitrary method call to trigger an HttpClient request
-            await NucleusOneAppDocuments(app: n1App).getCount(true, true);
+            await NucleusOneAppDocuments(app: n1App).getDocumentCount(true, true);
           },
           responseBody: '0',
         );
@@ -213,8 +237,8 @@ void main() {
             final n1App = getStandardN1App();
             final ignoreInbox = queryParamCombination[0],
                 ignoreRecycleBin = queryParamCombination[1];
-            final docCount =
-                await NucleusOneAppDocuments(app: n1App).getCount(ignoreInbox, ignoreRecycleBin);
+            final docCount = await NucleusOneAppDocuments(app: n1App)
+                .getDocumentCount(ignoreInbox, ignoreRecycleBin);
             expect(docCount, returnValue);
           },
           responseBody: returnValue.toString(),

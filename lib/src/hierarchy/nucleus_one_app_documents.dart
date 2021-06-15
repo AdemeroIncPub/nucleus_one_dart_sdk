@@ -28,11 +28,56 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
   ///
   Future<DocumentUpload> getDocumentUpload() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentUpload,
+      http.apiPaths.documentUploads,
       app,
     );
     final apiModel = api_mod.DocumentUpload.fromJson(jsonDecode(responseBody));
     return DocumentUpload.fromApiModel(apiModel);
+  }
+
+  /// Gets the document count within the Recycle Bin Inbox.
+  ///
+  Future<int> getRecycleBinInboxDocumentCount() async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.recycleBinInboxCounts,
+      app,
+    );
+    return int.parse(responseBody);
+  }
+
+  /// Gets the page count.
+  ///
+  Future<int> getPageCount() async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.pageCounts,
+      app,
+    );
+    return int.parse(responseBody);
+  }
+
+  /// Gets the document count within the Recycle Bin.
+  ///
+  Future<int> getRecycleBinDocumentCount() async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.recycleBinDocumentCounts,
+      app,
+    );
+    return int.parse(responseBody);
+  }
+
+  /// Gets the document count within the Inbox.
+  ///
+  /// [ignoreRecycleBin]: Whether results should contain documents from the Recycle Bin.
+  Future<int> getInboxDocumentCount(bool ignoreRecycleBin) async {
+    final qp = {
+      'ignoreRecycleBin': ignoreRecycleBin,
+    };
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.inboxCounts,
+      app,
+      query: qp,
+    );
+    return int.parse(responseBody);
   }
 
   /// Gets the document count.
@@ -40,7 +85,7 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
   /// [ignoreInbox]: Whether results should contain documents from the Inbox.
   ///
   /// [ignoreRecycleBin]: Whether results should contain documents from the Recycle Bin.
-  Future<int> getCount(bool ignoreInbox, bool ignoreRecycleBin) async {
+  Future<int> getDocumentCount(bool ignoreInbox, bool ignoreRecycleBin) async {
     final qp = {
       'ignoreInbox': ignoreInbox,
       'ignoreRecycleBin': ignoreRecycleBin,
