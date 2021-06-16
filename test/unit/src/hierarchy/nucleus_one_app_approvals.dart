@@ -42,5 +42,56 @@ void main() {
         ],
       );
     });
+
+    test('approveDocument method tests', () async {
+      final expectedUrlPath = http.apiPaths.approvalActionsApprove;
+      final n1App = getStandardN1App();
+
+      // Test with default parameters
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => NucleusOneAppApprovals(app: n1App).approveDocument(
+          ids: ['A', 'B'],
+        ),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: '{"IDs":["A","B"]}',
+      );
+    });
+
+    test('declineDocument method tests', () async {
+      final expectedUrlPath = http.apiPaths.approvalActionsDecline;
+      final n1App = getStandardN1App();
+
+      // Test with default parameters
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => NucleusOneAppApprovals(app: n1App).declineDocument(
+          ids: ['A', 'B'],
+        ),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: '{"IDs":["A","B"]}',
+      );
+    });
+
+    test('denyDocument method tests', () async {
+      final expectedUrlPath = http.apiPaths.approvalActionsDeny;
+      final n1App = getStandardN1App();
+
+      // Test with default parameters
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => NucleusOneAppApprovals(app: n1App).denyDocument(
+          ids: ['A', 'B'],
+        ),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: '{"IDs":["A","B"]}',
+      );
+    });
   });
 }

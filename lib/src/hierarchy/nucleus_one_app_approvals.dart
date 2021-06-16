@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import '../api_model/query_result.dart' as api_mod;
 import '../nucleus_one.dart';
 import '../model/approval.dart';
@@ -11,6 +12,45 @@ class NucleusOneAppApprovals with NucleusOneAppDependent {
     required NucleusOneAppInternal app,
   }) {
     this.app = app;
+  }
+
+  /// Declines a document.
+  ///
+  ///
+  Future<void> declineDocument({List<String>? ids}) async {
+    final reqBody = {'IDs': ids};
+
+    await http.executePostRequest(
+      http.apiPaths.approvalActionsDecline,
+      app,
+      body: jsonEncode(reqBody),
+    );
+  }
+
+  /// Denies a document.
+  ///
+  ///
+  Future<void> denyDocument({List<String>? ids}) async {
+    final reqBody = {'IDs': ids};
+
+    await http.executePostRequest(
+      http.apiPaths.approvalActionsDeny,
+      app,
+      body: jsonEncode(reqBody),
+    );
+  }
+
+  /// Approves a document.
+  ///
+  ///
+  Future<void> approveDocument({List<String>? ids}) async {
+    final reqBody = {'IDs': ids};
+
+    await http.executePostRequest(
+      http.apiPaths.approvalActionsApprove,
+      app,
+      body: jsonEncode(reqBody),
+    );
   }
 
   /// Gets Approvals.

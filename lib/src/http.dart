@@ -288,6 +288,9 @@ abstract class apiPaths {
   static const pageCounts = '/pageCounts';
   static const recycleBinDocumentCounts = '/recycleBinDocumentCounts';
   static const recycleBinInboxCounts = '/recycleBinInboxCounts';
+  static const approvalActionsApprove = '/approvalActions/approve';
+  static const approvalActionsDeny = '/approvalActions/deny';
+  static const approvalActionsDecline = '/approvalActions/decline';
 }
 
 abstract class ApiRequestBodyObject {
