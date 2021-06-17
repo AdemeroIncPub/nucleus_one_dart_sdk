@@ -32,7 +32,8 @@
 				"--out=coverage/lcov.info",
 				"--lcov",
 				"--packages=.dart_tool/package_config.json",
-				"--report-on=lib"
+				"--report-on=lib",
+				"--check-ignore"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"

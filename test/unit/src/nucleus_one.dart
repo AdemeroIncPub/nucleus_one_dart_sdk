@@ -5,6 +5,7 @@ import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_approvals.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_billing.dart';
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_documents.dart';
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_fields.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart';
@@ -107,6 +108,14 @@ void main() {
 
       final auth = n1App.auth();
       expect(auth.app, n1App);
+    });
+
+    test('billing method tests', () {
+      final n1App = getStandardN1App();
+
+      final doc = n1App.billing();
+      expect(doc, isA<NucleusOneAppBilling>());
+      expect(doc.app, n1App);
     });
 
     test('classifications method tests', () {

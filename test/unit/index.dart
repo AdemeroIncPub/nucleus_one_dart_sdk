@@ -13,9 +13,12 @@ import 'src/api_model/folder_hierarchies.dart' as api_mod__folder_hierarchies;
 import 'src/api_model/form_template.dart' as api_mod__form_template;
 import 'src/api_model/document_results.dart' as api_mod__document_results;
 import 'src/api_model/query_result.dart' as api_mod__query_result;
+import 'src/api_model/subscription_details.dart' as api_mod__organization_subscription;
 import 'src/api_model/project.dart' as api_mod__project;
 import 'src/api_model/project_packages.dart' as api_mod__project_packages;
 import 'src/api_model/project_permissions.dart' as api_mod__project_permissions;
+import 'src/api_model/subscription_invoice.dart' as api_mod__subscription_invoice;
+import 'src/api_model/subscription_plan.dart' as api_mod__subscription_plan;
 import 'src/api_model/user.dart' as api_mod__user;
 import 'src/api_model/user_profile.dart' as api_mod__user_profile;
 import 'src/api_model/user_preferences.dart' as api_mod__user_preferences;
@@ -28,6 +31,7 @@ import 'src/api_model/document_package_field.dart' as api_mod__document_package_
 import 'src/api_model/document_upload.dart' as api_mod__document_upload;
 import 'src/api_model/document_package.dart' as api_mod__document_package;
 import 'src/hierarchy/nucleus_one_app_approvals.dart' as hierarchy__nucleus_one_app_approvals;
+import 'src/hierarchy/nucleus_one_app_billing.dart' as hierarchy__nucleus_one_app_billing;
 import 'src/hierarchy/nucleus_one_app_documents.dart' as hierarchy__nucleus_one_app_documents;
 import 'src/hierarchy/nucleus_one_app_fields.dart' as hierarchy__nucleus_one_app_fields;
 import 'src/hierarchy/nucleus_one_app_folder_hierarchies.dart'
@@ -49,9 +53,12 @@ import 'src/model/field_list_item.dart' as mod__field_list_item;
 import 'src/model/folder_hierarchies.dart' as mod__folder_hierarchies;
 import 'src/model/form_template.dart' as mod__form_template;
 import 'src/model/query_result.dart' as mod__query_result;
+import 'src/model/subscription_details.dart' as mod__organization_subscription;
 import 'src/model/project.dart' as mod__project;
 import 'src/model/project_packages.dart' as mod__project_packages;
 import 'src/model/project_permissions.dart' as mod__project_permissions;
+import 'src/model/subscription_invoice.dart' as mod__subscription_invoice;
+import 'src/model/subscription_plan.dart' as mod__subscription_plan;
 import 'src/model/user.dart' as mod__user;
 import 'src/model/user_profile.dart' as mod__user_profile;
 import 'src/model/user_preferences.dart' as mod__user_preferences;
@@ -91,10 +98,13 @@ void _apiModelTests() {
   api_mod__field_list_item.main();
   api_mod__folder_hierarchies.main();
   api_mod__form_template.main();
+  api_mod__organization_subscription.main();
   api_mod__query_result.main();
   api_mod__project.main();
   api_mod__project_packages.main();
   api_mod__project_permissions.main();
+  api_mod__subscription_invoice.main();
+  api_mod__subscription_plan.main();
   api_mod__user.main();
   api_mod__user_profile.main();
   api_mod__user_preferences.main();
@@ -123,10 +133,13 @@ void _modelTests() {
   mod__field_list_item.main();
   mod__folder_hierarchies.main();
   mod__form_template.main();
+  mod__organization_subscription.main();
   mod__query_result.main();
   mod__project.main();
   mod__project_packages.main();
   mod__project_permissions.main();
+  mod__subscription_invoice.main();
+  mod__subscription_plan.main();
   mod__user.main();
   mod__user_profile.main();
   mod__user_preferences.main();
@@ -142,6 +155,7 @@ void _modelTests() {
 
 void _hierarchyTests() {
   hierarchy__nucleus_one_app_approvals.main();
+  hierarchy__nucleus_one_app_billing.main();
   hierarchy__nucleus_one_app_documents.main();
   hierarchy__nucleus_one_app_fields.main();
   hierarchy__nucleus_one_app_folder_hierarchies.main();

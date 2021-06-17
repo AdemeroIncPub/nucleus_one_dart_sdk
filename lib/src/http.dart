@@ -244,6 +244,9 @@ Future<void> downloadAuthenticated(
 abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
   static const approvals = '/approvals';
+  static const billingOrganizationSubscriptionsFormat = '/billing/organizationSubscriptions/<organizationId>';
+  static const billingSubscriptionInvoicesFormat = '/billing/subscriptionInvoices/<organizationId>';
+  static const billingSubscriptionPlansFormat = '/billing/subscriptionPlans/<organizationId>';
   static const classifications = '/classifications';
   static const dashboardWidgets = '/dashboardWidgets';
   static const documentActionsRestoreFromRecycleBin = '/documentActions/restoreFromRecycleBin';

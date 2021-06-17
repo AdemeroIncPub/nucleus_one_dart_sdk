@@ -10,6 +10,7 @@ import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_approvals.dar
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_project.dart';
 import 'package:nucleus_one_dart_sdk/src/user.dart';
 
+import 'hierarchy/nucleus_one_app_billing.dart';
 import 'hierarchy/nucleus_one_app_documents.dart';
 import 'hierarchy/nucleus_one_app_fields.dart';
 import 'api_model/email_login_options.dart' as api_mod;
@@ -157,6 +158,11 @@ abstract class NucleusOneApp {
   /// Authentication and authorization
   Auth auth() {
     return Auth(app: this as NucleusOneAppInternal);
+  }
+
+  /// Billing
+  NucleusOneAppBilling billing() {
+    return NucleusOneAppBilling(app: this as NucleusOneAppInternal);
   }
 
   /// Documents
