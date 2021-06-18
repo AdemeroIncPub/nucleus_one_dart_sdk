@@ -12,9 +12,12 @@ import '../model/approval.dart' as mod;
 import '../model/field_list_item.dart' as mod;
 import '../model/folder_hierarchies.dart' as mod;
 import '../model/form_template.dart' as mod;
+import '../model/organization_package.dart' as mod;
 import '../model/query_result.dart' as mod;
+import '../model/tenant.dart' as mod;
 import '../api_model/classification.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
+import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
@@ -23,6 +26,7 @@ import '../api_model/document_field.dart' as api_mod;
 import '../api_model/approval.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
+import '../api_model/tenant.dart' as api_mod;
 
 import '../nucleus_one.dart';
 
@@ -253,6 +257,30 @@ abstract class FormTemplateCollectionQueryResult {
       results: mod.FormTemplateCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class TenantCollectionQueryResult {
+  static mod.QueryResult<mod.TenantCollection> fromApiModelTenantCollection(
+      api_mod.QueryResult<api_mod.TenantCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.TenantCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class OrganizationPackageCollectionQueryResult {
+  static mod.QueryResult<mod.OrganizationPackageCollection>
+      fromApiModelOrganizationPackageCollection(
+          api_mod.QueryResult<api_mod.OrganizationPackageCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.OrganizationPackageCollection.fromApiModel(apiModel.results!),
+      // At the time of writing this, the API call for this didn't support these properties
+      cursor: '',
+      pageSize: 0,
     );
   }
 }

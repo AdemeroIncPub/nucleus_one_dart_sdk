@@ -214,6 +214,23 @@ void main() {
       expect(opResult.request.method, 'POST');
     });
 
+    test('executePostRequestWithTextResponse method Tests', () async {
+      late String responseText;
+      final opResult = await createMockHttpClientScopeForPostRequest(
+        callback: () async {
+          responseText = await executePostRequestWithTextResponse(
+            '',
+            getStandardN1App(),
+            query: {},
+          );
+        },
+        responseBody: '123',
+      );
+
+      expect(opResult.request.method, 'POST');
+      expect(responseText, '123');
+    });
+
     test('executePutRequest method Tests', () async {
       final opResult = await createMockHttpClientScopeForPutRequest(
         callback: () async {
@@ -227,6 +244,23 @@ void main() {
       );
 
       expect(opResult.request.method, 'PUT');
+    });
+
+    test('executePutRequestWithTextResponse method Tests', () async {
+      late String responseText;
+      final opResult = await createMockHttpClientScopeForPutRequest(
+        callback: () async {
+          responseText = await executePutRequestWithTextResponse(
+            '',
+            getStandardN1App(),
+            query: {},
+          );
+        },
+        responseBody: '123',
+      );
+
+      expect(opResult.request.method, 'PUT');
+      expect(responseText, '123');
     });
   });
 

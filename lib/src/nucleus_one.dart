@@ -14,6 +14,7 @@ import 'hierarchy/nucleus_one_app_billing.dart';
 import 'hierarchy/nucleus_one_app_documents.dart';
 import 'hierarchy/nucleus_one_app_fields.dart';
 import 'api_model/email_login_options.dart' as api_mod;
+import 'hierarchy/nucleus_one_app_organization.dart';
 import 'hierarchy/nucleus_one_app_users.dart';
 import '../nucleus_one_dart_sdk.dart';
 import 'http.dart' as http;
@@ -193,6 +194,11 @@ abstract class NucleusOneApp {
   /// FormTemplates
   FormTemplateCollection forms() {
     return FormTemplateCollection(app: this as NucleusOneAppInternal);
+  }
+
+  /// Organization
+  NucleusOneAppOrganization organization() {
+    return NucleusOneAppOrganization(app: this as NucleusOneAppInternal);
   }
 
   /// Users

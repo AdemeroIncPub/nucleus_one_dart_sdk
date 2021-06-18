@@ -190,6 +190,14 @@ void main() {
       expect(forms.app, n1App);
     });
 
+    test('organization method tests', () {
+      final n1App = getStandardN1App();
+
+      final org = n1App.organization();
+      expect(org, isA<NucleusOneAppOrganization>());
+      expect(org.app, n1App);
+    });
+
     test('Request headers tests (_setRequestHeadersCommon && _setRequestHeadersAuthCookie)',
         () async {
       // Test in three iterations:

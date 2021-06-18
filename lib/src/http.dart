@@ -213,6 +213,19 @@ Future<void> executePostRequest(
       authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.post);
 }
 
+Future<String> executePutRequestWithTextResponse(
+  String apiRelativeUrlPath,
+  NucleusOneAppInternal app, {
+  Map<String, dynamic>? query,
+  String? body,
+  bool authenticated = true,
+}) async {
+  final clientResponse = await _executeStandardHttpRequest(
+      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.put);
+  final respBody = await clientResponse.transform(utf8.decoder).join();
+  return respBody;
+}
+
 Future<void> executePutRequest(
   String apiRelativeUrlPath,
   NucleusOneAppInternal app, {
@@ -243,8 +256,10 @@ Future<void> downloadAuthenticated(
 
 abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
+  static const adminOrganizationPackagesForCurrentUser = '/admin/organizationPackagesForCurrentUser';
   static const approvals = '/approvals';
-  static const billingOrganizationSubscriptionsFormat = '/billing/organizationSubscriptions/<organizationId>';
+  static const billingOrganizationSubscriptionsFormat =
+      '/billing/organizationSubscriptions/<organizationId>';
   static const billingSubscriptionInvoicesFormat = '/billing/subscriptionInvoices/<organizationId>';
   static const billingSubscriptionPlansFormat = '/billing/subscriptionPlans/<organizationId>';
   static const classifications = '/classifications';
@@ -274,6 +289,9 @@ abstract class apiPaths {
   static const formTemplatesPublicSubmissions = '/formTemplatesPublic/<formTemplateId>/submissions';
   static const tenantPermissionsFormat = '/tenants/<tenantId>/permissions';
   static const tenantPackagesForCurrentUser = '/tenantPackagesForCurrentUser';
+  static const organizationInvitationsFormat = '/organizationInvitations/<invitationId>';
+  static const organizationsPermissionsFormat = '/organizations/<organizationId>/permissions';
+  static const organizationsTenantsFormat = '/organizations/<organizationId>/tenants';
   static const userEmailAddresses = '/user/emailAddresses';
   static const userEmailAddressesEmailChangeCodeFormat = '/user/emailAddresses/<emailChangeCode>';
   static const userEmailAddressVerifications = '/user/emailAddressVerifications';
