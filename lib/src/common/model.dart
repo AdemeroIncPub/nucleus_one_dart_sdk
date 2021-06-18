@@ -12,6 +12,7 @@ import '../model/approval.dart' as mod;
 import '../model/field_list_item.dart' as mod;
 import '../model/folder_hierarchies.dart' as mod;
 import '../model/form_template.dart' as mod;
+import '../model/work_task.dart' as mod;
 import '../model/query_result.dart' as mod;
 import '../api_model/classification.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
@@ -23,6 +24,7 @@ import '../api_model/document_field.dart' as api_mod;
 import '../api_model/approval.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
+import '../api_model/work_task.dart' as api_mod;
 
 import '../nucleus_one.dart';
 
@@ -251,6 +253,17 @@ abstract class FormTemplateCollectionQueryResult {
       api_mod.QueryResult<api_mod.FormTemplateCollection> apiModel) {
     return mod.QueryResult(
       results: mod.FormTemplateCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class WorkTaskCollectionQueryResult {
+  static mod.QueryResult<mod.WorkTaskCollection> fromApiModelWorkTaskCollection(
+      api_mod.QueryResult<api_mod.WorkTaskCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.WorkTaskCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
