@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_documents.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
@@ -12,6 +15,9 @@ import '../api_model/document_content_package.dart';
 import '../api_model/document_event.dart';
 import '../api_model/document_package.dart';
 import '../api_model/document_results.dart';
+import '../api_model/document_signature_form.dart';
+import '../api_model/document_signature_form_field.dart';
+import '../api_model/document_signature_session.dart';
 
 void main() {
   group('NucleusOneAppDocuments class tests', () {
@@ -401,6 +407,95 @@ void main() {
         httpCallCallback: () =>
             NucleusOneAppDocuments(app: n1App).getDocumentPackageByDocumentId('ABC'),
         responseBody: documentPackageJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('getOrCreateSignatureForm method tests', () async {
+      final expectedUrlPath =
+          http.apiPaths.documentsSignatureFormsFormat.replaceFirst('<documentId>', '123');
+      final n1App = getStandardN1App();
+
+      await performHttpTest(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getOrCreateSignatureForm('123'),
+        responseBody: documentSignatureFormJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('getSignatureForm method tests', () async {
+      final expectedUrlPath = http.apiPaths.documentsSignatureFormsByIdFormat
+          .replaceFirst('<documentId>', '123')
+          .replaceFirst('<documentSignatureFormId>', '234');
+      final n1App = getStandardN1App();
+
+      await performHttpTest(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getSignatureForm(
+          documentId: '123',
+          signatureFormId: '234',
+        ),
+        responseBody: documentSignatureFormJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('updateSignatureForm method tests', () async {
+      final expectedUrlPath = http.apiPaths.documentsSignatureFormsByIdFormat
+          .replaceFirst('<documentId>', '123')
+          .replaceFirst('<documentSignatureFormId>', 'A');
+      final n1App = getStandardN1App();
+
+      final apiModel =
+          api_mod.DocumentSignatureForm.fromJson(jsonDecode(documentSignatureFormJson));
+      final signatureForm = DocumentSignatureForm.fromApiModel(apiModel);
+
+      await performHttpTest(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).updateSignatureForm(
+          documentId: '123',
+          signatureForm: signatureForm,
+        ),
+        responseBody: documentSignatureFormJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: documentSignatureFormJson,
+      );
+    });
+
+    test('getSignatureFormFields method tests', () async {
+      final expectedUrlPath = http.apiPaths.documentsSignatureFormsByIdFieldsFormat
+          .replaceFirst('<documentId>', '123')
+          .replaceFirst('<documentSignatureFormId>', '234');
+      final n1App = getStandardN1App();
+
+      await performHttpTest<DocumentSignatureFormFieldCollection>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getSignatureFormFields(
+          documentId: '123',
+          signatureFormId: '234',
+        ),
+        responseBody: documentSignatureFormFieldCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('getSignatureSessionPackages method tests', () async {
+      final expectedUrlPath =
+          http.apiPaths.documentsSignatureSessionPackagesFormat.replaceFirst('<documentId>', '123');
+      final n1App = getStandardN1App();
+
+      await performHttpTest<DocumentSignatureSessionPackageCollection>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getSignatureSessionPackages(
+          documentId: '123',
+        ),
+        responseBody: documentSignatureSessionPackageCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
       );
