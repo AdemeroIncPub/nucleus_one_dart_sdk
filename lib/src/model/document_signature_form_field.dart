@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
 import '../api_model/document_signature_form_field.dart' as api_mod;
 import '../common/model.dart';
@@ -27,64 +28,58 @@ class DocumentSignatureFormFieldCollection extends EntityCollection<DocumentSign
 class DocumentSignatureFormField with NucleusOneAppDependent {
   DocumentSignatureFormField._(
       {NucleusOneAppInternal? app,
-      required this.type,
-      required this.label,
-      required this.widthPercent,
-      required this.sortRank,
       required this.id,
+      required this.createdOn,
+      required this.type,
+      required this.pageIndex,
       required this.documentSignatureSessionRecipientID,
       required this.x,
-      required this.y,
-      required this.pageIndex}) {
+      required this.y}) {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
   factory DocumentSignatureFormField.createNew({
+    String? id,
+    String createdOn = '',
     required String type,
-    required String label,
-    required double widthPercent,
-    required int sortRank,
-    required String id,
+    required int pageIndex,
     required String documentSignatureSessionRecipientID,
     required double x,
     required double y,
-    required int pageIndex,
   }) {
+    if (isNullOrEmpty(id)) {
+      id = DateTime.now().millisecondsSinceEpoch.toString();
+    }
+
     return DocumentSignatureFormField._(
+      id: id!,
+      createdOn: createdOn,
       type: type,
-      label: label,
-      widthPercent: widthPercent,
-      sortRank: sortRank,
-      id: id,
+      pageIndex: pageIndex,
       documentSignatureSessionRecipientID: documentSignatureSessionRecipientID,
       x: x,
       y: y,
-      pageIndex: pageIndex,
     );
   }
 
   factory DocumentSignatureFormField.fromApiModel(api_mod.DocumentSignatureFormField apiModel) {
     return DocumentSignatureFormField._(
-        type: apiModel.type!,
-        label: apiModel.label!,
-        widthPercent: apiModel.widthPercent!,
-        sortRank: apiModel.sortRank!,
         id: apiModel.id!,
+        createdOn: apiModel.createdOn!,
+        type: apiModel.type!,
+        pageIndex: apiModel.pageIndex!,
         documentSignatureSessionRecipientID: apiModel.documentSignatureSessionRecipientID!,
         x: apiModel.x!,
-        y: apiModel.y!,
-        pageIndex: apiModel.pageIndex!);
+        y: apiModel.y!);
   }
+
+  String id;
+
+  String createdOn;
 
   String type;
 
-  String label;
-
-  double widthPercent;
-
-  int sortRank;
-
-  String id;
+  int pageIndex;
 
   String documentSignatureSessionRecipientID;
 
@@ -92,18 +87,14 @@ class DocumentSignatureFormField with NucleusOneAppDependent {
 
   double y;
 
-  int pageIndex;
-
   api_mod.DocumentSignatureFormField toApiModel() {
     return api_mod.DocumentSignatureFormField()
-      ..type = type
-      ..label = label
-      ..widthPercent = widthPercent
-      ..sortRank = sortRank
       ..id = id
+      ..createdOn = createdOn.isEmpty ? null : createdOn
+      ..type = type
+      ..pageIndex = pageIndex
       ..documentSignatureSessionRecipientID = documentSignatureSessionRecipientID
       ..x = x
-      ..y = y
-      ..pageIndex = pageIndex;
+      ..y = y;
   }
 }

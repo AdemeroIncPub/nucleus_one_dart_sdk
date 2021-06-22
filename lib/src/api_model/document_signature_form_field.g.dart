@@ -9,16 +9,14 @@ part of 'document_signature_form_field.dart';
 DocumentSignatureFormField _$DocumentSignatureFormFieldFromJson(
     Map<String, dynamic> json) {
   return DocumentSignatureFormField()
-    ..type = json['Type'] as String?
-    ..label = json['Label'] as String?
-    ..widthPercent = (json['WidthPercent'] as num?)?.toDouble()
-    ..sortRank = json['SortRank'] as int?
     ..id = json['ID'] as String?
+    ..createdOn = json['CreatedOn'] as String?
+    ..type = json['Type'] as String?
+    ..pageIndex = json['PageIndex'] as int?
     ..documentSignatureSessionRecipientID =
         json['DocumentSignatureSessionRecipientID'] as String?
     ..x = (json['X'] as num?)?.toDouble()
-    ..y = (json['Y'] as num?)?.toDouble()
-    ..pageIndex = json['PageIndex'] as int?;
+    ..y = (json['Y'] as num?)?.toDouble();
 }
 
 Map<String, dynamic> _$DocumentSignatureFormFieldToJson(
@@ -31,15 +29,13 @@ Map<String, dynamic> _$DocumentSignatureFormFieldToJson(
     }
   }
 
-  writeNotNull('Type', instance.type);
-  writeNotNull('Label', instance.label);
-  writeNotNull('WidthPercent', instance.widthPercent);
-  writeNotNull('SortRank', instance.sortRank);
   writeNotNull('ID', instance.id);
+  writeNotNull('CreatedOn', instance.createdOn);
+  writeNotNull('Type', instance.type);
+  writeNotNull('PageIndex', instance.pageIndex);
   writeNotNull('DocumentSignatureSessionRecipientID',
       instance.documentSignatureSessionRecipientID);
   writeNotNull('X', instance.x);
   writeNotNull('Y', instance.y);
-  writeNotNull('PageIndex', instance.pageIndex);
   return val;
 }

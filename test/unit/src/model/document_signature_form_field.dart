@@ -18,15 +18,13 @@ void main() {
 
     test('Serialization test', () {
       void performTests(api_mod.DocumentSignatureFormField apiModel) {
-        expect(apiModel.type, 'A');
-        expect(apiModel.label, 'B');
-        expect(apiModel.widthPercent, 0.00);
-        expect(apiModel.sortRank, 1);
-        expect(apiModel.id, 'C');
-        expect(apiModel.documentSignatureSessionRecipientID, 'D');
-        expect(apiModel.x, 2.34);
-        expect(apiModel.y, 3.45);
-        expect(apiModel.pageIndex, 4);
+        expect(apiModel.id, 'A');
+        expect(apiModel.createdOn, '2021-06-22T17:56:43.765773Z');
+        expect(apiModel.type, 'B');
+        expect(apiModel.pageIndex, 0);
+        expect(apiModel.documentSignatureSessionRecipientID, 'C');
+        expect(apiModel.x, 1.23);
+        expect(apiModel.y, 2.34);
       }
 
       final apiModelOrig =
@@ -39,27 +37,37 @@ void main() {
     });
 
     test('createNew method test', () {
-      final m = DocumentSignatureFormField.createNew(
-        type: 'A',
-        label: 'B',
-        widthPercent: 0.00,
-        sortRank: 1,
-        id: 'C',
-        documentSignatureSessionRecipientID: 'D',
-        x: 2.34,
-        y: 3.45,
-        pageIndex: 4,
-      );
+      for (var i = 0; i < 3; ++i) {
+        final id = (i == 0) ? null : ((i == 1) ? '' : 'C');
+        final epochBefore = DateTime.now().millisecondsSinceEpoch;
 
-      expect(m.type, 'A');
-      expect(m.label, 'B');
-      expect(m.widthPercent, 0.00);
-      expect(m.sortRank, 1);
-      expect(m.id, 'C');
-      expect(m.documentSignatureSessionRecipientID, 'D');
-      expect(m.x, 2.34);
-      expect(m.y, 3.45);
-      expect(m.pageIndex, 4);
+        var m = DocumentSignatureFormField.createNew(
+          id: id,
+          createdOn: 'A',
+          type: 'B',
+          pageIndex: 0,
+          documentSignatureSessionRecipientID: 'C',
+          x: 1.23,
+          y: 2.34,
+        );
+
+        // If the id was not provided, ensure that it was correctly defaulted
+        if (i < 2) {
+          final epochAfter = DateTime.now().millisecondsSinceEpoch;
+          final idAsInt = int.parse(m.id);
+          expect(idAsInt >= epochBefore, isTrue);
+          expect(idAsInt <= epochAfter, isTrue);
+        } else {
+          expect(m.id, id);
+        }
+
+        expect(m.createdOn, 'A');
+        expect(m.type, 'B');
+        expect(m.pageIndex, 0);
+        expect(m.documentSignatureSessionRecipientID, 'C');
+        expect(m.x, 1.23);
+        expect(m.y, 2.34);
+      }
     });
   });
 

@@ -1,4 +1,4 @@
-const documentSignatureFormFieldJson = '{"Type":"A","Label":"B","WidthPercent":0.00,"SortRank":1,"ID":"C","DocumentSignatureSessionRecipientID":"D","X":2.34,"Y":3.45,"PageIndex":4}';
+const documentSignatureFormFieldJson = '{"ID":"A","CreatedOn":"2021-06-22T17:56:43.765773Z","Type":"B","PageIndex":0,"DocumentSignatureSessionRecipientID":"C","X":1.23,"Y":2.34}';
 const documentSignatureFormFieldCollectionJson = '[' + documentSignatureFormFieldJson + ']';
 
 void main() {

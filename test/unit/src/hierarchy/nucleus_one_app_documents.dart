@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form_field.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_documents.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
@@ -485,19 +487,167 @@ void main() {
       );
     });
 
-    test('getSignatureSessionPackages method tests', () async {
+    test('addSignatureFormFields method tests', () async {
+      final expectedUrlPath = http.apiPaths.documentsSignatureFormsByIdFieldsFormat
+          .replaceFirst('<documentId>', '123')
+          .replaceFirst('<documentSignatureFormId>', '234');
+      final n1App = getStandardN1App();
+      final apiModel = api_mod.DocumentSignatureFormFieldCollection.fromJson(
+          jsonDecode(documentSignatureFormFieldCollectionJson));
+      final fields = DocumentSignatureFormFieldCollection.fromApiModel(apiModel);
+
+      // Test with default parameters
+      await performHttpTest<DocumentSignatureFormFieldCollection>(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).addSignatureFormFields(
+          documentId: '123',
+          signatureFormId: '234',
+          signatureFormFields: fields,
+        ),
+        responseBody: documentSignatureFormFieldCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'clearExisting=false',
+        ],
+        expectedRequestBody: documentSignatureFormFieldCollectionJson,
+      );
+
+      // Test with optional parameters
+      await performHttpTest<DocumentSignatureFormFieldCollection>(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).addSignatureFormFields(
+          documentId: '123',
+          signatureFormId: '234',
+          signatureFormFields: fields,
+          clearExisting: true,
+        ),
+        responseBody: documentSignatureFormFieldCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'clearExisting=true',
+        ],
+        expectedRequestBody: documentSignatureFormFieldCollectionJson,
+      );
+    });
+
+    test('updateSignatureFormField method tests', () async {
+      final n1App = getStandardN1App();
+      final apiModel =
+          api_mod.DocumentSignatureFormField.fromJson(jsonDecode(documentSignatureFormFieldJson));
+      final field = DocumentSignatureFormField.fromApiModel(apiModel);
+      final expectedUrlPath = http.apiPaths.documentsSignatureFormsByIdFieldsByFieldIdFormat
+          .replaceFirst('<documentId>', '123')
+          .replaceFirst('<documentSignatureFormId>', '234')
+          .replaceFirst('<documentSignatureFormFieldId>', field.id);
+
+      // Test with default parameters
+      await performHttpTest<DocumentSignatureFormField>(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).updateSignatureFormField(
+          documentId: '123',
+          signatureFormId: '234',
+          signatureFormField: field,
+        ),
+        responseBody: documentSignatureFormFieldJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'clearExisting=false',
+        ],
+        expectedRequestBody: documentSignatureFormFieldJson,
+      );
+
+      // Test with optional parameters
+      await performHttpTest<DocumentSignatureFormField>(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).updateSignatureFormField(
+          documentId: '123',
+          signatureFormId: '234',
+          signatureFormField: field,
+          clearExisting: true,
+        ),
+        responseBody: documentSignatureFormFieldJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'clearExisting=true',
+        ],
+        expectedRequestBody: documentSignatureFormFieldJson,
+      );
+    });
+
+    test('deleteSignatureFormField method tests', () async {
+      final n1App = getStandardN1App();
+      final expectedUrlPath = http.apiPaths.documentsSignatureFormsByIdFieldsByFieldIdFormat
+          .replaceFirst('<documentId>', '123')
+          .replaceFirst('<documentSignatureFormId>', '234')
+          .replaceFirst('<documentSignatureFormFieldId>', '345');
+
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.DELETE,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).deleteSignatureFormField(
+          documentId: '123',
+          signatureFormId: '234',
+          signatureFormFieldId: '345',
+        ),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: '',
+      );
+    });
+
+    test('deleteAllSignatureFormFields method tests', () async {
+      final n1App = getStandardN1App();
+      final expectedUrlPath = http.apiPaths.documentsSignatureFormsByIdFieldsFormat
+          .replaceFirst('<documentId>', '123')
+          .replaceFirst('<documentSignatureFormId>', '234');
+
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.DELETE,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).deleteAllSignatureFormFields(
+          documentId: '123',
+          signatureFormId: '234',
+        ),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: '',
+      );
+    });
+
+    test('getSignatureSessionPackage method tests', () async {
       final expectedUrlPath =
           http.apiPaths.documentsSignatureSessionPackagesFormat.replaceFirst('<documentId>', '123');
       final n1App = getStandardN1App();
 
-      await performHttpTest<DocumentSignatureSessionPackageCollection>(
+      await performHttpTest<DocumentSignatureSessionPackage>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getSignatureSessionPackages(
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getSignatureSessionPackage(
           documentId: '123',
+        ),
+        responseBody: documentSignatureSessionPackageJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('updateSignatureSessionPackages method tests', () async {
+      final expectedUrlPath =
+          http.apiPaths.documentsSignatureSessionPackagesFormat.replaceFirst('<documentId>', '123');
+      final n1App = getStandardN1App();
+      final packagesApiModel = api_mod.DocumentSignatureSessionPackageCollection.fromJson(
+          jsonDecode(documentSignatureSessionPackageCollectionJson));
+      final packages = DocumentSignatureSessionPackageCollection.fromApiModel(packagesApiModel);
+
+      await performHttpTest<DocumentSignatureSessionPackageCollection>(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).updateSignatureSessionPackages(
+          documentId: '123',
+          packages: packages,
         ),
         responseBody: documentSignatureSessionPackageCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
+        expectedRequestBody: documentSignatureSessionPackageCollectionJson,
       );
     });
   });
