@@ -2,12 +2,15 @@ import 'package:json_annotation/json_annotation.dart';
 import '../api_model/classification.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
+import '../api_model/work_task_comment.dart' as api_mod;
+import '../api_model/work_task_event.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
 import '../api_model/field.dart' as api_mod;
 import '../api_model/document_field.dart' as api_mod;
 import '../api_model/approval.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
+import '../api_model/work_task.dart' as api_mod;
 import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/tenant.dart' as api_mod;
 
@@ -41,6 +44,7 @@ class QueryResult<T> {
     api_mod.ApprovalCollection: (x) => api_mod.ApprovalCollection.fromJson(x),
     api_mod.FolderHierarchyCollection: (x) => api_mod.FolderHierarchyCollection.fromJson(x),
     api_mod.FormTemplateCollection: (x) => api_mod.FormTemplateCollection.fromJson(x),
+    api_mod.WorkTaskCollection: (x) => api_mod.WorkTaskCollection.fromJson(x),
     api_mod.OrganizationPackageCollection: (x) => api_mod.OrganizationPackageCollection.fromJson(x),
     api_mod.TenantCollection: (x) => api_mod.TenantCollection.fromJson(x),
   };
@@ -78,6 +82,8 @@ class QueryResult2<T> extends QueryResult<T> {
   static final _fromJsonFactories = <Type, Object Function(Map<String, dynamic> json)>{
     api_mod.DocumentCommentCollection: (x) => api_mod.DocumentCommentCollection.fromJson(x),
     api_mod.DocumentEventCollection: (x) => api_mod.DocumentEventCollection.fromJson(x),
+    api_mod.WorkTaskCommentCollection: (x) => api_mod.WorkTaskCommentCollection.fromJson(x),
+    api_mod.WorkTaskEventCollection: (x) => api_mod.WorkTaskEventCollection.fromJson(x),
   };
 
   QueryResult2() : super();
