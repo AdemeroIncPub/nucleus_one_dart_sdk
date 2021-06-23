@@ -1,5 +1,6 @@
 const documentSignatureFormJson =
     '{"ID":"A","SignatureFormTemplateID":"B","CreatedOn":"2021-06-21T14:38:42.159832299Z","TenantID":"C","DocumentID":"D","DocumentClassificationID":"E","DocumentClassificationName":"F","DocumentClassificationNameLower":"G","DocumentName":"H","DocumentNameLower":"I","HasFormFields":true,"TotalFormFields":0,"LastViewedPageIndex":1}';
+const documentSignatureFormCollectionJson = '[$documentSignatureFormJson]';
 
 void main() {
   /*

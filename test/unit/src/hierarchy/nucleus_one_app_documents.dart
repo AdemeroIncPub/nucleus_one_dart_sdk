@@ -4,6 +4,8 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form_field.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session_signing_recipient_package.dart'
+    as api_mod;
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_documents.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
@@ -20,6 +22,7 @@ import '../api_model/document_results.dart';
 import '../api_model/document_signature_form.dart';
 import '../api_model/document_signature_form_field.dart';
 import '../api_model/document_signature_session.dart';
+import '../api_model/document_signature_session_signing_recipient_package.dart';
 
 void main() {
   group('NucleusOneAppDocuments class tests', () {
@@ -648,6 +651,108 @@ void main() {
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
         expectedRequestBody: documentSignatureSessionPackageCollectionJson,
+      );
+    });
+
+    test('getRecentSignatureForms method tests', () async {
+      final expectedUrlPath = http.apiPaths.documentSignatureFormsRecent;
+      final n1App = getStandardN1App();
+
+      // Test with default parameters
+      await performHttpTest<DocumentSignatureFormCollection>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getRecentSignatureForms(),
+        responseBody: documentSignatureFormCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+
+      // Test with optional parameters
+      await performHttpTest<DocumentSignatureFormCollection>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getRecentSignatureForms(
+          docNameStartsWith: 'A',
+          excludingId: 'B',
+        ),
+        responseBody: documentSignatureFormCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'nameFilter=A',
+          'excludingId=B',
+        ],
+      );
+    });
+
+    test('getDocumentSignatureSessionSigningRecipientPackage method tests', () async {
+      final expectedUrlPath = http.apiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
+          .replaceFirst('<documentSignatureSessionId>', 'A')
+          .replaceFirst('<documentSignatureSessionRecipientId>', 'B');
+      final n1App = getStandardN1App();
+
+      // Test with default parameters
+      await performHttpTest<DocumentSignatureSessionSigningRecipientPackage>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () =>
+            NucleusOneAppDocuments(app: n1App).getDocumentSignatureSessionSigningRecipientPackage(
+          signatureSessionId: 'A',
+          signatureSessionRecipientId: 'B',
+          signatureSessionRecipientUniqueId: 'C',
+        ),
+        responseBody: documentSignatureSessionSigningRecipientPackageJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'uniqueId=C',
+        ],
+      );
+
+      // Test with optional parameters
+      await performHttpTest<DocumentSignatureSessionSigningRecipientPackage>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () =>
+            NucleusOneAppDocuments(app: n1App).getDocumentSignatureSessionSigningRecipientPackage(
+          signatureSessionId: 'A',
+          signatureSessionRecipientId: 'B',
+          signatureSessionRecipientUniqueId: 'C',
+          skipFormFieldPackage: true,
+          accessCode: 'D',
+          pageIndex: 1,
+        ),
+        responseBody: documentSignatureSessionSigningRecipientPackageJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'uniqueId=C',
+          'skipFormFieldPackage=true',
+          'accessCode=D',
+          'pageIndex=1',
+        ],
+      );
+    });
+
+    test('signDocument method tests', () async {
+      final expectedUrlPath = http.apiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
+          .replaceFirst('<documentSignatureSessionId>', 'A')
+          .replaceFirst('<documentSignatureSessionRecipientId>', 'B');
+      final n1App = getStandardN1App();
+      final packagesApiModel =
+          api_mod.DocumentSignatureSessionRecipientFormFieldCollection.fromJson(
+              jsonDecode(documentSignatureSessionRecipientFormFieldCollectionJson));
+      final fields =
+          DocumentSignatureSessionRecipientFormFieldCollection.fromApiModel(packagesApiModel);
+
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).signDocument(
+          signatureSessionId: 'A',
+          signatureSessionRecipientId: 'B',
+          signatureSessionRecipientUniqueId: 'C',
+          fields: fields,
+        ),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'uniqueId=C',
+        ],
+        expectedRequestBody: documentSignatureSessionRecipientFormFieldCollectionJson,
       );
     });
   });

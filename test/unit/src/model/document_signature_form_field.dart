@@ -71,7 +71,7 @@ void main() {
     });
   });
 
-  group('DocumentSignatureFormFieldCollection tests', () {
+  group('DocumentSignatureFormFieldCollection class tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();
     });

@@ -23,6 +23,7 @@ export 'src/model/document_event.dart';
 export 'src/model/document_signature_form.dart';
 export 'src/model/document_signature_form_field.dart';
 export 'src/model/document_signature_session.dart';
+export 'src/model/document_signature_session_signing_recipient_package.dart';
 export 'src/model/email_login_options.dart';
 export 'src/model/field.dart';
 export 'src/model/field_list_item.dart';

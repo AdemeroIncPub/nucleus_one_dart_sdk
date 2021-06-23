@@ -276,6 +276,8 @@ abstract class apiPaths {
   static const documentsSignatureFormsByIdFormat = '/documents/<documentId>/signatureForms/<documentSignatureFormId>';
   static const documentsSignatureFormsByIdFieldsFormat = '/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields';
   static const documentsSignatureFormsByIdFieldsByFieldIdFormat = '/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields/<documentSignatureFormFieldId>';
+  static const documentSignatureFormsRecent = '/documentSignatureForms/recent';
+  static const documentSignatureSessionsSigningRecipientsFieldsFormat = '/documentSignatureSessions/<documentSignatureSessionId>/signingRecipients/<documentSignatureSessionRecipientId>/fields';
   static const documentsSignatureSessionPackagesFormat = '/documents/<documentId>/signatureSessionPackages';
   static const documentCounts = '/documentCounts';
   static const fields = '/fields';

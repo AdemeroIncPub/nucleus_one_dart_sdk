@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 import '../api_model/document_signature_form.dart';
 
 void main() {
-  group('DocumentField tests', () {
+  group('DocumentSignatureForm class tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();
     });
@@ -39,6 +39,31 @@ void main() {
 
       // Convert it to a model class then back again
       final apiModelCycled = DocumentSignatureForm.fromApiModel(apiModelOrig).toApiModel();
+      performTests(apiModelCycled);
+    });
+  });
+
+  group('DocumentSignatureFormCollection class tests', () {
+    setUp(() async {
+      await NucleusOne.intializeSdk();
+    });
+
+    tearDown(() async {
+      await NucleusOne.resetSdk();
+    });
+
+    test('Serialization test', () {
+      void performTests(api_mod.DocumentSignatureFormCollection apiModel) {
+        expect(apiModel.items.length, 1);
+      }
+
+      final apiModelOrig = api_mod.DocumentSignatureFormCollection.fromJson(
+          jsonDecode(documentSignatureFormCollectionJson));
+      performTests(apiModelOrig);
+
+      // Convert it to a model class then back again
+      final api_mod.DocumentSignatureFormCollection apiModelCycled =
+          DocumentSignatureFormCollection.fromApiModel(apiModelOrig).toApiModel();
       performTests(apiModelCycled);
     });
   });

@@ -9,6 +9,7 @@ import '../api_model/document_results.dart' as api_mod;
 import '../api_model/document_signature_form.dart' as api_mod;
 import '../api_model/document_signature_form_field.dart' as api_mod;
 import '../api_model/document_signature_session.dart' as api_mod;
+import '../api_model/document_signature_session_signing_recipient_package.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_upload.dart' as api_mod;
 import '../common/model.dart';
@@ -586,5 +587,108 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     final apiModel =
         api_mod.DocumentSignatureSessionPackageCollection.fromJson(jsonDecode(responseBody));
     return DocumentSignatureSessionPackageCollection.fromApiModel(apiModel);
+  }
+
+  /// Gets a recent document signature forms.
+  ///
+  /// [docNameStartsWith]: The value that the document name starts with.
+  ///
+  /// [excludingId]: The id of a signature form to exclude from the results.
+  Future<DocumentSignatureFormCollection> getRecentSignatureForms({
+    String? docNameStartsWith,
+    String? excludingId,
+  }) async {
+    final qp = http.StandardQueryParams.get();
+    if (docNameStartsWith != null) {
+      qp['nameFilter'] = docNameStartsWith;
+    }
+    if (excludingId != null) {
+      qp['excludingId'] = excludingId;
+    }
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentSignatureFormsRecent,
+      app,
+      query: qp,
+    );
+    final apiModel = api_mod.DocumentSignatureFormCollection.fromJson(jsonDecode(responseBody));
+    return DocumentSignatureFormCollection.fromApiModel(apiModel);
+  }
+
+  /// Gets the signing package for a document's signature signing session.
+  ///
+  /// [signatureSessionId]: The signature session id.
+  ///
+  /// [signatureSessionRecipientId]: The recipient's id.
+  ///
+  /// [signatureSessionRecipientUniqueId]: The recipient's unique id.
+  ///
+  /// [skipFormFieldPackage]: If true, the [formFieldPackage] property is not populated in the results.
+  ///
+  /// [accessCode]: The access code required to access the form field package.  If [skipFormFieldPackage]
+  /// is true, this parameter is ignored.
+  ///
+  /// [pageIndex]: The index of the document page of which the signing package should be retrieved.
+  /// This is zero based.
+  Future<DocumentSignatureSessionSigningRecipientPackage>
+      getDocumentSignatureSessionSigningRecipientPackage({
+    required String signatureSessionId,
+    required String signatureSessionRecipientId,
+    required String signatureSessionRecipientUniqueId,
+    bool? skipFormFieldPackage,
+    String? accessCode,
+    int? pageIndex,
+  }) async {
+    final qp = http.StandardQueryParams.get();
+    qp['uniqueId'] = signatureSessionRecipientUniqueId;
+    if (skipFormFieldPackage != null) {
+      qp['skipFormFieldPackage'] = skipFormFieldPackage;
+    }
+    if (accessCode != null) {
+      qp['accessCode'] = accessCode;
+    }
+    if (pageIndex != null) {
+      qp['pageIndex'] = pageIndex;
+    }
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
+          .replaceFirst('<documentSignatureSessionId>', signatureSessionId)
+          .replaceFirst('<documentSignatureSessionRecipientId>', signatureSessionRecipientId),
+      app,
+      query: qp,
+    );
+    final apiModel =
+        api_mod.DocumentSignatureSessionSigningRecipientPackage.fromJson(jsonDecode(responseBody));
+    return DocumentSignatureSessionSigningRecipientPackage.fromApiModel(apiModel);
+  }
+
+  /// Signs a document that has an existing signature session.
+  ///
+  /// [signatureSessionId]: The document's signature session id.
+  ///
+  /// [signatureSessionRecipientId]: The recipient's id.
+  ///
+  /// [signatureSessionRecipientUniqueId]: The recipient's unique id.
+  ///
+  /// [fields]: The field values to sign with.  The list of fields can be retrieved by first calling
+  /// the [getDocumentSignatureSessionSigningRecipientPackage] method.
+  Future<void> signDocument({
+    required String signatureSessionId,
+    required String signatureSessionRecipientId,
+    required String signatureSessionRecipientUniqueId,
+    required DocumentSignatureSessionRecipientFormFieldCollection fields,
+  }) async {
+    final qp = http.StandardQueryParams.get();
+    qp['uniqueId'] = signatureSessionRecipientUniqueId;
+
+    await http.executePutRequest(
+      http.apiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
+          .replaceFirst('<documentSignatureSessionId>', signatureSessionId)
+          .replaceFirst('<documentSignatureSessionRecipientId>', signatureSessionRecipientId),
+      app,
+      query: qp,
+      body: jsonEncode(fields.toApiModel()),
+    );
   }
 }

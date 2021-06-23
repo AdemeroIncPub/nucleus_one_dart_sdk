@@ -15,6 +15,8 @@ import 'src/api_model/document_results.dart' as api_mod__document_results;
 import 'src/api_model/document_signature_form.dart' as api_mod__document_signature_form;
 import 'src/api_model/document_signature_form_field.dart' as api_mod__document_signature_form_field;
 import 'src/api_model/document_signature_session.dart' as api_mod__document_signature_session;
+import 'src/api_model/document_signature_session_signing_recipient_package.dart'
+    as api_mod__document_signature_session_signing_recipient_package;
 import 'src/api_model/organization.dart' as api_mod__organization;
 import 'src/api_model/organization_package.dart' as api_mod__organization_package;
 import 'src/api_model/organization_permissions.dart' as api_mod__organization_permissions;
@@ -62,6 +64,8 @@ import 'src/model/document_event.dart' as mod__document_event;
 import 'src/model/document_signature_form.dart' as mod__document_signature_form;
 import 'src/model/document_signature_form_field.dart' as mod__document_signature_form_field;
 import 'src/model/document_signature_session.dart' as mod__document_signature_session;
+import 'src/model/document_signature_session_signing_recipient_package.dart'
+    as mod__document_signature_session_signing_recipient_package;
 import 'src/model/email_login_options.dart' as mod__email_login_options;
 import 'src/model/field.dart' as mod__field;
 import 'src/model/field_list_item.dart' as mod__field_list_item;
@@ -118,6 +122,7 @@ void _apiModelTests() {
   api_mod__document_signature_form.main();
   api_mod__document_signature_form_field.main();
   api_mod__document_signature_session.main();
+  api_mod__document_signature_session_signing_recipient_package.main();
   api_mod__email_login_options.main();
   api_mod__field.main();
   api_mod__field_list_item.main();
@@ -163,6 +168,7 @@ void _modelTests() {
   mod__document_signature_form.main();
   mod__document_signature_form_field.main();
   mod__document_signature_session.main();
+  mod__document_signature_session_signing_recipient_package.main();
   mod__email_login_options.main();
   mod__field.main();
   mod__field_list_item.main();

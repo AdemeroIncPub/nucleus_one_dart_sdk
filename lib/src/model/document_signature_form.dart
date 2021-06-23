@@ -1,7 +1,28 @@
 import 'package:get_it/get_it.dart';
 
 import '../api_model/document_signature_form.dart' as api_mod;
+import '../common/model.dart';
 import '../nucleus_one.dart';
+
+class DocumentSignatureFormCollection
+    extends EntityCollection<DocumentSignatureForm, api_mod.DocumentSignatureFormCollection> {
+  DocumentSignatureFormCollection({
+    NucleusOneAppInternal? app,
+    List<DocumentSignatureForm>? items,
+  }) : super(app: app, items: items);
+
+  factory DocumentSignatureFormCollection.fromApiModel(
+      api_mod.DocumentSignatureFormCollection apiModel) {
+    return DocumentSignatureFormCollection(
+        items: apiModel.items.map((x) => DocumentSignatureForm.fromApiModel(x)).toList());
+  }
+
+  @override
+  api_mod.DocumentSignatureFormCollection toApiModel() {
+    return api_mod.DocumentSignatureFormCollection()
+      ..items = items.map((x) => x.toApiModel()).toList();
+  }
+}
 
 class DocumentSignatureForm with NucleusOneAppDependent {
   DocumentSignatureForm._(
