@@ -312,6 +312,9 @@ abstract class apiPaths {
   static const approvalActionsApprove = '/approvalActions/approve';
   static const approvalActionsDeny = '/approvalActions/deny';
   static const approvalActionsDecline = '/approvalActions/decline';
+  static const workTasks = '/workTasks';
+  static const workTasksFormat = '/workTasks/<workTaskId>';
+  static const workTasksCommentsFormat = '/workTasks/<workTaskId>/comments';
 }
 
 abstract class ApiRequestBodyObject {

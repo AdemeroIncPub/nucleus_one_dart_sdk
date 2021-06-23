@@ -6,12 +6,15 @@ import '../model/classification.dart' as mod;
 import '../model/document_for_client.dart' as mod;
 import '../model/document_comment.dart' as mod;
 import '../model/document_event.dart' as mod;
+import '../model/work_task_comment.dart' as mod;
+import '../model/work_task_event.dart' as mod;
 import '../model/field.dart' as mod;
 import '../model/document_field.dart' as mod;
 import '../model/approval.dart' as mod;
 import '../model/field_list_item.dart' as mod;
 import '../model/folder_hierarchies.dart' as mod;
 import '../model/form_template.dart' as mod;
+import '../model/work_task.dart' as mod;
 import '../model/organization_package.dart' as mod;
 import '../model/query_result.dart' as mod;
 import '../model/tenant.dart' as mod;
@@ -27,6 +30,9 @@ import '../api_model/approval.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
 import '../api_model/tenant.dart' as api_mod;
+import '../api_model/work_task.dart' as api_mod;
+import '../api_model/work_task_comment.dart' as api_mod;
+import '../api_model/work_task_event.dart' as api_mod;
 
 import '../nucleus_one.dart';
 
@@ -281,6 +287,41 @@ abstract class OrganizationPackageCollectionQueryResult {
       // At the time of writing this, the API call for this didn't support these properties
       cursor: '',
       pageSize: 0,
+);
+  }
+}
+
+abstract class WorkTaskCollectionQueryResult {
+  static mod.QueryResult<mod.WorkTaskCollection> fromApiModelWorkTaskCollection(
+      api_mod.QueryResult<api_mod.WorkTaskCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.WorkTaskCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class WorkTaskCommentCollectionQueryResult {
+  static mod.QueryResult2<mod.WorkTaskCommentCollection> fromApiModelWorkTaskCommentCollection(
+      api_mod.QueryResult2<api_mod.WorkTaskCommentCollection> apiModel) {
+    return mod.QueryResult2(
+      results: mod.WorkTaskCommentCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      reverseCursor: apiModel.reverseCursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class WorkTaskEventCollectionQueryResult {
+  static mod.QueryResult2<mod.WorkTaskEventCollection> fromApiModelWorkTaskEventCollection(
+      api_mod.QueryResult2<api_mod.WorkTaskEventCollection> apiModel) {
+    return mod.QueryResult2(
+      results: mod.WorkTaskEventCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      reverseCursor: apiModel.reverseCursor!,
+      pageSize: apiModel.pageSize!,
     );
   }
 }
