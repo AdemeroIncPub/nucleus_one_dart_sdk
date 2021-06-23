@@ -24,6 +24,8 @@ import 'src/api_model/user_preference.dart' as api_mod__user_preference;
 import 'src/api_model/document_field.dart' as api_mod__document_field;
 import 'src/api_model/approval.dart' as api_mod__approval;
 import 'src/api_model/work_task.dart' as api_mod__work_task;
+import 'src/api_model/work_task_event.dart' as api_mod__work_task_event;
+import 'src/api_model/work_task_comment.dart' as api_mod__work_task_comment;
 import 'src/api_model/document_subscription.dart' as api_mod__document_subscription;
 import 'src/api_model/document_package_field.dart' as api_mod__document_package_field;
 import 'src/api_model/document_upload.dart' as api_mod__document_upload;
@@ -62,6 +64,8 @@ import 'src/model/user_preference.dart' as mod__user_preference;
 import 'src/model/document_field.dart' as mod__document_field;
 import 'src/model/approval.dart' as mod__approval;
 import 'src/model/work_task.dart' as mod__work_task;
+import 'src/model/work_task_event.dart' as mod__work_task_event;
+import 'src/model/work_task_comment.dart' as mod__work_task_comment;
 import 'src/model/document_subscription.dart' as mod__document_subscription;
 import 'src/model/document_package_field.dart' as mod__document_package_field;
 import 'src/model/document_package.dart' as mod__document_package;
@@ -110,6 +114,8 @@ void _apiModelTests() {
   api_mod__document_package.main();
   api_mod__document_upload.main();
   api_mod__work_task.main();
+  api_mod__work_task_event.main();
+  api_mod__work_task_comment.main();
 }
 
 void _modelTests() {
@@ -143,6 +149,8 @@ void _modelTests() {
   mod__document_package.main();
   mod__document_upload.main();
   mod__work_task.main();
+  mod__work_task_event.main();
+  mod__work_task_comment.main();
 }
 
 void _hierarchyTests() {

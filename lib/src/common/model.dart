@@ -6,6 +6,8 @@ import '../model/classification.dart' as mod;
 import '../model/document_for_client.dart' as mod;
 import '../model/document_comment.dart' as mod;
 import '../model/document_event.dart' as mod;
+import '../model/work_task_comment.dart' as mod;
+import '../model/work_task_event.dart' as mod;
 import '../model/field.dart' as mod;
 import '../model/document_field.dart' as mod;
 import '../model/approval.dart' as mod;
@@ -25,6 +27,8 @@ import '../api_model/approval.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
 import '../api_model/work_task.dart' as api_mod;
+import '../api_model/work_task_comment.dart' as api_mod;
+import '../api_model/work_task_event.dart' as api_mod;
 
 import '../nucleus_one.dart';
 
@@ -265,6 +269,30 @@ abstract class WorkTaskCollectionQueryResult {
     return mod.QueryResult(
       results: mod.WorkTaskCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class WorkTaskCommentCollectionQueryResult {
+  static mod.QueryResult2<mod.WorkTaskCommentCollection> fromApiModelWorkTaskCommentCollection(
+      api_mod.QueryResult2<api_mod.WorkTaskCommentCollection> apiModel) {
+    return mod.QueryResult2(
+      results: mod.WorkTaskCommentCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      reverseCursor: apiModel.reverseCursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class WorkTaskEventCollectionQueryResult {
+  static mod.QueryResult2<mod.WorkTaskEventCollection> fromApiModelWorkTaskEventCollection(
+      api_mod.QueryResult2<api_mod.WorkTaskEventCollection> apiModel) {
+    return mod.QueryResult2(
+      results: mod.WorkTaskEventCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      reverseCursor: apiModel.reverseCursor!,
       pageSize: apiModel.pageSize!,
     );
   }

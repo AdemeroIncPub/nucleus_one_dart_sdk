@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 import '../api_model/classification.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
+import '../api_model/work_task_comment.dart' as api_mod;
+import '../api_model/work_task_event.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
 import '../api_model/field.dart' as api_mod;
 import '../api_model/document_field.dart' as api_mod;
@@ -76,6 +78,8 @@ class QueryResult2<T> extends QueryResult<T> {
   static final _fromJsonFactories = <Type, Object Function(Map<String, dynamic> json)>{
     api_mod.DocumentCommentCollection: (x) => api_mod.DocumentCommentCollection.fromJson(x),
     api_mod.DocumentEventCollection: (x) => api_mod.DocumentEventCollection.fromJson(x),
+    api_mod.WorkTaskCommentCollection: (x) => api_mod.WorkTaskCommentCollection.fromJson(x),
+    api_mod.WorkTaskEventCollection: (x) => api_mod.WorkTaskEventCollection.fromJson(x),
   };
 
   QueryResult2() : super();
