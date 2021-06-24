@@ -14,6 +14,32 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
     this.app = app;
   }
 
+  /// Updates a User Preference.
+  Future<void> updateUserPreference(UserPreference userPreference) async {
+    await http.executePutRequest(
+      http.apiPaths.userPreferences,
+      app,
+      body: jsonEncode(userPreference.toApiModel()),
+    );
+  }
+
+  /// Updates User Preferences by User Preference Id.
+  ///
+  /// [singleUserPreferenceId] The id of the User Preference to be updated.
+  Future<void> updateUserPreferenceByUserPreferenceId(
+      UserPreference userPreference, String singleUserPreferenceId) async {
+    final qp = http.StandardQueryParams.get([]);
+    qp['singleUserPreferenceId'] = singleUserPreferenceId;
+
+    await http.executePutRequest(
+      http.apiPaths.userPreferenceFormat
+          .replaceFirst('<singleUserPreferenceId>', singleUserPreferenceId),
+      app,
+      body: jsonEncode(userPreference.toApiModel()),
+      query: qp,
+    );
+  }
+
   /// Gets the current user's preferences.
   Future<UserPreferences> getPreferences() async {
     final responseBody = await http.executeGetRequestWithTextResponse(

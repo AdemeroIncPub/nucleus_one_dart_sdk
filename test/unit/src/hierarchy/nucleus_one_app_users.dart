@@ -2,11 +2,23 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
 import 'package:test/test.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/user_preference.dart' as api_mod;
 
 import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/user_preferences.dart';
+
+final up = api_mod.UserPreference()
+  ..id = 'A'
+  ..userID = 'B'
+  ..userName = 'C'
+  ..userEmail = 'D'
+  ..stringValue = 'E'
+  ..boolValue = false
+  ..intValue = 0
+  ..floatValue = 1
+  ..mapValue = 'F';
 
 void main() {
   group('NucleusOneAppProjects class tests', () {
@@ -16,6 +28,37 @@ void main() {
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('updateUserPreference method tests', () async {
+      final expectedUrlPath = http.apiPaths.userPreferences;
+      final n1App = getStandardN1App();
+
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () =>
+            NucleusOneAppUsers(app: n1App).updateUserPreference(UserPreference.fromApiModel(up)),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('updateUserPreferenceByUserPreferenceId method tests', () async {
+      final expectedUrlPath =
+          http.apiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', 'A');
+      final n1App = getStandardN1App();
+
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () => NucleusOneAppUsers(app: n1App)
+            .updateUserPreferenceByUserPreferenceId(UserPreference.fromApiModel(up), 'A'),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'singleUserPreferenceId=A',
+        ],
+      );
     });
 
     test('getPreferences method tests', () async {
