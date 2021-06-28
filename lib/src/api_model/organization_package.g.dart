@@ -9,11 +9,10 @@ part of 'organization_package.dart';
 OrganizationPackageCollection _$OrganizationPackageCollectionFromJson(
     Map<String, dynamic> json) {
   return OrganizationPackageCollection()
-    ..organizationPackages =
-        (json['OrganizationPackagesForCurrentUser'] as List<dynamic>?)
-            ?.map(
-                (e) => OrganizationPackage.fromJson(e as Map<String, dynamic>))
-            .toList();
+    ..organizationPackages = (json['OrganizationPackagesForCurrentUser']
+            as List<dynamic>?)
+        ?.map((e) => OrganizationPackage.fromJson(e as Map<String, dynamic>))
+        .toList();
 }
 
 Map<String, dynamic> _$OrganizationPackageCollectionToJson(
@@ -26,8 +25,8 @@ Map<String, dynamic> _$OrganizationPackageCollectionToJson(
     }
   }
 
-  writeNotNull('OrganizationPackagesForCurrentUser',
-      instance.organizationPackages);
+  writeNotNull(
+      'OrganizationPackagesForCurrentUser', instance.organizationPackages);
   return val;
 }
 

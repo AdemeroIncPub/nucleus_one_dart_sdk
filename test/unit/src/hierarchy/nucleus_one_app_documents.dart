@@ -6,6 +6,7 @@ import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form_field
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session_signing_recipient_package.dart'
     as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/signature_form_template.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_documents.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
@@ -23,6 +24,7 @@ import '../api_model/document_signature_form.dart';
 import '../api_model/document_signature_form_field.dart';
 import '../api_model/document_signature_session.dart';
 import '../api_model/document_signature_session_signing_recipient_package.dart';
+import '../api_model/signature_form_template.dart';
 
 void main() {
   group('NucleusOneAppDocuments class tests', () {
@@ -753,6 +755,38 @@ void main() {
           'uniqueId=C',
         ],
         expectedRequestBody: documentSignatureSessionRecipientFormFieldCollectionJson,
+      );
+    });
+
+    test('getSignatureFormTemplates method tests', () async {
+      final expectedUrlPath = http.apiPaths.signatureFormTemplates;
+      final n1App = getStandardN1App();
+
+      await performHttpTest<SignatureFormTemplateCollection>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getSignatureFormTemplates(),
+        responseBody: signatureFormTemplateCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: '',
+      );
+    });
+
+    test('addSignatureFormTemplates method tests', () async {
+      final expectedUrlPath = http.apiPaths.signatureFormTemplates;
+      final n1App = getStandardN1App();
+      final packagesApiModel = api_mod.SignatureFormTemplateCollection.fromJson(
+          jsonDecode(signatureFormTemplateCollectionJson));
+      final templates = SignatureFormTemplateCollection.fromApiModel(packagesApiModel);
+
+      await performHttpTest<SignatureFormTemplateCollection>(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () =>
+            NucleusOneAppDocuments(app: n1App).addSignatureFormTemplates(templates),
+        responseBody: signatureFormTemplateCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: signatureFormTemplateCollectionJson,
       );
     });
   });

@@ -299,6 +299,7 @@ abstract class apiPaths {
   static const organizationInvitationsFormat = '/organizationInvitations/<invitationId>';
   static const organizationsPermissionsFormat = '/organizations/<organizationId>/permissions';
   static const organizationsTenantsFormat = '/organizations/<organizationId>/tenants';
+  static const signatureFormTemplates = '/signatureFormTemplates';
   static const userEmailAddresses = '/user/emailAddresses';
   static const userEmailAddressesEmailChangeCodeFormat = '/user/emailAddresses/<emailChangeCode>';
   static const userEmailAddressVerifications = '/user/emailAddressVerifications';

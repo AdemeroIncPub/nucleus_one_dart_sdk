@@ -26,6 +26,7 @@ import 'src/api_model/subscription_details.dart' as api_mod__organization_subscr
 import 'src/api_model/project.dart' as api_mod__project;
 import 'src/api_model/project_packages.dart' as api_mod__project_packages;
 import 'src/api_model/project_permissions.dart' as api_mod__project_permissions;
+import 'src/api_model/signature_form_template.dart' as api_mod__signature_form_template;
 import 'src/api_model/subscription_invoice.dart' as api_mod__subscription_invoice;
 import 'src/api_model/subscription_plan.dart' as api_mod__subscription_plan;
 import 'src/api_model/tenant.dart' as api_mod__tenant;
@@ -80,6 +81,7 @@ import 'src/model/subscription_details.dart' as mod__organization_subscription;
 import 'src/model/project.dart' as mod__project;
 import 'src/model/project_packages.dart' as mod__project_packages;
 import 'src/model/project_permissions.dart' as mod__project_permissions;
+import 'src/model/signature_form_template.dart' as mod__signature_form_template;
 import 'src/model/subscription_invoice.dart' as mod__subscription_invoice;
 import 'src/model/subscription_plan.dart' as mod__subscription_plan;
 import 'src/model/tenant.dart' as mod__tenant;
@@ -139,6 +141,7 @@ void _apiModelTests() {
   api_mod__project.main();
   api_mod__project_packages.main();
   api_mod__project_permissions.main();
+  api_mod__signature_form_template.main();
   api_mod__subscription_invoice.main();
   api_mod__subscription_plan.main();
   api_mod__tenant.main();
@@ -185,6 +188,7 @@ void _modelTests() {
   mod__project.main();
   mod__project_packages.main();
   mod__project_permissions.main();
+  mod__signature_form_template.main();
   mod__subscription_invoice.main();
   mod__subscription_plan.main();
   mod__tenant.main();

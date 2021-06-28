@@ -34,6 +34,7 @@ export 'src/model/organization.dart';
 export 'src/model/organization_package.dart';
 export 'src/model/organization_permissions.dart';
 export 'src/model/query_result.dart';
+export 'src/model/signature_form_template.dart';
 export 'src/model/subscription_details.dart';
 export 'src/model/tenant.dart';
 export 'src/model/user_profile.dart';

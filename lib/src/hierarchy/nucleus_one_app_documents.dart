@@ -12,6 +12,7 @@ import '../api_model/document_signature_session.dart' as api_mod;
 import '../api_model/document_signature_session_signing_recipient_package.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_upload.dart' as api_mod;
+import '../api_model/signature_form_template.dart' as api_mod;
 import '../common/model.dart';
 import '../http.dart' as http;
 import '../model/document_for_client.dart';
@@ -690,5 +691,30 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
       query: qp,
       body: jsonEncode(fields.toApiModel()),
     );
+  }
+
+  /// Gets signature form templates.
+  Future<SignatureFormTemplateCollection> getSignatureFormTemplates() async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.signatureFormTemplates,
+      app,
+    );
+    final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
+    return SignatureFormTemplateCollection.fromApiModel(apiModel);
+  }
+
+  /// Adds signature form templates.  A list of the same templates that were passed in are returned,
+  /// as they now exist on the server.
+  ///
+  /// [templates] The signature form templates.
+  Future<SignatureFormTemplateCollection> addSignatureFormTemplates(
+      SignatureFormTemplateCollection templates) async {
+    final responseBody = await http.executePostRequestWithTextResponse(
+      http.apiPaths.signatureFormTemplates,
+      app,
+      body: jsonEncode(templates.toApiModel()),
+    );
+    final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
+    return SignatureFormTemplateCollection.fromApiModel(apiModel);
   }
 }
