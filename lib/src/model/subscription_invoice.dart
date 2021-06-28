@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
+import '../common/model.dart';
 
 import '../api_model/subscription_invoice.dart' as api_mod;
 import '../nucleus_one.dart';

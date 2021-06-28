@@ -8,7 +8,6 @@ import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/organization_package.dart';
 import '../api_model/organization_permissions.dart';
-import '../api_model/subscription_invoice.dart';
 import '../api_model/tenant.dart';
 
 void main() {

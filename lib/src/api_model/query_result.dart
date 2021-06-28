@@ -32,6 +32,9 @@ TQueryResult _resultsFromJson<T, TQueryResult extends QueryResult<T>>(
   return r..results = fromJsonFactory(json) as T;
 }
 
+/// This is just a marker interface to indicate an entity's intended usage
+abstract class IQueryResultEntityCollection {}
+
 // Serializable members must be explicitly marked with [JsonKey].
 @JsonSerializable(ignoreUnannotated: true, includeIfNull: false)
 class QueryResult<T> {

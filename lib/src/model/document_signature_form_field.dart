@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
-import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
 import '../api_model/document_signature_form_field.dart' as api_mod;
 import '../common/model.dart';
+import '../common/string.dart';
 import '../nucleus_one.dart';
 
 class DocumentSignatureFormFieldCollection extends EntityCollection<DocumentSignatureFormField,

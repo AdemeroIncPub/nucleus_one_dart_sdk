@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 
 import '../api_model/document_signature_session_signing_recipient_package.dart' as api_mod;
+import '../common/model.dart';
 import '../nucleus_one.dart';
 import 'document_content_package.dart';
 

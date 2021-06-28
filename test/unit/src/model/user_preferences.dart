@@ -2,14 +2,9 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/user_preferences.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_users.dart';
-import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
 import '../api_model/user_preferences.dart';
-import '../../../src/common.dart';
-import '../../../src/model_helper.dart';
-import '../../../src/mocks/http.dart';
 
 void main() {
   group('UserPreferences class tests', () {

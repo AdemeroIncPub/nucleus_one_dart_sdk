@@ -6,7 +6,6 @@ import 'package:test/test.dart';
 import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
-import '../api_model/folder_hierarchies.dart';
 import '../api_model/project_packages.dart';
 import '../api_model/project_permissions.dart';
 

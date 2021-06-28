@@ -1,21 +1,12 @@
 import 'dart:mirrors';
 
-// This line is needed for "dart:mirrors" functionality
-// ignore: unused_import
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:test/test.dart';
+
+import '../../../src/mirrors.dart';
 
 void main() {
   test('Verify EntityCollection-derived classes implement a "fromApiModel" factory constructor',
       () {
-    String getSymbolName(Symbol? s) {
-      if (s == null) {
-        return '';
-      }
-      final r = RegExp(r'(")(.+)(")');
-      return r.firstMatch(s.toString())!.group(2)!;
-    }
-
     // Class names include here do not need to implement the factory method
     final classExceptions = ['DocumentForClientCollection'];
 

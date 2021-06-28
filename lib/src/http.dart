@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:file/file.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
-import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
+import 'common/string.dart';
 import 'nucleus_one.dart';
 
 // static HttpClient _getHttpClientWithProxy() {

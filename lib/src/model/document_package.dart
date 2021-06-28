@@ -1,10 +1,10 @@
 import 'package:get_it/get_it.dart';
-import 'package:nucleus_one_dart_sdk/src/model/document_package_field.dart';
-import 'package:nucleus_one_dart_sdk/src/model/document.dart';
-import 'package:nucleus_one_dart_sdk/src/model/approval.dart';
-import 'package:nucleus_one_dart_sdk/src/model/document_subscription.dart';
 
 import '../api_model/document_package.dart' as api_mod;
+import '../model/document_package_field.dart';
+import '../model/document.dart';
+import '../model/approval.dart';
+import '../model/document_subscription.dart';
 import '../nucleus_one.dart';
 
 class DocumentPackage with NucleusOneAppDependent {

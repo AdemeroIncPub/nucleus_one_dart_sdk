@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
-import 'package:nucleus_one_dart_sdk/src/model/preview_metadata_item.dart';
 
 import '../api_model/document_subscription.dart' as api_mod;
+import '../model/preview_metadata_item.dart';
 import '../nucleus_one.dart';
 
 class DocumentSubscription with NucleusOneAppDependent {

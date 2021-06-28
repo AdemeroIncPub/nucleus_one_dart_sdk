@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
-import 'package:nucleus_one_dart_sdk/src/model/document_field.dart';
+import '../common/model.dart';
+import '../model/document_field.dart';
 
 import '../nucleus_one.dart';
 import '../http.dart' as http;

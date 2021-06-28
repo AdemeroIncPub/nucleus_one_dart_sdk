@@ -6,9 +6,9 @@ import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_approvals.dart';
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_project.dart';
-import 'package:nucleus_one_dart_sdk/src/user.dart';
+import 'hierarchy/nucleus_one_app_approvals.dart';
+import 'hierarchy/nucleus_one_app_project.dart';
+import 'user.dart';
 
 import 'hierarchy/nucleus_one_app_billing.dart';
 import 'hierarchy/nucleus_one_app_documents.dart';

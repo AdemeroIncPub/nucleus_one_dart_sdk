@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import '../api_model/document_field.dart' as api_mod;
 import '../nucleus_one.dart';
 import '../common/model.dart';

@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 
 import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/document_for_client.dart' as api_mod;
+import '../common/model.dart';
 
 import '../nucleus_one.dart';
 import 'preview_metadata_item.dart';

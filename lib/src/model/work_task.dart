@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
-import 'package:nucleus_one_dart_sdk/src/model/document.dart';
+import '../common/model.dart';
+import '../model/document.dart';
 
 import '../api_model/work_task.dart' as api_mod;
 import '../nucleus_one.dart';

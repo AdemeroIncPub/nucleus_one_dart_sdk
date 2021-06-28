@@ -6,8 +6,7 @@ import '../model/work_task.dart';
 import '../http.dart' as http;
 import '../api_model/work_task.dart' as api_mod;
 import '../../nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
+import '../common/model.dart';
 import '../api_model/work_task_comment.dart' as api_mod;
 import '../model/work_task_comment.dart';
 

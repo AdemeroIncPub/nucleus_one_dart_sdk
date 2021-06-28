@@ -1,3 +1,4 @@
+import 'src/api_model/_common.dart' as api_mod___common;
 import 'src/api_model/address_book.dart' as api_mod__address_book;
 import 'src/api_model/classification.dart' as api_mod__classification;
 import 'src/api_model/dashboard_widget.dart' as api_mod__dashboard_widget;
@@ -97,7 +98,8 @@ import 'src/model/document_package_field.dart' as mod__document_package_field;
 import 'src/model/document_package.dart' as mod__document_package;
 import 'src/model/document_upload.dart' as mod__document_upload;
 import 'src/nucleus_one.dart' as n1;
-import 'src/common/string.dart' as common_string;
+import 'src/common/api_model.dart' as common__api_model;
+import 'src/common/string.dart' as common__string;
 import 'src/http.dart' as http;
 
 void main() {
@@ -110,6 +112,7 @@ void main() {
 }
 
 void _apiModelTests() {
+  api_mod___common.main();
   api_mod__address_book.main();
   api_mod__classification.main();
   api_mod__dashboard_widget.main();
@@ -214,5 +217,6 @@ void _hierarchyTests() {
 }
 
 void _commonTests() {
-  common_string.main();
+  common__api_model.main();
+  common__string.main();
 }

@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
+import '../common/model.dart';
 
 import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/folder_hierarchies.dart' as api_mod;
