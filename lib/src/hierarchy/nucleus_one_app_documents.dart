@@ -567,7 +567,6 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     return DocumentSignatureSessionPackage.fromApiModel(apiModel);
   }
 
-//{"Session":{"ID":"3g8GSfPmKOkhfjZ014n4","CreatedOn":"2021-06-22T14:13:38.251356Z","ModifiedOn":"2021-06-22T14:14:43.759891Z","CreatedByUserID":"Eu0pgVbTrebqPmLY4Com","CreatedByUserEmail":"ibylgaql@sharklasers.com","CreatedByUserName":"","LastModifiedByUserID":"Eu0pgVbTrebqPmLY4Com","LastModifiedByUserEmail":"ibylgaql@sharklasers.com","LastModifiedByUserName":"","DocumentID":"rC4fhr0iqIKgynKnAcMP","DocumentRevisionID":"LgYQTZVenlJRY7xblO9Q","IsActive":true,"IsComplete":false,"WasStopped":false,"CompletedOn":"0001-01-01T00:00:00Z","IsRendered":false,"RenderedOn":"0001-01-01T00:00:00Z","FormDesignType":"FormDesign","UseAccessCode":false,"AccessCode":"","UseCustomSubjectAndBody":false,"CustomSubject":"Please sign Legal-Sized.pdf","CustomBody":"","QuickDesignPlaceInitials":false,"QuickDesignPlaceFullName":false,"QuickDesignPlaceEmail":false,"QuickDesignPlaceTitle":false},"Recipients":[{"ID":"IPasfMoJpw1ZwzhzYBO8","TenantID":"NWlFVHnlUzh9JWKVKkF7","DocumentID":"rC4fhr0iqIKgynKnAcMP","DocumentCreatedOn":"2021-06-21T13:51:14.231757Z","DocumentBucketName":"n1_c2mfjma23akg02l9ei20","DocumentThumbnailObjectName":"c389iji23akg02jq89dg/c389iji23akg02jq89dg_0_thumb","DocumentName":"Legal-Sized.pdf","DocumentNameLower":"legal-sized.pdf","DocumentPageCount":9,"DocumentFileSize":1744479,"DocumentClassificationID":"QzYsg2fNpkt4Lwx2zCMW","DocumentClassificationName":"Misc","DocumentClassificationNameLower":"misc","DocumentPreviewMetadata":null,"DocumentSignatureSessionID":"3g8GSfPmKOkhfjZ014n4","DocumentSignatureSessionIsActive":true,"DocumentSignatureSessionIsComplete":false,"UniqueID":"c38v07q23akg02tn8580","Rank":0,"Email":"ibylgaql@sharklasers.com","FullName":"Steve","Type":"Signer","TenantMemberID":"4BzpRMp8LYHLFinWD8cS","SigningRequestSent":true,"RequestedOn":"2021-06-22T14:14:44.131868Z","IsActive":true,"IsComplete":false,"CompletedOn":"0001-01-01T00:00:00Z","IPAddress":""}],"BeginSession":false,"ResetSession":false}
   /// Updates a document's signature session packages.  A list of the same packages that were passed
   /// in are returned, as they now exist on the server.
   ///
@@ -716,5 +715,76 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     );
     final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
     return SignatureFormTemplateCollection.fromApiModel(apiModel);
+  }
+
+  /// Updates a signature form template.
+  ///
+  /// [templateId] The signature form template id.
+  ///
+  /// [template] The signature form template.
+  Future<void> updateSignatureFormTemplate({
+    required String templateId,
+    required SignatureFormTemplate template,
+  }) async {
+    await http.executePutRequest(
+      http.apiPaths.signatureFormTemplatesFormat
+          .replaceFirst('<signatureFormTemplateId>', templateId),
+      app,
+      body: jsonEncode(template.toApiModel()),
+    );
+  }
+
+  /// Deletes a signature form template.
+  ///
+  /// [templateId] The signature form template id.
+  Future<void> deleteSignatureFormTemplate(templateId) async {
+    await http.executeDeleteRequest(
+      http.apiPaths.signatureFormTemplatesFormat
+          .replaceFirst('<signatureFormTemplateId>', templateId),
+      app,
+    );
+  }
+
+  /// Gets signature form templates.
+  ///
+  /// [templateId] The signature form template id.
+  Future<SignatureFormTemplateFieldCollection> getSignatureFormTemplateFields(
+      String templateId) async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.signatureFormTemplatesFieldsFormat
+          .replaceFirst('<signatureFormTemplateId>', templateId),
+      app,
+    );
+    final apiModel =
+        api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
+    return SignatureFormTemplateFieldCollection.fromApiModel(apiModel);
+  }
+
+  /// Adds fields to a signature form template.  The field that were passed in are returned, as they
+  /// now exists on the server.
+  ///
+  /// [templateId] The signature form template id.
+  ///
+  /// [fields] The fields to add.
+  ///
+  /// [clearExisting]: If true, existing fields will be deleted.
+  Future<SignatureFormTemplateFieldCollection> addSignatureFormTemplateFields({
+    required String templateId,
+    required SignatureFormTemplateFieldCollection fields,
+    bool clearExisting = false,
+  }) async {
+    final qp = http.StandardQueryParams.get();
+    qp['clearExisting'] = clearExisting;
+
+    final responseBody = await http.executePostRequestWithTextResponse(
+      http.apiPaths.signatureFormTemplatesFieldsFormat
+          .replaceFirst('<signatureFormTemplateId>', templateId),
+      app,
+      query: qp,
+      body: jsonEncode(fields.toApiModel()),
+    );
+    final apiModel =
+        api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
+    return SignatureFormTemplateFieldCollection.fromApiModel(apiModel);
   }
 }

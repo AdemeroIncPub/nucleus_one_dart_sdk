@@ -789,5 +789,96 @@ void main() {
         expectedRequestBody: signatureFormTemplateCollectionJson,
       );
     });
+
+    test('updateSignatureFormTemplate method tests', () async {
+      final expectedUrlPath = http.apiPaths.signatureFormTemplatesFormat
+          .replaceFirst('<signatureFormTemplateId>', '123');
+      final n1App = getStandardN1App();
+      final packagesApiModel =
+          api_mod.SignatureFormTemplate.fromJson(jsonDecode(signatureFormTemplateJson));
+      final template = SignatureFormTemplate.fromApiModel(packagesApiModel);
+
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App)
+            .updateSignatureFormTemplate(templateId: '123', template: template),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: signatureFormTemplateJson,
+      );
+    });
+
+    test('deleteSignatureFormTemplate method tests', () async {
+      final expectedUrlPath = http.apiPaths.signatureFormTemplatesFormat
+          .replaceFirst('<signatureFormTemplateId>', '123');
+      final n1App = getStandardN1App();
+
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.DELETE,
+        httpCallCallback: () =>
+            NucleusOneAppDocuments(app: n1App).deleteSignatureFormTemplate('123'),
+        responseBody: '',
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: '',
+      );
+    });
+
+    test('getSignatureFormTemplateFields method tests', () async {
+      final expectedUrlPath = http.apiPaths.signatureFormTemplatesFieldsFormat
+          .replaceFirst('<signatureFormTemplateId>', '123');
+      final n1App = getStandardN1App();
+
+      await performHttpTest<SignatureFormTemplateFieldCollection>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () =>
+            NucleusOneAppDocuments(app: n1App).getSignatureFormTemplateFields('123'),
+        responseBody: signatureFormTemplateFieldCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+        expectedRequestBody: '',
+      );
+    });
+
+    test('addSignatureFormTemplateFields method tests', () async {
+      final expectedUrlPath = http.apiPaths.signatureFormTemplatesFieldsFormat
+          .replaceFirst('<signatureFormTemplateId>', '123');
+      final n1App = getStandardN1App();
+      final apiModel = api_mod.SignatureFormTemplateFieldCollection.fromJson(
+          jsonDecode(signatureFormTemplateFieldCollectionJson));
+      final fields = SignatureFormTemplateFieldCollection.fromApiModel(apiModel);
+
+      // Test with default parameters
+      await performHttpTest<SignatureFormTemplateFieldCollection>(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).addSignatureFormTemplateFields(
+          templateId: '123',
+          fields: fields,
+        ),
+        responseBody: signatureFormTemplateFieldCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'clearExisting=false',
+        ],
+        expectedRequestBody: signatureFormTemplateFieldCollectionJson,
+      );
+
+      // Test with optional parameters
+      await performHttpTest<SignatureFormTemplateFieldCollection>(
+        httpMethod: HttpMethods.POST,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).addSignatureFormTemplateFields(
+          templateId: '123',
+          fields: fields,
+          clearExisting: true,
+        ),
+        responseBody: signatureFormTemplateFieldCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'clearExisting=true',
+        ],
+        expectedRequestBody: signatureFormTemplateFieldCollectionJson,
+      );
+    });
   });
 }
