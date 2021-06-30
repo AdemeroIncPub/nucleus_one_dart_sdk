@@ -15,6 +15,10 @@ import '../model/field_list_item.dart' as mod;
 import '../model/folder_hierarchies.dart' as mod;
 import '../model/form_template.dart' as mod;
 import '../model/work_task.dart' as mod;
+import '../model/support_user.dart' as mod;
+import '../model/support_organization.dart' as mod;
+import '../model/support_organization_tenant.dart' as mod;
+import '../model/support_error_event.dart' as mod;
 import '../model/organization_package.dart' as mod;
 import '../model/query_result.dart' as mod;
 import '../model/tenant.dart' as mod;
@@ -33,6 +37,10 @@ import '../api_model/tenant.dart' as api_mod;
 import '../api_model/work_task.dart' as api_mod;
 import '../api_model/work_task_comment.dart' as api_mod;
 import '../api_model/work_task_event.dart' as api_mod;
+import '../api_model/support_user.dart' as api_mod;
+import '../api_model/support_organization.dart' as api_mod;
+import '../api_model/support_organization_tenant.dart' as api_mod;
+import '../api_model/support_error_event.dart' as api_mod;
 
 import '../nucleus_one.dart';
 
@@ -287,7 +295,7 @@ abstract class OrganizationPackageCollectionQueryResult {
       // At the time of writing this, the API call for this didn't support these properties
       cursor: '',
       pageSize: 0,
-);
+    );
   }
 }
 
@@ -296,6 +304,52 @@ abstract class WorkTaskCollectionQueryResult {
       api_mod.QueryResult<api_mod.WorkTaskCollection> apiModel) {
     return mod.QueryResult(
       results: mod.WorkTaskCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class SupportUserCollectionQueryResult {
+  static mod.QueryResult<mod.SupportUserCollection> fromApiModelSupportUserCollection(
+      api_mod.QueryResult<api_mod.SupportUserCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.SupportUserCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class SupportOrganizationCollectionQueryResult {
+  static mod.QueryResult<mod.SupportOrganizationCollection>
+      fromApiModelSupportOrganizationCollection(
+          api_mod.QueryResult<api_mod.SupportOrganizationCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.SupportOrganizationCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class SupportOrganizationTenantCollectionQueryResult {
+  static mod.QueryResult<mod.SupportOrganizationTenantCollection>
+      fromApiModelSupportOrganizationTenantCollection(
+          api_mod.QueryResult<api_mod.SupportOrganizationTenantCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.SupportOrganizationTenantCollection.fromApiModel(apiModel.results!),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class SupportErrorEventCollectionQueryResult {
+  static mod.QueryResult<mod.SupportErrorEventCollection> fromApiModelSupportErrorEventCollection(
+      api_mod.QueryResult<api_mod.SupportErrorEventCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.SupportErrorEventCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );

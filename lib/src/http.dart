@@ -256,7 +256,8 @@ Future<void> downloadAuthenticated(
 
 abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
-  static const adminOrganizationPackagesForCurrentUser = '/admin/organizationPackagesForCurrentUser';
+  static const adminOrganizationPackagesForCurrentUser =
+      '/admin/organizationPackagesForCurrentUser';
   static const approvals = '/approvals';
   static const billingOrganizationSubscriptionsFormat =
       '/billing/organizationSubscriptions/<organizationId>';
@@ -273,12 +274,17 @@ abstract class apiPaths {
   static const documentsCommentsFormat = '/documents/<documentId>/comments';
   static const documentsEventsFormat = '/documents/<documentId>/events';
   static const documentsSignatureFormsFormat = '/documents/<documentId>/signatureForms';
-  static const documentsSignatureFormsByIdFormat = '/documents/<documentId>/signatureForms/<documentSignatureFormId>';
-  static const documentsSignatureFormsByIdFieldsFormat = '/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields';
-  static const documentsSignatureFormsByIdFieldsByFieldIdFormat = '/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields/<documentSignatureFormFieldId>';
+  static const documentsSignatureFormsByIdFormat =
+      '/documents/<documentId>/signatureForms/<documentSignatureFormId>';
+  static const documentsSignatureFormsByIdFieldsFormat =
+      '/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields';
+  static const documentsSignatureFormsByIdFieldsByFieldIdFormat =
+      '/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields/<documentSignatureFormFieldId>';
   static const documentSignatureFormsRecent = '/documentSignatureForms/recent';
-  static const documentSignatureSessionsSigningRecipientsFieldsFormat = '/documentSignatureSessions/<documentSignatureSessionId>/signingRecipients/<documentSignatureSessionRecipientId>/fields';
-  static const documentsSignatureSessionPackagesFormat = '/documents/<documentId>/signatureSessionPackages';
+  static const documentSignatureSessionsSigningRecipientsFieldsFormat =
+      '/documentSignatureSessions/<documentSignatureSessionId>/signingRecipients/<documentSignatureSessionRecipientId>/fields';
+  static const documentsSignatureSessionPackagesFormat =
+      '/documents/<documentId>/signatureSessionPackages';
   static const documentCounts = '/documentCounts';
   static const fields = '/fields';
   static const fieldsFormat = '/fields/<fieldId>';
@@ -301,7 +307,8 @@ abstract class apiPaths {
   static const organizationsTenantsFormat = '/organizations/<organizationId>/tenants';
   static const signatureFormTemplates = '/signatureFormTemplates';
   static const signatureFormTemplatesFormat = '/signatureFormTemplates/<signatureFormTemplateId>';
-  static const signatureFormTemplatesFieldsFormat = '/signatureFormTemplates/<signatureFormTemplateId>/fields';
+  static const signatureFormTemplatesFieldsFormat =
+      '/signatureFormTemplates/<signatureFormTemplateId>/fields';
   static const userEmailAddresses = '/user/emailAddresses';
   static const userEmailAddressesEmailChangeCodeFormat = '/user/emailAddresses/<emailChangeCode>';
   static const userEmailAddressVerifications = '/user/emailAddressVerifications';
@@ -325,6 +332,12 @@ abstract class apiPaths {
   static const workTasks = '/workTasks';
   static const workTasksFormat = '/workTasks/<workTaskId>';
   static const workTasksCommentsFormat = '/workTasks/<workTaskId>/comments';
+  static const supportUsers = '/support/users';
+  static const supportAdmin = '/supportAdmin';
+  static const supportErrorEvents = '/support/errorEvents';
+  static const supportOrganizations = '/support/organizations';
+  static const supportOrganizationsTenantsFormat =
+      '/support/organizations/<organizationId>/tenants';
 }
 
 abstract class ApiRequestBodyObject {

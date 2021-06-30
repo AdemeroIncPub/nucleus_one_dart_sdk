@@ -13,6 +13,10 @@ import '../api_model/form_template.dart' as api_mod;
 import '../api_model/work_task.dart' as api_mod;
 import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/tenant.dart' as api_mod;
+import '../api_model/support_user.dart' as api_mod;
+import '../api_model/support_organization.dart' as api_mod;
+import '../api_model/support_organization_tenant.dart' as api_mod;
+import '../api_model/support_error_event.dart' as api_mod;
 
 part 'query_result.g.dart';
 
@@ -50,6 +54,11 @@ class QueryResult<T> {
     api_mod.WorkTaskCollection: (x) => api_mod.WorkTaskCollection.fromJson(x),
     api_mod.OrganizationPackageCollection: (x) => api_mod.OrganizationPackageCollection.fromJson(x),
     api_mod.TenantCollection: (x) => api_mod.TenantCollection.fromJson(x),
+    api_mod.SupportUserCollection: (x) => api_mod.SupportUserCollection.fromJson(x),
+    api_mod.SupportOrganizationCollection: (x) => api_mod.SupportOrganizationCollection.fromJson(x),
+    api_mod.SupportOrganizationTenantCollection: (x) =>
+        api_mod.SupportOrganizationTenantCollection.fromJson(x),
+    api_mod.SupportErrorEventCollection: (x) => api_mod.SupportErrorEventCollection.fromJson(x),
   };
 
   QueryResult();
