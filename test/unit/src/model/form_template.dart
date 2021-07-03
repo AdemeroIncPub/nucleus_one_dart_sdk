@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/field.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/form_template.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
@@ -354,7 +355,7 @@ void main() {
     });
   });
 
-  group('FormTemplateField tests', () {
+  group('FormTemplateField class tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();
     });
@@ -394,6 +395,108 @@ void main() {
 
       // Convert it to a model class then back again
       final apiModelCycled = FormTemplateField.fromApiModel(apiModelOrig).toApiModel();
+      performTests(apiModelCycled);
+    });
+  });
+
+  group('FormSubmissionField class tests', () {
+    setUp(() async {
+      await NucleusOne.intializeSdk();
+    });
+
+    tearDown(() async {
+      await NucleusOne.resetSdk();
+    });
+
+    test('Serialization test', () {
+      void performTests(api_mod.FormSubmissionField apiModel) {
+        expect(apiModel.formTemplateFieldID, 'A');
+        expect(apiModel.id, 'B');
+        expect(apiModel.formTemplateID, 'C');
+        expect(apiModel.formTemplateName, 'D');
+        expect(apiModel.formTemplateNameLower, 'E');
+        expect(apiModel.tenantID, 'F');
+        expect(apiModel.uniqueID, 'G');
+        expect(apiModel.createdOn, 'H');
+        expect(apiModel.type, 'I');
+        expect(apiModel.fieldID, 'J');
+        expect(apiModel.field, isA<api_mod.Field>());
+        expect(apiModel.pageIndex, 0);
+        expect(apiModel.x, 1.2);
+        expect(apiModel.y, 2.3);
+        expect(apiModel.width, 3.4);
+        expect(apiModel.fontSize, 4);
+        expect(apiModel.useColumnLayout, true);
+        expect(apiModel.assetBucketName, 'K');
+        expect(apiModel.assetObjectName, 'L');
+        expect(apiModel.assetContentType, 'M');
+        expect(apiModel.assetSignedUrl, 'N');
+        expect(apiModel.defaultValue, 'O');
+        expect(apiModel.defaultValues, 'P');
+        expect(apiModel.possibleValues!.length, 1);
+        expect(apiModel.possibleValues![0], 'Q');
+        expect(apiModel.value, 'R');
+        expect(apiModel.values, 'S');
+      }
+
+      final apiModelOrig =
+          api_mod.FormSubmissionField.fromJson(jsonDecode(formSubmissionFieldJson));
+      performTests(apiModelOrig);
+
+      // Convert it to a model class then back again
+      final apiModelCycled = FormSubmissionField.fromApiModel(apiModelOrig).toApiModel();
+      performTests(apiModelCycled);
+    });
+  });
+
+  group('FormSubmissionPackageCollection class tests', () {
+    setUp(() async {
+      await NucleusOne.intializeSdk();
+    });
+
+    tearDown(() async {
+      await NucleusOne.resetSdk();
+    });
+
+    test('Serialization test', () {
+      void performTests(api_mod.FormSubmissionPackageCollection apiModel) {
+        expect(apiModel.items.length, 1);
+      }
+
+      final apiModelOrig = api_mod.FormSubmissionPackageCollection.fromJson(
+          jsonDecode(formSubmissionPackageCollectionJson));
+      performTests(apiModelOrig);
+
+      // Convert it to a model class then back again
+      final apiModelCycled =
+          FormSubmissionPackageCollection.fromApiModel(apiModelOrig).toApiModel();
+      performTests(apiModelCycled);
+    });
+  });
+
+  group('FormSubmissionPackage class tests', () {
+    setUp(() async {
+      await NucleusOne.intializeSdk();
+    });
+
+    tearDown(() async {
+      await NucleusOne.resetSdk();
+    });
+
+    test('Serialization test', () {
+      void performTests(api_mod.FormSubmissionPackage apiModel) {
+        expect(apiModel.tenantID, 'A');
+        expect(apiModel.formTemplateID, 'B');
+        expect(apiModel.formSubmissionFields, isA<List<api_mod.FormSubmissionField>>());
+        expect(apiModel.formSubmissionFields!.length, 1);
+      }
+
+      final apiModelOrig =
+          api_mod.FormSubmissionPackage.fromJson(jsonDecode(formSubmissionPackageJson));
+      performTests(apiModelOrig);
+
+      // Convert it to a model class then back again
+      final apiModelCycled = FormSubmissionPackage.fromApiModel(apiModelOrig).toApiModel();
       performTests(apiModelCycled);
     });
   });

@@ -7,6 +7,7 @@ export 'src/hierarchy/nucleus_one_app_approvals.dart';
 export 'src/hierarchy/nucleus_one_app_documents.dart';
 export 'src/hierarchy/nucleus_one_app_fields.dart';
 export 'src/hierarchy/nucleus_one_app_folder_hierarchies.dart';
+export 'src/hierarchy/nucleus_one_app_forms.dart';
 export 'src/hierarchy/nucleus_one_app_organization.dart';
 export 'src/hierarchy/nucleus_one_app_project.dart';
 export 'src/hierarchy/nucleus_one_app_users.dart';

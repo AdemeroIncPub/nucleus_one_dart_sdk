@@ -182,11 +182,19 @@ void main() {
       expect(folderHierarchyItems.app, n1App);
     });
 
+    test('formTemplates method tests', () {
+      final n1App = getStandardN1App();
+
+      final forms = n1App.formTemplates();
+      expect(forms, isA<FormTemplateCollection>());
+      expect(forms.app, n1App);
+    });
+
     test('forms method tests', () {
       final n1App = getStandardN1App();
 
       final forms = n1App.forms();
-      expect(forms, isA<FormTemplateCollection>());
+      expect(forms, isA<NucleusOneAppForms>());
       expect(forms.app, n1App);
     });
 

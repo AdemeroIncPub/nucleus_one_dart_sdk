@@ -55,6 +55,7 @@ import 'src/hierarchy/nucleus_one_app_fields.dart' as hierarchy__nucleus_one_app
 import 'src/hierarchy/nucleus_one_app_work_tasks.dart' as hierarchy__nucleus_one_app_work_tasks;
 import 'src/hierarchy/nucleus_one_app_folder_hierarchies.dart'
     as hierarchy__nucleus_one_app_folder_hierarchies;
+import 'src/hierarchy/nucleus_one_app_forms.dart' as hierarchy__nucleus_one_app_forms;
 import 'src/hierarchy/nucleus_one_app_organization.dart' as hierarchy__nucleus_one_app_organization;
 import 'src/hierarchy/nucleus_one_app_project.dart' as hierarchy__nucleus_one_app_project;
 import 'src/hierarchy/nucleus_one_app_users.dart' as hierarchy__nucleus_one_app_users;
@@ -231,6 +232,7 @@ void _hierarchyTests() {
   hierarchy__nucleus_one_app_documents.main();
   hierarchy__nucleus_one_app_fields.main();
   hierarchy__nucleus_one_app_folder_hierarchies.main();
+  hierarchy__nucleus_one_app_forms.main();
   hierarchy__nucleus_one_app_organization.main();
   hierarchy__nucleus_one_app_project.main();
   hierarchy__nucleus_one_app_users.main();

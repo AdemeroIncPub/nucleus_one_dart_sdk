@@ -7,6 +7,7 @@ import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'hierarchy/nucleus_one_app_approvals.dart';
+import 'hierarchy/nucleus_one_app_forms.dart';
 import 'hierarchy/nucleus_one_app_project.dart';
 import 'user.dart';
 
@@ -192,8 +193,13 @@ abstract class NucleusOneApp {
   }
 
   /// FormTemplates
-  FormTemplateCollection forms() {
+  FormTemplateCollection formTemplates() {
     return FormTemplateCollection(app: this as NucleusOneAppInternal);
+  }
+
+  /// Forms
+  NucleusOneAppForms forms() {
+    return NucleusOneAppForms(app: this as NucleusOneAppInternal);
   }
 
   /// Organization
