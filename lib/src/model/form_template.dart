@@ -1,13 +1,8 @@
-import 'dart:convert';
-
 import 'package:get_it/get_it.dart';
 
 import '../../nucleus_one_dart_sdk.dart';
-import '../api_model/field_list_item.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
-import '../api_model/query_result.dart' as api_mod;
 import '../common/model.dart';
-import '../http.dart' as http;
 import '../nucleus_one.dart';
 
 class FormTemplateCollection
@@ -26,184 +21,6 @@ class FormTemplateCollection
   api_mod.FormTemplateCollection toApiModel() {
     return api_mod.FormTemplateCollection()
       ..formTemplates = items.map((x) => x.toApiModel()).toList();
-  }
-
-  /// Gets form templates, by page.
-  ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  ///
-  /// [sortDescending]: Sort order.
-  Future<QueryResult<FormTemplateCollection>> get({
-    String? cursor,
-    bool sortDescending = false,
-  }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-      (sqp) => sqp.sortDescending(sortDescending),
-    ]);
-
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.formTemplates,
-      app,
-      query: qp,
-    );
-    final apiModel =
-        api_mod.QueryResult<api_mod.FormTemplateCollection>.fromJson(jsonDecode(responseBody));
-
-    return QueryResult(
-      results: FormTemplateCollection(
-          items:
-              apiModel.results!.formTemplates!.map((x) => FormTemplate.fromApiModel(x)).toList()),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
-  }
-
-  /// Gets a form template by id.
-  ///
-  /// [id]: The id of the form template.
-  ///
-  /// [uniqueId]: A unique id that identifies that you are permitted to access this resource.
-  Future<FormTemplate> getById(String id, String uniqueId) async {
-    final qp = http.StandardQueryParams.get();
-    qp['uniqueId'] = uniqueId;
-
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.formTemplatesPublicFormat.replaceFirst('<formTemplateId>', id),
-      app,
-      query: qp,
-    );
-    final apiModel = api_mod.FormTemplate.fromJson(jsonDecode(responseBody));
-    return FormTemplate.fromApiModel(apiModel);
-  }
-
-  /// Gets a form template by id.
-  ///
-  /// [formTemplateId]: The id of the form template.
-  ///
-  /// [projectId]: The id of the project to which this form template belongs.
-  Future<FormTemplateFieldCollection> getFields(String formTemplateId, String projectId) async {
-    final qp = http.StandardQueryParams.get();
-    qp['tenantId'] = projectId;
-
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.formTemplatesPublicFieldsFormat
-          .replaceFirst('<formTemplateId>', formTemplateId),
-      app,
-      query: qp,
-    );
-    final apiModel = api_mod.FormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
-    return FormTemplateFieldCollection.fromApiModel(apiModel);
-  }
-
-  /// Gets a form template field's list items.
-  ///
-  /// [formTemplateId]: The id of the form template.
-  ///
-  /// [formTemplateFieldId]: The id of the form template field.
-  ///
-  /// [projectId]: The id of the project to which this form template belongs.
-  ///
-  /// [parentValue]: The value of parent field.
-  ///
-  /// [valueFilter]: Limits results to fields whose value contains this text.
-  Future<FieldListItemCollection> getFieldListItems(
-    String formTemplateId,
-    String formTemplateFieldId,
-    String projectId, {
-    String? parentValue,
-    String? valueFilter,
-    // At the time of writing this, cursor was not implemented in the API
-    // String? cursor,
-  }) async {
-    final qp = ListItems.getListItemsQueryParams(null, parentValue, valueFilter);
-    qp['tenantId'] = projectId;
-
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.formTemplatesPublicFieldListItemsFormat
-          .replaceFirst('<formTemplateId>', formTemplateId)
-          .replaceFirst('<formTemplateFieldId>', formTemplateFieldId),
-      app,
-      query: qp,
-    );
-    final apiModel = api_mod.FieldListItemCollection.fromJson(jsonDecode(responseBody));
-    return FieldListItemCollection.fromApiModel(apiModel);
-  }
-
-  /// Adds list items to a form template field's selection list.
-  ///
-  /// [formTemplateId]: The id of the form template.
-  ///
-  /// [formTemplateFieldId]: The id of the form template field.
-  ///
-  /// [projectId]: The id of the project to which this form template belongs.
-  ///
-  /// [items]: The list items to add or update.
-  Future<void> addListItems({
-    required String formTemplateId,
-    required String formTemplateFieldId,
-    required String projectId,
-    required FieldListItemCollection items,
-  }) async {
-    if (formTemplateId.isEmpty) {
-      throw ArgumentError.value(formTemplateId, 'formTemplateId', 'Cannot be blank.');
-    }
-    if (formTemplateFieldId.isEmpty) {
-      throw ArgumentError.value(formTemplateFieldId, 'formTemplateFieldId', 'Cannot be blank.');
-    }
-    if (projectId.isEmpty) {
-      throw ArgumentError.value(projectId, 'projectId', 'Cannot be blank.');
-    }
-
-    final qp = http.StandardQueryParams.get();
-    qp['tenantId'] = projectId;
-
-    await ListItems.addListItems(
-      app: app,
-      apiRelativeUrlPath: http.apiPaths.formTemplatesPublicFieldListItemsFormat
-          .replaceFirst('<formTemplateId>', formTemplateId)
-          .replaceFirst('<formTemplateFieldId>', formTemplateFieldId),
-      items: items,
-      additionalQueryParams: qp,
-    );
-  }
-
-  /// Sets or replaces a form template field's selection list items.
-  ///
-  /// [formTemplateId]: The id of the form template.
-  ///
-  /// [formTemplateFieldId]: The id of the form template field.
-  ///
-  /// [projectId]: The id of the project to which this form template belongs.
-  ///
-  /// [listItems]: The list items to add or update.
-  Future<void> setListItems({
-    required String formTemplateId,
-    required String formTemplateFieldId,
-    required String projectId,
-    required List<String> values,
-  }) async {
-    if (formTemplateId.isEmpty) {
-      throw ArgumentError.value(formTemplateId, 'formTemplateId', 'Cannot be blank.');
-    }
-    if (formTemplateFieldId.isEmpty) {
-      throw ArgumentError.value(formTemplateFieldId, 'formTemplateFieldId', 'Cannot be blank.');
-    }
-    if (projectId.isEmpty) {
-      throw ArgumentError.value(projectId, 'projectId', 'Cannot be blank.');
-    }
-
-    final qp = http.StandardQueryParams.get();
-    qp['tenantId'] = projectId;
-
-    await ListItems.setListItems(
-      app: app,
-      apiRelativeUrlPath: http.apiPaths.formTemplatesPublicFieldListItemsFormat
-          .replaceFirst('<formTemplateId>', formTemplateId)
-          .replaceFirst('<formTemplateFieldId>', formTemplateFieldId),
-      values: values,
-      additionalQueryParams: qp,
-    );
   }
 }
 
@@ -283,15 +100,15 @@ class FormTemplate with NucleusOneAppDependent {
 }
 
 class FormTemplateFieldCollection
-    extends EntityCollection<FormTemplateFieldItem, api_mod.FormTemplateFieldCollection> {
+    extends EntityCollection<FormTemplateField, api_mod.FormTemplateFieldCollection> {
   FormTemplateFieldCollection({
     NucleusOneAppInternal? app,
-    List<FormTemplateFieldItem>? items,
+    List<FormTemplateField>? items,
   }) : super(app: app, items: items);
 
   factory FormTemplateFieldCollection.fromApiModel(api_mod.FormTemplateFieldCollection apiModel) {
     return FormTemplateFieldCollection(
-        items: apiModel.items.map((x) => FormTemplateFieldItem.fromApiModel(x)).toList());
+        items: apiModel.items.map((x) => FormTemplateField.fromApiModel(x)).toList());
   }
 
   @override
@@ -300,118 +117,65 @@ class FormTemplateFieldCollection
   }
 }
 
-class FormTemplateFieldItem with NucleusOneAppDependent {
-  FormTemplateFieldItem._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.formTemplateID,
-      required this.formTemplateName,
-      required this.formTemplateNameLower,
-      required this.tenantID,
-      required this.uniqueID,
-      required this.createdOn,
-      required this.type,
-      required this.fieldID,
-      required this.field,
-      required this.pageIndex,
-      required this.x,
-      required this.y,
-      required this.width,
-      required this.fontSize,
-      required this.useColumnLayout,
-      required this.assetBucketName,
-      required this.assetObjectName,
-      required this.assetContentType,
-      required this.assetSignedUrl,
-      required this.defaultValue,
-      required this.defaultValues,
-      required this.possibleValues,
-      required this.value,
-      required this.values}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+// Originally generated by nucleus_one_utilities.
+mixin FormTemplateFieldMixin {
+  late String id;
+  late String formTemplateID;
+  late String formTemplateName;
+  late String formTemplateNameLower;
+  late String tenantID;
+  late String uniqueID;
+  late String createdOn;
+  late String type;
+  late String fieldID;
+  late Field field;
+  late int pageIndex;
+  late double x;
+  late double y;
+  late double width;
+  late int fontSize;
+  late bool useColumnLayout;
+  late String assetBucketName;
+  late String assetObjectName;
+  late String assetContentType;
+  late String assetSignedUrl;
+  late String defaultValue;
+  late String defaultValues;
+  late List<String> possibleValues;
+  late String value;
+  late String values;
+
+  static void fromApiModel(FormTemplateFieldMixin model, api_mod.FormTemplateFieldMixin apiModel) {
+    model
+      ..id = apiModel.id!
+      ..formTemplateID = apiModel.formTemplateID!
+      ..formTemplateName = apiModel.formTemplateName!
+      ..formTemplateNameLower = apiModel.formTemplateNameLower!
+      ..tenantID = apiModel.tenantID!
+      ..uniqueID = apiModel.uniqueID!
+      ..createdOn = apiModel.createdOn!
+      ..type = apiModel.type!
+      ..fieldID = apiModel.fieldID!
+      ..field = Field.fromApiModel(apiModel.field!)
+      ..pageIndex = apiModel.pageIndex!
+      ..x = apiModel.x!
+      ..y = apiModel.y!
+      ..width = apiModel.width!
+      ..fontSize = apiModel.fontSize!
+      ..useColumnLayout = apiModel.useColumnLayout!
+      ..assetBucketName = apiModel.assetBucketName!
+      ..assetObjectName = apiModel.assetObjectName!
+      ..assetContentType = apiModel.assetContentType!
+      ..assetSignedUrl = apiModel.assetSignedUrl!
+      ..defaultValue = apiModel.defaultValue!
+      ..defaultValues = apiModel.defaultValues!
+      ..possibleValues = apiModel.possibleValues!.toList()
+      ..value = apiModel.value!
+      ..values = apiModel.values!;
   }
 
-  factory FormTemplateFieldItem.fromApiModel(api_mod.FormTemplateFieldItem apiModel) {
-    return FormTemplateFieldItem._(
-        id: apiModel.id!,
-        formTemplateID: apiModel.formTemplateID!,
-        formTemplateName: apiModel.formTemplateName!,
-        formTemplateNameLower: apiModel.formTemplateNameLower!,
-        tenantID: apiModel.tenantID!,
-        uniqueID: apiModel.uniqueID!,
-        createdOn: apiModel.createdOn!,
-        type: apiModel.type!,
-        fieldID: apiModel.fieldID!,
-        field: FormTemplateField.fromApiModel(apiModel.field!),
-        pageIndex: apiModel.pageIndex!,
-        x: apiModel.x!,
-        y: apiModel.y!,
-        width: apiModel.width!,
-        fontSize: apiModel.fontSize!,
-        useColumnLayout: apiModel.useColumnLayout!,
-        assetBucketName: apiModel.assetBucketName!,
-        assetObjectName: apiModel.assetObjectName!,
-        assetContentType: apiModel.assetContentType!,
-        assetSignedUrl: apiModel.assetSignedUrl!,
-        defaultValue: apiModel.defaultValue!,
-        defaultValues: apiModel.defaultValues!,
-        possibleValues: apiModel.possibleValues,
-        value: apiModel.value!,
-        values: apiModel.values!);
-  }
-
-  String id;
-
-  String formTemplateID;
-
-  String formTemplateName;
-
-  String formTemplateNameLower;
-
-  String tenantID;
-
-  String uniqueID;
-
-  String createdOn;
-
-  String type;
-
-  String fieldID;
-
-  FormTemplateField field;
-
-  int pageIndex;
-
-  double x;
-
-  double y;
-
-  double width;
-
-  int fontSize;
-
-  bool useColumnLayout;
-
-  String assetBucketName;
-
-  String assetObjectName;
-
-  String assetContentType;
-
-  String assetSignedUrl;
-
-  String defaultValue;
-
-  String defaultValues;
-
-  dynamic? possibleValues;
-
-  String value;
-
-  String values;
-
-  api_mod.FormTemplateFieldItem toApiModel() {
-    return api_mod.FormTemplateFieldItem()
+  void FormTemplateFieldMixin_toApiModel(api_mod.FormTemplateFieldMixin apiModel) {
+    apiModel
       ..id = id
       ..formTemplateID = formTemplateID
       ..formTemplateName = formTemplateName
@@ -434,136 +198,30 @@ class FormTemplateFieldItem with NucleusOneAppDependent {
       ..assetSignedUrl = assetSignedUrl
       ..defaultValue = defaultValue
       ..defaultValues = defaultValues
-      ..possibleValues = possibleValues
+      ..possibleValues = possibleValues.toList()
       ..value = value
       ..values = values;
   }
 }
 
-class FormTemplateField with NucleusOneAppDependent {
+// Originally generated by nucleus_one_utilities.
+class FormTemplateField with NucleusOneAppDependent, FormTemplateFieldMixin {
   FormTemplateField._({
     NucleusOneAppInternal? app,
-    required this.id,
-    required this.createdOn,
-    required this.parentFieldID,
-    required this.name,
-    required this.nameLower,
-    required this.label,
-    required this.labelLower,
-    required this.labelOrName,
-    required this.labelOrNameLower,
-    required this.type,
-    required this.displaySelectionList,
-    required this.allowMultipleLines,
-    required this.rows,
-    required this.allowMultipleValues,
-    required this.allowNewSelectionListItems,
-    required this.saveNewSelectionListItems,
-    required this.decimalPlaces,
-    required this.mask,
-    required this.required,
-    required this.sensitive,
-    required this.useCreationDate,
-    required this.textMatchType,
   }) {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
   factory FormTemplateField.fromApiModel(api_mod.FormTemplateField apiModel) {
-    return FormTemplateField._(
-      id: apiModel.id!,
-      createdOn: apiModel.createdOn!,
-      parentFieldID: apiModel.parentFieldID!,
-      name: apiModel.name!,
-      nameLower: apiModel.nameLower!,
-      label: apiModel.label!,
-      labelLower: apiModel.labelLower!,
-      labelOrName: apiModel.labelOrName!,
-      labelOrNameLower: apiModel.labelOrNameLower!,
-      type: apiModel.type!,
-      displaySelectionList: apiModel.displaySelectionList!,
-      allowMultipleLines: apiModel.allowMultipleLines!,
-      rows: apiModel.rows!,
-      allowMultipleValues: apiModel.allowMultipleValues!,
-      allowNewSelectionListItems: apiModel.allowNewSelectionListItems!,
-      saveNewSelectionListItems: apiModel.saveNewSelectionListItems!,
-      decimalPlaces: apiModel.decimalPlaces!,
-      mask: apiModel.mask!,
-      required: apiModel.required!,
-      sensitive: apiModel.sensitive!,
-      useCreationDate: apiModel.useCreationDate!,
-      textMatchType: apiModel.textMatchType!,
-    );
+    final model = FormTemplateField._();
+    FormTemplateFieldMixin.fromApiModel(model, apiModel);
+    return model;
   }
 
-  String id;
-
-  String createdOn;
-
-  String parentFieldID;
-
-  String name;
-
-  String nameLower;
-
-  String label;
-
-  String labelLower;
-
-  String labelOrName;
-
-  String labelOrNameLower;
-
-  String type;
-
-  bool displaySelectionList;
-
-  bool allowMultipleLines;
-
-  int rows;
-
-  bool allowMultipleValues;
-
-  bool allowNewSelectionListItems;
-
-  bool saveNewSelectionListItems;
-
-  int decimalPlaces;
-
-  String mask;
-
-  bool required;
-
-  bool sensitive;
-
-  bool useCreationDate;
-
-  String textMatchType;
-
   api_mod.FormTemplateField toApiModel() {
-    return api_mod.FormTemplateField()
-      ..id = id
-      ..createdOn = createdOn
-      ..parentFieldID = parentFieldID
-      ..name = name
-      ..nameLower = nameLower
-      ..label = label
-      ..labelLower = labelLower
-      ..labelOrName = labelOrName
-      ..labelOrNameLower = labelOrNameLower
-      ..type = type
-      ..displaySelectionList = displaySelectionList
-      ..allowMultipleLines = allowMultipleLines
-      ..rows = rows
-      ..allowMultipleValues = allowMultipleValues
-      ..allowNewSelectionListItems = allowNewSelectionListItems
-      ..saveNewSelectionListItems = saveNewSelectionListItems
-      ..decimalPlaces = decimalPlaces
-      ..mask = mask
-      ..required = required
-      ..sensitive = sensitive
-      ..useCreationDate = useCreationDate
-      ..textMatchType = textMatchType;
+    final apiModel = api_mod.FormTemplateField();
+    FormTemplateFieldMixin_toApiModel(apiModel);
+    return apiModel;
   }
 }
 
@@ -641,155 +299,36 @@ class FormSubmissionPackage with NucleusOneAppDependent {
 }
 
 // Originally generated by nucleus_one_utilities.
-class FormSubmissionField with NucleusOneAppDependent {
+class FormSubmissionField with NucleusOneAppDependent, FormTemplateFieldMixin {
   FormSubmissionField._({
     NucleusOneAppInternal? app,
     required this.formTemplateFieldID,
-    required this.id,
-    required this.formTemplateID,
-    required this.formTemplateName,
-    required this.formTemplateNameLower,
-    required this.tenantID,
-    required this.uniqueID,
-    required this.createdOn,
-    required this.type,
-    required this.fieldID,
-    required this.field,
-    required this.pageIndex,
-    required this.x,
-    required this.y,
-    required this.width,
-    required this.fontSize,
-    required this.useColumnLayout,
-    required this.assetBucketName,
-    required this.assetObjectName,
-    required this.assetContentType,
-    required this.assetSignedUrl,
-    required this.defaultValue,
-    required this.defaultValues,
-    required this.possibleValues,
-    required this.value,
-    required this.values,
   }) {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
-  factory FormSubmissionField.fromFormTemplateFieldItem(FormTemplateFieldItem field) {
-    // Cycle back into JSON then use the JSON to recreate this as a FormSubmissionField
-    final sigFieldAsJson = jsonDecode(jsonEncode(field.toApiModel())) as Map<String, dynamic>;
-    return FormSubmissionField.fromApiModel(api_mod.FormSubmissionField.fromJson(sigFieldAsJson));
+  factory FormSubmissionField.fromFormTemplateField(FormTemplateField field) {
+    final fsf = FormSubmissionField._(
+      formTemplateFieldID: null,
+    );
+    // Copy the field values from the FormTemplateField to the FormSubmissionField instance
+    FormTemplateFieldMixin.fromApiModel(fsf, field.toApiModel());
+    return fsf;
   }
 
   factory FormSubmissionField.fromApiModel(api_mod.FormSubmissionField apiModel) {
-    return FormSubmissionField._(
+    final model = FormSubmissionField._(
       formTemplateFieldID: apiModel.formTemplateFieldID,
-      id: apiModel.id!,
-      formTemplateID: apiModel.formTemplateID!,
-      formTemplateName: apiModel.formTemplateName!,
-      formTemplateNameLower: apiModel.formTemplateNameLower!,
-      tenantID: apiModel.tenantID!,
-      uniqueID: apiModel.uniqueID!,
-      createdOn: apiModel.createdOn!,
-      type: apiModel.type!,
-      fieldID: apiModel.fieldID!,
-      field: Field.fromApiModel(apiModel.field!),
-      pageIndex: apiModel.pageIndex!,
-      x: apiModel.x!,
-      y: apiModel.y!,
-      width: apiModel.width!,
-      fontSize: apiModel.fontSize!,
-      useColumnLayout: apiModel.useColumnLayout!,
-      assetBucketName: apiModel.assetBucketName!,
-      assetObjectName: apiModel.assetObjectName!,
-      assetContentType: apiModel.assetContentType!,
-      assetSignedUrl: apiModel.assetSignedUrl!,
-      defaultValue: apiModel.defaultValue!,
-      defaultValues: apiModel.defaultValues!,
-      possibleValues: apiModel.possibleValues,
-      value: apiModel.value!,
-      values: apiModel.values!,
     );
+    FormTemplateFieldMixin.fromApiModel(model, apiModel);
+    return model;
+  }
+
+  api_mod.FormSubmissionField toApiModel() {
+    final apiModel = api_mod.FormSubmissionField()..formTemplateFieldID = formTemplateFieldID;
+    FormTemplateFieldMixin_toApiModel(apiModel);
+    return apiModel;
   }
 
   String? formTemplateFieldID;
-
-  String id;
-
-  String formTemplateID;
-
-  String formTemplateName;
-
-  String formTemplateNameLower;
-
-  String tenantID;
-
-  String uniqueID;
-
-  String createdOn;
-
-  String type;
-
-  String fieldID;
-
-  Field field;
-
-  int pageIndex;
-
-  double x;
-
-  double y;
-
-  double width;
-
-  int fontSize;
-
-  bool useColumnLayout;
-
-  String assetBucketName;
-
-  String assetObjectName;
-
-  String assetContentType;
-
-  String assetSignedUrl;
-
-  String defaultValue;
-
-  String defaultValues;
-
-  List<String>? possibleValues;
-
-  String value;
-
-  String values;
-
-  api_mod.FormSubmissionField toApiModel() {
-    return api_mod.FormSubmissionField()
-      ..formTemplateFieldID = formTemplateFieldID
-      ..id = id
-      ..formTemplateID = formTemplateID
-      ..formTemplateName = formTemplateName
-      ..formTemplateNameLower = formTemplateNameLower
-      ..tenantID = tenantID
-      ..uniqueID = uniqueID
-      ..createdOn = createdOn
-      ..type = type
-      ..fieldID = fieldID
-      ..field = field.toApiModel()
-      ..pageIndex = pageIndex
-      ..x = x
-      ..y = y
-      ..width = width
-      ..fontSize = fontSize
-      ..useColumnLayout = useColumnLayout
-      ..assetBucketName = assetBucketName
-      ..assetObjectName = assetObjectName
-      ..assetContentType = assetContentType
-      ..assetSignedUrl = assetSignedUrl
-      ..defaultValue = defaultValue
-      ..defaultValues = defaultValues
-      ..possibleValues = possibleValues?.toList()
-      ..value = value
-      ..values = values;
-  }
 }
