@@ -53,3 +53,35 @@ Map<String, dynamic> _$ClassificationToJson(Classification instance) {
   writeNotNull('IsActive', instance.isActive);
   return val;
 }
+
+ClassificationField _$ClassificationFieldFromJson(Map<String, dynamic> json) {
+  return ClassificationField()
+    ..id = json['ID'] as String?
+    ..classificationID = json['ClassificationID'] as String?
+    ..classificationName = json['ClassificationName'] as String?
+    ..fieldID = json['FieldID'] as String?
+    ..fieldName = json['FieldName'] as String?
+    ..fieldNameLower = json['FieldNameLower'] as String?
+    ..rank = (json['Rank'] as num?)?.toDouble()
+    ..mapped = json['Mapped'] as bool?;
+}
+
+Map<String, dynamic> _$ClassificationFieldToJson(ClassificationField instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ID', instance.id);
+  writeNotNull('ClassificationID', instance.classificationID);
+  writeNotNull('ClassificationName', instance.classificationName);
+  writeNotNull('FieldID', instance.fieldID);
+  writeNotNull('FieldName', instance.fieldName);
+  writeNotNull('FieldNameLower', instance.fieldNameLower);
+  writeNotNull('Rank', instance.rank);
+  writeNotNull('Mapped', instance.mapped);
+  return val;
+}

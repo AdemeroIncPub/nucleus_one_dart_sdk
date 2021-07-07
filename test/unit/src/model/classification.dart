@@ -4,15 +4,12 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/classification.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
-import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
-import '../../../src/mocks/http.dart';
-import '../../../src/model_helper.dart';
 import '../api_model/classification.dart';
 
 void main() {
-  group('Classification tests', () {
+  group('Classification class tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();
     });
@@ -39,7 +36,7 @@ void main() {
     });
   });
 
-  group('ClassificationCollection tests', () {
+  group('ClassificationCollection class tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();
     });
@@ -63,51 +60,60 @@ void main() {
               .toApiModel<api_mod.ClassificationCollection>();
       performTests(apiModelCycled);
     });
+  });
 
-    test('get method tests', () async {
-      final expectedUrlPath = http.apiPaths.classifications;
+  group('ClassificationFieldCollection class tests', () {
+    setUp(() async {
+      await NucleusOne.intializeSdk();
+    });
 
-      // Test with default parameters
-      await performHttpTest<QueryResult<ClassificationCollection>>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => ClassificationCollection().get(),
-        responseBody: classificationCollectionJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
+    tearDown(() async {
+      await NucleusOne.resetSdk();
+    });
 
-      // Test with cursor and optional arguments
-      await performHttpTest<QueryResult<ClassificationCollection>>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => ClassificationCollection().get(
-          cursor: 'A',
-          getAll: true,
-          includeDisabled: false,
-          filter: 'B',
-          fieldFilters: [
-            FieldFilter('fi0', 'fv0', 'ft0', 'fvt0'),
-            FieldFilter('fi1', 'fv1', 'ft1', 'fvt1'),
-          ],
-          includeClassificationIds: ['cA', 'cB'],
-        ),
-        responseBody: classificationCollectionJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [
-          'cursor=A',
-          'getAll=true',
-          'includeDisabled=false',
-          'filter=B',
-          'fieldID0=fi0',
-          'fieldValue0=fv0',
-          'fieldType0=ft0',
-          'fieldValueType0=fvt0',
-          'fieldID1=fi1',
-          'fieldValue1=fv1',
-          'fieldType1=ft1',
-          'fieldValueType1=fvt1',
-          'includeClassificationIds_json=%5B%22cA%22%2C%22cB%22%5D', // Encoded JSON
-        ],
-      );
+    test('Serialization test', () {
+      void performTests(api_mod.ClassificationFieldCollection apiModel) {
+        expect(apiModel.items.length, 1);
+      }
+
+      final apiModelOrig = api_mod.ClassificationFieldCollection.fromJson(
+          jsonDecode(classificationFieldCollectionJson));
+      performTests(apiModelOrig);
+
+      // Convert it to a model class then back again
+      final apiModelCycled = ClassificationFieldCollection.fromApiModel(apiModelOrig).toApiModel();
+      performTests(apiModelCycled);
+    });
+  });
+
+  group('ClassificationField class tests', () {
+    setUp(() async {
+      await NucleusOne.intializeSdk();
+    });
+
+    tearDown(() async {
+      await NucleusOne.resetSdk();
+    });
+
+    test('Serialization test', () {
+      void performTests(api_mod.ClassificationField apiModel) {
+        expect(apiModel.id, 'A');
+        expect(apiModel.classificationID, 'B');
+        expect(apiModel.classificationName, 'C');
+        expect(apiModel.fieldID, 'D');
+        expect(apiModel.fieldName, 'E');
+        expect(apiModel.fieldNameLower, 'F');
+        expect(apiModel.rank, 0.1);
+        expect(apiModel.mapped, true);
+      }
+
+      final apiModelOrig =
+          api_mod.ClassificationField.fromJson(jsonDecode(classificationFieldJson));
+      performTests(apiModelOrig);
+
+      // Convert it to a model class then back again
+      final apiModelCycled = ClassificationField.fromApiModel(apiModelOrig).toApiModel();
+      performTests(apiModelCycled);
     });
   });
 }

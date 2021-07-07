@@ -264,6 +264,7 @@ abstract class apiPaths {
   static const billingSubscriptionInvoicesFormat = '/billing/subscriptionInvoices/<organizationId>';
   static const billingSubscriptionPlansFormat = '/billing/subscriptionPlans/<organizationId>';
   static const classifications = '/classifications';
+  static const classificationFieldsFormat = '/classificationFields/<classificationId>';
   static const dashboardWidgets = '/dashboardWidgets';
   static const documentActionsRestoreFromRecycleBin = '/documentActions/restoreFromRecycleBin';
   static const documentActionsSendToRecycleBin = '/documentActions/sendToRecycleBin';

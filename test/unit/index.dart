@@ -50,6 +50,7 @@ import 'src/api_model/support_organization_tenant.dart' as api_mod__support_orga
 import 'src/api_model/support_error_event.dart' as api_mod__support_error_event;
 import 'src/hierarchy/nucleus_one_app_approvals.dart' as hierarchy__nucleus_one_app_approvals;
 import 'src/hierarchy/nucleus_one_app_billing.dart' as hierarchy__nucleus_one_app_billing;
+import 'src/hierarchy/nucleus_one_app_classifications.dart' as hierarchy__nucleus_one_app_classifications;
 import 'src/hierarchy/nucleus_one_app_documents.dart' as hierarchy__nucleus_one_app_documents;
 import 'src/hierarchy/nucleus_one_app_fields.dart' as hierarchy__nucleus_one_app_fields;
 import 'src/hierarchy/nucleus_one_app_work_tasks.dart' as hierarchy__nucleus_one_app_work_tasks;
@@ -230,6 +231,7 @@ void _hierarchyTests() {
   hierarchy__nucleus_one_app_approvals.main();
   hierarchy__nucleus_one_app_billing.main();
   hierarchy__nucleus_one_app_documents.main();
+  hierarchy__nucleus_one_app_classifications.main();
   hierarchy__nucleus_one_app_fields.main();
   hierarchy__nucleus_one_app_folder_hierarchies.main();
   hierarchy__nucleus_one_app_forms.main();

@@ -4,6 +4,7 @@ library nucleus_one_dart_sdk;
 export 'src/nucleus_one.dart' hide NucleusOneAppInternal;
 export 'src/user.dart';
 export 'src/hierarchy/nucleus_one_app_approvals.dart';
+export 'src/hierarchy/nucleus_one_app_classifications.dart';
 export 'src/hierarchy/nucleus_one_app_documents.dart';
 export 'src/hierarchy/nucleus_one_app_fields.dart';
 export 'src/hierarchy/nucleus_one_app_folder_hierarchies.dart';
