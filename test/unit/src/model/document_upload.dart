@@ -9,6 +9,7 @@ import 'package:test/test.dart';
 import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
+import '../api_model/document_subscription_for_client.dart';
 import '../api_model/document_upload.dart';
 
 void main() {
@@ -42,7 +43,7 @@ void main() {
       performTests(apiModelCycled);
     });
 
-    test('get method tests', () async {
+    test('getDocumentUpload method tests', () async {
       final expectedUrlPath = http.apiPaths.documentUploads;
       final n1App = getStandardN1App();
       // Test with default parameters
@@ -50,6 +51,20 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getDocumentUpload(),
         responseBody: documentUploadJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('getSubscription method tests', () async {
+      final expectedUrlPath =
+          http.apiPaths.documentSubscriptionsFormat.replaceFirst('<documentId>', '123');
+      final n1App = getStandardN1App();
+      // Test with default parameters
+      await performHttpTest<DocumentSubscriptionForClient>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getSubscription('123'),
+        responseBody: documentSubscriptionForClientJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
       );

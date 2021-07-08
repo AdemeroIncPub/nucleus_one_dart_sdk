@@ -4,7 +4,7 @@ import '../api_model/document_package.dart' as api_mod;
 import '../model/document_package_field.dart';
 import '../model/document.dart';
 import '../model/approval.dart';
-import '../model/document_subscription.dart';
+import 'document_subscription_for_client.dart';
 import '../nucleus_one.dart';
 
 class DocumentPackage with NucleusOneAppDependent {
@@ -25,7 +25,8 @@ class DocumentPackage with NucleusOneAppDependent {
     }
     return DocumentPackage._(
         document: Document.fromApiModel(apiModel.document!),
-        documentSubscription: DocumentSubscription.fromApiModel(apiModel.documentSubscription!),
+        documentSubscription:
+            DocumentSubscriptionForClient.fromApiModel(apiModel.documentSubscription!),
         approval: approval,
         classificationField: DocumentPackageField.fromApiModel(apiModel.classificationField!),
         indexFields:
@@ -34,7 +35,7 @@ class DocumentPackage with NucleusOneAppDependent {
 
   Document document;
 
-  DocumentSubscription documentSubscription;
+  DocumentSubscriptionForClient documentSubscription;
 
   Approval? approval;
 

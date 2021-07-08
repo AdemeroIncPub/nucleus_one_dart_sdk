@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../api_model/preview_metadata_item.dart';
 import '../common/api_model.dart';
 import 'query_result.dart';
 
@@ -136,7 +135,7 @@ class Approval extends Entity {
   String? documentClassificationName;
 
   @JsonKey(name: 'DocumentPreviewMetadata')
-  List<PreviewMetadataItem>? documentPreviewMetadata;
+  List<Map<String, String>>? documentPreviewMetadata;
 
   @JsonKey(name: 'DocumentIsSigned')
   bool? documentIsSigned;

@@ -13,7 +13,7 @@ DocumentPackage _$DocumentPackageFromJson(Map<String, dynamic> json) {
         : Document.fromJson(json['Document'] as Map<String, dynamic>)
     ..documentSubscription = json['DocumentSubscription'] == null
         ? null
-        : DocumentSubscription.fromJson(
+        : DocumentSubscriptionForClient.fromJson(
             json['DocumentSubscription'] as Map<String, dynamic>)
     ..approval = json['Approval'] == null
         ? null

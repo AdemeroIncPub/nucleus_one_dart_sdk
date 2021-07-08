@@ -40,7 +40,7 @@ import 'src/api_model/approval.dart' as api_mod__approval;
 import 'src/api_model/work_task.dart' as api_mod__work_task;
 import 'src/api_model/work_task_event.dart' as api_mod__work_task_event;
 import 'src/api_model/work_task_comment.dart' as api_mod__work_task_comment;
-import 'src/api_model/document_subscription.dart' as api_mod__document_subscription;
+import 'src/api_model/document_subscription_for_client.dart' as api_mod__document_subscription;
 import 'src/api_model/document_package_field.dart' as api_mod__document_package_field;
 import 'src/api_model/document_upload.dart' as api_mod__document_upload;
 import 'src/api_model/document_package.dart' as api_mod__document_package;
@@ -102,7 +102,7 @@ import 'src/model/approval.dart' as mod__approval;
 import 'src/model/work_task.dart' as mod__work_task;
 import 'src/model/work_task_event.dart' as mod__work_task_event;
 import 'src/model/work_task_comment.dart' as mod__work_task_comment;
-import 'src/model/document_subscription.dart' as mod__document_subscription;
+import 'src/model/document_subscription_for_client.dart' as mod__document_subscription;
 import 'src/model/document_package_field.dart' as mod__document_package_field;
 import 'src/model/document_package.dart' as mod__document_package;
 import 'src/model/document_upload.dart' as mod__document_upload;
@@ -113,6 +113,7 @@ import 'src/model/support_error_event.dart' as mod__support_error_event;
 import 'src/nucleus_one.dart' as n1;
 import 'src/common/api_model.dart' as common__api_model;
 import 'src/common/string.dart' as common__string;
+import 'src/common/validation.dart' as common__validation;
 import 'src/http.dart' as http;
 
 void main() {
@@ -245,4 +246,5 @@ void _hierarchyTests() {
 void _commonTests() {
   common__api_model.main();
   common__string.main();
+  common__validation.main();
 }

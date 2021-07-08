@@ -2,7 +2,6 @@ import 'package:get_it/get_it.dart';
 
 import '../api_model/document.dart' as api_mod;
 import '../nucleus_one.dart';
-import 'preview_metadata_item.dart';
 
 class Document with NucleusOneAppDependent {
   Document._(
@@ -66,7 +65,7 @@ class Document with NucleusOneAppDependent {
         classificationName: apiModel.classificationName!,
         classificationNameLower: apiModel.classificationNameLower!,
         previewMetadata:
-            apiModel.previewMetadata?.map((x) => PreviewMetadataItem.fromApiModel(x)).toList());
+            apiModel.previewMetadata?.map((x) => Map<String, String>.from(x)).toList());
   }
 
   String id;
@@ -121,7 +120,7 @@ class Document with NucleusOneAppDependent {
 
   String classificationNameLower;
 
-  List<PreviewMetadataItem>? previewMetadata;
+  List<Map<String, String>>? previewMetadata;
 
   api_mod.Document toApiModel() {
     return api_mod.Document()
@@ -151,6 +150,6 @@ class Document with NucleusOneAppDependent {
       ..classificationID = classificationID
       ..classificationName = classificationName
       ..classificationNameLower = classificationNameLower
-      ..previewMetadata = previewMetadata!.map((x) => x.toApiModel()).toList();
+      ..previewMetadata = previewMetadata!.map((x) => Map<String, String>.from(x)).toList();
   }
 }

@@ -2,7 +2,6 @@ import 'package:get_it/get_it.dart';
 
 import '../api_model/approval.dart' as api_mod;
 import '../common/model.dart';
-import '../model/preview_metadata_item.dart';
 import '../nucleus_one.dart';
 
 class ApprovalCollection extends EntityCollection<Approval, api_mod.ApprovalCollection> {
@@ -98,9 +97,8 @@ class Approval with NucleusOneAppDependent {
         documentFileSize: apiModel.documentFileSize!,
         documentClassificationID: apiModel.documentClassificationID!,
         documentClassificationName: apiModel.documentClassificationName!,
-        documentPreviewMetadata: apiModel.documentPreviewMetadata
-            ?.map((x) => PreviewMetadataItem.fromApiModel(x))
-            .toList(),
+        documentPreviewMetadata:
+            apiModel.documentPreviewMetadata?.map((x) => Map<String, String>.from(x)).toList(),
         documentIsSigned: apiModel.documentIsSigned!,
         workTaskDueOn: apiModel.workTaskDueOn!,
         thumbnailUrl: apiModel.thumbnailUrl!);
@@ -170,7 +168,7 @@ class Approval with NucleusOneAppDependent {
 
   String documentClassificationName;
 
-  List<PreviewMetadataItem>? documentPreviewMetadata;
+  List<Map<String, String>>? documentPreviewMetadata;
 
   bool documentIsSigned;
 
@@ -212,7 +210,8 @@ class Approval with NucleusOneAppDependent {
       ..documentFileSize = documentFileSize
       ..documentClassificationID = documentClassificationID
       ..documentClassificationName = documentClassificationName
-      ..documentPreviewMetadata = documentPreviewMetadata!.map((x) => x.toApiModel()).toList()
+      ..documentPreviewMetadata =
+          documentPreviewMetadata!.map((x) => Map<String, String>.from(x)).toList()
       ..documentIsSigned = documentIsSigned
       ..workTaskDueOn = workTaskDueOn
       ..thumbnailUrl = thumbnailUrl;

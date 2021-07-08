@@ -18,6 +18,7 @@ import '../../../src/model_helper.dart';
 import '../api_model/document_comments.dart';
 import '../api_model/document_content_package.dart';
 import '../api_model/document_event.dart';
+import '../api_model/document_for_client.dart';
 import '../api_model/document_package.dart';
 import '../api_model/document_results.dart';
 import '../api_model/document_signature_form.dart';
@@ -414,6 +415,68 @@ void main() {
         httpCallCallback: () =>
             NucleusOneAppDocuments(app: n1App).getDocumentPackageByDocumentId('ABC'),
         responseBody: documentPackageJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('getThumbnailUrl method tests', () async {
+      final expectedUrlPath =
+          http.apiPaths.documentsThumbnailsFormat.replaceFirst('<documentId>', '123');
+      final n1App = getStandardN1App();
+
+      await performHttpTest<String>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getThumbnailUrl('123'),
+        responseBody: documentPackageJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('updateDocumentName method tests', () async {
+      final expectedUrlPath = http.apiPaths.documentsFormat.replaceFirst('<documentId>', '123');
+      final n1App = getStandardN1App();
+
+      try {
+        await performHttpTest(
+          httpMethod: HttpMethods.PUT,
+          httpCallCallback: () => NucleusOneAppDocuments(app: n1App).updateDocumentName(
+            documentId: '',
+            documentName: '',
+          ),
+          responseBody: '',
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [],
+        );
+        fail('An error should have been thrown.');
+      } on ArgumentError catch (e) {
+        expect(e.name, 'documentId');
+      }
+
+      try {
+        await performHttpTest(
+          httpMethod: HttpMethods.PUT,
+          httpCallCallback: () => NucleusOneAppDocuments(app: n1App).updateDocumentName(
+            documentId: '123',
+            documentName: '',
+          ),
+          responseBody: '',
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [],
+        );
+        fail('An error should have been thrown.');
+      } on ArgumentError catch (e) {
+        expect(e.name, 'documentName');
+      }
+
+      await performHttpTest(
+        httpMethod: HttpMethods.PUT,
+        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).updateDocumentName(
+          documentId: '123',
+          documentName: '234',
+        ),
+        responseBody: documentForClientJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
       );

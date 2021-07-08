@@ -1,7 +1,6 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/work_task.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/api_model/preview_metadata_item.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_work_tasks.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:nucleus_one_dart_sdk/src/model/work_task.dart';
@@ -42,10 +41,11 @@ Document document = Document.fromApiModel(api_mod.Document()
   ..classificationName = 'M'
   ..classificationNameLower = 'N'
   ..previewMetadata = [
-    api_mod.PreviewMetadataItem()
-      ..item0 = '0'
-      ..item1 = '1'
-      ..item2 = '2'
+    {
+      '0': '00',
+      '1': '11',
+      '2': '22',
+    }
   ]);
 final wt = api_mod.WorkTask()
   ..id = 'A'

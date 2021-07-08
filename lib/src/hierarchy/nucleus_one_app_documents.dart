@@ -4,19 +4,23 @@ import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/document_content_package.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
+import '../api_model/document_for_client.dart' as api_mod;
 import '../api_model/document_package.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
 import '../api_model/document_signature_form.dart' as api_mod;
 import '../api_model/document_signature_form_field.dart' as api_mod;
 import '../api_model/document_signature_session.dart' as api_mod;
 import '../api_model/document_signature_session_signing_recipient_package.dart' as api_mod;
+import '../api_model/document_subscription_for_client.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_upload.dart' as api_mod;
 import '../api_model/signature_form_template.dart' as api_mod;
 import '../common/model.dart';
+import '../common/validation.dart';
 import '../http.dart' as http;
 import '../model/document_for_client.dart';
 import '../model/document_package.dart';
+import '../model/document_subscription_for_client.dart';
 import '../model/document_upload.dart';
 import '../nucleus_one.dart';
 
@@ -28,8 +32,6 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
   }
 
   /// Gets a Document Upload.
-  ///
-  ///
   Future<DocumentUpload> getDocumentUpload() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.documentUploads,
@@ -37,6 +39,18 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     );
     final apiModel = api_mod.DocumentUpload.fromJson(jsonDecode(responseBody));
     return DocumentUpload.fromApiModel(apiModel);
+  }
+
+  /// Gets subscriptions to a document.
+  ///
+  /// [documentId]: The id of the document.
+  Future<DocumentSubscriptionForClient> getSubscription(String documentId) async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentSubscriptionsFormat.replaceFirst('<documentId>', documentId),
+      app,
+    );
+    final apiModel = api_mod.DocumentSubscriptionForClient.fromJson(jsonDecode(responseBody));
+    return DocumentSubscriptionForClient.fromApiModel(apiModel);
   }
 
   /// Gets the document count within the Recycle Bin Inbox.
@@ -377,6 +391,43 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     final apiModel =
         api_mod.QueryResult<api_mod.DocumentResultCollection>.fromJson(jsonDecode(responseBody));
     return DocumentForClientCollectionQueryResult.fromApiModelDocumentResultCollection(apiModel);
+  }
+
+  /// Updates a document's name.  The document is returned, as it now exists on the server.
+  ///
+  /// [documentId]: The document id.
+  ///
+  /// [documentName]: The new document name.
+  Future<DocumentForClient> updateDocumentName({
+    required String documentId,
+    required String documentName,
+    // This was intentionally not implemented, since the client doesn't currently use it either
+    //required String uniqueId,
+  }) async {
+    ensureArgumentIsNotEmpty('documentId', documentId);
+    ensureArgumentIsNotEmpty('documentName', documentName);
+
+    final doc = api_mod.DocumentForClient()
+      ..id = documentId
+      ..name = documentName;
+    final responseBody = await http.executePutRequestWithTextResponse(
+      http.apiPaths.documentsFormat.replaceFirst('<documentId>', documentId),
+      app,
+      body: jsonEncode(doc),
+    );
+    final apiModel = api_mod.DocumentForClient.fromJson(jsonDecode(responseBody));
+    return DocumentForClient.fromApiModel(apiModel);
+  }
+
+  /// Gets a document's thumbnail URL.
+  ///
+  /// [documentId]: The id of the document.
+  Future<String> getThumbnailUrl(String documentId) async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.documentsThumbnailsFormat.replaceFirst('<documentId>', documentId),
+      app,
+    );
+    return responseBody;
   }
 
   /// Gets a document's signature form.  If a signature form does not exist for the document, one is

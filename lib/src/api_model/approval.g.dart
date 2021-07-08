@@ -63,10 +63,10 @@ Approval _$ApprovalFromJson(Map<String, dynamic> json) {
     ..documentFileSize = json['DocumentFileSize'] as int?
     ..documentClassificationID = json['DocumentClassificationID'] as String?
     ..documentClassificationName = json['DocumentClassificationName'] as String?
-    ..documentPreviewMetadata = (json['DocumentPreviewMetadata']
-            as List<dynamic>?)
-        ?.map((e) => PreviewMetadataItem.fromJson(e as Map<String, dynamic>))
-        .toList()
+    ..documentPreviewMetadata =
+        (json['DocumentPreviewMetadata'] as List<dynamic>?)
+            ?.map((e) => Map<String, String>.from(e as Map))
+            .toList()
     ..documentIsSigned = json['DocumentIsSigned'] as bool?
     ..workTaskDueOn = json['WorkTaskDueOn'] as String?
     ..thumbnailUrl = json['ThumbnailUrl'] as String?;

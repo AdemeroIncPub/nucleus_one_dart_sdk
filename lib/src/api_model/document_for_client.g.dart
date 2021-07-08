@@ -20,7 +20,7 @@ DocumentForClient _$DocumentForClientFromJson(Map<String, dynamic> json) {
     ..classificationID = json['ClassificationID'] as String?
     ..classificationName = json['ClassificationName'] as String?
     ..previewMetadata = (json['PreviewMetadata'] as List<dynamic>?)
-        ?.map((e) => PreviewMetadataItem.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => Map<String, String>.from(e as Map))
         .toList()
     ..documentApprovalID = json['DocumentApprovalID'] as String?
     ..documentApprovalCreatedOn = json['DocumentApprovalCreatedOn'] as String?

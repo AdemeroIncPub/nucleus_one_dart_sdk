@@ -5,7 +5,6 @@ import '../api_model/document_for_client.dart' as api_mod;
 import '../common/model.dart';
 
 import '../nucleus_one.dart';
-import 'preview_metadata_item.dart';
 
 class DocumentForClientCollection extends EntityCollection<DocumentForClient, void> {
   DocumentForClientCollection({
@@ -87,8 +86,8 @@ class DocumentForClient with NucleusOneAppDependent {
           classificationID: '',
           classificationName: '',
           previewMetadata: [],
-          documentApprovalID: '',
-          documentApprovalCreatedOn: '',
+          documentApprovalID: null,
+          documentApprovalCreatedOn: null,
           documentSubscriptionID: '',
           documentSubscriptionCreatedOn: '',
           documentSignatureSessionRecipientID: '',
@@ -99,7 +98,7 @@ class DocumentForClient with NucleusOneAppDependent {
           roleName: '',
           processName: '',
           processElementName: '',
-          score: 0,
+          score: null,
         );
 
   factory DocumentForClient.fromApiModel(api_mod.DocumentForClient apiModel) {
@@ -115,10 +114,9 @@ class DocumentForClient with NucleusOneAppDependent {
       isSigned: apiModel.isSigned!,
       classificationID: apiModel.classificationID!,
       classificationName: apiModel.classificationName!,
-      previewMetadata:
-          apiModel.previewMetadata?.map((x) => PreviewMetadataItem.fromApiModel(x)).toList(),
-      documentApprovalID: apiModel.documentApprovalID!,
-      documentApprovalCreatedOn: apiModel.documentApprovalCreatedOn!,
+      previewMetadata: apiModel.previewMetadata?.map((x) => Map<String, String>.from(x)).toList(),
+      documentApprovalID: apiModel.documentApprovalID,
+      documentApprovalCreatedOn: apiModel.documentApprovalCreatedOn,
       documentSubscriptionID: apiModel.documentSubscriptionID!,
       documentSubscriptionCreatedOn: apiModel.documentSubscriptionCreatedOn!,
       documentSignatureSessionRecipientID: apiModel.documentSignatureSessionRecipientID!,
@@ -131,7 +129,7 @@ class DocumentForClient with NucleusOneAppDependent {
       roleName: apiModel.roleName!,
       processName: apiModel.processName!,
       processElementName: apiModel.processElementName!,
-      score: apiModel.score!,
+      score: apiModel.score,
     );
   }
 
@@ -157,11 +155,11 @@ class DocumentForClient with NucleusOneAppDependent {
 
   String classificationName;
 
-  List<PreviewMetadataItem>? previewMetadata;
+  List<Map<String, String>>? previewMetadata;
 
-  String documentApprovalID;
+  String? documentApprovalID;
 
-  String documentApprovalCreatedOn;
+  String? documentApprovalCreatedOn;
 
   String documentSubscriptionID;
 
@@ -183,7 +181,7 @@ class DocumentForClient with NucleusOneAppDependent {
 
   String processElementName;
 
-  int score;
+  int? score;
 
   api_mod.DocumentForClient toApiModel() {
     return api_mod.DocumentForClient()
@@ -198,7 +196,7 @@ class DocumentForClient with NucleusOneAppDependent {
       ..isSigned = isSigned
       ..classificationID = classificationID
       ..classificationName = classificationName
-      ..previewMetadata = previewMetadata!.map((x) => x.toApiModel()).toList()
+      ..previewMetadata = previewMetadata!.map((x) => Map<String, String>.from(x)).toList()
       ..documentApprovalID = documentApprovalID
       ..documentApprovalCreatedOn = documentApprovalCreatedOn
       ..documentSubscriptionID = documentSubscriptionID

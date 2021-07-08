@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import '../common/api_model.dart';
 
 import 'document.dart';
-import 'document_subscription.dart';
+import 'document_subscription_for_client.dart';
 import 'document_package_field.dart';
 import 'approval.dart';
 
@@ -23,7 +23,7 @@ class DocumentPackage extends Entity {
   Document? document;
 
   @JsonKey(name: 'DocumentSubscription')
-  DocumentSubscription? documentSubscription;
+  DocumentSubscriptionForClient? documentSubscription;
 
   @JsonKey(name: 'Approval')
   Approval? approval;

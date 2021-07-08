@@ -35,7 +35,7 @@ Document _$DocumentFromJson(Map<String, dynamic> json) {
     ..classificationName = json['ClassificationName'] as String?
     ..classificationNameLower = json['ClassificationNameLower'] as String?
     ..previewMetadata = (json['PreviewMetadata'] as List<dynamic>?)
-        ?.map((e) => PreviewMetadataItem.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => Map<String, String>.from(e as Map))
         .toList();
 }
 

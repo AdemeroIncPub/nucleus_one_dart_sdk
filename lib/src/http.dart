@@ -258,20 +258,25 @@ abstract class apiPaths {
   static const addressBookItems = '/addressBookItems';
   static const adminOrganizationPackagesForCurrentUser =
       '/admin/organizationPackagesForCurrentUser';
+  static const approvalActionsApprove = '/approvalActions/approve';
+  static const approvalActionsDecline = '/approvalActions/decline';
+  static const approvalActionsDeny = '/approvalActions/deny';
   static const approvals = '/approvals';
   static const billingOrganizationSubscriptionsFormat =
       '/billing/organizationSubscriptions/<organizationId>';
   static const billingSubscriptionInvoicesFormat = '/billing/subscriptionInvoices/<organizationId>';
   static const billingSubscriptionPlansFormat = '/billing/subscriptionPlans/<organizationId>';
-  static const classifications = '/classifications';
   static const classificationFieldsFormat = '/classificationFields/<classificationId>';
+  static const classifications = '/classifications';
   static const dashboardWidgets = '/dashboardWidgets';
   static const documentActionsRestoreFromRecycleBin = '/documentActions/restoreFromRecycleBin';
   static const documentActionsSendToRecycleBin = '/documentActions/sendToRecycleBin';
   static const documentContentPackagesFormat = '/documentContentPackages/<documentId>';
+  static const documentCounts = '/documentCounts';
   static const documentFields = '/documentFields';
   static const documentPackageFormat = '/documentPackages/<documentId>';
   static const documents = '/documents';
+  static const documentsFormat = '/documents/<documentId>';
   static const documentsCommentsFormat = '/documents/<documentId>/comments';
   static const documentsEventsFormat = '/documents/<documentId>/events';
   static const documentsSignatureFormsFormat = '/documents/<documentId>/signatureForms';
@@ -281,12 +286,14 @@ abstract class apiPaths {
       '/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields';
   static const documentsSignatureFormsByIdFieldsByFieldIdFormat =
       '/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields/<documentSignatureFormFieldId>';
+  static const documentsSignatureSessionPackagesFormat =
+      '/documents/<documentId>/signatureSessionPackages';
+  static const documentsThumbnailsFormat = '/documents/<documentId>/thumbnails';
   static const documentSignatureFormsRecent = '/documentSignatureForms/recent';
   static const documentSignatureSessionsSigningRecipientsFieldsFormat =
       '/documentSignatureSessions/<documentSignatureSessionId>/signingRecipients/<documentSignatureSessionRecipientId>/fields';
-  static const documentsSignatureSessionPackagesFormat =
-      '/documents/<documentId>/signatureSessionPackages';
-  static const documentCounts = '/documentCounts';
+  static const documentSubscriptionsFormat = '/documentSubscriptions/<documentId>';
+  static const documentUploads = '/documentUploads';
   static const fields = '/fields';
   static const fieldsFormat = '/fields/<fieldId>';
   static const fieldsListItemsFormat = '/fields/<fieldId>/listItems';
@@ -301,15 +308,25 @@ abstract class apiPaths {
   static const formTemplatesPublicFieldListItemsFormat =
       '/formTemplatesPublic/<formTemplateId>/fields/<formTemplateFieldId>/listItems';
   static const formTemplatesPublicSubmissions = '/formTemplatesPublic/<formTemplateId>/submissions';
-  static const tenantPermissionsFormat = '/tenants/<tenantId>/permissions';
-  static const tenantPackagesForCurrentUser = '/tenantPackagesForCurrentUser';
+  static const inboxCounts = '/inboxCounts';
   static const organizationInvitationsFormat = '/organizationInvitations/<invitationId>';
   static const organizationsPermissionsFormat = '/organizations/<organizationId>/permissions';
   static const organizationsTenantsFormat = '/organizations/<organizationId>/tenants';
+  static const pageCounts = '/pageCounts';
+  static const recycleBinDocumentCounts = '/recycleBinDocumentCounts';
+  static const recycleBinInboxCounts = '/recycleBinInboxCounts';
   static const signatureFormTemplates = '/signatureFormTemplates';
   static const signatureFormTemplatesFormat = '/signatureFormTemplates/<signatureFormTemplateId>';
   static const signatureFormTemplatesFieldsFormat =
       '/signatureFormTemplates/<signatureFormTemplateId>/fields';
+  static const supportErrorEvents = '/support/errorEvents';
+  static const supportOrganizations = '/support/organizations';
+  static const supportOrganizationsTenantsFormat =
+      '/support/organizations/<organizationId>/tenants';
+  static const supportUsers = '/support/users';
+  static const supportAdmin = '/supportAdmin';
+  static const tenantPackagesForCurrentUser = '/tenantPackagesForCurrentUser';
+  static const tenantPermissionsFormat = '/tenants/<tenantId>/permissions';
   static const userEmailAddresses = '/user/emailAddresses';
   static const userEmailAddressesEmailChangeCodeFormat = '/user/emailAddresses/<emailChangeCode>';
   static const userEmailAddressVerifications = '/user/emailAddressVerifications';
@@ -317,28 +334,14 @@ abstract class apiPaths {
   static const userEmailLoginVerify = '/user/emailLoginVerify';
   static const userLogin = '/user/login';
   static const userLogout = '/user/logout';
-  static const userProfile = '/user/profile';
   static const userPreferences = '/user/preferences';
   static const userPreferenceFormat = '/user/preferences/<singleUserPreferenceId>';
+  static const userProfile = '/user/profile';
   static const userSmsNumbers = '/user/smsNumbers';
   static const userSmsNumbersSmsChangeCodeFormat = '/user/smsNumbers/<smsChangeCode>';
-  static const documentUploads = '/documentUploads';
-  static const inboxCounts = '/inboxCounts';
-  static const pageCounts = '/pageCounts';
-  static const recycleBinDocumentCounts = '/recycleBinDocumentCounts';
-  static const recycleBinInboxCounts = '/recycleBinInboxCounts';
-  static const approvalActionsApprove = '/approvalActions/approve';
-  static const approvalActionsDeny = '/approvalActions/deny';
-  static const approvalActionsDecline = '/approvalActions/decline';
   static const workTasks = '/workTasks';
   static const workTasksFormat = '/workTasks/<workTaskId>';
   static const workTasksCommentsFormat = '/workTasks/<workTaskId>/comments';
-  static const supportUsers = '/support/users';
-  static const supportAdmin = '/supportAdmin';
-  static const supportErrorEvents = '/support/errorEvents';
-  static const supportOrganizations = '/support/organizations';
-  static const supportOrganizationsTenantsFormat =
-      '/support/organizations/<organizationId>/tenants';
 }
 
 abstract class ApiRequestBodyObject {
