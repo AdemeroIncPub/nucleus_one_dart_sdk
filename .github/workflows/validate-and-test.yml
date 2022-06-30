@@ -1,0 +1,93 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Dart
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Install PowerShell
+      # https://docs.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.2
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https software-properties-common
+          wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
+          sudo dpkg -i packages-microsoft-prod.deb
+          sudo apt-get update
+          sudo apt-get install -y powershell
+
+      # Verify no GPL-based packages were used
+      - run: |
+          pwsh ./scripts/dependency_license_check.ps1
+
+      # Note: This workflow uses the latest stable version of the Dart SDK.
+      # You can specify other versions if desired, see documentation here:
+      # https://github.com/dart-lang/setup-dart/blob/main/README.md
+      # - uses: dart-lang/setup-dart@v1
+      - id: installDart
+        uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
+        continue-on-error: true
+
+      # Only run this step if the previous step fails.  This means something went wrong with the
+      # standard Dart install above.  Historically, this is because its "setup.sh" file didn't get
+      # pulled with the execute attribute on it.  This step adds that attribute then executes
+      # "setup.sh", as the previous step would have done, had it succeed on its own.
+      - name: Install Dart, only if previous step fails
+        if: steps.installDart.outcome == 'failure'
+        run: |
+          chmod +x setup.sh
+          ./setup.sh
+        working-directory: /run/act/actions/dart-lang-setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
+
+      - name: Install dependencies
+        run: dart pub get
+      
+      # Uncomment this step to verify the use of 'dart format' on each commit.
+      # - name: Verify formatting
+      #   run: dart format --output=none --set-exit-if-changed .
+
+      # Consider passing '--fatal-infos' for slightly stricter analysis.
+      # - id: analyzeDartProject
+      #   name: Analyze project source
+      #   run: dart analyze --fatal-infos
+      
+      # The steps are
+      # 1) Activate the coverage package
+      # 2) Run all tests with coverage
+      # 3) Remove generated files from the coverage report
+      - id: runAllTestsWithCoverage
+        name: Run all tests with coverage
+        run: |
+          dart pub global activate coverage
+          dart pub global run coverage:test_with_coverage --function-coverage --branch-coverage
+          dart run remove_from_coverage -f coverage/lcov.info -r \.g\.dart$
+
+      # Calculate the test coverage percentage.
+      # The actual, unescaped regex is as follows:
+      # (?<=LF:)\d+
+      - run: echo "LCOV_TOTAL_INSTRUMENTED_LINES=$(cat ./coverage/lcov.info | grep -Po ""\(?\<=LF:\)\\d+"" | awk '{ sum += $1 } END { print sum }')" >> $GITHUB_ENV
+      - run: echo "LCOV_TOTAL_EXECUTED_LINES=$(cat ./coverage/lcov.info | grep -Po ""\(?\<=LH:\)\\d+"" | awk '{ sum += $1 } END { print sum }')" >> $GITHUB_ENV
+      - run: echo "LCOV_COVERAGE_PERCENT=$(awk 'BEGIN{print ${{ env.LCOV_TOTAL_EXECUTED_LINES }} / ${{ env.LCOV_TOTAL_INSTRUMENTED_LINES }} * 100}')" >> $GITHUB_ENV
+      
+      - name: Fail the build if test coverage is not at 100%
+        if: env.LCOV_COVERAGE_PERCENT < 100
+        run: |
+          echo "Test coverage cannot be below 100%.  It is currently ${{env.LCOV_COVERAGE_PERCENT}}%.  See test/README.md for instructions on running tests locally."
+          exit 1
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

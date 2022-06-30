@@ -16,8 +16,8 @@ Results will be printed to the console.
 To execute all tests with coverage, run
 
 ```
-dart test --coverage=coverage
-dart run coverage:format_coverage --in=coverage/test --out=coverage/lcov.info --lcov --packages=.dart_tool/package_config.json --report-on=lib --check-ignore
+dart pub global activate coverage
+dart pub global run coverage:test_with_coverage --function-coverage --branch-coverage
 dart run remove_from_coverage -f coverage/lcov.info -r \.g\.dart$
 ```
 Results will be printed to the console.  The coverage report will be output to `coverage/lcov.info`.  This can be viewed with any standard LCOV viewer.  We recommend either of the following
