@@ -6,15 +6,14 @@ part of 'selected_twain_device.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SelectedTwainDevice _$SelectedTwainDeviceFromJson(Map<String, dynamic> json) {
-  return SelectedTwainDevice()
-    ..deviceSourceName = json['DeviceSourceName'] as String?
-    ..duplexType = json['DuplexType'] as String?
-    ..inputSource = json['InputSource'] as String?
-    ..pixelType = json['PixelType'] as String?
-    ..resolution = json['Resolution'] as String?
-    ..size = json['Size'] as String?;
-}
+SelectedTwainDevice _$SelectedTwainDeviceFromJson(Map<String, dynamic> json) =>
+    SelectedTwainDevice()
+      ..deviceSourceName = json['DeviceSourceName'] as String?
+      ..duplexType = json['DuplexType'] as String?
+      ..inputSource = json['InputSource'] as String?
+      ..pixelType = json['PixelType'] as String?
+      ..resolution = json['Resolution'] as String?
+      ..size = json['Size'] as String?;
 
 Map<String, dynamic> _$SelectedTwainDeviceToJson(SelectedTwainDevice instance) {
   final val = <String, dynamic>{};

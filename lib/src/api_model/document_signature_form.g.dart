@@ -7,23 +7,23 @@ part of 'document_signature_form.dart';
 // **************************************************************************
 
 DocumentSignatureForm _$DocumentSignatureFormFromJson(
-    Map<String, dynamic> json) {
-  return DocumentSignatureForm()
-    ..id = json['ID'] as String?
-    ..signatureFormTemplateID = json['SignatureFormTemplateID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..tenantID = json['TenantID'] as String?
-    ..documentID = json['DocumentID'] as String?
-    ..documentClassificationID = json['DocumentClassificationID'] as String?
-    ..documentClassificationName = json['DocumentClassificationName'] as String?
-    ..documentClassificationNameLower =
-        json['DocumentClassificationNameLower'] as String?
-    ..documentName = json['DocumentName'] as String?
-    ..documentNameLower = json['DocumentNameLower'] as String?
-    ..hasFormFields = json['HasFormFields'] as bool?
-    ..totalFormFields = json['TotalFormFields'] as int?
-    ..lastViewedPageIndex = json['LastViewedPageIndex'] as int?;
-}
+        Map<String, dynamic> json) =>
+    DocumentSignatureForm()
+      ..id = json['ID'] as String?
+      ..signatureFormTemplateID = json['SignatureFormTemplateID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..tenantID = json['TenantID'] as String?
+      ..documentID = json['DocumentID'] as String?
+      ..documentClassificationID = json['DocumentClassificationID'] as String?
+      ..documentClassificationName =
+          json['DocumentClassificationName'] as String?
+      ..documentClassificationNameLower =
+          json['DocumentClassificationNameLower'] as String?
+      ..documentName = json['DocumentName'] as String?
+      ..documentNameLower = json['DocumentNameLower'] as String?
+      ..hasFormFields = json['HasFormFields'] as bool?
+      ..totalFormFields = json['TotalFormFields'] as int?
+      ..lastViewedPageIndex = json['LastViewedPageIndex'] as int?;
 
 Map<String, dynamic> _$DocumentSignatureFormToJson(
     DocumentSignatureForm instance) {

@@ -7,12 +7,11 @@ part of 'form_template.dart';
 // **************************************************************************
 
 FormTemplateCollection _$FormTemplateCollectionFromJson(
-    Map<String, dynamic> json) {
-  return FormTemplateCollection()
-    ..formTemplates = (json['FormTemplates'] as List<dynamic>?)
-        ?.map((e) => FormTemplate.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    FormTemplateCollection()
+      ..formTemplates = (json['FormTemplates'] as List<dynamic>?)
+          ?.map((e) => FormTemplate.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$FormTemplateCollectionToJson(
     FormTemplateCollection instance) {
@@ -28,21 +27,19 @@ Map<String, dynamic> _$FormTemplateCollectionToJson(
   return val;
 }
 
-FormTemplate _$FormTemplateFromJson(Map<String, dynamic> json) {
-  return FormTemplate()
-    ..id = json['ID'] as String?
-    ..tenantID = json['TenantID'] as String?
-    ..uniqueID = json['UniqueID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..name = json['Name'] as String?
-    ..nameLower = json['NameLower'] as String?
-    ..pageCount = json['PageCount'] as int?
-    ..isPublic = json['IsPublic'] as bool?
-    ..classificationID = json['ClassificationID'] as String?
-    ..classificationName = json['ClassificationName'] as String?
-    ..classificationNameLower = json['ClassificationNameLower'] as String?
-    ..aspect = (json['Aspect'] as num?)?.toDouble();
-}
+FormTemplate _$FormTemplateFromJson(Map<String, dynamic> json) => FormTemplate()
+  ..id = json['ID'] as String?
+  ..tenantID = json['TenantID'] as String?
+  ..uniqueID = json['UniqueID'] as String?
+  ..createdOn = json['CreatedOn'] as String?
+  ..name = json['Name'] as String?
+  ..nameLower = json['NameLower'] as String?
+  ..pageCount = json['PageCount'] as int?
+  ..isPublic = json['IsPublic'] as bool?
+  ..classificationID = json['ClassificationID'] as String?
+  ..classificationName = json['ClassificationName'] as String?
+  ..classificationNameLower = json['ClassificationNameLower'] as String?
+  ..aspect = (json['Aspect'] as num?)?.toDouble();
 
 Map<String, dynamic> _$FormTemplateToJson(FormTemplate instance) {
   final val = <String, dynamic>{};
@@ -68,38 +65,37 @@ Map<String, dynamic> _$FormTemplateToJson(FormTemplate instance) {
   return val;
 }
 
-FormTemplateField _$FormTemplateFieldFromJson(Map<String, dynamic> json) {
-  return FormTemplateField()
-    ..id = json['ID'] as String?
-    ..formTemplateID = json['FormTemplateID'] as String?
-    ..formTemplateName = json['FormTemplateName'] as String?
-    ..formTemplateNameLower = json['FormTemplateNameLower'] as String?
-    ..tenantID = json['TenantID'] as String?
-    ..uniqueID = json['UniqueID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..type = json['Type'] as String?
-    ..fieldID = json['FieldID'] as String?
-    ..field = json['Field'] == null
-        ? null
-        : Field.fromJson(json['Field'] as Map<String, dynamic>)
-    ..pageIndex = json['PageIndex'] as int?
-    ..x = (json['X'] as num?)?.toDouble()
-    ..y = (json['Y'] as num?)?.toDouble()
-    ..width = (json['Width'] as num?)?.toDouble()
-    ..fontSize = json['FontSize'] as int?
-    ..useColumnLayout = json['UseColumnLayout'] as bool?
-    ..assetBucketName = json['AssetBucketName'] as String?
-    ..assetObjectName = json['AssetObjectName'] as String?
-    ..assetContentType = json['AssetContentType'] as String?
-    ..assetSignedUrl = json['AssetSignedUrl'] as String?
-    ..defaultValue = json['DefaultValue'] as String?
-    ..defaultValues = json['DefaultValues'] as String?
-    ..possibleValues = (json['PossibleValues'] as List<dynamic>?)
-        ?.map((e) => e as String)
-        .toList()
-    ..value = json['Value'] as String?
-    ..values = json['Values'] as String?;
-}
+FormTemplateField _$FormTemplateFieldFromJson(Map<String, dynamic> json) =>
+    FormTemplateField()
+      ..id = json['ID'] as String?
+      ..formTemplateID = json['FormTemplateID'] as String?
+      ..formTemplateName = json['FormTemplateName'] as String?
+      ..formTemplateNameLower = json['FormTemplateNameLower'] as String?
+      ..tenantID = json['TenantID'] as String?
+      ..uniqueID = json['UniqueID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..type = json['Type'] as String?
+      ..fieldID = json['FieldID'] as String?
+      ..field = json['Field'] == null
+          ? null
+          : Field.fromJson(json['Field'] as Map<String, dynamic>)
+      ..pageIndex = json['PageIndex'] as int?
+      ..x = (json['X'] as num?)?.toDouble()
+      ..y = (json['Y'] as num?)?.toDouble()
+      ..width = (json['Width'] as num?)?.toDouble()
+      ..fontSize = json['FontSize'] as int?
+      ..useColumnLayout = json['UseColumnLayout'] as bool?
+      ..assetBucketName = json['AssetBucketName'] as String?
+      ..assetObjectName = json['AssetObjectName'] as String?
+      ..assetContentType = json['AssetContentType'] as String?
+      ..assetSignedUrl = json['AssetSignedUrl'] as String?
+      ..defaultValue = json['DefaultValue'] as String?
+      ..defaultValues = json['DefaultValues'] as String?
+      ..possibleValues = (json['PossibleValues'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList()
+      ..value = json['Value'] as String?
+      ..values = json['Values'] as String?;
 
 Map<String, dynamic> _$FormTemplateFieldToJson(FormTemplateField instance) {
   final val = <String, dynamic>{};
@@ -139,14 +135,13 @@ Map<String, dynamic> _$FormTemplateFieldToJson(FormTemplateField instance) {
 }
 
 FormSubmissionPackage _$FormSubmissionPackageFromJson(
-    Map<String, dynamic> json) {
-  return FormSubmissionPackage()
-    ..tenantID = json['TenantID'] as String?
-    ..formTemplateID = json['FormTemplateID'] as String?
-    ..formSubmissionFields = (json['FormSubmissionFields'] as List<dynamic>?)
-        ?.map((e) => FormSubmissionField.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    FormSubmissionPackage()
+      ..tenantID = json['TenantID'] as String?
+      ..formTemplateID = json['FormTemplateID'] as String?
+      ..formSubmissionFields = (json['FormSubmissionFields'] as List<dynamic>?)
+          ?.map((e) => FormSubmissionField.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$FormSubmissionPackageToJson(
     FormSubmissionPackage instance) {
@@ -164,39 +159,38 @@ Map<String, dynamic> _$FormSubmissionPackageToJson(
   return val;
 }
 
-FormSubmissionField _$FormSubmissionFieldFromJson(Map<String, dynamic> json) {
-  return FormSubmissionField()
-    ..id = json['ID'] as String?
-    ..formTemplateID = json['FormTemplateID'] as String?
-    ..formTemplateName = json['FormTemplateName'] as String?
-    ..formTemplateNameLower = json['FormTemplateNameLower'] as String?
-    ..tenantID = json['TenantID'] as String?
-    ..uniqueID = json['UniqueID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..type = json['Type'] as String?
-    ..fieldID = json['FieldID'] as String?
-    ..field = json['Field'] == null
-        ? null
-        : Field.fromJson(json['Field'] as Map<String, dynamic>)
-    ..pageIndex = json['PageIndex'] as int?
-    ..x = (json['X'] as num?)?.toDouble()
-    ..y = (json['Y'] as num?)?.toDouble()
-    ..width = (json['Width'] as num?)?.toDouble()
-    ..fontSize = json['FontSize'] as int?
-    ..useColumnLayout = json['UseColumnLayout'] as bool?
-    ..assetBucketName = json['AssetBucketName'] as String?
-    ..assetObjectName = json['AssetObjectName'] as String?
-    ..assetContentType = json['AssetContentType'] as String?
-    ..assetSignedUrl = json['AssetSignedUrl'] as String?
-    ..defaultValue = json['DefaultValue'] as String?
-    ..defaultValues = json['DefaultValues'] as String?
-    ..possibleValues = (json['PossibleValues'] as List<dynamic>?)
-        ?.map((e) => e as String)
-        .toList()
-    ..value = json['Value'] as String?
-    ..values = json['Values'] as String?
-    ..formTemplateFieldID = json['FormTemplateFieldID'] as String?;
-}
+FormSubmissionField _$FormSubmissionFieldFromJson(Map<String, dynamic> json) =>
+    FormSubmissionField()
+      ..id = json['ID'] as String?
+      ..formTemplateID = json['FormTemplateID'] as String?
+      ..formTemplateName = json['FormTemplateName'] as String?
+      ..formTemplateNameLower = json['FormTemplateNameLower'] as String?
+      ..tenantID = json['TenantID'] as String?
+      ..uniqueID = json['UniqueID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..type = json['Type'] as String?
+      ..fieldID = json['FieldID'] as String?
+      ..field = json['Field'] == null
+          ? null
+          : Field.fromJson(json['Field'] as Map<String, dynamic>)
+      ..pageIndex = json['PageIndex'] as int?
+      ..x = (json['X'] as num?)?.toDouble()
+      ..y = (json['Y'] as num?)?.toDouble()
+      ..width = (json['Width'] as num?)?.toDouble()
+      ..fontSize = json['FontSize'] as int?
+      ..useColumnLayout = json['UseColumnLayout'] as bool?
+      ..assetBucketName = json['AssetBucketName'] as String?
+      ..assetObjectName = json['AssetObjectName'] as String?
+      ..assetContentType = json['AssetContentType'] as String?
+      ..assetSignedUrl = json['AssetSignedUrl'] as String?
+      ..defaultValue = json['DefaultValue'] as String?
+      ..defaultValues = json['DefaultValues'] as String?
+      ..possibleValues = (json['PossibleValues'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList()
+      ..value = json['Value'] as String?
+      ..values = json['Values'] as String?
+      ..formTemplateFieldID = json['FormTemplateFieldID'] as String?;
 
 Map<String, dynamic> _$FormSubmissionFieldToJson(FormSubmissionField instance) {
   final val = <String, dynamic>{};

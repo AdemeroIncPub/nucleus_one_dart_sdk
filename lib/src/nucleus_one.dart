@@ -11,9 +11,8 @@ import 'hierarchy/nucleus_one_app_forms.dart';
 import 'hierarchy/nucleus_one_app_project.dart';
 import 'user.dart';
 
-import 'hierarchy/nucleus_one_app_billing.dart';
+import 'hierarchy/nucleus_one_app_subscriptions.dart';
 import 'hierarchy/nucleus_one_app_documents.dart';
-import 'hierarchy/nucleus_one_app_fields.dart';
 import 'api_model/email_login_options.dart' as api_mod;
 import 'hierarchy/nucleus_one_app_organization.dart';
 import 'hierarchy/nucleus_one_app_users.dart';
@@ -84,11 +83,11 @@ abstract class NucleusOne {
 
 class NucleusOneOptions {
   final String baseUrl;
-  final int browserFingerprint;
+  final String? apiKey;
 
   NucleusOneOptions({
     required this.baseUrl,
-    required this.browserFingerprint,
+    this.apiKey,
   });
 }
 
@@ -110,7 +109,6 @@ class NucleusOneAppUninitialized extends NucleusOneAppInternal {
       : super(
           options: NucleusOneOptions(
             baseUrl: '',
-            browserFingerprint: 0,
           ),
         );
 }
@@ -157,31 +155,6 @@ abstract class NucleusOneApp {
   bool _authenticated = false;
   String? _sessionId;
 
-  /// Authentication and authorization
-  Auth auth() {
-    return Auth(app: this as NucleusOneAppInternal);
-  }
-
-  /// Billing
-  NucleusOneAppBilling billing() {
-    return NucleusOneAppBilling(app: this as NucleusOneAppInternal);
-  }
-
-  /// Documents
-  NucleusOneAppDocuments documents() {
-    return NucleusOneAppDocuments(app: this as NucleusOneAppInternal);
-  }
-
-  /// Classifications
-  ClassificationCollection classifications() {
-    return ClassificationCollection(app: this as NucleusOneAppInternal);
-  }
-
-  /// Fields
-  NucleusOneAppFields fields() {
-    return NucleusOneAppFields(app: this as NucleusOneAppInternal);
-  }
-
   /// Folder Hierarchies
   FolderHierarchyCollection folderHierarchies() {
     return FolderHierarchyCollection(app: this as NucleusOneAppInternal);
@@ -197,209 +170,16 @@ abstract class NucleusOneApp {
     return FormTemplateCollection(app: this as NucleusOneAppInternal);
   }
 
-  /// Forms
-  NucleusOneAppForms forms() {
-    return NucleusOneAppForms(app: this as NucleusOneAppInternal);
-  }
-
   /// Organization
-  NucleusOneAppOrganization organization() {
-    return NucleusOneAppOrganization(app: this as NucleusOneAppInternal);
+  NucleusOneAppOrganization organization(String organizationId) {
+    return NucleusOneAppOrganization(
+      app: this as NucleusOneAppInternal,
+      id: organizationId,
+    );
   }
 
   /// Users
   NucleusOneAppUsers users() {
     return NucleusOneAppUsers(app: this as NucleusOneAppInternal);
   }
-
-  /// Approvals
-  NucleusOneAppApprovals approvals() {
-    return NucleusOneAppApprovals(app: this as NucleusOneAppInternal);
-  }
-
-  /// Projects
-  NucleusOneAppProjects projects() {
-    return NucleusOneAppProjects(app: this as NucleusOneAppInternal);
-  }
-}
-
-class Auth with NucleusOneAppDependent {
-  Auth({
-    required NucleusOneAppInternal app,
-  }) {
-    this.app = app;
-  }
-
-  /// Reestablishes the authentication state to be with the provided auth provider and session id.
-  ///
-  /// [authProvider]: The authentication provider.
-  ///
-  /// [sessionId]: An existing session id with the authentication provider.
-  LoginResult reestablishExistingSession(String sessionId) {
-    app.setAuthenticationState(sessionId);
-
-    return LoginResult(
-      success: true,
-      sessionId: sessionId,
-      user: User(app: app),
-    );
-  }
-
-  /// Logs in to Nucleus One using Google Sign-In.  If successful, the session information is stored
-  /// internally, for use in future requests.
-  /// A result is returned, regardless of success.
-  Future<LoginResult> loginGoogle(String oauthIdToken) async {
-    final signInPackage = {
-      'BrowserFingerprint': _getIt.get<NucleusOneApp>().options.browserFingerprint,
-      'UserProvider': 'google',
-      'OAuthIdToken': oauthIdToken,
-    };
-
-    return await _loginInternal(signInPackage);
-  }
-
-  /// Logs in to Nucleus One using an email and a one-time passcode.  If successful, the session
-  /// information is stored internally, for use in future requests.
-  /// A result is returned, regardless of success.
-  Future<LoginResult> loginEmailAndOTP(String email, String otp) async {
-    final signInPackage = {
-      'AuthType': 'email',
-      'BrowserFingerprint': _getIt.get<NucleusOneApp>().options.browserFingerprint,
-      'Email': email,
-      'OTP': otp,
-      'UserProvider': 'email',
-    };
-
-    return await _loginInternal(signInPackage);
-  }
-
-  Future<LoginResult> _loginInternal(Map<String, Object> signInPackage) async {
-    final client = http.getStandardHttpClient();
-    final clientReq = await client.postUrl(Uri.parse(app.getFullUrl(http.apiPaths.userLogin)));
-    http.setRequestHeadersCommon(clientReq);
-
-    clientReq.write(jsonEncode(signInPackage));
-
-    final clientResponse = await clientReq.close();
-
-    final ret = clientResponse.cookies.firstWhereOrNull(
-      (element) => element.name == 'session_v1',
-    );
-
-    final sessionId = ret?.value;
-    final success = (sessionId != null) && sessionId.isNotEmpty;
-
-    if (success) {
-      app.setAuthenticationState(sessionId);
-    }
-
-    return LoginResult(
-      success: success,
-      sessionId: success ? sessionId : null,
-      user: User(app: app),
-    );
-  }
-
-  Future<void> logout() async {
-    await http.executeGetRequest(
-      http.apiPaths.userLogout,
-      app,
-    );
-
-    app.setAuthenticationState(null);
-  }
-
-  /// Verifies whether the provided email address is valid for login.
-  ///
-  /// [email] The email address.
-  Future<EmailLoginOptions> verifyEmailLogin(String email) async {
-    final reqBody = {
-      'BrowserFingerprint': _getIt.get<NucleusOneApp>().options.browserFingerprint,
-      'Email': email,
-      'UserProvider': 'email',
-    };
-
-    final responseBody = await http.executePostRequestWithTextResponse(
-      http.apiPaths.userEmailLoginVerify,
-      app,
-      body: jsonEncode(reqBody),
-    );
-
-    final apiModel = api_mod.EmailLoginOptions.fromJson(jsonDecode(responseBody));
-    return EmailLoginOptions.fromApiModel(apiModel);
-  }
-
-  /// Causes a one-time passcode to be sent to the provided email address.
-  ///
-  /// [email] The email address.
-  Future<void> emailLoginSendOneTimePasscode(String email) async {
-    final reqBody = {
-      'BrowserFingerprint': _getIt.get<NucleusOneApp>().options.browserFingerprint,
-      'UserProvider': 'email',
-      'Email': email,
-      'AuthType': 'email'
-    };
-
-    await http.executePostRequest(
-      http.apiPaths.userEmailLoginOTPSend,
-      app,
-      body: jsonEncode(reqBody),
-    );
-  }
-
-  /// Verifies whether the current email user's email address can be changed to a given email address.
-  /// If not, an exception is thrown.
-  ///
-  /// [newEmail] The new email address to check.
-  Future<void> emailLoginVerifyIfAddressCanBeChangedTo(String newEmail) async {
-    final reqBody = {
-      'Email': newEmail,
-    };
-
-    await http.executePostRequest(
-      http.apiPaths.userEmailAddressVerifications,
-      app,
-      body: jsonEncode(reqBody),
-    );
-  }
-
-  /// Changes the current email user's email address.  If successful, a confirmation email will be
-  /// sent to the new email address, which must be confirmed before the email address change will
-  /// become valid.
-  ///
-  /// [newEmail] The new email address.
-  Future<void> emailLoginChangeAddress(String newEmail) async {
-    final reqBody = {
-      'Email': newEmail,
-    };
-
-    await http.executePostRequest(
-      http.apiPaths.userEmailAddresses,
-      app,
-      body: jsonEncode(reqBody),
-    );
-  }
-
-  /// Completes an email address change request by providing the emailed confirmation code.
-  ///
-  /// [confirmationCode] The confirmation code provided in the change-confirmation email.
-  Future<void> emailLoginConfirmAddressChange(String confirmationCode) async {
-    await http.executePutRequest(
-      http.apiPaths.userEmailAddressesEmailChangeCodeFormat
-          .replaceFirst('<emailChangeCode>', confirmationCode),
-      app,
-    );
-  }
-}
-
-class LoginResult {
-  final bool success;
-  final String? sessionId;
-  final User? user;
-
-  LoginResult({
-    required this.success,
-    this.sessionId,
-    this.user,
-  }) : assert((!success) || ((sessionId != null) && sessionId.isNotEmpty));
 }

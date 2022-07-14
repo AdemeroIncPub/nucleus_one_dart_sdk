@@ -7,12 +7,11 @@ part of 'support_organization.dart';
 // **************************************************************************
 
 SupportOrganizationCollection _$SupportOrganizationCollectionFromJson(
-    Map<String, dynamic> json) {
-  return SupportOrganizationCollection()
-    ..supportOrganizations = (json['Organizations'] as List<dynamic>?)
-        ?.map((e) => SupportOrganization.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    SupportOrganizationCollection()
+      ..supportOrganizations = (json['Organizations'] as List<dynamic>?)
+          ?.map((e) => SupportOrganization.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$SupportOrganizationCollectionToJson(
     SupportOrganizationCollection instance) {
@@ -28,20 +27,20 @@ Map<String, dynamic> _$SupportOrganizationCollectionToJson(
   return val;
 }
 
-SupportOrganization _$SupportOrganizationFromJson(Map<String, dynamic> json) {
-  return SupportOrganization()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..name = json['Name'] as String?
-    ..creatingUserName = json['CreatingUserName'] as String?
-    ..creatingUserEmail = json['CreatingUserEmail'] as String?
-    ..subscriptionRequired = json['SubscriptionRequired'] as bool?
-    ..subscriptionFreeUsers = json['SubscriptionFreeUsers'] as int?
-    ..subscriptionExpiration = json['SubscriptionExpiration'] as String?
-    ..uniqueNonReadOnlyTenantMembers =
-        json['UniqueNonReadOnlyTenantMembers'] as int?
-    ..uniqueReadOnlyTenantMembers = json['UniqueReadOnlyTenantMembers'] as int?;
-}
+SupportOrganization _$SupportOrganizationFromJson(Map<String, dynamic> json) =>
+    SupportOrganization()
+      ..id = json['ID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..name = json['Name'] as String?
+      ..creatingUserName = json['CreatingUserName'] as String?
+      ..creatingUserEmail = json['CreatingUserEmail'] as String?
+      ..subscriptionRequired = json['SubscriptionRequired'] as bool?
+      ..subscriptionFreeUsers = json['SubscriptionFreeUsers'] as int?
+      ..subscriptionExpiration = json['SubscriptionExpiration'] as String?
+      ..uniqueNonReadOnlyTenantMembers =
+          json['UniqueNonReadOnlyTenantMembers'] as int?
+      ..uniqueReadOnlyTenantMembers =
+          json['UniqueReadOnlyTenantMembers'] as int?;
 
 Map<String, dynamic> _$SupportOrganizationToJson(SupportOrganization instance) {
   final val = <String, dynamic>{};

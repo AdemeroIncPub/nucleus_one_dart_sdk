@@ -4,13 +4,9 @@ import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_approvals.dart';
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_billing.dart';
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_documents.dart';
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_fields.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_subscriptions.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart';
 import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_users.dart';
 import 'package:test/test.dart';
 
 import '../../src/assertions.dart';
@@ -113,17 +109,9 @@ void main() {
     test('billing method tests', () {
       final n1App = getStandardN1App();
 
-      final doc = n1App.billing();
-      expect(doc, isA<NucleusOneAppBilling>());
+      final doc = n1App.subscriptions();
+      expect(doc, isA<NucleusOneAppSubscriptions>());
       expect(doc.app, n1App);
-    });
-
-    test('classifications method tests', () {
-      final n1App = getStandardN1App();
-
-      final classifications = n1App.classifications();
-      expect(classifications, isA<ClassificationCollection>());
-      expect(classifications.app, n1App);
     });
 
     test('documents method tests', () {
@@ -132,14 +120,6 @@ void main() {
       final doc = n1App.documents();
       expect(doc, isA<NucleusOneAppDocuments>());
       expect(doc.app, n1App);
-    });
-
-    test('fields method tests', () {
-      final n1App = getStandardN1App();
-
-      final fields = n1App.fields();
-      expect(fields, isA<NucleusOneAppFields>());
-      expect(fields.app, n1App);
     });
 
     test('users method tests', () {
@@ -161,8 +141,8 @@ void main() {
     test('projects method tests', () {
       final n1App = getStandardN1App();
 
-      final projects = n1App.projects();
-      expect(projects, isA<NucleusOneAppProjects>());
+      final projects = n1App.project();
+      expect(projects, isA<NucleusOneAppProject>());
       expect(projects.app, n1App);
     });
 

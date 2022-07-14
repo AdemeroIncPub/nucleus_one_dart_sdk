@@ -1,7 +1,5 @@
 import 'src/api_model/_common.dart' as api_mod___common;
 import 'src/api_model/address_book.dart' as api_mod__address_book;
-import 'src/api_model/classification.dart' as api_mod__classification;
-import 'src/api_model/dashboard_widget.dart' as api_mod__dashboard_widget;
 import 'src/api_model/document_for_client.dart' as api_mod__document_for_client;
 import 'src/api_model/document.dart' as api_mod__document;
 import 'src/api_model/document_comments.dart' as api_mod__document_comments;
@@ -25,7 +23,6 @@ import 'src/api_model/query_result.dart' as api_mod__query_result;
 import 'src/api_model/subscription_details.dart' as api_mod__organization_subscription;
 import 'src/api_model/project.dart' as api_mod__project;
 import 'src/api_model/project_packages.dart' as api_mod__project_packages;
-import 'src/api_model/project_permissions.dart' as api_mod__project_permissions;
 import 'src/api_model/signature_form_template.dart' as api_mod__signature_form_template;
 import 'src/api_model/subscription_invoice.dart' as api_mod__subscription_invoice;
 import 'src/api_model/subscription_plan.dart' as api_mod__subscription_plan;
@@ -50,12 +47,8 @@ import 'src/api_model/support_organization_tenant.dart' as api_mod__support_orga
 import 'src/api_model/support_error_event.dart' as api_mod__support_error_event;
 import 'src/hierarchy/nucleus_one_app_approvals.dart' as hierarchy__nucleus_one_app_approvals;
 import 'src/hierarchy/nucleus_one_app_billing.dart' as hierarchy__nucleus_one_app_billing;
-import 'src/hierarchy/nucleus_one_app_classifications.dart' as hierarchy__nucleus_one_app_classifications;
 import 'src/hierarchy/nucleus_one_app_documents.dart' as hierarchy__nucleus_one_app_documents;
-import 'src/hierarchy/nucleus_one_app_fields.dart' as hierarchy__nucleus_one_app_fields;
 import 'src/hierarchy/nucleus_one_app_work_tasks.dart' as hierarchy__nucleus_one_app_work_tasks;
-import 'src/hierarchy/nucleus_one_app_folder_hierarchies.dart'
-    as hierarchy__nucleus_one_app_folder_hierarchies;
 import 'src/hierarchy/nucleus_one_app_forms.dart' as hierarchy__nucleus_one_app_forms;
 import 'src/hierarchy/nucleus_one_app_organization.dart' as hierarchy__nucleus_one_app_organization;
 import 'src/hierarchy/nucleus_one_app_project.dart' as hierarchy__nucleus_one_app_project;
@@ -63,8 +56,6 @@ import 'src/hierarchy/nucleus_one_app_users.dart' as hierarchy__nucleus_one_app_
 import 'src/hierarchy/nucleus_one_app_support.dart' as hierarchy__nucleus_one_app_support;
 import 'src/model/_common.dart' as mod___common;
 import 'src/model/address_book.dart' as mod__address_book;
-import 'src/model/classification.dart' as mod__classification;
-import 'src/model/dashboard_widget.dart' as mod__dashboard_widget;
 import 'src/model/document_for_client.dart' as mod__document_for_client;
 import 'src/model/document.dart' as mod__document;
 import 'src/model/document_comment.dart' as mod__document_comments;
@@ -87,7 +78,6 @@ import 'src/model/query_result.dart' as mod__query_result;
 import 'src/model/subscription_details.dart' as mod__organization_subscription;
 import 'src/model/project.dart' as mod__project;
 import 'src/model/project_packages.dart' as mod__project_packages;
-import 'src/model/project_permissions.dart' as mod__project_permissions;
 import 'src/model/signature_form_template.dart' as mod__signature_form_template;
 import 'src/model/subscription_invoice.dart' as mod__subscription_invoice;
 import 'src/model/subscription_plan.dart' as mod__subscription_plan;
@@ -97,7 +87,6 @@ import 'src/model/user_profile.dart' as mod__user_profile;
 import 'src/model/user_preferences.dart' as mod__user_preferences;
 import 'src/model/selected_twain_device.dart' as mod__selected_twain_device;
 import 'src/model/user_preference.dart' as mod__user_preference;
-import 'src/model/document_field.dart' as mod__document_field;
 import 'src/model/approval.dart' as mod__approval;
 import 'src/model/work_task.dart' as mod__work_task;
 import 'src/model/work_task_event.dart' as mod__work_task_event;
@@ -108,7 +97,6 @@ import 'src/model/document_package.dart' as mod__document_package;
 import 'src/model/document_upload.dart' as mod__document_upload;
 import 'src/model/support_user.dart' as mod__support_user;
 import 'src/model/support_organization.dart' as mod__support_organization;
-import 'src/model/support_organization_tenant.dart' as mod__support_organization_tenant;
 import 'src/model/support_error_event.dart' as mod__support_error_event;
 import 'src/nucleus_one.dart' as n1;
 import 'src/common/api_model.dart' as common__api_model;
@@ -128,8 +116,6 @@ void main() {
 void _apiModelTests() {
   api_mod___common.main();
   api_mod__address_book.main();
-  api_mod__classification.main();
-  api_mod__dashboard_widget.main();
   api_mod__document_for_client.main();
   api_mod__document.main();
   api_mod__document_comments.main();
@@ -152,7 +138,6 @@ void _apiModelTests() {
   api_mod__query_result.main();
   api_mod__project.main();
   api_mod__project_packages.main();
-  api_mod__project_permissions.main();
   api_mod__signature_form_template.main();
   api_mod__subscription_invoice.main();
   api_mod__subscription_plan.main();
@@ -180,8 +165,6 @@ void _apiModelTests() {
 void _modelTests() {
   mod___common.main();
   mod__address_book.main();
-  mod__classification.main();
-  mod__dashboard_widget.main();
   mod__document.main();
   mod__document_for_client.main();
   mod__document_comments.main();
@@ -203,7 +186,6 @@ void _modelTests() {
   mod__query_result.main();
   mod__project.main();
   mod__project_packages.main();
-  mod__project_permissions.main();
   mod__signature_form_template.main();
   mod__subscription_invoice.main();
   mod__subscription_plan.main();
@@ -213,7 +195,6 @@ void _modelTests() {
   mod__user_preferences.main();
   mod__selected_twain_device.main();
   mod__user_preference.main();
-  mod__document_field.main();
   mod__approval.main();
   mod__document_subscription.main();
   mod__document_package_field.main();
@@ -224,7 +205,6 @@ void _modelTests() {
   mod__work_task_comment.main();
   mod__support_user.main();
   mod__support_organization.main();
-  mod__support_organization_tenant.main();
   mod__support_error_event.main();
 }
 
@@ -232,9 +212,6 @@ void _hierarchyTests() {
   hierarchy__nucleus_one_app_approvals.main();
   hierarchy__nucleus_one_app_billing.main();
   hierarchy__nucleus_one_app_documents.main();
-  hierarchy__nucleus_one_app_classifications.main();
-  hierarchy__nucleus_one_app_fields.main();
-  hierarchy__nucleus_one_app_folder_hierarchies.main();
   hierarchy__nucleus_one_app_forms.main();
   hierarchy__nucleus_one_app_organization.main();
   hierarchy__nucleus_one_app_project.main();

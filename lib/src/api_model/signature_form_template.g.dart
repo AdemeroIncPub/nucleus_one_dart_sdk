@@ -7,13 +7,12 @@ part of 'signature_form_template.dart';
 // **************************************************************************
 
 SignatureFormTemplate _$SignatureFormTemplateFromJson(
-    Map<String, dynamic> json) {
-  return SignatureFormTemplate()
-    ..id = json['ID'] as String?
-    ..name = json['Name'] as String?
-    ..nameLower = json['NameLower'] as String?
-    ..createdOn = json['CreatedOn'] as String?;
-}
+        Map<String, dynamic> json) =>
+    SignatureFormTemplate()
+      ..id = json['ID'] as String?
+      ..name = json['Name'] as String?
+      ..nameLower = json['NameLower'] as String?
+      ..createdOn = json['CreatedOn'] as String?;
 
 Map<String, dynamic> _$SignatureFormTemplateToJson(
     SignatureFormTemplate instance) {
@@ -33,20 +32,19 @@ Map<String, dynamic> _$SignatureFormTemplateToJson(
 }
 
 SignatureFormTemplateField _$SignatureFormTemplateFieldFromJson(
-    Map<String, dynamic> json) {
-  return SignatureFormTemplateField()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..type = json['Type'] as String?
-    ..pageIndex = json['PageIndex'] as int?
-    ..documentSignatureSessionRecipientID =
-        json['DocumentSignatureSessionRecipientID'] as String?
-    ..x = (json['X'] as num?)?.toDouble()
-    ..y = (json['Y'] as num?)?.toDouble()
-    ..label = json['Label'] as String?
-    ..widthPercent = (json['WidthPercent'] as num?)?.toDouble()
-    ..sortRank = json['SortRank'] as int?;
-}
+        Map<String, dynamic> json) =>
+    SignatureFormTemplateField()
+      ..id = json['ID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..type = json['Type'] as String?
+      ..pageIndex = json['PageIndex'] as int?
+      ..documentSignatureSessionRecipientID =
+          json['DocumentSignatureSessionRecipientID'] as String?
+      ..x = (json['X'] as num?)?.toDouble()
+      ..y = (json['Y'] as num?)?.toDouble()
+      ..label = json['Label'] as String?
+      ..widthPercent = (json['WidthPercent'] as num?)?.toDouble()
+      ..sortRank = json['SortRank'] as int?;
 
 Map<String, dynamic> _$SignatureFormTemplateFieldToJson(
     SignatureFormTemplateField instance) {

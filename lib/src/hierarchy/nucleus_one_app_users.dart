@@ -1,17 +1,24 @@
 import 'dart:convert';
 
-import '../nucleus_one.dart';
-import '../model/user_preferences.dart';
-import '../model/user_preference.dart';
-import '../http.dart' as http;
+import 'package:get_it/get_it.dart';
+
 import '../api_model/user_preferences.dart' as api_mod_ups;
 import '../api_model/user_preference.dart' as api_mod_up;
+import '../api_model/user_organization.dart' as api_mod_uo;
+import '../api_model/user_organization_project.dart' as api_mod_uop;
+import '../common/string.dart';
+import '../http.dart' as http;
+import '../model/user_organization.dart';
+import '../model/user_organization_project.dart';
+import '../model/user_preferences.dart';
+import '../model/user_preference.dart';
+import '../nucleus_one.dart';
 
 class NucleusOneAppUsers with NucleusOneAppDependent {
   NucleusOneAppUsers({
-    required NucleusOneAppInternal app,
+    NucleusOneAppInternal? app,
   }) {
-    this.app = app;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
   /// Updates a User Preference.
@@ -38,6 +45,31 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
       body: jsonEncode(userPreference.toApiModel()),
       query: qp,
     );
+  }
+
+  /// Gets the current user's organizations.
+  Future<UserOrganizationCollection> getOrganizations() async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.userOrganizations,
+      app,
+    );
+    final apiModel = api_mod_uo.UserOrganizationCollection.fromJson(jsonDecode(responseBody));
+
+    return UserOrganizationCollection.fromApiModel(apiModel);
+  }
+
+  /// Gets the current user's organizations.
+  Future<UserOrganizationProjectCollection> getProjects({
+    required String organizationId,
+  }) async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.userOrganizationsProjectsFormat.replaceOrganizationPlaceholder(organizationId),
+      app,
+    );
+    final apiModel =
+        api_mod_uop.UserOrganizationProjectCollection.fromJson(jsonDecode(responseBody));
+
+    return UserOrganizationProjectCollection.fromApiModel(apiModel);
   }
 
   /// Gets the current user's preferences.

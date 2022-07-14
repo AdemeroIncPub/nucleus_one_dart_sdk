@@ -7,24 +7,24 @@ part of 'document_subscription_for_client.dart';
 // **************************************************************************
 
 DocumentSubscriptionForClient _$DocumentSubscriptionForClientFromJson(
-    Map<String, dynamic> json) {
-  return DocumentSubscriptionForClient()
-    ..subscribed = json['Subscribed'] as bool?
-    ..notify = json['Notify'] as bool?
-    ..createdOn = json['CreatedOn'] as String?
-    ..documentID = json['DocumentID'] as String?
-    ..documentCreatedOn = json['DocumentCreatedOn'] as String?
-    ..documentName = json['DocumentName'] as String?
-    ..documentPageCount = json['DocumentPageCount'] as int?
-    ..documentFileSize = json['DocumentFileSize'] as int?
-    ..documentClassificationID = json['DocumentClassificationID'] as String?
-    ..documentClassificationName = json['DocumentClassificationName'] as String?
-    ..documentPreviewMetadata =
-        (json['DocumentPreviewMetadata'] as List<dynamic>?)
-            ?.map((e) => Map<String, String>.from(e as Map))
-            .toList()
-    ..documentIsSigned = json['DocumentIsSigned'] as bool?;
-}
+        Map<String, dynamic> json) =>
+    DocumentSubscriptionForClient()
+      ..subscribed = json['Subscribed'] as bool?
+      ..notify = json['Notify'] as bool?
+      ..createdOn = json['CreatedOn'] as String?
+      ..documentID = json['DocumentID'] as String?
+      ..documentCreatedOn = json['DocumentCreatedOn'] as String?
+      ..documentName = json['DocumentName'] as String?
+      ..documentPageCount = json['DocumentPageCount'] as int?
+      ..documentFileSize = json['DocumentFileSize'] as int?
+      ..documentClassificationID = json['DocumentClassificationID'] as String?
+      ..documentClassificationName =
+          json['DocumentClassificationName'] as String?
+      ..documentPreviewMetadata =
+          (json['DocumentPreviewMetadata'] as List<dynamic>?)
+              ?.map((e) => Map<String, String>.from(e as Map))
+              .toList()
+      ..documentIsSigned = json['DocumentIsSigned'] as bool?;
 
 Map<String, dynamic> _$DocumentSubscriptionForClientToJson(
     DocumentSubscriptionForClient instance) {

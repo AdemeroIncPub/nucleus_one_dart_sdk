@@ -6,20 +6,19 @@ part of 'document_upload.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentUpload _$DocumentUploadFromJson(Map<String, dynamic> json) {
-  return DocumentUpload()
-    ..signedUrl = json['SignedUrl'] as String?
-    ..objectName = json['ObjectName'] as String?
-    ..uniqueId = json['UniqueId'] as String?
-    ..originalFilename = json['OriginalFilename'] as String?
-    ..originalFileSize = json['OriginalFileSize'] as int?
-    ..classificationID = json['ClassificationID'] as String?
-    ..fieldIDsAndValues =
-        (json['FieldIDsAndValues'] as Map<String, dynamic>?)?.map(
-      (k, e) =>
-          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
-    );
-}
+DocumentUpload _$DocumentUploadFromJson(Map<String, dynamic> json) =>
+    DocumentUpload()
+      ..signedUrl = json['SignedUrl'] as String?
+      ..objectName = json['ObjectName'] as String?
+      ..uniqueId = json['UniqueId'] as String?
+      ..originalFilename = json['OriginalFilename'] as String?
+      ..originalFileSize = json['OriginalFileSize'] as int?
+      ..classificationID = json['ClassificationID'] as String?
+      ..fieldIDsAndValues =
+          (json['FieldIDsAndValues'] as Map<String, dynamic>?)?.map(
+        (k, e) =>
+            MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
+      );
 
 Map<String, dynamic> _$DocumentUploadToJson(DocumentUpload instance) {
   final val = <String, dynamic>{};

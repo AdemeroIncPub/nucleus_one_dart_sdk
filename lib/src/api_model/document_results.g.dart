@@ -7,12 +7,11 @@ part of 'document_results.dart';
 // **************************************************************************
 
 DocumentResultCollection _$DocumentResultCollectionFromJson(
-    Map<String, dynamic> json) {
-  return DocumentResultCollection()
-    ..documents = (json['Documents'] as List<dynamic>?)
-        ?.map((e) => DocumentForClient.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    DocumentResultCollection()
+      ..documents = (json['Documents'] as List<dynamic>?)
+          ?.map((e) => DocumentForClient.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$DocumentResultCollectionToJson(
     DocumentResultCollection instance) {

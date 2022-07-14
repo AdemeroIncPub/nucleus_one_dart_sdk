@@ -7,14 +7,13 @@ part of 'document_content_package.dart';
 // **************************************************************************
 
 DocumentContentPackage _$DocumentContentPackageFromJson(
-    Map<String, dynamic> json) {
-  return DocumentContentPackage()
-    ..url = json['Url'] as String?
-    ..contentType = json['ContentType'] as String?
-    ..name = json['Name'] as String?
-    ..pageIndex = json['PageIndex'] as int?
-    ..pageCount = json['PageCount'] as int?;
-}
+        Map<String, dynamic> json) =>
+    DocumentContentPackage()
+      ..url = json['Url'] as String?
+      ..contentType = json['ContentType'] as String?
+      ..name = json['Name'] as String?
+      ..pageIndex = json['PageIndex'] as int?
+      ..pageCount = json['PageCount'] as int?;
 
 Map<String, dynamic> _$DocumentContentPackageToJson(
     DocumentContentPackage instance) {

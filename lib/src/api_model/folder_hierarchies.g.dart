@@ -7,12 +7,11 @@ part of 'folder_hierarchies.dart';
 // **************************************************************************
 
 FolderHierarchyCollection _$FolderHierarchyCollectionFromJson(
-    Map<String, dynamic> json) {
-  return FolderHierarchyCollection()
-    ..folderHierarchies = (json['FolderHierarchies'] as List<dynamic>?)
-        ?.map((e) => FolderHierarchy.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    FolderHierarchyCollection()
+      ..folderHierarchies = (json['FolderHierarchies'] as List<dynamic>?)
+          ?.map((e) => FolderHierarchy.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$FolderHierarchyCollectionToJson(
     FolderHierarchyCollection instance) {
@@ -28,13 +27,12 @@ Map<String, dynamic> _$FolderHierarchyCollectionToJson(
   return val;
 }
 
-FolderHierarchy _$FolderHierarchyFromJson(Map<String, dynamic> json) {
-  return FolderHierarchy()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..name = json['Name'] as String?
-    ..nameLower = json['NameLower'] as String?;
-}
+FolderHierarchy _$FolderHierarchyFromJson(Map<String, dynamic> json) =>
+    FolderHierarchy()
+      ..id = json['ID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..name = json['Name'] as String?
+      ..nameLower = json['NameLower'] as String?;
 
 Map<String, dynamic> _$FolderHierarchyToJson(FolderHierarchy instance) {
   final val = <String, dynamic>{};
@@ -52,18 +50,17 @@ Map<String, dynamic> _$FolderHierarchyToJson(FolderHierarchy instance) {
   return val;
 }
 
-FolderHierarchyItem _$FolderHierarchyItemFromJson(Map<String, dynamic> json) {
-  return FolderHierarchyItem()
-    ..id = json['ID'] as String?
-    ..folderHierarchyID = json['FolderHierarchyID'] as String?
-    ..folderHierarchyName = json['FolderHierarchyName'] as String?
-    ..rank = json['Rank'] as int?
-    ..type = json['Type'] as String?
-    ..fieldID = json['FieldID'] as String?
-    ..fieldName = json['FieldName'] as String?
-    ..fieldType = json['FieldType'] as String?
-    ..fieldValueType = json['FieldValueType'] as String?;
-}
+FolderHierarchyItem _$FolderHierarchyItemFromJson(Map<String, dynamic> json) =>
+    FolderHierarchyItem()
+      ..id = json['ID'] as String?
+      ..folderHierarchyID = json['FolderHierarchyID'] as String?
+      ..folderHierarchyName = json['FolderHierarchyName'] as String?
+      ..rank = json['Rank'] as int?
+      ..type = json['Type'] as String?
+      ..fieldID = json['FieldID'] as String?
+      ..fieldName = json['FieldName'] as String?
+      ..fieldType = json['FieldType'] as String?
+      ..fieldValueType = json['FieldValueType'] as String?;
 
 Map<String, dynamic> _$FolderHierarchyItemToJson(FolderHierarchyItem instance) {
   final val = <String, dynamic>{};

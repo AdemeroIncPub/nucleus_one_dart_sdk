@@ -7,12 +7,11 @@ part of 'document_comment.dart';
 // **************************************************************************
 
 DocumentCommentCollection _$DocumentCommentCollectionFromJson(
-    Map<String, dynamic> json) {
-  return DocumentCommentCollection()
-    ..documentEvents = (json['DocumentEvents'] as List<dynamic>?)
-        ?.map((e) => DocumentEvent.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    DocumentCommentCollection()
+      ..documentEvents = (json['DocumentEvents'] as List<dynamic>?)
+          ?.map((e) => DocumentEvent.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$DocumentCommentCollectionToJson(
     DocumentCommentCollection instance) {

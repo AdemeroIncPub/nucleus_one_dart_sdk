@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:get_it/get_it.dart';
+
 import '../api_model/query_result.dart' as api_mod;
 import '../nucleus_one.dart';
 import '../model/work_task.dart';
@@ -12,9 +14,9 @@ import '../model/work_task_comment.dart';
 
 class NucleusOneAppWorkTasks with NucleusOneAppDependent {
   NucleusOneAppWorkTasks({
-    required NucleusOneAppInternal app,
+    NucleusOneAppInternal? app,
   }) {
-    this.app = app;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
   /// Gets Work Tasks.

@@ -2,14 +2,12 @@ import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
 import '../http.dart' as http;
-import '../model/classification.dart' as mod;
 import '../model/document_for_client.dart' as mod;
 import '../model/document_comment.dart' as mod;
 import '../model/document_event.dart' as mod;
 import '../model/work_task_comment.dart' as mod;
 import '../model/work_task_event.dart' as mod;
 import '../model/field.dart' as mod;
-import '../model/document_field.dart' as mod;
 import '../model/approval.dart' as mod;
 import '../model/field_list_item.dart' as mod;
 import '../model/folder_hierarchies.dart' as mod;
@@ -17,29 +15,27 @@ import '../model/form_template.dart' as mod;
 import '../model/work_task.dart' as mod;
 import '../model/support_user.dart' as mod;
 import '../model/support_organization.dart' as mod;
-import '../model/support_organization_tenant.dart' as mod;
 import '../model/support_error_event.dart' as mod;
 import '../model/organization_package.dart' as mod;
 import '../model/query_result.dart' as mod;
 import '../model/tenant.dart' as mod;
-import '../api_model/classification.dart' as api_mod;
+import '../model/user_organization_project.dart' as mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
 import '../api_model/field.dart' as api_mod;
-import '../api_model/document_field.dart' as api_mod;
 import '../api_model/approval.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
 import '../api_model/tenant.dart' as api_mod;
+import '../api_model/user_organization_project.dart' as api_mod;
 import '../api_model/work_task.dart' as api_mod;
 import '../api_model/work_task_comment.dart' as api_mod;
 import '../api_model/work_task_event.dart' as api_mod;
 import '../api_model/support_user.dart' as api_mod;
 import '../api_model/support_organization.dart' as api_mod;
-import '../api_model/support_organization_tenant.dart' as api_mod;
 import '../api_model/support_error_event.dart' as api_mod;
 
 import '../nucleus_one.dart';
@@ -117,18 +113,18 @@ abstract class ListItems {
     return qp;
   }
 
-  static Future<void> downloadListItems({
-    required NucleusOneAppInternal app,
-    required String apiRelativeUrlPath,
-    String? parentValue,
-    String? valueFilter,
-    required String destinationFilePath,
-    String? cursor,
-  }) async {
-    final qp = getListItemsQueryParams(cursor, parentValue, valueFilter);
-    qp['getAllAsFlatFile'] = true;
-    await http.downloadAuthenticated(apiRelativeUrlPath, destinationFilePath, app, query: qp);
-  }
+  // static Future<void> downloadListItems({
+  //   required NucleusOneAppInternal app,
+  //   required String apiRelativeUrlPath,
+  //   String? parentValue,
+  //   String? valueFilter,
+  //   required String destinationFilePath,
+  //   String? cursor,
+  // }) async {
+  //   final qp = getListItemsQueryParams(cursor, parentValue, valueFilter);
+  //   qp['getAllAsFlatFile'] = true;
+  //   await http.downloadAuthenticated(apiRelativeUrlPath, destinationFilePath, app, query: qp);
+  // }
 
   static Future<void> addListItems({
     required NucleusOneAppInternal app,
@@ -208,33 +204,11 @@ abstract class DocumentEventCollectionQueryResult {
   }
 }
 
-abstract class ClassificationCollectionQueryResult {
-  static mod.QueryResult<mod.ClassificationCollection> fromApiModelClassificationCollection(
-      api_mod.QueryResult<api_mod.ClassificationCollection> apiModel) {
-    return mod.QueryResult(
-      results: mod.ClassificationCollection.fromApiModel(apiModel.results!),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
-  }
-}
-
 abstract class FieldCollectionQueryResult {
   static mod.QueryResult<mod.FieldCollection> fromApiModelFieldCollection(
       api_mod.QueryResult<api_mod.FieldCollection> apiModel) {
     return mod.QueryResult(
       results: mod.FieldCollection.fromApiModel(apiModel.results!),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
-  }
-}
-
-abstract class DocumentFieldCollectionQueryResult {
-  static mod.QueryResult<mod.DocumentFieldCollection> fromApiModelFieldCollection(
-      api_mod.QueryResult<api_mod.DocumentFieldCollection> apiModel) {
-    return mod.QueryResult(
-      results: mod.DocumentFieldCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
@@ -333,18 +307,6 @@ abstract class SupportOrganizationCollectionQueryResult {
   }
 }
 
-abstract class SupportOrganizationTenantCollectionQueryResult {
-  static mod.QueryResult<mod.SupportOrganizationTenantCollection>
-      fromApiModelSupportOrganizationTenantCollection(
-          api_mod.QueryResult<api_mod.SupportOrganizationTenantCollection> apiModel) {
-    return mod.QueryResult(
-      results: mod.SupportOrganizationTenantCollection.fromApiModel(apiModel.results!),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
-  }
-}
-
 abstract class SupportErrorEventCollectionQueryResult {
   static mod.QueryResult<mod.SupportErrorEventCollection> fromApiModelSupportErrorEventCollection(
       api_mod.QueryResult<api_mod.SupportErrorEventCollection> apiModel) {
@@ -375,6 +337,21 @@ abstract class WorkTaskEventCollectionQueryResult {
       results: mod.WorkTaskEventCollection.fromApiModel(apiModel.results!),
       cursor: apiModel.cursor!,
       reverseCursor: apiModel.reverseCursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class UserOrganizationProjectCollectionQueryResult {
+  static mod.QueryResult<mod.UserOrganizationProjectCollection>
+      fromApiModelUserOrganizationProjectCollection(
+          api_mod.QueryResult<api_mod.UserOrganizationProjectCollection> apiModel) {
+    return mod.QueryResult(
+      results: mod.UserOrganizationProjectCollection(
+          items: apiModel.results!.userOrganizationProjects!
+              .map((x) => mod.UserOrganizationProject.fromApiModel(x))
+              .toList()),
+      cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
   }

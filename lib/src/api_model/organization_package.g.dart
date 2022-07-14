@@ -7,13 +7,12 @@ part of 'organization_package.dart';
 // **************************************************************************
 
 OrganizationPackageCollection _$OrganizationPackageCollectionFromJson(
-    Map<String, dynamic> json) {
-  return OrganizationPackageCollection()
-    ..organizationPackages = (json['OrganizationPackagesForCurrentUser']
-            as List<dynamic>?)
-        ?.map((e) => OrganizationPackage.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    OrganizationPackageCollection()
+      ..organizationPackages = (json['OrganizationPackagesForCurrentUser']
+              as List<dynamic>?)
+          ?.map((e) => OrganizationPackage.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$OrganizationPackageCollectionToJson(
     OrganizationPackageCollection instance) {
@@ -30,18 +29,17 @@ Map<String, dynamic> _$OrganizationPackageCollectionToJson(
   return val;
 }
 
-OrganizationPackage _$OrganizationPackageFromJson(Map<String, dynamic> json) {
-  return OrganizationPackage()
-    ..organization = json['Organization'] == null
-        ? null
-        : Organization.fromJson(json['Organization'] as Map<String, dynamic>)
-    ..userID = json['UserID'] as String?
-    ..isMember = json['IsMember'] as bool?
-    ..isExpiringSoon = json['IsExpiringSoon'] as bool?
-    ..expiration = json['Expiration'] as String?
-    ..freeUsers = json['FreeUsers'] as int?
-    ..isExpired = json['IsExpired'] as bool?;
-}
+OrganizationPackage _$OrganizationPackageFromJson(Map<String, dynamic> json) =>
+    OrganizationPackage()
+      ..organization = json['Organization'] == null
+          ? null
+          : Organization.fromJson(json['Organization'] as Map<String, dynamic>)
+      ..userID = json['UserID'] as String?
+      ..isMember = json['IsMember'] as bool?
+      ..isExpiringSoon = json['IsExpiringSoon'] as bool?
+      ..expiration = json['Expiration'] as String?
+      ..freeUsers = json['FreeUsers'] as int?
+      ..isExpired = json['IsExpired'] as bool?;
 
 Map<String, dynamic> _$OrganizationPackageToJson(OrganizationPackage instance) {
   final val = <String, dynamic>{};

@@ -6,20 +6,19 @@ part of 'subscription_details.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SubscriptionDetails _$SubscriptionDetailsFromJson(Map<String, dynamic> json) {
-  return SubscriptionDetails()
-    ..paymentSubscriptionExists = json['PaymentSubscriptionExists'] as bool?
-    ..paymentPlanId = json['PaymentPlanId'] as String?
-    ..tokenId = json['TokenId'] as String?
-    ..customerName = json['CustomerName'] as String?
-    ..billingEmail = json['BillingEmail'] as String?
-    ..postalCode = json['PostalCode'] as String?
-    ..organizationName = json['OrganizationName'] as String?
-    ..expiration = json['Expiration'] as String?
-    ..isExpiringSoon = json['IsExpiringSoon'] as bool?
-    ..freeUsers = json['FreeUsers'] as int?
-    ..isExpired = json['IsExpired'] as bool?;
-}
+SubscriptionDetails _$SubscriptionDetailsFromJson(Map<String, dynamic> json) =>
+    SubscriptionDetails()
+      ..paymentSubscriptionExists = json['PaymentSubscriptionExists'] as bool?
+      ..paymentPlanId = json['PaymentPlanId'] as String?
+      ..tokenId = json['TokenId'] as String?
+      ..customerName = json['CustomerName'] as String?
+      ..billingEmail = json['BillingEmail'] as String?
+      ..postalCode = json['PostalCode'] as String?
+      ..organizationName = json['OrganizationName'] as String?
+      ..expiration = json['Expiration'] as String?
+      ..isExpiringSoon = json['IsExpiringSoon'] as bool?
+      ..freeUsers = json['FreeUsers'] as int?
+      ..isExpired = json['IsExpired'] as bool?;
 
 Map<String, dynamic> _$SubscriptionDetailsToJson(SubscriptionDetails instance) {
   final val = <String, dynamic>{};

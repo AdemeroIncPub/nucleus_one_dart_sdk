@@ -7,12 +7,11 @@ part of 'work_task_comment.dart';
 // **************************************************************************
 
 WorkTaskCommentCollection _$WorkTaskCommentCollectionFromJson(
-    Map<String, dynamic> json) {
-  return WorkTaskCommentCollection()
-    ..workTaskEvents = (json['WorkTaskEvents'] as List<dynamic>?)
-        ?.map((e) => WorkTaskEvent.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    WorkTaskCommentCollection()
+      ..workTaskEvents = (json['WorkTaskEvents'] as List<dynamic>?)
+          ?.map((e) => WorkTaskEvent.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$WorkTaskCommentCollectionToJson(
     WorkTaskCommentCollection instance) {

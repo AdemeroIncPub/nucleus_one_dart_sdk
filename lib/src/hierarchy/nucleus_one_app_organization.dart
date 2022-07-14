@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import '../../nucleus_one_dart_sdk.dart';
+import 'package:get_it/get_it.dart';
+
 import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/organization_permissions.dart' as api_mod;
 import '../api_model/tenant.dart' as api_mod;
@@ -10,39 +11,36 @@ import '../http.dart' as http;
 import '../model/organization_package.dart';
 import '../model/organization_permissions.dart';
 import '../nucleus_one.dart';
+import 'nucleus_one_app_subscriptions.dart';
+import 'nucleus_one_app_project.dart';
 
 class NucleusOneAppOrganization with NucleusOneAppDependent {
+  final String id;
+
   NucleusOneAppOrganization({
-    required NucleusOneAppInternal app,
+    NucleusOneAppInternal? app,
+    required this.id,
   }) {
-    this.app = app;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'Value cannot be blank.');
+    }
   }
 
-  /// Gets organization's tenants.
-  ///
-  /// [organizationId] The id of the organization.
-  ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  Future<QueryResult<TenantCollection>> getTenants({
-    required String organizationId,
-    String? cursor,
-  }) async {
-    if (organizationId.isEmpty) {
-      throw ArgumentError.value(organizationId, 'organizationId', 'Value cannot be blank.');
-    }
-
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsTenantsFormat.replaceFirst('<organizationId>', organizationId),
-      app,
-      query: qp,
+  /// Project
+  NucleusOneAppProject project(String projectId) {
+    return NucleusOneAppProject(
+      organization: this,
+      id: projectId,
     );
+  }
 
-    final apiModel =
-        api_mod.QueryResult<api_mod.TenantCollection>.fromJson(jsonDecode(responseBody));
-    return TenantCollectionQueryResult.fromApiModelTenantCollection(apiModel);
+  /// Subscriptions
+  NucleusOneAppSubscriptions subscriptions() {
+    return NucleusOneAppSubscriptions(
+      organization: this,
+    );
   }
 
   /// Gets organization's tenants.
@@ -62,38 +60,5 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
 
     final apiModel = api_mod.OrganizationPermissions.fromJson(jsonDecode(responseBody));
     return OrganizationPermissions.fromApiModel(apiModel);
-  }
-
-  /// Gets organization packages for the current user.
-  Future<QueryResult<OrganizationPackageCollection>>
-      adminGetOrganizationPackagesForCurrentUser() async {
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.adminOrganizationPackagesForCurrentUser,
-      app,
-    );
-
-    final apiModel = api_mod.QueryResult<api_mod.OrganizationPackageCollection>.fromJson(
-        jsonDecode(responseBody));
-    return OrganizationPackageCollectionQueryResult.fromApiModelOrganizationPackageCollection(
-        apiModel);
-  }
-
-  /// Accepts an invitation to an organization.
-  ///
-  /// [invitationId] The id of the invitationId.
-  Future<OrganizationPackage> acceptInvitation({
-    required String invitationId,
-  }) async {
-    if (invitationId.isEmpty) {
-      throw ArgumentError.value(invitationId, 'invitationId', 'Value cannot be blank.');
-    }
-
-    final responseBody = await http.executePutRequestWithTextResponse(
-      http.apiPaths.organizationInvitationsFormat.replaceFirst('<invitationId>', invitationId),
-      app,
-    );
-
-    final apiModel = api_mod.OrganizationPackage.fromJson(jsonDecode(responseBody));
-    return OrganizationPackage.fromApiModel(apiModel);
   }
 }

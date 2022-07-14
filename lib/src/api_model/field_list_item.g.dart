@@ -6,12 +6,11 @@ part of 'field_list_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FieldListItem _$FieldListItemFromJson(Map<String, dynamic> json) {
-  return FieldListItem()
-    ..id = json['ID'] as String?
-    ..parentValue = json['ParentValue'] as String?
-    ..value = json['Value'] as String?;
-}
+FieldListItem _$FieldListItemFromJson(Map<String, dynamic> json) =>
+    FieldListItem()
+      ..id = json['ID'] as String?
+      ..parentValue = json['ParentValue'] as String?
+      ..value = json['Value'] as String?;
 
 Map<String, dynamic> _$FieldListItemToJson(FieldListItem instance) {
   final val = <String, dynamic>{};

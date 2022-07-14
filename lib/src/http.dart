@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:file/file.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
@@ -46,27 +45,8 @@ void setRequestHeadersCommon(HttpClientRequest request) {
 
 void setAuthenticatedRequestHeaders(HttpClientRequest request, NucleusOneAppInternal app) {
   setRequestHeadersCommon(request);
-  setRequestHeadersAuthCookie(request, app);
-}
 
-void setRequestHeadersAuthCookie(HttpClientRequest request, NucleusOneAppInternal app) {
-  //'Cookie': 'LoginUserName=ssouser@qwertyuiop.com; G_AUTHUSER_H=1; session_v1=IPY07xOR9mycvzscLy-yZTY5n3YqBqlqKNZ8Vg6aHlI',
-  final headers = request.headers;
-
-  if (app.sessionId != null) {
-    // headers.set('Cookie',
-    //     'LoginUserName=ssouser@qwertyuiop.com; G_AUTHUSER_H=1; session_v1=IPY07xOR9mycvzscLy-yZTY5n3YqBqlqKNZ8Vg6aHlI');
-
-    // switch (app.authProvider) {
-    //   case AuthProvider.google:
-    //     headers.set('Cookie', 'G_AUTHUSER_H=1; session_v1=${app.sessionId}');
-    //     break;
-    //   default:
-    //     throw RangeError('Invalid auth provider: ${app.authProvider}');
-    // }
-
-    headers.set('Cookie', 'session_v1=${app.sessionId}');
-  }
+  request.headers.add('Authorization', 'Bearer ${app.options.apiKey}');
 }
 
 @visibleForTesting
@@ -99,12 +79,13 @@ String getQueryParamsString(Map<String, dynamic> queryParams) {
 }
 
 Future<HttpClientResponse> _executeStandardHttpRequest(
-    bool authenticated,
-    NucleusOneAppInternal app,
-    String apiRelativeUrlPath,
-    Map<String, dynamic>? qp,
-    String? body,
-    _HttpMethod method) async {
+  bool authenticated,
+  NucleusOneAppInternal app,
+  String apiRelativeUrlPath,
+  Map<String, dynamic>? qp,
+  String? body,
+  _HttpMethod method,
+) async {
   HttpClientRequest clientReq;
 
   {
@@ -237,96 +218,106 @@ Future<void> executePutRequest(
       authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.put);
 }
 
-/// Downloads a file to disk.
-///
-/// [documentId]: The document id to process.
-///
-/// [destinationDirectory]: The directory in which to save the downloaded file.
-Future<void> downloadAuthenticated(
-  String apiRelativeUrlPath,
-  String destFilePath,
-  NucleusOneAppInternal app, {
-  Map<String, dynamic>? query,
-}) async {
-  final response = await _executeGetRequestInternal(true, app, apiRelativeUrlPath, query, null);
-  final fs = GetIt.instance.get<file.FileSystem>();
-  final fileStream = fs.file(destFilePath).openWrite();
-  await response.pipe(fileStream);
-}
+// /// Downloads a file to disk.
+// ///
+// /// [documentId]: The document id to process.
+// ///
+// /// [destinationDirectory]: The directory in which to save the downloaded file.
+// Future<void> downloadAuthenticated(
+//   String apiRelativeUrlPath,
+//   String destFilePath,
+//   NucleusOneAppInternal app, {
+//   Map<String, dynamic>? query,
+// }) async {
+//   final response = await _executeGetRequestInternal(true, app, apiRelativeUrlPath, query, null);
+//   final fs = GetIt.instance.get<file.FileSystem>();
+//   final fileStream = fs.file(destFilePath).openWrite();
+//   await response.pipe(fileStream);
+// }
 
 abstract class apiPaths {
-  static const addressBookItems = '/addressBookItems';
-  static const adminOrganizationPackagesForCurrentUser =
-      '/admin/organizationPackagesForCurrentUser';
-  static const approvalActionsApprove = '/approvalActions/approve';
-  static const approvalActionsDecline = '/approvalActions/decline';
-  static const approvalActionsDeny = '/approvalActions/deny';
-  static const approvals = '/approvals';
-  static const billingOrganizationSubscriptionsFormat =
-      '/billing/organizationSubscriptions/<organizationId>';
-  static const billingSubscriptionInvoicesFormat = '/billing/subscriptionInvoices/<organizationId>';
-  static const billingSubscriptionPlansFormat = '/billing/subscriptionPlans/<organizationId>';
-  static const classificationFieldsFormat = '/classificationFields/<classificationId>';
-  static const classifications = '/classifications';
-  static const dashboardWidgets = '/dashboardWidgets';
-  static const documentActionsRestoreFromRecycleBin = '/documentActions/restoreFromRecycleBin';
-  static const documentActionsSendToRecycleBin = '/documentActions/sendToRecycleBin';
-  static const documentContentPackagesFormat = '/documentContentPackages/<documentId>';
-  static const documentCounts = '/documentCounts';
-  static const documentFields = '/documentFields';
-  static const documentPackageFormat = '/documentPackages/<documentId>';
-  static const documents = '/documents';
-  static const documentsFormat = '/documents/<documentId>';
-  static const documentsCommentsFormat = '/documents/<documentId>/comments';
-  static const documentsEventsFormat = '/documents/<documentId>/events';
-  static const documentsSignatureFormsFormat = '/documents/<documentId>/signatureForms';
-  static const documentsSignatureFormsByIdFormat =
-      '/documents/<documentId>/signatureForms/<documentSignatureFormId>';
-  static const documentsSignatureFormsByIdFieldsFormat =
-      '/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields';
-  static const documentsSignatureFormsByIdFieldsByFieldIdFormat =
-      '/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields/<documentSignatureFormFieldId>';
-  static const documentsSignatureSessionPackagesFormat =
-      '/documents/<documentId>/signatureSessionPackages';
-  static const documentsThumbnailsFormat = '/documents/<documentId>/thumbnails';
-  static const documentSignatureFormsRecent = '/documentSignatureForms/recent';
   static const documentSignatureSessionsSigningRecipientsFieldsFormat =
       '/documentSignatureSessions/<documentSignatureSessionId>/signingRecipients/<documentSignatureSessionRecipientId>/fields';
-  static const documentSubscriptionsFormat = '/documentSubscriptions/<documentId>';
-  static const documentUploads = '/documentUploads';
-  static const fields = '/fields';
-  static const fieldsFormat = '/fields/<fieldId>';
-  static const fieldsListItemsFormat = '/fields/<fieldId>/listItems';
-  static const folderHierarchies = '/folderHierarchies';
-  static const folderHierarchiesFormat = '/folderHierarchies/<folderHierarchyId>';
-  static const folderHierarchiesItemsFormat = '/folderHierarchies/<folderHierarchyId>/items';
-  static const folderHierarchiesItemsItemFormat =
-      '/folderHierarchies/<folderHierarchyId>/items/<folderHierarchyItemId>';
-  static const formTemplates = '/formTemplates';
   static const formTemplatesPublicFormat = '/formTemplatesPublic/<formTemplateId>';
   static const formTemplatesPublicFieldsFormat = '/formTemplatesPublic/<formTemplateId>/fields';
   static const formTemplatesPublicFieldListItemsFormat =
       '/formTemplatesPublic/<formTemplateId>/fields/<formTemplateFieldId>/listItems';
   static const formTemplatesPublicSubmissions = '/formTemplatesPublic/<formTemplateId>/submissions';
-  static const inboxCounts = '/inboxCounts';
-  static const organizationInvitationsFormat = '/organizationInvitations/<invitationId>';
+  static const organizations = '/organizations';
   static const organizationsPermissionsFormat = '/organizations/<organizationId>/permissions';
-  static const organizationsTenantsFormat = '/organizations/<organizationId>/tenants';
-  static const pageCounts = '/pageCounts';
-  static const recycleBinDocumentCounts = '/recycleBinDocumentCounts';
-  static const recycleBinInboxCounts = '/recycleBinInboxCounts';
-  static const signatureFormTemplates = '/signatureFormTemplates';
-  static const signatureFormTemplatesFormat = '/signatureFormTemplates/<signatureFormTemplateId>';
-  static const signatureFormTemplatesFieldsFormat =
-      '/signatureFormTemplates/<signatureFormTemplateId>/fields';
+  static const organizationsProjectsApprovalActionsApproveFormat =
+      '/organizations/<organizationId>/projects/<projectId>/approvalActions/approve';
+  static const organizationsProjectsApprovalActionsDeclineFormat =
+      '/organizations/<organizationId>/projects/<projectId>/approvalActions/decline';
+  static const organizationsProjectsApprovalActionsDenyFormat =
+      '/organizations/<organizationId>/projects/<projectId>/approvalActions/deny';
+  static const organizationsProjectsApprovalsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/approvals';
+  static const organizationsProjectsCountsDocumentsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/counts/documents';
+  static const organizationsProjectsCountsPagesFormat =
+      '/organizations/<organizationId>/projects/<projectId>/counts/pages';
+  static const organizationsProjectsCountsRecycleBinDocumentsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/counts/recycleBinDocuments';
+  static const organizationsProjectsDocumentActionsRestoreFromRecycleBinFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documentActions/restoreFromRecycleBin';
+  static const organizationsProjectsDocumentActionsSendToRecycleBinFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documentActions/sendToRecycleBin';
+  static const organizationsProjectsDocumentContentPackagesFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documentContentPackages/<documentId>';
+  static const organizationsProjectsDocumentPackagesFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documentPackages/<documentId>';
+  static const organizationsProjectsDocumentSubscriptionsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documentSubscriptions/<documentId>';
+  static const organizationsProjectsDocumentUploadsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documentUploads';
+  static const organizationsProjectsDocumentsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documents';
+  static const organizationsProjectsDocumentsDocumentFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documents/<documentId>';
+  static const organizationsProjectsDocumentsDocumentCommentsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documents/<documentId>/comments';
+  static const organizationProjectsDocumentsDocumentEventsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documents/<documentId>/events';
+  static const organizationsProjectsDocumentsDocumentSignatureFormsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documents/<documentId>/signatureForms';
+  static const organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documents/<documentId>/signatureForms/<documentSignatureFormId>';
+  static const organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields';
+  static const organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documents/<documentId>/signatureForms/<documentSignatureFormId>/fields/<documentSignatureFormFieldId>';
+  static const organizationsProjectsDocumentsSignatureSessionPackagesFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documents/<documentId>/signatureSessionPackages';
+  static const organizationsProjectsDocumentsThumbnailsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documents/<documentId>/thumbnails';
+  static const organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/recentDocumentSignatureForms';
+  static const organizationsProjectsFieldsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/fields';
+  static const organizationsProjectsFieldsFieldFormat =
+      '/organizations/<organizationId>/projects/<projectId>/fields/<fieldId>';
+  static const organizationsProjectsFieldsFieldListItemsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/fields/<fieldId>/listItems';
+  static const organizationsProjectsFormTemplatesFormat =
+      '/organizations/<organizationId>/projects/<projectId>/formTemplates';
+  static const organizationsProjectsSignatureFormTemplatesFormat =
+      '/organizations/<organizationId>/projects/<projectId>/signatureFormTemplates';
+  static const organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat =
+      '/organizations/<organizationId>/projects/<projectId>/signatureFormTemplates/<signatureFormTemplateId>';
+  static const organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/signatureFormTemplates/<signatureFormTemplateId>/fields';
+  static const organizationsSubscriptionsFormat = '/organizations/<organizationId>/subscriptions';
+  static const organizationsSubscriptionsInvoicesFormat =
+      '/organizations/<organizationId>/subscriptions/invoices';
+  static const organizationsSubscriptionsPlansFormat =
+      '/organizations/<organizationId>/subscriptions/plans';
   static const supportErrorEvents = '/support/errorEvents';
   static const supportOrganizations = '/support/organizations';
-  static const supportOrganizationsTenantsFormat =
-      '/support/organizations/<organizationId>/tenants';
   static const supportUsers = '/support/users';
   static const supportAdmin = '/supportAdmin';
-  static const tenantPackagesForCurrentUser = '/tenantPackagesForCurrentUser';
-  static const tenantPermissionsFormat = '/tenants/<tenantId>/permissions';
+  static const userOrganizationsProjectsFormat = '/user/organizations/<organizationId>/projects';
+  static const userAddressBookItems = '/user/addressBookItems';
   static const userEmailAddresses = '/user/emailAddresses';
   static const userEmailAddressesEmailChangeCodeFormat = '/user/emailAddresses/<emailChangeCode>';
   static const userEmailAddressVerifications = '/user/emailAddressVerifications';
@@ -334,6 +325,7 @@ abstract class apiPaths {
   static const userEmailLoginVerify = '/user/emailLoginVerify';
   static const userLogin = '/user/login';
   static const userLogout = '/user/logout';
+  static const userOrganizations = '/user/organizations';
   static const userPreferences = '/user/preferences';
   static const userPreferenceFormat = '/user/preferences/<singleUserPreferenceId>';
   static const userProfile = '/user/profile';

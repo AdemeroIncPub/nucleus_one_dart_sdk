@@ -6,12 +6,11 @@ part of 'tenant.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TenantCollection _$TenantCollectionFromJson(Map<String, dynamic> json) {
-  return TenantCollection()
-    ..tenants = (json['Tenants'] as List<dynamic>?)
-        ?.map((e) => Tenant.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+TenantCollection _$TenantCollectionFromJson(Map<String, dynamic> json) =>
+    TenantCollection()
+      ..tenants = (json['Tenants'] as List<dynamic>?)
+          ?.map((e) => Tenant.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$TenantCollectionToJson(TenantCollection instance) {
   final val = <String, dynamic>{};
@@ -26,27 +25,25 @@ Map<String, dynamic> _$TenantCollectionToJson(TenantCollection instance) {
   return val;
 }
 
-Tenant _$TenantFromJson(Map<String, dynamic> json) {
-  return Tenant()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..name = json['Name'] as String?
-    ..creatingUserName = json['CreatingUserName'] as String?
-    ..creatingUserEmail = json['CreatingUserEmail'] as String?
-    ..crmAccountId = json['CrmAccountId'] as String?
-    ..organizationID = json['OrganizationID'] as String?
-    ..organizationName = json['OrganizationName'] as String?
-    ..organizationSubscriptionRequired =
-        json['OrganizationSubscriptionRequired'] as bool?
-    ..organizationSubscriptionExpiration =
-        json['OrganizationSubscriptionExpiration'] as String?
-    ..searchIndexID = json['SearchIndexID'] as String?
-    ..bucketName = json['BucketName'] as String?
-    ..disabled = json['Disabled'] as bool?
-    ..isMarkedForPurge = json['IsMarkedForPurge'] as bool?
-    ..purgeDate = json['PurgeDate'] as String?
-    ..documentCount = json['DocumentCount'] as int?;
-}
+Tenant _$TenantFromJson(Map<String, dynamic> json) => Tenant()
+  ..id = json['ID'] as String?
+  ..createdOn = json['CreatedOn'] as String?
+  ..name = json['Name'] as String?
+  ..creatingUserName = json['CreatingUserName'] as String?
+  ..creatingUserEmail = json['CreatingUserEmail'] as String?
+  ..crmAccountId = json['CrmAccountId'] as String?
+  ..organizationID = json['OrganizationID'] as String?
+  ..organizationName = json['OrganizationName'] as String?
+  ..organizationSubscriptionRequired =
+      json['OrganizationSubscriptionRequired'] as bool?
+  ..organizationSubscriptionExpiration =
+      json['OrganizationSubscriptionExpiration'] as String?
+  ..searchIndexID = json['SearchIndexID'] as String?
+  ..bucketName = json['BucketName'] as String?
+  ..disabled = json['Disabled'] as bool?
+  ..isMarkedForPurge = json['IsMarkedForPurge'] as bool?
+  ..purgeDate = json['PurgeDate'] as String?
+  ..documentCount = json['DocumentCount'] as int?;
 
 Map<String, dynamic> _$TenantToJson(Tenant instance) {
   final val = <String, dynamic>{};

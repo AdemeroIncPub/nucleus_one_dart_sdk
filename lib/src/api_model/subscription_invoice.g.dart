@@ -6,15 +6,14 @@ part of 'subscription_invoice.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SubscriptionInvoice _$SubscriptionInvoiceFromJson(Map<String, dynamic> json) {
-  return SubscriptionInvoice()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..amountDue = (json['AmountDue'] as num?)?.toDouble()
-    ..isUpcoming = json['IsUpcoming'] as bool?
-    ..status = json['Status'] as String?
-    ..pdfUrl = json['PDFUrl'] as String?;
-}
+SubscriptionInvoice _$SubscriptionInvoiceFromJson(Map<String, dynamic> json) =>
+    SubscriptionInvoice()
+      ..id = json['ID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..amountDue = (json['AmountDue'] as num?)?.toDouble()
+      ..isUpcoming = json['IsUpcoming'] as bool?
+      ..status = json['Status'] as String?
+      ..pdfUrl = json['PDFUrl'] as String?;
 
 Map<String, dynamic> _$SubscriptionInvoiceToJson(SubscriptionInvoice instance) {
   final val = <String, dynamic>{};

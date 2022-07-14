@@ -1,16 +1,13 @@
 import 'package:test/test.dart';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/api_model/dashboard_widget.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/user_profile.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/http.dart';
 
-import '../../../src/assertions.dart';
 import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/address_book.dart';
-import '../api_model/dashboard_widget.dart';
 import '../api_model/user_profile.dart';
 
 void main() {
@@ -29,7 +26,7 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => getStandardTestUser().getAddressBook(),
         responseBody: addressBookJson,
-        expectedRequestUrlPath: apiPaths.addressBookItems,
+        expectedRequestUrlPath: apiPaths.userAddressBookItems,
         expectedRequestQueryParams: [
           'includeTenantMembers=true',
           'includeRoles=true',
@@ -50,7 +47,7 @@ void main() {
           includeRoles: false,
         ),
         responseBody: addressBookJson,
-        expectedRequestUrlPath: apiPaths.addressBookItems,
+        expectedRequestUrlPath: apiPaths.userAddressBookItems,
         expectedRequestQueryParams: [
           'includeTenantMembers=true',
           'includeRoles=false',
@@ -71,7 +68,7 @@ void main() {
           filter: '123',
         ),
         responseBody: addressBookJson,
-        expectedRequestUrlPath: apiPaths.addressBookItems,
+        expectedRequestUrlPath: apiPaths.userAddressBookItems,
         expectedRequestQueryParams: [
           'includeTenantMembers=true',
           'includeRoles=true',
@@ -90,162 +87,8 @@ void main() {
         httpMethod: HttpMethods.DELETE,
         httpCallCallback: () => getStandardTestUser().clearAddressBook(),
         responseBody: '',
-        expectedRequestUrlPath: apiPaths.addressBookItems,
+        expectedRequestUrlPath: apiPaths.userAddressBookItems,
         expectedRequestQueryParams: [],
-      );
-    });
-
-    test('getDashboardWidgets method test', () async {
-      await performHttpTest<DashboardWidgetCollection>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => getStandardTestUser().getDashboardWidgets(),
-        responseBody: dashboardWidgetsJson,
-        expectedRequestUrlPath: apiPaths.dashboardWidgets,
-        expectedRequestQueryParams: [],
-        additionalValidationsCallback: (x) {
-          expect(x.items.length, 2);
-        },
-      );
-    });
-
-    test('deleteDashboardWidgets method test', () async {
-      // It is a known issue that, when debugging tests, the debugger breaks at the handled
-      // exception thrown by one or more of the below method calls.  While annoying, it is not
-      // otherwise harmful.  This should be addressed shortly in Dart 2.13.
-      // https://github.com/dart-lang/sdk/issues/37953#issuecomment-792305686
-
-      // Test assertion error when no widgets are provided
-      await testAssertionErrorAsync(
-          () => performHttpTest(
-                httpMethod: HttpMethods.DELETE,
-                httpCallCallback: () => getStandardTestUser().deleteDashboardWidgets([]),
-                responseBody: '',
-                expectedRequestUrlPath: '',
-                expectedRequestQueryParams: [],
-              ),
-          'ids');
-
-      await performHttpTest(
-        httpMethod: HttpMethods.DELETE,
-        httpCallCallback: () => getStandardTestUser().deleteDashboardWidgets(['abc', 'def']),
-        responseBody: '{"IDs":["abc","def"]}',
-        expectedRequestUrlPath: apiPaths.dashboardWidgets,
-        expectedRequestQueryParams: [],
-      );
-    });
-
-    // See note on [User.updateDashboardWidget] method, as to why this is commented out.
-    // Nonetheless, the following tests should be fully functional.
-    // Needs to be updated to us standard HTTP testing methods, though.
-    /*
-    test('updateDashboardWidget method test', () async {
-      Future<HttpClientOperationResult> performTest(DashboardWidget dashboardWidget) async {
-        final makeHttpCall = () async {
-          // It is a known issue that, when debugging tests, the debugger breaks at the handled
-          // exception thrown by one or more of the below method calls.  While annoying, it is not
-          // otherwise harmful.  This should be addressed shortly in Dart 2.13.
-          // https://github.com/dart-lang/sdk/issues/37953#issuecomment-792305686
-          await getStandardTestUser().updateDashboardWidget(dashboardWidget);
-        };
-
-        return await createMockHttpClientScopeForPutRequest(
-          callback: () => makeHttpCall(),
-          responseBody: '',
-        );
-      }
-
-      await testAssertionErrorAsync(() => performTest(DashboardWidget()), 'id');
-
-      final dw = DashboardWidget()
-        ..id = '1'
-        ..tenantID = '2'
-        ..tenantMemberID = '3'
-        ..type = '4'
-        ..gridColumn = 5
-        ..columnRank = 6
-        ..name = '7'
-        ..detail = '8'
-        ..jsonData = '9';
-
-      final result = await performTest(dw);
-      expect(result.request.method, HttpMethods.PUT);
-      expect(
-          result.request.uri.path, apiRequestPathMatches(apiPaths.dashboardWidgets + '/' + dw.id!));
-      expect(result.request.uri.query, '');
-      expect(result.getBodyAsString(),
-          '{"ID":"1","TenantID":"2","TenantMemberID":"3","Type":"4","GridColumn":5,"ColumnRank":6,"Name":"7","Detail":"8","JsonData":"9"}');
-    });
-    */
-
-    test('createDashboardWidgets method test', () async {
-      // Test assertion error when no widgets are provided
-      await testAssertionErrorAsync(
-          () => performHttpTest(
-                httpMethod: HttpMethods.POST,
-                httpCallCallback: () => getStandardTestUser().createDashboardWidgets(
-                    DashboardWidgetCollection.fromApiModel(api_mod.DashboardWidgetCollection())),
-                responseBody: '',
-                expectedRequestUrlPath: '',
-                expectedRequestQueryParams: [],
-              ),
-          'widgets');
-
-      final dws = api_mod.DashboardWidgetCollection()
-        ..items = [
-          api_mod.DashboardWidget()
-            ..id = '1'
-            ..tenantID = '2'
-            ..tenantMemberID = '3'
-            ..type = '4'
-            ..gridColumn = 5
-            ..columnRank = 6
-            ..name = '7'
-            ..detail = '8'
-            ..jsonData = '9'
-        ];
-      await performHttpTest(
-        httpMethod: HttpMethods.POST,
-        httpCallCallback: () => getStandardTestUser()
-            .createDashboardWidgets(DashboardWidgetCollection.fromApiModel(dws)),
-        responseBody:
-            '[{"ID":"1","TenantID":"2","TenantMemberID":"3","Type":"4","GridColumn":5.0,"ColumnRank":6.0,"Name":"7","Detail":"8","JsonData":"9"}]',
-        expectedRequestUrlPath: apiPaths.dashboardWidgets,
-        expectedRequestQueryParams: [],
-      );
-    });
-
-    test('updateDashboardWidgetRanks method test', () async {
-      // It is a known issue that, when debugging tests, the debugger breaks at the handled
-      // exception thrown by one or more of the below method calls.  While annoying, it is not
-      // otherwise harmful.  This should be addressed shortly in Dart 2.13.
-      // https://github.com/dart-lang/sdk/issues/37953#issuecomment-792305686
-
-      // Test assertion error when no widgets are provided
-      await testAssertionErrorAsync(
-          () => performHttpTest(
-                httpMethod: HttpMethods.PUT,
-                httpCallCallback: () => getStandardTestUser().updateDashboardWidgetRanks(
-                    DashboardWidgetCollection.fromApiModel(api_mod.DashboardWidgetCollection())),
-                responseBody: '',
-                expectedRequestUrlPath: '',
-                expectedRequestQueryParams: [],
-              ),
-          'widgets');
-
-      // Test with valid request
-      final dws = api_mod.DashboardWidgetCollection()
-        ..items = [
-          api_mod.DashboardWidget.forRankUpdate('abc', 0, 1),
-          api_mod.DashboardWidget.forRankUpdate('def', 2, 3),
-        ];
-      await performHttpTest(
-        httpMethod: HttpMethods.PUT,
-        httpCallCallback: () => getStandardTestUser()
-            .updateDashboardWidgetRanks(DashboardWidgetCollection.fromApiModel(dws)),
-        responseBody:
-            '[{"ID":"abc","GridColumn":0.0,"ColumnRank":1.0},{"ID":"def","GridColumn":2.0,"ColumnRank":3.0}]',
-        expectedRequestUrlPath: apiPaths.dashboardWidgets,
-        expectedRequestQueryParams: ['onlyRank=true'],
       );
     });
 

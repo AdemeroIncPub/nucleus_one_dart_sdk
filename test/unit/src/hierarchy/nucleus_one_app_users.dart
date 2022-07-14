@@ -21,7 +21,7 @@ final up = api_mod.UserPreference()
   ..mapValue = 'F';
 
 void main() {
-  group('NucleusOneAppProjects class tests', () {
+  group('NucleusOneAppProject class tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();
     });

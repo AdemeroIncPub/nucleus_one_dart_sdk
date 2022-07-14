@@ -7,12 +7,11 @@ part of 'work_task_event.dart';
 // **************************************************************************
 
 WorkTaskEventCollection _$WorkTaskEventCollectionFromJson(
-    Map<String, dynamic> json) {
-  return WorkTaskEventCollection()
-    ..workTaskEvents = (json['WorkTaskEvents'] as List<dynamic>?)
-        ?.map((e) => WorkTaskEvent.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    WorkTaskEventCollection()
+      ..workTaskEvents = (json['WorkTaskEvents'] as List<dynamic>?)
+          ?.map((e) => WorkTaskEvent.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$WorkTaskEventCollectionToJson(
     WorkTaskEventCollection instance) {
@@ -28,19 +27,18 @@ Map<String, dynamic> _$WorkTaskEventCollectionToJson(
   return val;
 }
 
-WorkTaskEvent _$WorkTaskEventFromJson(Map<String, dynamic> json) {
-  return WorkTaskEvent()
-    ..id = json['ID'] as String?
-    ..workTaskID = json['WorkTaskID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..createdByUserID = json['CreatedByUserID'] as String?
-    ..createdByUserName = json['CreatedByUserName'] as String?
-    ..createdByUserEmail = json['CreatedByUserEmail'] as String?
-    ..modifiedOn = json['ModifiedOn'] as String?
-    ..type = json['Type'] as String?
-    ..workTaskRevision = json['WorkTaskRevision'] as int?
-    ..detailJson = json['DetailJson'] as String?;
-}
+WorkTaskEvent _$WorkTaskEventFromJson(Map<String, dynamic> json) =>
+    WorkTaskEvent()
+      ..id = json['ID'] as String?
+      ..workTaskID = json['WorkTaskID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..createdByUserID = json['CreatedByUserID'] as String?
+      ..createdByUserName = json['CreatedByUserName'] as String?
+      ..createdByUserEmail = json['CreatedByUserEmail'] as String?
+      ..modifiedOn = json['ModifiedOn'] as String?
+      ..type = json['Type'] as String?
+      ..workTaskRevision = json['WorkTaskRevision'] as int?
+      ..detailJson = json['DetailJson'] as String?;
 
 Map<String, dynamic> _$WorkTaskEventToJson(WorkTaskEvent instance) {
   final val = <String, dynamic>{};

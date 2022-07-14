@@ -7,36 +7,35 @@ part of 'document_signature_session.dart';
 // **************************************************************************
 
 DocumentSignatureSession _$DocumentSignatureSessionFromJson(
-    Map<String, dynamic> json) {
-  return DocumentSignatureSession()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..modifiedOn = json['ModifiedOn'] as String?
-    ..createdByUserID = json['CreatedByUserID'] as String?
-    ..createdByUserEmail = json['CreatedByUserEmail'] as String?
-    ..createdByUserName = json['CreatedByUserName'] as String?
-    ..lastModifiedByUserID = json['LastModifiedByUserID'] as String?
-    ..lastModifiedByUserEmail = json['LastModifiedByUserEmail'] as String?
-    ..lastModifiedByUserName = json['LastModifiedByUserName'] as String?
-    ..documentID = json['DocumentID'] as String?
-    ..documentRevisionID = json['DocumentRevisionID'] as String?
-    ..isActive = json['IsActive'] as bool?
-    ..isComplete = json['IsComplete'] as bool?
-    ..wasStopped = json['WasStopped'] as bool?
-    ..completedOn = json['CompletedOn'] as String?
-    ..isRendered = json['IsRendered'] as bool?
-    ..renderedOn = json['RenderedOn'] as String?
-    ..formDesignType = json['FormDesignType'] as String?
-    ..useAccessCode = json['UseAccessCode'] as bool?
-    ..accessCode = json['AccessCode'] as String?
-    ..useCustomSubjectAndBody = json['UseCustomSubjectAndBody'] as bool?
-    ..customSubject = json['CustomSubject'] as String?
-    ..customBody = json['CustomBody'] as String?
-    ..quickDesignPlaceInitials = json['QuickDesignPlaceInitials'] as bool?
-    ..quickDesignPlaceFullName = json['QuickDesignPlaceFullName'] as bool?
-    ..quickDesignPlaceEmail = json['QuickDesignPlaceEmail'] as bool?
-    ..quickDesignPlaceTitle = json['QuickDesignPlaceTitle'] as bool?;
-}
+        Map<String, dynamic> json) =>
+    DocumentSignatureSession()
+      ..id = json['ID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..modifiedOn = json['ModifiedOn'] as String?
+      ..createdByUserID = json['CreatedByUserID'] as String?
+      ..createdByUserEmail = json['CreatedByUserEmail'] as String?
+      ..createdByUserName = json['CreatedByUserName'] as String?
+      ..lastModifiedByUserID = json['LastModifiedByUserID'] as String?
+      ..lastModifiedByUserEmail = json['LastModifiedByUserEmail'] as String?
+      ..lastModifiedByUserName = json['LastModifiedByUserName'] as String?
+      ..documentID = json['DocumentID'] as String?
+      ..documentRevisionID = json['DocumentRevisionID'] as String?
+      ..isActive = json['IsActive'] as bool?
+      ..isComplete = json['IsComplete'] as bool?
+      ..wasStopped = json['WasStopped'] as bool?
+      ..completedOn = json['CompletedOn'] as String?
+      ..isRendered = json['IsRendered'] as bool?
+      ..renderedOn = json['RenderedOn'] as String?
+      ..formDesignType = json['FormDesignType'] as String?
+      ..useAccessCode = json['UseAccessCode'] as bool?
+      ..accessCode = json['AccessCode'] as String?
+      ..useCustomSubjectAndBody = json['UseCustomSubjectAndBody'] as bool?
+      ..customSubject = json['CustomSubject'] as String?
+      ..customBody = json['CustomBody'] as String?
+      ..quickDesignPlaceInitials = json['QuickDesignPlaceInitials'] as bool?
+      ..quickDesignPlaceFullName = json['QuickDesignPlaceFullName'] as bool?
+      ..quickDesignPlaceEmail = json['QuickDesignPlaceEmail'] as bool?
+      ..quickDesignPlaceTitle = json['QuickDesignPlaceTitle'] as bool?;
 
 Map<String, dynamic> _$DocumentSignatureSessionToJson(
     DocumentSignatureSession instance) {
@@ -79,45 +78,46 @@ Map<String, dynamic> _$DocumentSignatureSessionToJson(
 }
 
 DocumentSignatureSessionRecipient _$DocumentSignatureSessionRecipientFromJson(
-    Map<String, dynamic> json) {
-  return DocumentSignatureSessionRecipient()
-    ..id = json['ID'] as String?
-    ..tenantID = json['TenantID'] as String?
-    ..documentID = json['DocumentID'] as String?
-    ..documentCreatedOn = json['DocumentCreatedOn'] as String?
-    ..documentBucketName = json['DocumentBucketName'] as String?
-    ..documentThumbnailObjectName =
-        json['DocumentThumbnailObjectName'] as String?
-    ..documentName = json['DocumentName'] as String?
-    ..documentNameLower = json['DocumentNameLower'] as String?
-    ..documentPageCount = json['DocumentPageCount'] as int?
-    ..documentFileSize = json['DocumentFileSize'] as int?
-    ..documentClassificationID = json['DocumentClassificationID'] as String?
-    ..documentClassificationName = json['DocumentClassificationName'] as String?
-    ..documentClassificationNameLower =
-        json['DocumentClassificationNameLower'] as String?
-    ..documentPreviewMetadata =
-        (json['DocumentPreviewMetadata'] as List<dynamic>?)
-            ?.map((e) => Map<String, String>.from(e as Map))
-            .toList()
-    ..documentSignatureSessionID = json['DocumentSignatureSessionID'] as String?
-    ..documentSignatureSessionIsActive =
-        json['DocumentSignatureSessionIsActive'] as bool?
-    ..documentSignatureSessionIsComplete =
-        json['DocumentSignatureSessionIsComplete'] as bool?
-    ..uniqueID = json['UniqueID'] as String?
-    ..rank = json['Rank'] as int?
-    ..email = json['Email'] as String?
-    ..fullName = json['FullName'] as String?
-    ..type = json['Type'] as String?
-    ..tenantMemberID = json['TenantMemberID'] as String?
-    ..signingRequestSent = json['SigningRequestSent'] as bool?
-    ..requestedOn = json['RequestedOn'] as String?
-    ..isActive = json['IsActive'] as bool?
-    ..isComplete = json['IsComplete'] as bool?
-    ..completedOn = json['CompletedOn'] as String?
-    ..ipAddress = json['IPAddress'] as String?;
-}
+        Map<String, dynamic> json) =>
+    DocumentSignatureSessionRecipient()
+      ..id = json['ID'] as String?
+      ..tenantID = json['TenantID'] as String?
+      ..documentID = json['DocumentID'] as String?
+      ..documentCreatedOn = json['DocumentCreatedOn'] as String?
+      ..documentBucketName = json['DocumentBucketName'] as String?
+      ..documentThumbnailObjectName =
+          json['DocumentThumbnailObjectName'] as String?
+      ..documentName = json['DocumentName'] as String?
+      ..documentNameLower = json['DocumentNameLower'] as String?
+      ..documentPageCount = json['DocumentPageCount'] as int?
+      ..documentFileSize = json['DocumentFileSize'] as int?
+      ..documentClassificationID = json['DocumentClassificationID'] as String?
+      ..documentClassificationName =
+          json['DocumentClassificationName'] as String?
+      ..documentClassificationNameLower =
+          json['DocumentClassificationNameLower'] as String?
+      ..documentPreviewMetadata =
+          (json['DocumentPreviewMetadata'] as List<dynamic>?)
+              ?.map((e) => Map<String, String>.from(e as Map))
+              .toList()
+      ..documentSignatureSessionID =
+          json['DocumentSignatureSessionID'] as String?
+      ..documentSignatureSessionIsActive =
+          json['DocumentSignatureSessionIsActive'] as bool?
+      ..documentSignatureSessionIsComplete =
+          json['DocumentSignatureSessionIsComplete'] as bool?
+      ..uniqueID = json['UniqueID'] as String?
+      ..rank = json['Rank'] as int?
+      ..email = json['Email'] as String?
+      ..fullName = json['FullName'] as String?
+      ..type = json['Type'] as String?
+      ..tenantMemberID = json['TenantMemberID'] as String?
+      ..signingRequestSent = json['SigningRequestSent'] as bool?
+      ..requestedOn = json['RequestedOn'] as String?
+      ..isActive = json['IsActive'] as bool?
+      ..isComplete = json['IsComplete'] as bool?
+      ..completedOn = json['CompletedOn'] as String?
+      ..ipAddress = json['IPAddress'] as String?;
 
 Map<String, dynamic> _$DocumentSignatureSessionRecipientToJson(
     DocumentSignatureSessionRecipient instance) {
@@ -168,19 +168,18 @@ Map<String, dynamic> _$DocumentSignatureSessionRecipientToJson(
 }
 
 DocumentSignatureSessionPackage _$DocumentSignatureSessionPackageFromJson(
-    Map<String, dynamic> json) {
-  return DocumentSignatureSessionPackage()
-    ..session = json['Session'] == null
-        ? null
-        : DocumentSignatureSession.fromJson(
-            json['Session'] as Map<String, dynamic>)
-    ..recipients = (json['Recipients'] as List<dynamic>?)
-        ?.map((e) => DocumentSignatureSessionRecipient.fromJson(
-            e as Map<String, dynamic>))
-        .toList()
-    ..beginSession = json['BeginSession'] as bool?
-    ..resetSession = json['ResetSession'] as bool?;
-}
+        Map<String, dynamic> json) =>
+    DocumentSignatureSessionPackage()
+      ..session = json['Session'] == null
+          ? null
+          : DocumentSignatureSession.fromJson(
+              json['Session'] as Map<String, dynamic>)
+      ..recipients = (json['Recipients'] as List<dynamic>?)
+          ?.map((e) => DocumentSignatureSessionRecipient.fromJson(
+              e as Map<String, dynamic>))
+          .toList()
+      ..beginSession = json['BeginSession'] as bool?
+      ..resetSession = json['ResetSession'] as bool?;
 
 Map<String, dynamic> _$DocumentSignatureSessionPackageToJson(
     DocumentSignatureSessionPackage instance) {

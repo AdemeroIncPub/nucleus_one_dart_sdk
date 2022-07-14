@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import '../../nucleus_one_dart_sdk.dart';
+import 'package:meta/meta.dart';
+
 import '../api_model/document_content_package.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
@@ -16,25 +17,39 @@ import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_upload.dart' as api_mod;
 import '../api_model/signature_form_template.dart' as api_mod;
 import '../common/model.dart';
+import '../common/string.dart';
 import '../common/validation.dart';
 import '../http.dart' as http;
+import '../model/document_comment.dart';
+import '../model/document_content_package.dart';
+import '../model/document_event.dart';
 import '../model/document_for_client.dart';
 import '../model/document_package.dart';
+import '../model/document_signature_form.dart';
+import '../model/document_signature_form_field.dart';
+import '../model/document_signature_session.dart';
+import '../model/document_signature_session_signing_recipient_package.dart';
 import '../model/document_subscription_for_client.dart';
 import '../model/document_upload.dart';
+import '../model/query_result.dart';
+import '../model/signature_form_template.dart';
 import '../nucleus_one.dart';
+import 'nucleus_one_app_project.dart';
 
 class NucleusOneAppDocuments with NucleusOneAppDependent {
+  final NucleusOneAppProject project;
+
   NucleusOneAppDocuments({
-    required NucleusOneAppInternal app,
+    required this.project,
   }) {
-    this.app = app;
+    app = project.app;
   }
 
   /// Gets a Document Upload.
   Future<DocumentUpload> getDocumentUpload() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentUploads,
+      http.apiPaths.organizationsProjectsDocumentUploadsFormat
+          .replaceOrganizationAndProjectPlaceholders(project),
       app,
     );
     final apiModel = api_mod.DocumentUpload.fromJson(jsonDecode(responseBody));
@@ -46,74 +61,13 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
   /// [documentId]: The id of the document.
   Future<DocumentSubscriptionForClient> getSubscription(String documentId) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentSubscriptionsFormat.replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationsProjectsDocumentSubscriptionsFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
     );
     final apiModel = api_mod.DocumentSubscriptionForClient.fromJson(jsonDecode(responseBody));
     return DocumentSubscriptionForClient.fromApiModel(apiModel);
-  }
-
-  /// Gets the document count within the Recycle Bin Inbox.
-  ///
-  Future<int> getRecycleBinInboxDocumentCount() async {
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.recycleBinInboxCounts,
-      app,
-    );
-    return int.parse(responseBody);
-  }
-
-  /// Gets the page count.
-  ///
-  Future<int> getPageCount() async {
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.pageCounts,
-      app,
-    );
-    return int.parse(responseBody);
-  }
-
-  /// Gets the document count within the Recycle Bin.
-  ///
-  Future<int> getRecycleBinDocumentCount() async {
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.recycleBinDocumentCounts,
-      app,
-    );
-    return int.parse(responseBody);
-  }
-
-  /// Gets the document count within the Inbox.
-  ///
-  /// [ignoreRecycleBin]: Whether results should contain documents from the Recycle Bin.
-  Future<int> getInboxDocumentCount(bool ignoreRecycleBin) async {
-    final qp = {
-      'ignoreRecycleBin': ignoreRecycleBin,
-    };
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.inboxCounts,
-      app,
-      query: qp,
-    );
-    return int.parse(responseBody);
-  }
-
-  /// Gets the document count.
-  ///
-  /// [ignoreInbox]: Whether results should contain documents from the Inbox.
-  ///
-  /// [ignoreRecycleBin]: Whether results should contain documents from the Recycle Bin.
-  Future<int> getDocumentCount(bool ignoreInbox, bool ignoreRecycleBin) async {
-    final qp = {
-      'ignoreInbox': ignoreInbox,
-      'ignoreRecycleBin': ignoreRecycleBin,
-    };
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentCounts,
-      app,
-      query: qp,
-    );
-    return int.parse(responseBody);
   }
 
   /// Gets a DocumentPackage by a Document Id..
@@ -121,7 +75,9 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
   /// [documentId]: The id of the document.
   Future<DocumentPackage> getDocumentPackageByDocumentId(String documentId) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentPackageFormat.replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationsProjectsDocumentPackagesFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
     );
     final apiModel = api_mod.DocumentPackage.fromJson(jsonDecode(responseBody));
@@ -203,7 +159,9 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     ]);
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
       query: qp,
     );
@@ -222,7 +180,9 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     required List<String> comments,
   }) async {
     await http.executePostRequest(
-      http.apiPaths.documentsCommentsFormat.replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
       body: jsonEncode({'Comments': comments}),
     );
@@ -246,7 +206,9 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     ]);
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentsEventsFormat.replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationProjectsDocumentsDocumentEventsFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
       query: qp,
     );
@@ -263,7 +225,8 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     assert(documentIds.isNotEmpty);
 
     await http.executePostRequest(
-      http.apiPaths.documentActionsRestoreFromRecycleBin,
+      http.apiPaths.organizationsProjectsDocumentActionsRestoreFromRecycleBinFormat
+          .replaceOrganizationAndProjectPlaceholders(project),
       app,
       body: jsonEncode({'IDs': documentIds}),
     );
@@ -276,7 +239,8 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     assert(documentIds.isNotEmpty);
 
     await http.executePostRequest(
-      http.apiPaths.documentActionsSendToRecycleBin,
+      http.apiPaths.organizationsProjectsDocumentActionsSendToRecycleBinFormat
+          .replaceOrganizationAndProjectPlaceholders(project),
       app,
       body: jsonEncode({'IDs': documentIds}),
     );
@@ -294,7 +258,9 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     qp['pageIndex'] = '0';
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentContentPackagesFormat.replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationsProjectsDocumentContentPackagesFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
       query: qp,
     );
@@ -384,7 +350,7 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documents,
+      http.apiPaths.organizationsProjectsDocumentsFormat.replaceOrganizationAndProjectPlaceholders(project),
       app,
       query: qp,
     );
@@ -411,7 +377,9 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
       ..id = documentId
       ..name = documentName;
     final responseBody = await http.executePutRequestWithTextResponse(
-      http.apiPaths.documentsFormat.replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationsProjectsDocumentsDocumentFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
       body: jsonEncode(doc),
     );
@@ -424,7 +392,9 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
   /// [documentId]: The id of the document.
   Future<String> getThumbnailUrl(String documentId) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentsThumbnailsFormat.replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationsProjectsDocumentsThumbnailsFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
     );
     return responseBody;
@@ -436,7 +406,9 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
   /// [documentId]: The document id.
   Future<DocumentSignatureForm> getOrCreateSignatureForm(String documentId) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentsSignatureFormsFormat.replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationsProjectsDocumentsDocumentSignatureFormsFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
     );
     final apiModel = api_mod.DocumentSignatureForm.fromJson(jsonDecode(responseBody));
@@ -453,9 +425,10 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     required String signatureFormId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentsSignatureFormsByIdFormat
-          .replaceFirst('<documentId>', documentId)
-          .replaceFirst('<documentSignatureFormId>', signatureFormId),
+      http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId)
+          .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
       app,
     );
     final apiModel = api_mod.DocumentSignatureForm.fromJson(jsonDecode(responseBody));
@@ -473,9 +446,10 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     required DocumentSignatureForm signatureForm,
   }) async {
     await http.executePutRequest(
-      http.apiPaths.documentsSignatureFormsByIdFormat
-          .replaceFirst('<documentId>', documentId)
-          .replaceFirst('<documentSignatureFormId>', signatureForm.id),
+      http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId)
+          .replaceDocumentSignatureFormIdPlaceholder(signatureForm.id),
       app,
       body: jsonEncode(signatureForm.toApiModel()),
     );
@@ -491,9 +465,10 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     required String signatureFormId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentsSignatureFormsByIdFieldsFormat
-          .replaceFirst('<documentId>', documentId)
-          .replaceFirst('<documentSignatureFormId>', signatureFormId),
+      http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId)
+          .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
       app,
     );
     final apiModel =
@@ -521,9 +496,10 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     qp['clearExisting'] = clearExisting;
 
     final responseBody = await http.executePostRequestWithTextResponse(
-      http.apiPaths.documentsSignatureFormsByIdFieldsFormat
-          .replaceFirst('<documentId>', documentId)
-          .replaceFirst('<documentSignatureFormId>', signatureFormId),
+      http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId)
+          .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
       app,
       query: qp,
       body: jsonEncode(signatureFormFields.toApiModel()),
@@ -553,10 +529,12 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     qp['clearExisting'] = clearExisting;
 
     final responseBody = await http.executePutRequestWithTextResponse(
-      http.apiPaths.documentsSignatureFormsByIdFieldsByFieldIdFormat
-          .replaceFirst('<documentId>', documentId)
-          .replaceFirst('<documentSignatureFormId>', signatureFormId)
-          .replaceFirst('<documentSignatureFormFieldId>', signatureFormField.id),
+      http.apiPaths
+          .organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId)
+          .replaceDocumentSignatureFormIdPlaceholder(signatureFormId)
+          .replaceDocumentSignatureFormFieldIdPlaceholder(signatureFormField.id),
       app,
       query: qp,
       body: jsonEncode(signatureFormField.toApiModel()),
@@ -578,10 +556,12 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     required String signatureFormFieldId,
   }) async {
     await http.executeDeleteRequest(
-      http.apiPaths.documentsSignatureFormsByIdFieldsByFieldIdFormat
-          .replaceFirst('<documentId>', documentId)
-          .replaceFirst('<documentSignatureFormId>', signatureFormId)
-          .replaceFirst('<documentSignatureFormFieldId>', signatureFormFieldId),
+      http.apiPaths
+          .organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId)
+          .replaceDocumentSignatureFormIdPlaceholder(signatureFormId)
+          .replaceDocumentSignatureFormFieldIdPlaceholder(signatureFormFieldId),
       app,
     );
   }
@@ -596,9 +576,10 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     required String signatureFormId,
   }) async {
     await http.executeDeleteRequest(
-      http.apiPaths.documentsSignatureFormsByIdFieldsFormat
-          .replaceFirst('<documentId>', documentId)
-          .replaceFirst('<documentSignatureFormId>', signatureFormId),
+      http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId)
+          .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
       app,
     );
   }
@@ -610,8 +591,9 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     required String documentId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentsSignatureSessionPackagesFormat
-          .replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
     );
     final apiModel = api_mod.DocumentSignatureSessionPackage.fromJson(jsonDecode(responseBody));
@@ -630,8 +612,9 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     required DocumentSignatureSessionPackageCollection packages,
   }) async {
     final responseBody = await http.executePutRequestWithTextResponse(
-      http.apiPaths.documentsSignatureSessionPackagesFormat
-          .replaceFirst('<documentId>', documentId),
+      http.apiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentIdPlaceholder(documentId),
       app,
       body: jsonEncode(packages.toApiModel()),
     );
@@ -658,7 +641,8 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentSignatureFormsRecent,
+      http.apiPaths.organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat
+          .replaceOrganizationAndProjectPlaceholders(project),
       app,
       query: qp,
     );
@@ -704,8 +688,8 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
-          .replaceFirst('<documentSignatureSessionId>', signatureSessionId)
-          .replaceFirst('<documentSignatureSessionRecipientId>', signatureSessionRecipientId),
+          .replaceDocumentSignatureSessionIdPlaceholder(signatureSessionId)
+          .replaceDocumentSignatureSessionRecipientIdPlaceholder(signatureSessionRecipientId),
       app,
       query: qp,
     );
@@ -735,107 +719,21 @@ class NucleusOneAppDocuments with NucleusOneAppDependent {
 
     await http.executePutRequest(
       http.apiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
-          .replaceFirst('<documentSignatureSessionId>', signatureSessionId)
-          .replaceFirst('<documentSignatureSessionRecipientId>', signatureSessionRecipientId),
+          .replaceDocumentSignatureSessionIdPlaceholder(signatureSessionId)
+          .replaceDocumentSignatureSessionRecipientIdPlaceholder(signatureSessionRecipientId),
       app,
       query: qp,
       body: jsonEncode(fields.toApiModel()),
     );
   }
+}
 
-  /// Gets signature form templates.
-  Future<SignatureFormTemplateCollection> getSignatureFormTemplates() async {
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.signatureFormTemplates,
-      app,
-    );
-    final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
-    return SignatureFormTemplateCollection.fromApiModel(apiModel);
-  }
+class NucleusOneAppDocument with NucleusOneAppDependent {
+  NucleusOneAppDocument documents;
 
-  /// Adds signature form templates.  A list of the same templates that were passed in are returned,
-  /// as they now exist on the server.
-  ///
-  /// [templates] The signature form templates.
-  Future<SignatureFormTemplateCollection> addSignatureFormTemplates(
-      SignatureFormTemplateCollection templates) async {
-    final responseBody = await http.executePostRequestWithTextResponse(
-      http.apiPaths.signatureFormTemplates,
-      app,
-      body: jsonEncode(templates.toApiModel()),
-    );
-    final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
-    return SignatureFormTemplateCollection.fromApiModel(apiModel);
-  }
-
-  /// Updates a signature form template.
-  ///
-  /// [templateId] The signature form template id.
-  ///
-  /// [template] The signature form template.
-  Future<void> updateSignatureFormTemplate({
-    required String templateId,
-    required SignatureFormTemplate template,
-  }) async {
-    await http.executePutRequest(
-      http.apiPaths.signatureFormTemplatesFormat
-          .replaceFirst('<signatureFormTemplateId>', templateId),
-      app,
-      body: jsonEncode(template.toApiModel()),
-    );
-  }
-
-  /// Deletes a signature form template.
-  ///
-  /// [templateId] The signature form template id.
-  Future<void> deleteSignatureFormTemplate(templateId) async {
-    await http.executeDeleteRequest(
-      http.apiPaths.signatureFormTemplatesFormat
-          .replaceFirst('<signatureFormTemplateId>', templateId),
-      app,
-    );
-  }
-
-  /// Gets signature form templates.
-  ///
-  /// [templateId] The signature form template id.
-  Future<SignatureFormTemplateFieldCollection> getSignatureFormTemplateFields(
-      String templateId) async {
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.signatureFormTemplatesFieldsFormat
-          .replaceFirst('<signatureFormTemplateId>', templateId),
-      app,
-    );
-    final apiModel =
-        api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
-    return SignatureFormTemplateFieldCollection.fromApiModel(apiModel);
-  }
-
-  /// Adds fields to a signature form template.  The field that were passed in are returned, as they
-  /// now exists on the server.
-  ///
-  /// [templateId] The signature form template id.
-  ///
-  /// [fields] The fields to add.
-  ///
-  /// [clearExisting]: If true, existing fields will be deleted.
-  Future<SignatureFormTemplateFieldCollection> addSignatureFormTemplateFields({
-    required String templateId,
-    required SignatureFormTemplateFieldCollection fields,
-    bool clearExisting = false,
-  }) async {
-    final qp = http.StandardQueryParams.get();
-    qp['clearExisting'] = clearExisting;
-
-    final responseBody = await http.executePostRequestWithTextResponse(
-      http.apiPaths.signatureFormTemplatesFieldsFormat
-          .replaceFirst('<signatureFormTemplateId>', templateId),
-      app,
-      query: qp,
-      body: jsonEncode(fields.toApiModel()),
-    );
-    final apiModel =
-        api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
-    return SignatureFormTemplateFieldCollection.fromApiModel(apiModel);
+  NucleusOneAppDocument({
+    required this.documents,
+  }) {
+    app = documents.app;
   }
 }

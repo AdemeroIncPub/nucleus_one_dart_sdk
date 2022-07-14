@@ -1,9 +1,8 @@
 import 'dart:convert';
 
+import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/src/model/support_organization.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/support_organization.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/model/support_organization_tenant.dart';
-import 'package:nucleus_one_dart_sdk/src/api_model/support_organization_tenant.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/model/support_error_event.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/support_error_event.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
@@ -15,9 +14,9 @@ import '../../nucleus_one_dart_sdk.dart';
 
 class NucleusOneAppSupport with NucleusOneAppDependent {
   NucleusOneAppSupport({
-    required NucleusOneAppInternal app,
+    NucleusOneAppInternal? app,
   }) {
-    this.app = app;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 
   /// Gets Support Users.
@@ -70,37 +69,6 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
       results: SupportOrganizationCollection(
           items: apiModel.results!.supportOrganizations
               ?.map((x) => SupportOrganization.fromApiModel(x))
-              .toList()),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
-  }
-
-  /// Gets Support Organization Tenants.
-  ///
-  ///
-  Future<QueryResult<SupportOrganizationTenantCollection>> getSupportOrganizationTenants({
-    required String organizationId,
-    String? cursor,
-  }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
-
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.supportOrganizationsTenantsFormat
-          .replaceFirst('<organizationId>', organizationId),
-      app,
-      query: qp,
-    );
-
-    final apiModel = api_mod.QueryResult<api_mod.SupportOrganizationTenantCollection>.fromJson(
-        jsonDecode(responseBody));
-
-    return QueryResult(
-      results: SupportOrganizationTenantCollection(
-          items: apiModel.results!.supportOrganizationTenants
-              ?.map((x) => SupportOrganizationTenant.fromApiModel(x))
               .toList()),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,

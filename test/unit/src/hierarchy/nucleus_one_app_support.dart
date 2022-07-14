@@ -3,7 +3,6 @@ import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_support.dart'
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:nucleus_one_dart_sdk/src/model/support_user.dart';
 import 'package:nucleus_one_dart_sdk/src/model/support_organization.dart';
-import 'package:nucleus_one_dart_sdk/src/model/support_organization_tenant.dart';
 import 'package:nucleus_one_dart_sdk/src/model/support_error_event.dart';
 import 'package:test/test.dart';
 
@@ -48,22 +47,6 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => NucleusOneAppSupport(app: n1App).getSupportOrganizations(),
         responseBody: api_mod.supportOrganizationCollectionJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
-    });
-
-    test('getSupportOrganizationTenants method tests', () async {
-      final expectedUrlPath =
-          http.apiPaths.supportOrganizationsTenantsFormat.replaceFirst('<organizationId>', '123');
-      final n1App = getStandardN1App();
-
-      // Test with default parameters
-      await performHttpTest<QueryResult<SupportOrganizationTenantCollection>>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () =>
-            NucleusOneAppSupport(app: n1App).getSupportOrganizationTenants(organizationId: '123'),
-        responseBody: api_mod.supportOrganizationTenantCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
       );

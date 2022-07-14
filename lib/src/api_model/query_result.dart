@@ -1,12 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../api_model/classification.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
 import '../api_model/work_task_comment.dart' as api_mod;
 import '../api_model/work_task_event.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
 import '../api_model/field.dart' as api_mod;
-import '../api_model/document_field.dart' as api_mod;
 import '../api_model/approval.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
@@ -15,7 +13,6 @@ import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/tenant.dart' as api_mod;
 import '../api_model/support_user.dart' as api_mod;
 import '../api_model/support_organization.dart' as api_mod;
-import '../api_model/support_organization_tenant.dart' as api_mod;
 import '../api_model/support_error_event.dart' as api_mod;
 
 part 'query_result.g.dart';
@@ -44,10 +41,8 @@ abstract class IQueryResultEntityCollection {}
 class QueryResult<T> {
   static final _fromJsonFactories = <Type, Object Function(Map<String, dynamic> json)>{
     ...QueryResult2._fromJsonFactories, // Include factories from the QueryResult2 class
-    api_mod.ClassificationCollection: (x) => api_mod.ClassificationCollection.fromJson(x),
     api_mod.DocumentResultCollection: (x) => api_mod.DocumentResultCollection.fromJson(x),
     api_mod.FieldCollection: (x) => api_mod.FieldCollection.fromJson(x),
-    api_mod.DocumentFieldCollection: (x) => api_mod.DocumentFieldCollection.fromJson(x),
     api_mod.ApprovalCollection: (x) => api_mod.ApprovalCollection.fromJson(x),
     api_mod.FolderHierarchyCollection: (x) => api_mod.FolderHierarchyCollection.fromJson(x),
     api_mod.FormTemplateCollection: (x) => api_mod.FormTemplateCollection.fromJson(x),
@@ -56,8 +51,6 @@ class QueryResult<T> {
     api_mod.TenantCollection: (x) => api_mod.TenantCollection.fromJson(x),
     api_mod.SupportUserCollection: (x) => api_mod.SupportUserCollection.fromJson(x),
     api_mod.SupportOrganizationCollection: (x) => api_mod.SupportOrganizationCollection.fromJson(x),
-    api_mod.SupportOrganizationTenantCollection: (x) =>
-        api_mod.SupportOrganizationTenantCollection.fromJson(x),
     api_mod.SupportErrorEventCollection: (x) => api_mod.SupportErrorEventCollection.fromJson(x),
   };
 

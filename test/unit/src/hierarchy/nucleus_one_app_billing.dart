@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/subscription_details.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_billing.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_subscriptions.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
@@ -31,7 +31,7 @@ void main() {
       // Test with default parameters
       await performHttpTest<SubscriptionPlanCollection>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppBilling(app: n1App).getOrganizationSubscriptionPlans(
+        httpCallCallback: () => NucleusOneAppSubscriptions(app: n1App).getOrganizationSubscriptionPlans(
           organizationId: '123',
         ),
         responseBody: subscriptionPlanCollectionJson,
@@ -48,7 +48,7 @@ void main() {
       // Test with default parameters
       await performHttpTest<SubscriptionDetails>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppBilling(app: n1App).getOrganizationSubscription(
+        httpCallCallback: () => NucleusOneAppSubscriptions(app: n1App).getOrganizationSubscription(
           organizationId: '123',
         ),
         responseBody: subscriptionDetailsJson,
@@ -67,7 +67,7 @@ void main() {
       // Test with default parameters
       await performHttpTest(
         httpMethod: HttpMethods.PUT,
-        httpCallCallback: () => NucleusOneAppBilling(app: n1App).updateOrganizationSubscription(
+        httpCallCallback: () => NucleusOneAppSubscriptions(app: n1App).updateOrganizationSubscription(
           organizationId: '123',
           subscriptionDetails: subscriptionDetails,
         ),
@@ -87,7 +87,7 @@ void main() {
       await performHttpTest<SubscriptionInvoiceCollection>(
         httpMethod: HttpMethods.GET,
         httpCallCallback: () =>
-            NucleusOneAppBilling(app: n1App).getOrganizationSubscriptionInvoices(
+            NucleusOneAppSubscriptions(app: n1App).getOrganizationSubscriptionInvoices(
           organizationId: '123',
         ),
         responseBody: subscriptionInvoiceCollectionJson,

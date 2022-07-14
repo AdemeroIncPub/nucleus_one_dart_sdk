@@ -4,7 +4,10 @@ import '../api_model/address_book.dart' as api_model;
 import '../nucleus_one.dart';
 
 class AddressBook with NucleusOneAppDependent {
-  AddressBook._({NucleusOneAppInternal? app, required this.items}) {
+  AddressBook._({
+    NucleusOneAppInternal? app,
+    required this.items,
+  }) {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
   }
 

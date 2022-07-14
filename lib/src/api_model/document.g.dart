@@ -6,38 +6,36 @@ part of 'document.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Document _$DocumentFromJson(Map<String, dynamic> json) {
-  return Document()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..createdByUserID = json['CreatedByUserID'] as String?
-    ..createdByUserEmail = json['CreatedByUserEmail'] as String?
-    ..createdByUserName = json['CreatedByUserName'] as String?
-    ..name = json['Name'] as String?
-    ..nameLower = json['NameLower'] as String?
-    ..origin = json['Origin'] as String?
-    ..isActive = json['IsActive'] as bool?
-    ..isClassified = json['IsClassified'] as bool?
-    ..isMarkedForPurge = json['IsMarkedForPurge'] as bool?
-    ..isSigned = json['IsSigned'] as bool?
-    ..signatureSessionIsActive = json['SignatureSessionIsActive'] as bool?
-    ..hasSinglePageImages = json['HasSinglePageImages'] as bool?
-    ..signaturesCompletedOn = json['SignaturesCompletedOn'] as String?
-    ..purgeMarkedOn = json['PurgeMarkedOn'] as String?
-    ..failedBuildAttempts = json['FailedBuildAttempts'] as bool?
-    ..lastError = json['LastError'] as String?
-    ..pageCount = json['PageCount'] as int?
-    ..fileSize = json['FileSize'] as int?
-    ..bucketName = json['BucketName'] as String?
-    ..sourceObjectName = json['SourceObjectName'] as String?
-    ..thumbnailObjectName = json['ThumbnailObjectName'] as String?
-    ..classificationID = json['ClassificationID'] as String?
-    ..classificationName = json['ClassificationName'] as String?
-    ..classificationNameLower = json['ClassificationNameLower'] as String?
-    ..previewMetadata = (json['PreviewMetadata'] as List<dynamic>?)
-        ?.map((e) => Map<String, String>.from(e as Map))
-        .toList();
-}
+Document _$DocumentFromJson(Map<String, dynamic> json) => Document()
+  ..id = json['ID'] as String?
+  ..createdOn = json['CreatedOn'] as String?
+  ..createdByUserID = json['CreatedByUserID'] as String?
+  ..createdByUserEmail = json['CreatedByUserEmail'] as String?
+  ..createdByUserName = json['CreatedByUserName'] as String?
+  ..name = json['Name'] as String?
+  ..nameLower = json['NameLower'] as String?
+  ..origin = json['Origin'] as String?
+  ..isActive = json['IsActive'] as bool?
+  ..isClassified = json['IsClassified'] as bool?
+  ..isMarkedForPurge = json['IsMarkedForPurge'] as bool?
+  ..isSigned = json['IsSigned'] as bool?
+  ..signatureSessionIsActive = json['SignatureSessionIsActive'] as bool?
+  ..hasSinglePageImages = json['HasSinglePageImages'] as bool?
+  ..signaturesCompletedOn = json['SignaturesCompletedOn'] as String?
+  ..purgeMarkedOn = json['PurgeMarkedOn'] as String?
+  ..failedBuildAttempts = json['FailedBuildAttempts'] as bool?
+  ..lastError = json['LastError'] as String?
+  ..pageCount = json['PageCount'] as int?
+  ..fileSize = json['FileSize'] as int?
+  ..bucketName = json['BucketName'] as String?
+  ..sourceObjectName = json['SourceObjectName'] as String?
+  ..thumbnailObjectName = json['ThumbnailObjectName'] as String?
+  ..classificationID = json['ClassificationID'] as String?
+  ..classificationName = json['ClassificationName'] as String?
+  ..classificationNameLower = json['ClassificationNameLower'] as String?
+  ..previewMetadata = (json['PreviewMetadata'] as List<dynamic>?)
+      ?.map((e) => Map<String, String>.from(e as Map))
+      .toList();
 
 Map<String, dynamic> _$DocumentToJson(Document instance) {
   final val = <String, dynamic>{};

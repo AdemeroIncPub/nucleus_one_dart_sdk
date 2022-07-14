@@ -7,15 +7,14 @@ part of 'organization_permissions.dart';
 // **************************************************************************
 
 OrganizationPermissions _$OrganizationPermissionsFromJson(
-    Map<String, dynamic> json) {
-  return OrganizationPermissions()
-    ..organizationID = json['OrganizationID'] as String?
-    ..organizationName = json['OrganizationName'] as String?
-    ..userID = json['UserID'] as String?
-    ..userName = json['UserName'] as String?
-    ..userEmail = json['UserEmail'] as String?
-    ..isAdmin = json['IsAdmin'] as bool?;
-}
+        Map<String, dynamic> json) =>
+    OrganizationPermissions()
+      ..organizationID = json['OrganizationID'] as String?
+      ..organizationName = json['OrganizationName'] as String?
+      ..userID = json['UserID'] as String?
+      ..userName = json['UserName'] as String?
+      ..userEmail = json['UserEmail'] as String?
+      ..isAdmin = json['IsAdmin'] as bool?;
 
 Map<String, dynamic> _$OrganizationPermissionsToJson(
     OrganizationPermissions instance) {

@@ -1,18 +1,24 @@
 import 'dart:convert';
 
-import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/field_list_item.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../common/model.dart';
+import '../common/string.dart';
 import '../http.dart' as http;
+import '../model/field_list_item.dart';
+import '../model/form_template.dart';
+import '../model/query_result.dart';
 import '../nucleus_one.dart';
+import 'nucleus_one_app_project.dart';
 
 class NucleusOneAppForms with NucleusOneAppDependent {
+  final NucleusOneAppProject project;
+
   NucleusOneAppForms({
-    required NucleusOneAppInternal app,
+    required this.project,
   }) {
-    this.app = app;
+    app = project.app;
   }
 
   /// Gets form templates, by page.
@@ -30,7 +36,8 @@ class NucleusOneAppForms with NucleusOneAppDependent {
     ]);
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.formTemplates,
+      http.apiPaths.organizationsProjectsFormTemplatesFormat
+          .replaceOrganizationAndProjectPlaceholders(project),
       app,
       query: qp,
     );

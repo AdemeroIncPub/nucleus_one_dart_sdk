@@ -7,12 +7,11 @@ part of 'support_user.dart';
 // **************************************************************************
 
 SupportUserCollection _$SupportUserCollectionFromJson(
-    Map<String, dynamic> json) {
-  return SupportUserCollection()
-    ..supportUsers = (json['Users'] as List<dynamic>?)
-        ?.map((e) => SupportUser.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    SupportUserCollection()
+      ..supportUsers = (json['Users'] as List<dynamic>?)
+          ?.map((e) => SupportUser.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$SupportUserCollectionToJson(
     SupportUserCollection instance) {
@@ -28,16 +27,14 @@ Map<String, dynamic> _$SupportUserCollectionToJson(
   return val;
 }
 
-SupportUser _$SupportUserFromJson(Map<String, dynamic> json) {
-  return SupportUser()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..lastSignIn = json['LastSignIn'] as String?
-    ..lastActivity = json['LastActivity'] as String?
-    ..email = json['Email'] as String?
-    ..provider = json['Provider'] as String?
-    ..name = json['Name'] as String?;
-}
+SupportUser _$SupportUserFromJson(Map<String, dynamic> json) => SupportUser()
+  ..id = json['ID'] as String?
+  ..createdOn = json['CreatedOn'] as String?
+  ..lastSignIn = json['LastSignIn'] as String?
+  ..lastActivity = json['LastActivity'] as String?
+  ..email = json['Email'] as String?
+  ..provider = json['Provider'] as String?
+  ..name = json['Name'] as String?;
 
 Map<String, dynamic> _$SupportUserToJson(SupportUser instance) {
   final val = <String, dynamic>{};

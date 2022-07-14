@@ -1,20 +1,22 @@
 import 'dart:convert';
 
-import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/subscription_details.dart' as api_mod;
 import '../api_model/subscription_invoice.dart' as api_mod;
 import '../api_model/subscription_plan.dart' as api_mod;
+import '../common/string.dart';
 import '../http.dart' as http;
 import '../model/subscription_details.dart';
 import '../model/subscription_invoice.dart';
 import '../model/subscription_plan.dart';
 import '../nucleus_one.dart';
+import 'nucleus_one_app_organization.dart';
 
-class NucleusOneAppBilling with NucleusOneAppDependent {
-  NucleusOneAppBilling({
-    required NucleusOneAppInternal app,
+class NucleusOneAppSubscriptions with NucleusOneAppDependent {
+  final NucleusOneAppOrganization organization;
+  NucleusOneAppSubscriptions({
+    required this.organization,
   }) {
-    this.app = app;
+    app = organization.app;
   }
 
   /// Gets an organization's subscription plans.
@@ -24,7 +26,8 @@ class NucleusOneAppBilling with NucleusOneAppDependent {
     required String organizationId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.billingSubscriptionPlansFormat.replaceFirst('<organizationId>', organizationId),
+      http.apiPaths.organizationsSubscriptionsPlansFormat
+          .replaceOrganizationPlaceholder(organization.id),
       app,
     );
     final apiModel = api_mod.SubscriptionPlanCollection.fromJson(jsonDecode(responseBody));
@@ -38,8 +41,8 @@ class NucleusOneAppBilling with NucleusOneAppDependent {
     required String organizationId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.billingOrganizationSubscriptionsFormat
-          .replaceFirst('<organizationId>', organizationId),
+      http.apiPaths.organizationsSubscriptionsFormat
+          .replaceOrganizationPlaceholder(organization.id),
       app,
     );
     final apiModel = api_mod.SubscriptionDetails.fromJson(jsonDecode(responseBody));
@@ -53,12 +56,11 @@ class NucleusOneAppBilling with NucleusOneAppDependent {
   /// [subscriptionDetails]: The subscription details.  Should be obtained by first calling
   /// [getOrganizationSubscription].
   Future<void> updateOrganizationSubscription({
-    required String organizationId,
     required SubscriptionDetails subscriptionDetails,
   }) async {
     await http.executePutRequest(
-      http.apiPaths.billingOrganizationSubscriptionsFormat
-          .replaceFirst('<organizationId>', organizationId),
+      http.apiPaths.organizationsSubscriptionsFormat
+          .replaceOrganizationPlaceholder(organization.id),
       app,
       body: jsonEncode(subscriptionDetails.toApiModel()),
     );
@@ -71,8 +73,8 @@ class NucleusOneAppBilling with NucleusOneAppDependent {
     required String organizationId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.billingSubscriptionInvoicesFormat
-          .replaceFirst('<organizationId>', organizationId),
+      http.apiPaths.organizationsSubscriptionsInvoicesFormat
+          .replaceOrganizationPlaceholder(organization.id),
       app,
     );
     final apiModel = api_mod.SubscriptionInvoiceCollection.fromJson(jsonDecode(responseBody));

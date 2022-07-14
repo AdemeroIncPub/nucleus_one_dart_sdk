@@ -7,17 +7,16 @@ part of 'document_signature_form_field.dart';
 // **************************************************************************
 
 DocumentSignatureFormField _$DocumentSignatureFormFieldFromJson(
-    Map<String, dynamic> json) {
-  return DocumentSignatureFormField()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..type = json['Type'] as String?
-    ..pageIndex = json['PageIndex'] as int?
-    ..documentSignatureSessionRecipientID =
-        json['DocumentSignatureSessionRecipientID'] as String?
-    ..x = (json['X'] as num?)?.toDouble()
-    ..y = (json['Y'] as num?)?.toDouble();
-}
+        Map<String, dynamic> json) =>
+    DocumentSignatureFormField()
+      ..id = json['ID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..type = json['Type'] as String?
+      ..pageIndex = json['PageIndex'] as int?
+      ..documentSignatureSessionRecipientID =
+          json['DocumentSignatureSessionRecipientID'] as String?
+      ..x = (json['X'] as num?)?.toDouble()
+      ..y = (json['Y'] as num?)?.toDouble();
 
 Map<String, dynamic> _$DocumentSignatureFormFieldToJson(
     DocumentSignatureFormField instance) {

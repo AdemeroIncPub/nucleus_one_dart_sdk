@@ -6,23 +6,22 @@ part of 'project.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProjectMember _$ProjectMemberFromJson(Map<String, dynamic> json) {
-  return ProjectMember()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..tenantID = json['TenantID'] as String?
-    ..tenantName = json['TenantName'] as String?
-    ..userID = json['UserID'] as String?
-    ..userName = json['UserName'] as String?
-    ..userNameLower = json['UserNameLower'] as String?
-    ..userEmail = json['UserEmail'] as String?
-    ..disabled = json['Disabled'] as bool?
-    ..isReadOnly = json['IsReadOnly'] as bool?
-    ..isAdmin = json['IsAdmin'] as bool?
-    ..isOrganizationAdmin = json['IsOrganizationAdmin'] as bool?
-    ..isOrganizationOrTenantAdmin =
-        json['IsOrganizationOrTenantAdmin'] as bool?;
-}
+ProjectMember _$ProjectMemberFromJson(Map<String, dynamic> json) =>
+    ProjectMember()
+      ..id = json['ID'] as String?
+      ..createdOn = json['CreatedOn'] as String?
+      ..tenantID = json['TenantID'] as String?
+      ..tenantName = json['TenantName'] as String?
+      ..userID = json['UserID'] as String?
+      ..userName = json['UserName'] as String?
+      ..userNameLower = json['UserNameLower'] as String?
+      ..userEmail = json['UserEmail'] as String?
+      ..disabled = json['Disabled'] as bool?
+      ..isReadOnly = json['IsReadOnly'] as bool?
+      ..isAdmin = json['IsAdmin'] as bool?
+      ..isOrganizationAdmin = json['IsOrganizationAdmin'] as bool?
+      ..isOrganizationOrTenantAdmin =
+          json['IsOrganizationOrTenantAdmin'] as bool?;
 
 Map<String, dynamic> _$ProjectMemberToJson(ProjectMember instance) {
   final val = <String, dynamic>{};
@@ -50,33 +49,31 @@ Map<String, dynamic> _$ProjectMemberToJson(ProjectMember instance) {
   return val;
 }
 
-Project _$ProjectFromJson(Map<String, dynamic> json) {
-  return Project()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..organizationID = json['OrganizationID'] as String?
-    ..organizationName = json['OrganizationName'] as String?
-    ..organizationNameLower = json['OrganizationNameLower'] as String?
-    ..organizationSubscriptionRequired =
-        json['OrganizationSubscriptionRequired'] as bool?
-    ..organizationSubscriptionFreeUsers =
-        json['OrganizationSubscriptionFreeUsers'] as int?
-    ..organizationSubscriptionExpiration =
-        json['OrganizationSubscriptionExpiration'] as String?
-    ..bucketName = json['BucketName'] as String?
-    ..name = json['Name'] as String?
-    ..nameLower = json['NameLower'] as String?
-    ..creatingUserID = json['CreatingUserID'] as String?
-    ..creatingUserName = json['CreatingUserName'] as String?
-    ..creatingUserEmail = json['CreatingUserEmail'] as String?
-    ..crmAccountId = json['CrmAccountId'] as String?
-    ..disabled = json['Disabled'] as bool?
-    ..isMarkedForPurge = json['IsMarkedForPurge'] as bool?
-    ..purgeMarkedOn = json['PurgeMarkedOn'] as String?
-    ..purgeMarkedByUserID = json['PurgeMarkedByUserID'] as String?
-    ..purgeMarkedByUserName = json['PurgeMarkedByUserName'] as String?
-    ..purgeMarkedByUserEmail = json['PurgeMarkedByUserEmail'] as String?;
-}
+Project _$ProjectFromJson(Map<String, dynamic> json) => Project()
+  ..id = json['ID'] as String?
+  ..createdOn = json['CreatedOn'] as String?
+  ..organizationID = json['OrganizationID'] as String?
+  ..organizationName = json['OrganizationName'] as String?
+  ..organizationNameLower = json['OrganizationNameLower'] as String?
+  ..organizationSubscriptionRequired =
+      json['OrganizationSubscriptionRequired'] as bool?
+  ..organizationSubscriptionFreeUsers =
+      json['OrganizationSubscriptionFreeUsers'] as int?
+  ..organizationSubscriptionExpiration =
+      json['OrganizationSubscriptionExpiration'] as String?
+  ..bucketName = json['BucketName'] as String?
+  ..name = json['Name'] as String?
+  ..nameLower = json['NameLower'] as String?
+  ..creatingUserID = json['CreatingUserID'] as String?
+  ..creatingUserName = json['CreatingUserName'] as String?
+  ..creatingUserEmail = json['CreatingUserEmail'] as String?
+  ..crmAccountId = json['CrmAccountId'] as String?
+  ..disabled = json['Disabled'] as bool?
+  ..isMarkedForPurge = json['IsMarkedForPurge'] as bool?
+  ..purgeMarkedOn = json['PurgeMarkedOn'] as String?
+  ..purgeMarkedByUserID = json['PurgeMarkedByUserID'] as String?
+  ..purgeMarkedByUserName = json['PurgeMarkedByUserName'] as String?
+  ..purgeMarkedByUserEmail = json['PurgeMarkedByUserEmail'] as String?;
 
 Map<String, dynamic> _$ProjectToJson(Project instance) {
   final val = <String, dynamic>{};

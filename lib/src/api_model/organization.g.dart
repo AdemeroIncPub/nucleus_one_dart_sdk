@@ -6,25 +6,23 @@ part of 'organization.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Organization _$OrganizationFromJson(Map<String, dynamic> json) {
-  return Organization()
-    ..id = json['ID'] as String?
-    ..createdOn = json['CreatedOn'] as String?
-    ..disabled = json['Disabled'] as bool?
-    ..name = json['Name'] as String?
-    ..nameLower = json['NameLower'] as String?
-    ..creatingUserID = json['CreatingUserID'] as String?
-    ..creatingUserName = json['CreatingUserName'] as String?
-    ..creatingUserEmail = json['CreatingUserEmail'] as String?
-    ..crmLeadId = json['CrmLeadId'] as String?
-    ..crmAccountId = json['CrmAccountId'] as String?
-    ..crmContactId = json['CrmContactId'] as String?
-    ..crmDealId = json['CrmDealId'] as String?
-    ..subscriptionRequired = json['SubscriptionRequired'] as bool?
-    ..subscriptionFreeUsers = json['SubscriptionFreeUsers'] as int?
-    ..subscriptionExpiration = json['SubscriptionExpiration'] as String?
-    ..maxProjects = json['MaxTenants'] as int?;
-}
+Organization _$OrganizationFromJson(Map<String, dynamic> json) => Organization()
+  ..id = json['ID'] as String?
+  ..createdOn = json['CreatedOn'] as String?
+  ..disabled = json['Disabled'] as bool?
+  ..name = json['Name'] as String?
+  ..nameLower = json['NameLower'] as String?
+  ..creatingUserID = json['CreatingUserID'] as String?
+  ..creatingUserName = json['CreatingUserName'] as String?
+  ..creatingUserEmail = json['CreatingUserEmail'] as String?
+  ..crmLeadId = json['CrmLeadId'] as String?
+  ..crmAccountId = json['CrmAccountId'] as String?
+  ..crmContactId = json['CrmContactId'] as String?
+  ..crmDealId = json['CrmDealId'] as String?
+  ..subscriptionRequired = json['SubscriptionRequired'] as bool?
+  ..subscriptionFreeUsers = json['SubscriptionFreeUsers'] as int?
+  ..subscriptionExpiration = json['SubscriptionExpiration'] as String?
+  ..maxProjects = json['MaxTenants'] as int?;
 
 Map<String, dynamic> _$OrganizationToJson(Organization instance) {
   final val = <String, dynamic>{};

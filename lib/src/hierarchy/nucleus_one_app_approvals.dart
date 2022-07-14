@@ -1,17 +1,21 @@
 import 'dart:convert';
 
-import '../api_model/query_result.dart' as api_mod;
-import '../nucleus_one.dart';
-import '../model/approval.dart';
-import '../http.dart' as http;
 import '../api_model/approval.dart' as api_mod;
-import '../../nucleus_one_dart_sdk.dart';
+import '../api_model/query_result.dart' as api_mod;
+import '../common/string.dart';
+import '../http.dart' as http;
+import '../model/approval.dart';
+import '../model/query_result.dart';
+import '../nucleus_one.dart';
+import 'nucleus_one_app_project.dart';
 
 class NucleusOneAppApprovals with NucleusOneAppDependent {
+  final NucleusOneAppProject project;
+
   NucleusOneAppApprovals({
-    required NucleusOneAppInternal app,
+    required this.project,
   }) {
-    this.app = app;
+    app = project.app;
   }
 
   /// Declines a document.
@@ -21,7 +25,8 @@ class NucleusOneAppApprovals with NucleusOneAppDependent {
     final reqBody = {'IDs': ids};
 
     await http.executePostRequest(
-      http.apiPaths.approvalActionsDecline,
+      http.apiPaths.organizationsProjectsApprovalActionsDeclineFormat
+          .replaceOrganizationAndProjectPlaceholders(project),
       app,
       body: jsonEncode(reqBody),
     );
@@ -34,7 +39,8 @@ class NucleusOneAppApprovals with NucleusOneAppDependent {
     final reqBody = {'IDs': ids};
 
     await http.executePostRequest(
-      http.apiPaths.approvalActionsDeny,
+      http.apiPaths.organizationsProjectsApprovalActionsDenyFormat
+          .replaceOrganizationAndProjectPlaceholders(project),
       app,
       body: jsonEncode(reqBody),
     );
@@ -47,7 +53,8 @@ class NucleusOneAppApprovals with NucleusOneAppDependent {
     final reqBody = {'IDs': ids};
 
     await http.executePostRequest(
-      http.apiPaths.approvalActionsApprove,
+      http.apiPaths.organizationsProjectsApprovalActionsApproveFormat
+          .replaceOrganizationAndProjectPlaceholders(project),
       app,
       body: jsonEncode(reqBody),
     );
@@ -72,7 +79,7 @@ class NucleusOneAppApprovals with NucleusOneAppDependent {
     qp['sortType'] = sortType;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.approvals,
+      http.apiPaths.organizationsProjectsApprovalsFormat.replaceOrganizationAndProjectPlaceholders(project),
       app,
       query: qp,
     );

@@ -82,37 +82,6 @@ void main() {
           },
         );
       });
-
-      test('getRecycleBinInboxDocumentCount method test', () async {
-        final n1App = getStandardN1App();
-        await performHttpTest<int>(
-          httpMethod: HttpMethods.GET,
-          httpCallCallback: () =>
-              NucleusOneAppDocuments(app: n1App).getRecycleBinInboxDocumentCount(),
-          responseBody: '1',
-          expectedRequestUrlPath: http.apiPaths.recycleBinInboxCounts,
-          expectedRequestQueryParams: [],
-          additionalValidationsCallback: (x) {
-            expect(x, 1);
-          },
-        );
-      });
-
-      test('getInboxDocumentCount method test', () async {
-        final n1App = getStandardN1App();
-        await performHttpTest<int>(
-          httpMethod: HttpMethods.GET,
-          httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getInboxDocumentCount(true),
-          responseBody: '1',
-          expectedRequestUrlPath: http.apiPaths.inboxCounts,
-          expectedRequestQueryParams: [
-            'ignoreRecycleBin=true',
-          ],
-          additionalValidationsCallback: (x) {
-            expect(x, 1);
-          },
-        );
-      });
     });
 
     group('_getRecentInternal method consumers tests', () {

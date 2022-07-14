@@ -6,11 +6,10 @@ part of 'email_login_options.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EmailLoginOptions _$EmailLoginOptionsFromJson(Map<String, dynamic> json) {
-  return EmailLoginOptions()
-    ..userExists = json['UserExists'] as bool?
-    ..smsNumberLast2 = json['SMSNumberLast2'] as String?;
-}
+EmailLoginOptions _$EmailLoginOptionsFromJson(Map<String, dynamic> json) =>
+    EmailLoginOptions()
+      ..userExists = json['UserExists'] as bool?
+      ..smsNumberLast2 = json['SMSNumberLast2'] as String?;
 
 Map<String, dynamic> _$EmailLoginOptionsToJson(EmailLoginOptions instance) {
   final val = <String, dynamic>{};
