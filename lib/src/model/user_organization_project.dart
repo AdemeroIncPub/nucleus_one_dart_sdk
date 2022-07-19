@@ -5,31 +5,37 @@ import '../common/model.dart';
 import '../nucleus_one.dart';
 
 class UserOrganizationProject with NucleusOneAppDependent {
-  UserOrganizationProject._(
-      {NucleusOneAppInternal? app,
-      required this.userEmail,
-      required this.organizationID,
-      required this.organizationName,
-      required this.projectID,
-      required this.projectName,
-      required this.projectAccessType,
-      required this.projectIsDisabled,
-      required this.assignmentTypes,
-      required this.hasAssignment}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  UserOrganizationProject._({
+    NucleusOneApp? app,
+    required this.userEmail,
+    required this.organizationID,
+    required this.organizationName,
+    required this.projectID,
+    required this.projectName,
+    required this.projectAccessType,
+    required this.projectIsDisabled,
+    required this.assignmentTypes,
+    required this.hasAssignment,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory UserOrganizationProject.fromApiModel(api_mod.UserOrganizationProject apiModel) {
+  factory UserOrganizationProject.fromApiModel(
+    api_mod.UserOrganizationProject apiModel, {
+    NucleusOneApp? app,
+  }) {
     return UserOrganizationProject._(
-        userEmail: apiModel.userEmail!,
-        organizationID: apiModel.organizationID!,
-        organizationName: apiModel.organizationName!,
-        projectID: apiModel.projectID!,
-        projectName: apiModel.projectName!,
-        projectAccessType: apiModel.projectAccessType!,
-        projectIsDisabled: apiModel.projectIsDisabled!,
-        assignmentTypes: apiModel.assignmentTypes!.toList(),
-        hasAssignment: apiModel.hasAssignment!);
+      app: app,
+      userEmail: apiModel.userEmail!,
+      organizationID: apiModel.organizationID!,
+      organizationName: apiModel.organizationName!,
+      projectID: apiModel.projectID!,
+      projectName: apiModel.projectName!,
+      projectAccessType: apiModel.projectAccessType!,
+      projectIsDisabled: apiModel.projectIsDisabled!,
+      assignmentTypes: apiModel.assignmentTypes!.toList(),
+      hasAssignment: apiModel.hasAssignment!,
+    );
   }
 
   String userEmail;
@@ -67,7 +73,7 @@ class UserOrganizationProject with NucleusOneAppDependent {
 class UserOrganizationProjectCollection
     extends EntityCollection<UserOrganizationProject, api_mod.UserOrganizationProjectCollection> {
   UserOrganizationProjectCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     List<UserOrganizationProject>? items,
   }) : super(app: app, items: items);
 

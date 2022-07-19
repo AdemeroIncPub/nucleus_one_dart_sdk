@@ -5,25 +5,31 @@ import '../common/model.dart';
 import '../nucleus_one.dart';
 
 class UserOrganization with NucleusOneAppDependent {
-  UserOrganization._(
-      {NucleusOneAppInternal? app,
-      required this.userEmail,
-      required this.organizationID,
-      required this.organizationName,
-      required this.assignmentTypes,
-      required this.hasAssignment,
-      required this.isOrganizationMember}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  UserOrganization._({
+    NucleusOneApp? app,
+    required this.userEmail,
+    required this.organizationID,
+    required this.organizationName,
+    required this.assignmentTypes,
+    required this.hasAssignment,
+    required this.isOrganizationMember,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory UserOrganization.fromApiModel(api_mod.UserOrganization apiModel) {
+  factory UserOrganization.fromApiModel(
+    api_mod.UserOrganization apiModel, {
+    NucleusOneApp? app,
+  }) {
     return UserOrganization._(
-        userEmail: apiModel.userEmail!,
-        organizationID: apiModel.organizationID!,
-        organizationName: apiModel.organizationName!,
-        assignmentTypes: apiModel.assignmentTypes!.toList(),
-        hasAssignment: apiModel.hasAssignment!,
-        isOrganizationMember: apiModel.isOrganizationMember!);
+      app: app,
+      userEmail: apiModel.userEmail!,
+      organizationID: apiModel.organizationID!,
+      organizationName: apiModel.organizationName!,
+      assignmentTypes: apiModel.assignmentTypes!.toList(),
+      hasAssignment: apiModel.hasAssignment!,
+      isOrganizationMember: apiModel.isOrganizationMember!,
+    );
   }
 
   String userEmail;
@@ -51,13 +57,18 @@ class UserOrganization with NucleusOneAppDependent {
 
 /*
 class UserOrganizationCollection with NucleusOneAppDependent {
-  UserOrganizationCollection._({NucleusOneAppInternal? app, required this.items}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  UserOrganizationCollection._({required NucleusOneApp app, required this.items}) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory UserOrganizationCollection.fromApiModel(api_mod.UserOrganizationCollection apiModel) {
+  factory UserOrganizationCollection.fromApiModel(
+    api_mod.UserOrganizationCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return UserOrganizationCollection._(
-        items: apiModel.items.map((x) => UserOrganization.fromApiModel(x)).toList());
+      app: app,
+      items: apiModel.items.map((x) => UserOrganization.fromApiModel(x)).toList(),
+    );
   }
 
   List<UserOrganization> items;
@@ -71,11 +82,14 @@ class UserOrganizationCollection with NucleusOneAppDependent {
 class UserOrganizationCollection
     extends EntityCollection<UserOrganization, api_mod.UserOrganizationCollection> {
   UserOrganizationCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     List<UserOrganization>? items,
   }) : super(app: app, items: items);
 
-  factory UserOrganizationCollection.fromApiModel(api_mod.UserOrganizationCollection apiModel) {
+  factory UserOrganizationCollection.fromApiModel(
+    api_mod.UserOrganizationCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return UserOrganizationCollection(
         items: apiModel.items.map((x) => UserOrganization.fromApiModel(x)).toList());
   }

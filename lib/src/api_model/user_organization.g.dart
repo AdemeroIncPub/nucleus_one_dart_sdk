@@ -6,16 +6,13 @@ part of 'user_organization.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserOrganization _$UserOrganizationFromJson(Map<String, dynamic> json) =>
-    UserOrganization()
-      ..userEmail = json['UserEmail'] as String?
-      ..organizationID = json['OrganizationID'] as String?
-      ..organizationName = json['OrganizationName'] as String?
-      ..assignmentTypes = (json['AssignmentTypes'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList()
-      ..hasAssignment = json['HasAssignment'] as bool?
-      ..isOrganizationMember = json['IsOrganizationMember'] as bool?;
+UserOrganization _$UserOrganizationFromJson(Map<String, dynamic> json) => UserOrganization()
+  ..userEmail = json['UserEmail'] as String?
+  ..organizationID = json['OrganizationID'] as String?
+  ..organizationName = json['OrganizationName'] as String?
+  ..assignmentTypes = (json['AssignmentTypes'] as List<dynamic>?)?.map((e) => e as String).toList()
+  ..hasAssignment = json['HasAssignment'] as bool?
+  ..isOrganizationMember = json['IsOrganizationMember'] as bool?;
 
 Map<String, dynamic> _$UserOrganizationToJson(UserOrganization instance) {
   final val = <String, dynamic>{};

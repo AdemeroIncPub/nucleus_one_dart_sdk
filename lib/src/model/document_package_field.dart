@@ -5,10 +5,9 @@ import '../nucleus_one.dart';
 
 class DocumentPackageField with NucleusOneAppDependent {
   DocumentPackageField._(
-      {NucleusOneAppInternal? app,
-      required this.classificationFieldID,
-      required this.classificationFieldRank,
+      {NucleusOneApp? app,
       required this.fieldID,
+      required this.fieldRank,
       required this.parentFieldID,
       required this.name,
       required this.labelOrName,
@@ -26,38 +25,40 @@ class DocumentPackageField with NucleusOneAppDependent {
       required this.values,
       required this.useCreationDate,
       required this.textMatchType}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory DocumentPackageField.fromApiModel(api_mod.DocumentPackageField apiModel) {
+  factory DocumentPackageField.fromApiModel(
+    api_mod.DocumentPackageField apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentPackageField._(
-        classificationFieldID: apiModel.classificationFieldID!,
-        classificationFieldRank: apiModel.classificationFieldRank!,
-        fieldID: apiModel.fieldID!,
-        parentFieldID: apiModel.parentFieldID!,
-        name: apiModel.name!,
-        labelOrName: apiModel.labelOrName!,
-        type: apiModel.type!,
-        displaySelectionList: apiModel.displaySelectionList!,
-        allowMultipleLines: apiModel.allowMultipleLines!,
-        rows: apiModel.rows!,
-        allowMultipleValues: apiModel.allowMultipleValues!,
-        allowNewSelectionListItems: apiModel.allowNewSelectionListItems!,
-        saveNewSelectionListItems: apiModel.saveNewSelectionListItems!,
-        decimalPlaces: apiModel.decimalPlaces!,
-        mask: apiModel.mask!,
-        required: apiModel.required!,
-        value: apiModel.value!,
-        values: apiModel.values!,
-        useCreationDate: apiModel.useCreationDate!,
-        textMatchType: apiModel.textMatchType!);
+      app: app,
+      fieldID: apiModel.fieldID!,
+      fieldRank: apiModel.fieldRank!,
+      parentFieldID: apiModel.parentFieldID!,
+      name: apiModel.name!,
+      labelOrName: apiModel.labelOrName!,
+      type: apiModel.type!,
+      displaySelectionList: apiModel.displaySelectionList!,
+      allowMultipleLines: apiModel.allowMultipleLines!,
+      rows: apiModel.rows!,
+      allowMultipleValues: apiModel.allowMultipleValues!,
+      allowNewSelectionListItems: apiModel.allowNewSelectionListItems!,
+      saveNewSelectionListItems: apiModel.saveNewSelectionListItems!,
+      decimalPlaces: apiModel.decimalPlaces!,
+      mask: apiModel.mask!,
+      required: apiModel.required!,
+      value: apiModel.value!,
+      values: apiModel.values!,
+      useCreationDate: apiModel.useCreationDate!,
+      textMatchType: apiModel.textMatchType!,
+    );
   }
-
-  String classificationFieldID;
-
-  int classificationFieldRank;
 
   String fieldID;
+
+  int fieldRank;
 
   String parentFieldID;
 
@@ -95,9 +96,8 @@ class DocumentPackageField with NucleusOneAppDependent {
 
   api_mod.DocumentPackageField toApiModel() {
     return api_mod.DocumentPackageField()
-      ..classificationFieldID = classificationFieldID
-      ..classificationFieldRank = classificationFieldRank
       ..fieldID = fieldID
+      ..fieldRank = fieldRank
       ..parentFieldID = parentFieldID
       ..name = name
       ..labelOrName = labelOrName

@@ -2,16 +2,18 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
-import 'package:nucleus_one_dart_sdk/src/api_model/work_task.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/task.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/model/work_task.dart';
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
+import 'package:nucleus_one_dart_sdk/src/model/task.dart';
 import 'package:test/test.dart';
 
-import '../api_model/work_task.dart';
+import '../../../src/common.dart';
+import '../api_model/task.dart';
 
 void main() {
-  group('WorkTask tests', () {
+  group('Task tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();
     });
@@ -20,8 +22,8 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
-      void performTests(api_mod.WorkTask apiModel) {
+    test('Serialization test', () async {
+      void performTests(api_mod.Task apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.createdOn, '0001-01-01T00:00:00Z');
         expect(apiModel.modifiedOn, '0001-01-01T00:00:00Z');
@@ -42,14 +44,11 @@ void main() {
         expect(apiModel.description, 'N');
         expect(apiModel.descriptionHtml, 'O');
         expect(apiModel.descriptionRichTextJson, 'P');
-        expect(apiModel.roleID, 'Q');
-        expect(apiModel.roleName, 'R');
-        expect(apiModel.roleNameLower, 'S');
         expect(apiModel.dueOn, '0001-01-01T00:00:00Z');
         expect(apiModel.dueOnModifiedOn, '0001-01-01T00:00:00Z');
         expect(apiModel.primaryDocument, isA<api_mod.Document>());
         expect(apiModel.otherDocuments, isA<List<api_mod.Document>>());
-        expect(apiModel.parentWorkTaskID, 'T');
+        expect(apiModel.parentTaskID, 'T');
         expect(apiModel.processID, 'U');
         expect(apiModel.processName, 'V');
         expect(apiModel.processNameLower, 'W');
@@ -61,16 +60,18 @@ void main() {
         expect(apiModel.reminder_1_Day, '0001-01-01T00:00:00Z');
       }
 
-      final apiModelOrig = api_mod.WorkTask.fromJson(jsonDecode(workTaskJson));
+      final apiModelOrig = api_mod.Task.fromJson(jsonDecode(taskJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = WorkTask.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = Task.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 
-  group('WorkTaskCollection tests', () {
+  group('TaskCollection tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();
     });
@@ -79,20 +80,22 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
-      void performTests(api_mod.QueryResult<api_mod.WorkTaskCollection> apiModel) {
-        expect(apiModel.results!.workTasks!.length, 1);
+    test('Serialization test', () async {
+      void performTests(api_mod.QueryResult<api_mod.TaskCollection> apiModel) {
+        expect(apiModel.results!.tasks!.length, 1);
       }
 
-      final apiModelOrig = api_mod.QueryResult<api_mod.WorkTaskCollection>.fromJson(
-          jsonDecode(workTaskCollectionJson));
+      final apiModelOrig =
+          api_mod.QueryResult<api_mod.TaskCollection>.fromJson(jsonDecode(taskCollectionJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final api_mod.QueryResult<api_mod.WorkTaskCollection> apiModelCycled =
-          WorkTaskCollectionQueryResult.fromApiModelWorkTaskCollection(apiModelOrig)
-              .toApiModel<api_mod.WorkTaskCollection>();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final api_mod.QueryResult<api_mod.TaskCollection> apiModelCycled =
+            TaskCollectionQueryResult.fromApiModelTaskCollection(apiModelOrig)
+                .toApiModel<api_mod.TaskCollection>();
+        performTests(apiModelCycled);
+      });
     });
   });
 }

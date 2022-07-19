@@ -6,8 +6,7 @@ part of 'document_content_package.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentContentPackage _$DocumentContentPackageFromJson(
-        Map<String, dynamic> json) =>
+DocumentContentPackage _$DocumentContentPackageFromJson(Map<String, dynamic> json) =>
     DocumentContentPackage()
       ..url = json['Url'] as String?
       ..contentType = json['ContentType'] as String?
@@ -15,8 +14,7 @@ DocumentContentPackage _$DocumentContentPackageFromJson(
       ..pageIndex = json['PageIndex'] as int?
       ..pageCount = json['PageCount'] as int?;
 
-Map<String, dynamic> _$DocumentContentPackageToJson(
-    DocumentContentPackage instance) {
+Map<String, dynamic> _$DocumentContentPackageToJson(DocumentContentPackage instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

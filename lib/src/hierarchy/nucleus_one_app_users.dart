@@ -7,6 +7,7 @@ import '../api_model/user_preference.dart' as api_mod_up;
 import '../api_model/user_organization.dart' as api_mod_uo;
 import '../api_model/user_organization_project.dart' as api_mod_uop;
 import '../common/string.dart';
+import '../common/util.dart';
 import '../http.dart' as http;
 import '../model/user_organization.dart';
 import '../model/user_organization_project.dart';
@@ -16,9 +17,9 @@ import '../nucleus_one.dart';
 
 class NucleusOneAppUsers with NucleusOneAppDependent {
   NucleusOneAppUsers({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
   /// Updates a User Preference.
@@ -55,7 +56,9 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
     );
     final apiModel = api_mod_uo.UserOrganizationCollection.fromJson(jsonDecode(responseBody));
 
-    return UserOrganizationCollection.fromApiModel(apiModel);
+    return await DefineN1AppInScope(app, () {
+      return UserOrganizationCollection.fromApiModel(apiModel);
+    });
   }
 
   /// Gets the current user's organizations.
@@ -69,7 +72,9 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
     final apiModel =
         api_mod_uop.UserOrganizationProjectCollection.fromJson(jsonDecode(responseBody));
 
-    return UserOrganizationProjectCollection.fromApiModel(apiModel);
+    return await DefineN1AppInScope(app, () {
+      return UserOrganizationProjectCollection.fromApiModel(apiModel);
+    });
   }
 
   /// Gets the current user's preferences.
@@ -79,7 +84,9 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
       app,
     );
     final apiModel = api_mod_ups.UserPreferences.fromJson(jsonDecode(responseBody));
-    return UserPreferences.fromApiModel(apiModel);
+    return await DefineN1AppInScope(app, () {
+      return UserPreferences.fromApiModel(apiModel);
+    });
   }
 
   /// Gets the current user's preference by its id.
@@ -91,7 +98,9 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
       app,
     );
     final apiModel = api_mod_up.UserPreference.fromJson(jsonDecode(responseBody));
-    return UserPreference.fromApiModel(apiModel);
+    return await DefineN1AppInScope(app, () {
+      return UserPreference.fromApiModel(apiModel);
+    });
   }
 
   /// Sets the current user's SMS number.
@@ -103,7 +112,7 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
     };
     await http.executePostRequest(
       http.apiPaths.userSmsNumbers,
-      app,
+      app: app,
       body: jsonEncode(reqBody),
     );
   }
@@ -123,7 +132,7 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
   Future<void> deleteSmsNumber() async {
     await http.executeDeleteRequest(
       http.apiPaths.userSmsNumbers,
-      app,
+      app: app,
     );
   }
 }

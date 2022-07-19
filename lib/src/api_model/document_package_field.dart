@@ -15,14 +15,11 @@ class DocumentPackageField extends Entity {
   factory DocumentPackageField.fromJson(Map<String, dynamic> json) =>
       _$DocumentPackageFieldFromJson(json);
 
-  @JsonKey(name: 'ClassificationFieldID')
-  String? classificationFieldID;
-
-  @JsonKey(name: 'ClassificationFieldRank')
-  int? classificationFieldRank;
-
   @JsonKey(name: 'FieldID')
   String? fieldID;
+
+  @JsonKey(name: 'FieldRank')
+  int? fieldRank;
 
   @JsonKey(name: 'ParentFieldID')
   String? parentFieldID;

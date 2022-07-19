@@ -4,27 +4,33 @@ import '../api_model/document_upload.dart' as api_mod;
 import '../nucleus_one.dart';
 
 class DocumentUpload with NucleusOneAppDependent {
-  DocumentUpload._(
-      {NucleusOneAppInternal? app,
-      required this.signedUrl,
-      required this.objectName,
-      required this.uniqueId,
-      required this.originalFilename,
-      required this.originalFileSize,
-      required this.classificationID,
-      required this.fieldIDsAndValues}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  DocumentUpload._({
+    NucleusOneApp? app,
+    required this.signedUrl,
+    required this.objectName,
+    required this.uniqueId,
+    required this.originalFilename,
+    required this.originalFileSize,
+    required this.classificationID,
+    required this.fieldIDsAndValues,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory DocumentUpload.fromApiModel(api_mod.DocumentUpload apiModel) {
+  factory DocumentUpload.fromApiModel(
+    api_mod.DocumentUpload apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentUpload._(
-        signedUrl: apiModel.signedUrl!,
-        objectName: apiModel.objectName!,
-        uniqueId: apiModel.uniqueId!,
-        originalFilename: apiModel.originalFilename!,
-        originalFileSize: apiModel.originalFileSize!,
-        classificationID: apiModel.classificationID!,
-        fieldIDsAndValues: apiModel.fieldIDsAndValues);
+      app: app,
+      signedUrl: apiModel.signedUrl!,
+      objectName: apiModel.objectName!,
+      uniqueId: apiModel.uniqueId!,
+      originalFilename: apiModel.originalFilename!,
+      originalFileSize: apiModel.originalFileSize!,
+      classificationID: apiModel.classificationID!,
+      fieldIDsAndValues: apiModel.fieldIDsAndValues,
+    );
   }
 
   String signedUrl;

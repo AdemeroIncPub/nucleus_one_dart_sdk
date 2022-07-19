@@ -6,6 +6,7 @@ import 'package:nucleus_one_dart_sdk/src/api_model/support_organization.dart' as
 import 'package:nucleus_one_dart_sdk/src/model/support_error_event.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/support_error_event.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
+import '../common/util.dart';
 import '../nucleus_one.dart';
 import '../model/support_user.dart';
 import '../http.dart' as http;
@@ -14,9 +15,9 @@ import '../../nucleus_one_dart_sdk.dart';
 
 class NucleusOneAppSupport with NucleusOneAppDependent {
   NucleusOneAppSupport({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
   /// Gets Support Users.
@@ -38,12 +39,15 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     final apiModel =
         api_mod.QueryResult<api_mod.SupportUserCollection>.fromJson(jsonDecode(responseBody));
 
-    return QueryResult(
-      results: SupportUserCollection(
-          items: apiModel.results!.supportUsers?.map((x) => SupportUser.fromApiModel(x)).toList()),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
+    return await DefineN1AppInScope(app, () {
+      return QueryResult(
+        results: SupportUserCollection(
+            items:
+                apiModel.results!.supportUsers?.map((x) => SupportUser.fromApiModel(x)).toList()),
+        cursor: apiModel.cursor!,
+        pageSize: apiModel.pageSize!,
+      );
+    });
   }
 
   /// Gets Support Organizations.
@@ -65,14 +69,16 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     final apiModel = api_mod.QueryResult<api_mod.SupportOrganizationCollection>.fromJson(
         jsonDecode(responseBody));
 
-    return QueryResult(
-      results: SupportOrganizationCollection(
-          items: apiModel.results!.supportOrganizations
-              ?.map((x) => SupportOrganization.fromApiModel(x))
-              .toList()),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
+    return await DefineN1AppInScope(app, () {
+      return QueryResult(
+        results: SupportOrganizationCollection(
+            items: apiModel.results!.supportOrganizations
+                ?.map((x) => SupportOrganization.fromApiModel(x))
+                .toList()),
+        cursor: apiModel.cursor!,
+        pageSize: apiModel.pageSize!,
+      );
+    });
   }
 
   /// Gets Support Error Events.
@@ -111,14 +117,16 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     final apiModel =
         api_mod.QueryResult<api_mod.SupportErrorEventCollection>.fromJson(jsonDecode(responseBody));
 
-    return QueryResult(
-      results: SupportErrorEventCollection(
-          items: apiModel.results!.supportErrorEvents
-              ?.map((x) => SupportErrorEvent.fromApiModel(x))
-              .toList()),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
+    return await DefineN1AppInScope(app, () {
+      return QueryResult(
+        results: SupportErrorEventCollection(
+            items: apiModel.results!.supportErrorEvents
+                ?.map((x) => SupportErrorEvent.fromApiModel(x))
+                .toList()),
+        cursor: apiModel.cursor!,
+        pageSize: apiModel.pageSize!,
+      );
+    });
   }
 
   /// Gets the Admin Status of a support user.

@@ -1,5 +1,5 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_task.dart';
 import 'package:test/test.dart';
 
 User getStandardTestUser() {
@@ -8,11 +8,36 @@ User getStandardTestUser() {
   );
 }
 
-NucleusOneAppInternal getStandardN1App([String baseUrl = '']) {
-  return NucleusOneAppInternal(
+NucleusOneApp getStandardN1App({
+  String baseUrl = '',
+  String apiKey = '',
+}) {
+  return NucleusOneApp(
     options: NucleusOneOptions(
-      baseUrl: baseUrl,
+      apiBaseUrl: baseUrl,
+      apiKey: apiKey,
     ),
+  );
+}
+
+NucleusOneAppOrganization getStandardN1Org([String id = 'orgId']) {
+  return NucleusOneAppOrganization(
+    app: getStandardN1App(),
+    id: id,
+  );
+}
+
+NucleusOneAppProject getStandardN1Project([String id = 'projId']) {
+  return NucleusOneAppProject(
+    organization: getStandardN1Org(),
+    id: id,
+  );
+}
+
+NucleusOneAppTask getStandardN1Task([String id = 'taskId']) {
+  return NucleusOneAppTask(
+    project: getStandardN1Project(),
+    id: id,
   );
 }
 

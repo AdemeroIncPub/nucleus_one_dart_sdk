@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/user_preference.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_users.dart';
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
@@ -21,7 +21,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.UserPreference apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.userID, 'B');
@@ -37,9 +37,11 @@ void main() {
       final apiModelOrig = api_mod.UserPreference.fromJson(jsonDecode(userPreferenceJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = UserPreference.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = UserPreference.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
 
     test('getById method tests', () async {

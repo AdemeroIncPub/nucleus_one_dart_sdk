@@ -6,8 +6,10 @@ import '../nucleus_one.dart';
 
 class SubscriptionInvoiceCollection
     extends EntityCollection<SubscriptionInvoice, api_mod.SubscriptionInvoiceCollection> {
-  SubscriptionInvoiceCollection({NucleusOneAppInternal? app, List<SubscriptionInvoice>? items})
-      : super(app: app, items: items);
+  SubscriptionInvoiceCollection({
+    NucleusOneApp? app,
+    List<SubscriptionInvoice>? items,
+  }) : super(app: app, items: items);
 
   factory SubscriptionInvoiceCollection.fromApiModel(
       api_mod.SubscriptionInvoiceCollection apiModel) {
@@ -24,25 +26,31 @@ class SubscriptionInvoiceCollection
 }
 
 class SubscriptionInvoice with NucleusOneAppDependent {
-  SubscriptionInvoice._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.createdOn,
-      required this.amountDue,
-      required this.isUpcoming,
-      required this.status,
-      required this.pdfUrl}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  SubscriptionInvoice._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.createdOn,
+    required this.amountDue,
+    required this.isUpcoming,
+    required this.status,
+    required this.pdfUrl,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory SubscriptionInvoice.fromApiModel(api_mod.SubscriptionInvoice apiModel) {
+  factory SubscriptionInvoice.fromApiModel(
+    api_mod.SubscriptionInvoice apiModel, {
+    NucleusOneApp? app,
+  }) {
     return SubscriptionInvoice._(
-        id: apiModel.id!,
-        createdOn: apiModel.createdOn!,
-        amountDue: apiModel.amountDue!,
-        isUpcoming: apiModel.isUpcoming!,
-        status: apiModel.status!,
-        pdfUrl: apiModel.pdfUrl!);
+      app: app,
+      id: apiModel.id!,
+      createdOn: apiModel.createdOn!,
+      amountDue: apiModel.amountDue!,
+      isUpcoming: apiModel.isUpcoming!,
+      status: apiModel.status!,
+      pdfUrl: apiModel.pdfUrl!,
+    );
   }
 
   String id;

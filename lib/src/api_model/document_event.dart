@@ -13,7 +13,8 @@ class DocumentEventCollection implements IQueryResultEntityCollection {
   /// A necessary factory constructor for creating a new DocumentEventCollection instance
   /// from a map. Pass the map to the generated [_$DocumentEventCollectionFromJson()] constructor.
   /// The constructor is named after the source class, in this case, DocumentEventCollection.
-  factory DocumentEventCollection.fromJson(Map<String, dynamic> json) => _$DocumentEventCollectionFromJson(json);
+  factory DocumentEventCollection.fromJson(Map<String, dynamic> json) =>
+      _$DocumentEventCollectionFromJson(json);
 
   @JsonKey(name: 'DocumentEvents')
   List<DocumentEvent>? documentEvents;

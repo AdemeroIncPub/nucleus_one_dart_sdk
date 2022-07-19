@@ -93,6 +93,7 @@ class SupportErrorEvent extends Entity {
   /// [toJson] is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated
   /// helper method [_$SupportErrorEventToJson].
+  @override
   Map<String, dynamic> toJson() => _$SupportErrorEventToJson(this);
   // coverage:ignore-end
 }

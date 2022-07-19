@@ -5,8 +5,10 @@ import 'package:nucleus_one_dart_sdk/src/api_model/organization.dart' as api_mod
 import 'package:nucleus_one_dart_sdk/src/api_model/organization_package.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
+import '../../../src/common.dart';
 import '../api_model/organization_package.dart';
 
 void main() {
@@ -19,7 +21,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.OrganizationPackage apiModel) {
         expect(apiModel.organization, isA<api_mod.Organization>());
         expect(apiModel.userID, 'A');
@@ -34,9 +36,11 @@ void main() {
           api_mod.OrganizationPackage.fromJson(jsonDecode(organizationPackageJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = OrganizationPackage.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = OrganizationPackage.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 
@@ -49,7 +53,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.QueryResult<api_mod.OrganizationPackageCollection> apiModel) {
         expect(apiModel.results!.organizationPackages!.length, 1);
       }
@@ -58,12 +62,14 @@ void main() {
           jsonDecode(organizationPackageCollectionJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final api_mod.QueryResult<api_mod.OrganizationPackageCollection> apiModelCycled =
-          OrganizationPackageCollectionQueryResult.fromApiModelOrganizationPackageCollection(
-                  apiModelOrig)
-              .toApiModel<api_mod.OrganizationPackageCollection>();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final api_mod.QueryResult<api_mod.OrganizationPackageCollection> apiModelCycled =
+            OrganizationPackageCollectionQueryResult.fromApiModelOrganizationPackageCollection(
+                    apiModelOrig)
+                .toApiModel<api_mod.OrganizationPackageCollection>();
+        performTests(apiModelCycled);
+      });
     });
   });
 }

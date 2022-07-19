@@ -4,45 +4,51 @@ import '../api_model/organization.dart' as api_mod;
 import '../nucleus_one.dart';
 
 class Organization with NucleusOneAppDependent {
-  Organization._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.createdOn,
-      required this.disabled,
-      required this.name,
-      required this.nameLower,
-      required this.creatingUserID,
-      required this.creatingUserName,
-      required this.creatingUserEmail,
-      required this.crmLeadId,
-      required this.crmAccountId,
-      required this.crmContactId,
-      required this.crmDealId,
-      required this.subscriptionRequired,
-      required this.subscriptionFreeUsers,
-      required this.subscriptionExpiration,
-      required this.maxProjects}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  Organization._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.createdOn,
+    required this.disabled,
+    required this.name,
+    required this.nameLower,
+    required this.creatingUserID,
+    required this.creatingUserName,
+    required this.creatingUserEmail,
+    required this.crmLeadId,
+    required this.crmAccountId,
+    required this.crmContactId,
+    required this.crmDealId,
+    required this.subscriptionRequired,
+    required this.subscriptionFreeUsers,
+    required this.subscriptionExpiration,
+    required this.maxProjects,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory Organization.fromApiModel(api_mod.Organization apiModel) {
+  factory Organization.fromApiModel(
+    api_mod.Organization apiModel, {
+    NucleusOneApp? app,
+  }) {
     return Organization._(
-        id: apiModel.id!,
-        createdOn: apiModel.createdOn!,
-        disabled: apiModel.disabled!,
-        name: apiModel.name!,
-        nameLower: apiModel.nameLower!,
-        creatingUserID: apiModel.creatingUserID!,
-        creatingUserName: apiModel.creatingUserName!,
-        creatingUserEmail: apiModel.creatingUserEmail!,
-        crmLeadId: apiModel.crmLeadId!,
-        crmAccountId: apiModel.crmAccountId!,
-        crmContactId: apiModel.crmContactId!,
-        crmDealId: apiModel.crmDealId!,
-        subscriptionRequired: apiModel.subscriptionRequired!,
-        subscriptionFreeUsers: apiModel.subscriptionFreeUsers!,
-        subscriptionExpiration: apiModel.subscriptionExpiration!,
-        maxProjects: apiModel.maxProjects!);
+      app: app,
+      id: apiModel.id!,
+      createdOn: apiModel.createdOn!,
+      disabled: apiModel.disabled!,
+      name: apiModel.name!,
+      nameLower: apiModel.nameLower!,
+      creatingUserID: apiModel.creatingUserID!,
+      creatingUserName: apiModel.creatingUserName!,
+      creatingUserEmail: apiModel.creatingUserEmail!,
+      crmLeadId: apiModel.crmLeadId!,
+      crmAccountId: apiModel.crmAccountId!,
+      crmContactId: apiModel.crmContactId!,
+      crmDealId: apiModel.crmDealId!,
+      subscriptionRequired: apiModel.subscriptionRequired!,
+      subscriptionFreeUsers: apiModel.subscriptionFreeUsers!,
+      subscriptionExpiration: apiModel.subscriptionExpiration!,
+      maxProjects: apiModel.maxProjects!,
+    );
   }
 
   String id;

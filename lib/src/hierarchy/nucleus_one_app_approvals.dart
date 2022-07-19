@@ -1,33 +1,36 @@
 import 'dart:convert';
 
+import 'package:get_it/get_it.dart';
+
 import '../api_model/approval.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../common/string.dart';
+import '../common/util.dart';
 import '../http.dart' as http;
 import '../model/approval.dart';
 import '../model/query_result.dart';
 import '../nucleus_one.dart';
 import 'nucleus_one_app_project.dart';
 
-class NucleusOneAppApprovals with NucleusOneAppDependent {
-  final NucleusOneAppProject project;
-
+class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
   NucleusOneAppApprovals({
-    required this.project,
+    NucleusOneAppProject? project,
   }) {
-    app = project.app;
+    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
   }
 
   /// Declines a document.
   ///
   ///
-  Future<void> declineDocument({List<String>? ids}) async {
+  Future<void> declineDocument({
+    List<String>? ids,
+  }) async {
     final reqBody = {'IDs': ids};
 
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsApprovalActionsDeclineFormat
           .replaceOrganizationAndProjectPlaceholders(project),
-      app,
+      app: project.app,
       body: jsonEncode(reqBody),
     );
   }
@@ -35,13 +38,15 @@ class NucleusOneAppApprovals with NucleusOneAppDependent {
   /// Denies a document.
   ///
   ///
-  Future<void> denyDocument({List<String>? ids}) async {
+  Future<void> denyDocument({
+    List<String>? ids,
+  }) async {
     final reqBody = {'IDs': ids};
 
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsApprovalActionsDenyFormat
           .replaceOrganizationAndProjectPlaceholders(project),
-      app,
+      app: project.app,
       body: jsonEncode(reqBody),
     );
   }
@@ -49,13 +54,15 @@ class NucleusOneAppApprovals with NucleusOneAppDependent {
   /// Approves a document.
   ///
   ///
-  Future<void> approveDocument({List<String>? ids}) async {
+  Future<void> approveDocument({
+    List<String>? ids,
+  }) async {
     final reqBody = {'IDs': ids};
 
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsApprovalActionsApproveFormat
           .replaceOrganizationAndProjectPlaceholders(project),
-      app,
+      app: project.app,
       body: jsonEncode(reqBody),
     );
   }
@@ -79,19 +86,22 @@ class NucleusOneAppApprovals with NucleusOneAppDependent {
     qp['sortType'] = sortType;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsApprovalsFormat.replaceOrganizationAndProjectPlaceholders(project),
-      app,
+      http.apiPaths.organizationsProjectsApprovalsFormat
+          .replaceOrganizationAndProjectPlaceholders(project),
+      project.app,
       query: qp,
     );
 
     final apiModel =
         api_mod.QueryResult<api_mod.ApprovalCollection>.fromJson(jsonDecode(responseBody));
 
-    return QueryResult(
-      results: ApprovalCollection(
-          items: apiModel.results!.approvals?.map((x) => Approval.fromApiModel(x)).toList()),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
+    return await DefineN1AppInScope(project.app, () {
+      return QueryResult(
+        results: ApprovalCollection(
+            items: apiModel.results!.approvals?.map((x) => Approval.fromApiModel(x)).toList()),
+        cursor: apiModel.cursor!,
+        pageSize: apiModel.pageSize!,
+      );
+    });
   }
 }

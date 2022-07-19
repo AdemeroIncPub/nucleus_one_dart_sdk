@@ -5,8 +5,10 @@ import 'package:nucleus_one_dart_sdk/src/api_model/field.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/form_template.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
+import '../../../src/common.dart';
 import '../../../src/mirrors.dart';
 import '../api_model/form_template.dart';
 
@@ -20,7 +22,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.FormTemplate apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.tenantID, 'B');
@@ -39,9 +41,11 @@ void main() {
       final apiModelOrig = api_mod.FormTemplate.fromJson(jsonDecode(formTemplateJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = FormTemplate.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = FormTemplate.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 
@@ -54,7 +58,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.QueryResult<api_mod.FormTemplateCollection> apiModel) {
         expect(apiModel.results!.formTemplates!.length, 1);
       }
@@ -63,11 +67,13 @@ void main() {
           jsonDecode(formTemplateCollectionJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final api_mod.QueryResult<api_mod.FormTemplateCollection> apiModelCycled =
-          FormTemplateCollectionQueryResult.fromApiModelFormTemplateCollection(apiModelOrig)
-              .toApiModel<api_mod.FormTemplateCollection>();
-      performTests(apiModelCycled);
+      await DefineN1AppAndProjectInScope(getStandardN1Project(), () {
+        // Convert it to a model class then back again
+        final api_mod.QueryResult<api_mod.FormTemplateCollection> apiModelCycled =
+            FormTemplateCollectionQueryResult.fromApiModelFormTemplateCollection(apiModelOrig)
+                .toApiModel<api_mod.FormTemplateCollection>();
+        performTests(apiModelCycled);
+      });
     });
   });
 
@@ -80,7 +86,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.FormTemplateFieldCollection apiModel) {
         expect(apiModel.items.length, 1);
       }
@@ -89,9 +95,11 @@ void main() {
           api_mod.FormTemplateFieldCollection.fromJson(jsonDecode(formTemplateFieldCollectionJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = FormTemplateFieldCollection.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = FormTemplateFieldCollection.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 
@@ -113,7 +121,7 @@ void main() {
       expect(classIsSubtypeOf<FormTemplateField, FormTemplateFieldMixin>(), isTrue);
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performFormTests(api_mod.FormTemplateField apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.formTemplateID, 'B');
@@ -145,9 +153,11 @@ void main() {
       final apiModelOrig = api_mod.FormTemplateField.fromJson(jsonDecode(formTemplateFieldJson));
       performFormTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = FormTemplateField.fromApiModel(apiModelOrig).toApiModel();
-      performFormTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = FormTemplateField.fromApiModel(apiModelOrig).toApiModel();
+        performFormTests(apiModelCycled);
+      });
     });
   });
 
@@ -164,7 +174,7 @@ void main() {
       expect(classIsSubtypeOf<FormSubmissionField, FormTemplateFieldMixin>(), isTrue);
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.FormSubmissionField apiModel) {
         expect(apiModel.formTemplateFieldID, 'A');
         expect(apiModel.id, 'B');
@@ -199,15 +209,20 @@ void main() {
           api_mod.FormSubmissionField.fromJson(jsonDecode(formSubmissionFieldJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = FormSubmissionField.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = FormSubmissionField.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
 
     test('FormSubmissionField.fromFormTemplateField factory constructor test', () {
+      final n1App = getStandardN1App();
       final ftf = FormTemplateField.fromApiModel(
-          api_mod.FormTemplateField.fromJson(jsonDecode(formTemplateFieldJson)));
-      final fsf = FormSubmissionField.fromFormTemplateField(ftf);
+        api_mod.FormTemplateField.fromJson(jsonDecode(formTemplateFieldJson)),
+        app: n1App,
+      );
+      final fsf = FormSubmissionField.fromFormTemplateField(ftf, app: n1App);
 
       expect(fsf.id, 'A');
       expect(fsf.formTemplateID, 'B');
@@ -246,7 +261,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.FormSubmissionPackageCollection apiModel) {
         expect(apiModel.items.length, 1);
       }
@@ -255,10 +270,12 @@ void main() {
           jsonDecode(formSubmissionPackageCollectionJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled =
-          FormSubmissionPackageCollection.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled =
+            FormSubmissionPackageCollection.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 
@@ -271,7 +288,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.FormSubmissionPackage apiModel) {
         expect(apiModel.tenantID, 'A');
         expect(apiModel.formTemplateID, 'B');
@@ -283,12 +300,14 @@ void main() {
           api_mod.FormSubmissionPackage.fromJson(jsonDecode(formSubmissionPackageJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = FormSubmissionPackage.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = FormSubmissionPackage.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
 
-    test('createNew method test', () {
+    test('createNew method test', () async {
       try {
         FormSubmissionPackage.createNew(
           tenantID: '',
@@ -311,18 +330,20 @@ void main() {
         expect(e.name, 'formTemplateID');
       }
 
-      final fsf = FormSubmissionField.fromApiModel(
-          api_mod.FormSubmissionField.fromJson(jsonDecode(formSubmissionFieldJson)));
-      final m = FormSubmissionPackage.createNew(
-        tenantID: 'A',
-        formTemplateID: 'B',
-        formSubmissionFields: [fsf],
-      );
+      await DefineN1AppInScope(getStandardN1App(), () {
+        final fsf = FormSubmissionField.fromApiModel(
+            api_mod.FormSubmissionField.fromJson(jsonDecode(formSubmissionFieldJson)));
+        final m = FormSubmissionPackage.createNew(
+          tenantID: 'A',
+          formTemplateID: 'B',
+          formSubmissionFields: [fsf],
+        );
 
-      expect(m.tenantID, 'A');
-      expect(m.formTemplateID, 'B');
-      expect(m.formSubmissionFields.length, 1);
-      expect(m.formSubmissionFields[0], isA<FormSubmissionField>());
+        expect(m.tenantID, 'A');
+        expect(m.formTemplateID, 'B');
+        expect(m.formSubmissionFields.length, 1);
+        expect(m.formSubmissionFields[0], isA<FormSubmissionField>());
+      });
     });
   });
 }

@@ -6,11 +6,10 @@ part of 'field.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FieldCollection _$FieldCollectionFromJson(Map<String, dynamic> json) =>
-    FieldCollection()
-      ..fields = (json['Fields'] as List<dynamic>?)
-          ?.map((e) => Field.fromJson(e as Map<String, dynamic>))
-          .toList();
+FieldCollection _$FieldCollectionFromJson(Map<String, dynamic> json) => FieldCollection()
+  ..fields = (json['Fields'] as List<dynamic>?)
+      ?.map((e) => Field.fromJson(e as Map<String, dynamic>))
+      .toList();
 
 Map<String, dynamic> _$FieldCollectionToJson(FieldCollection instance) {
   final val = <String, dynamic>{};
@@ -72,8 +71,7 @@ Map<String, dynamic> _$FieldToJson(Field instance) {
   writeNotNull('AllowMultipleLines', instance.allowMultipleLines);
   writeNotNull('Rows', instance.rows);
   writeNotNull('AllowMultipleValues', instance.allowMultipleValues);
-  writeNotNull(
-      'AllowNewSelectionListItems', instance.allowNewSelectionListItems);
+  writeNotNull('AllowNewSelectionListItems', instance.allowNewSelectionListItems);
   writeNotNull('SaveNewSelectionListItems', instance.saveNewSelectionListItems);
   writeNotNull('DecimalPlaces', instance.decimalPlaces);
   writeNotNull('Mask', instance.mask);

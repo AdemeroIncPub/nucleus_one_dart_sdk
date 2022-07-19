@@ -7,7 +7,7 @@ import '../nucleus_one.dart';
 class DocumentSignatureFormCollection
     extends EntityCollection<DocumentSignatureForm, api_mod.DocumentSignatureFormCollection> {
   DocumentSignatureFormCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     List<DocumentSignatureForm>? items,
   }) : super(app: app, items: items);
 
@@ -25,39 +25,45 @@ class DocumentSignatureFormCollection
 }
 
 class DocumentSignatureForm with NucleusOneAppDependent {
-  DocumentSignatureForm._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.signatureFormTemplateID,
-      required this.createdOn,
-      required this.tenantID,
-      required this.documentID,
-      required this.documentClassificationID,
-      required this.documentClassificationName,
-      required this.documentClassificationNameLower,
-      required this.documentName,
-      required this.documentNameLower,
-      required this.hasFormFields,
-      required this.totalFormFields,
-      required this.lastViewedPageIndex}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  DocumentSignatureForm._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.signatureFormTemplateID,
+    required this.createdOn,
+    required this.tenantID,
+    required this.documentID,
+    required this.documentClassificationID,
+    required this.documentClassificationName,
+    required this.documentClassificationNameLower,
+    required this.documentName,
+    required this.documentNameLower,
+    required this.hasFormFields,
+    required this.totalFormFields,
+    required this.lastViewedPageIndex,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory DocumentSignatureForm.fromApiModel(api_mod.DocumentSignatureForm apiModel) {
+  factory DocumentSignatureForm.fromApiModel(
+    api_mod.DocumentSignatureForm apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentSignatureForm._(
-        id: apiModel.id!,
-        signatureFormTemplateID: apiModel.signatureFormTemplateID!,
-        createdOn: apiModel.createdOn!,
-        tenantID: apiModel.tenantID!,
-        documentID: apiModel.documentID!,
-        documentClassificationID: apiModel.documentClassificationID!,
-        documentClassificationName: apiModel.documentClassificationName!,
-        documentClassificationNameLower: apiModel.documentClassificationNameLower!,
-        documentName: apiModel.documentName!,
-        documentNameLower: apiModel.documentNameLower!,
-        hasFormFields: apiModel.hasFormFields!,
-        totalFormFields: apiModel.totalFormFields!,
-        lastViewedPageIndex: apiModel.lastViewedPageIndex!);
+      app: app,
+      id: apiModel.id!,
+      signatureFormTemplateID: apiModel.signatureFormTemplateID!,
+      createdOn: apiModel.createdOn!,
+      tenantID: apiModel.tenantID!,
+      documentID: apiModel.documentID!,
+      documentClassificationID: apiModel.documentClassificationID!,
+      documentClassificationName: apiModel.documentClassificationName!,
+      documentClassificationNameLower: apiModel.documentClassificationNameLower!,
+      documentName: apiModel.documentName!,
+      documentNameLower: apiModel.documentNameLower!,
+      hasFormFields: apiModel.hasFormFields!,
+      totalFormFields: apiModel.totalFormFields!,
+      lastViewedPageIndex: apiModel.lastViewedPageIndex!,
+    );
   }
 
   String id;

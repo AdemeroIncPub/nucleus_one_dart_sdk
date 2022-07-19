@@ -7,13 +7,18 @@ import '../nucleus_one.dart';
 
 class SignatureFormTemplateCollection
     extends EntityCollection<SignatureFormTemplate, api_mod.SignatureFormTemplateCollection> {
-  SignatureFormTemplateCollection({NucleusOneAppInternal? app, List<SignatureFormTemplate>? items})
-      : super(app: app, items: items);
+  SignatureFormTemplateCollection({
+    NucleusOneApp? app,
+    List<SignatureFormTemplate>? items,
+  }) : super(app: app, items: items);
 
   factory SignatureFormTemplateCollection.fromApiModel(
-      api_mod.SignatureFormTemplateCollection apiModel) {
+    api_mod.SignatureFormTemplateCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return SignatureFormTemplateCollection(
-      items: apiModel.items.map((x) => SignatureFormTemplate.fromApiModel(x)).toList(),
+      app: app,
+      items: apiModel.items.map((x) => SignatureFormTemplate.fromApiModel(x, app: app)).toList(),
     );
   }
 
@@ -25,33 +30,41 @@ class SignatureFormTemplateCollection
 }
 
 class SignatureFormTemplate with NucleusOneAppDependent {
-  SignatureFormTemplate._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.name,
-      required this.nameLower,
-      required this.createdOn}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  SignatureFormTemplate._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.name,
+    required this.nameLower,
+    required this.createdOn,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory SignatureFormTemplate.fromApiModel(api_mod.SignatureFormTemplate apiModel) {
+  factory SignatureFormTemplate.fromApiModel(
+    api_mod.SignatureFormTemplate apiModel, {
+    NucleusOneApp? app,
+  }) {
     return SignatureFormTemplate._(
-        id: apiModel.id!,
-        name: apiModel.name!,
-        nameLower: apiModel.nameLower!,
-        createdOn: apiModel.createdOn!);
+      app: app,
+      id: apiModel.id!,
+      name: apiModel.name!,
+      nameLower: apiModel.nameLower!,
+      createdOn: apiModel.createdOn!,
+    );
   }
 
   factory SignatureFormTemplate.createNew({
     String? id,
     required String name,
     String createdOn = '',
+    NucleusOneApp? app,
   }) {
     if (isNullOrEmpty(id)) {
       id = DateTime.now().millisecondsSinceEpoch.toString();
     }
 
     return SignatureFormTemplate._(
+      app: app,
       id: id!,
       name: name,
       nameLower: name.toLowerCase(),
@@ -78,14 +91,19 @@ class SignatureFormTemplate with NucleusOneAppDependent {
 
 class SignatureFormTemplateFieldCollection extends EntityCollection<SignatureFormTemplateField,
     api_mod.SignatureFormTemplateFieldCollection> {
-  SignatureFormTemplateFieldCollection(
-      {NucleusOneAppInternal? app, List<SignatureFormTemplateField>? items})
-      : super(app: app, items: items);
+  SignatureFormTemplateFieldCollection({
+    NucleusOneApp? app,
+    List<SignatureFormTemplateField>? items,
+  }) : super(app: app, items: items);
 
   factory SignatureFormTemplateFieldCollection.fromApiModel(
-      api_mod.SignatureFormTemplateFieldCollection apiModel) {
+    api_mod.SignatureFormTemplateFieldCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return SignatureFormTemplateFieldCollection(
-      items: apiModel.items.map((x) => SignatureFormTemplateField.fromApiModel(x)).toList(),
+      app: app,
+      items:
+          apiModel.items.map((x) => SignatureFormTemplateField.fromApiModel(x, app: app)).toList(),
     );
   }
 
@@ -97,33 +115,39 @@ class SignatureFormTemplateFieldCollection extends EntityCollection<SignatureFor
 }
 
 class SignatureFormTemplateField with NucleusOneAppDependent {
-  SignatureFormTemplateField._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.createdOn,
-      required this.type,
-      required this.pageIndex,
-      required this.documentSignatureSessionRecipientID,
-      required this.x,
-      required this.y,
-      required this.label,
-      required this.widthPercent,
-      required this.sortRank}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  SignatureFormTemplateField._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.createdOn,
+    required this.type,
+    required this.pageIndex,
+    required this.documentSignatureSessionRecipientID,
+    required this.x,
+    required this.y,
+    required this.label,
+    required this.widthPercent,
+    required this.sortRank,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory SignatureFormTemplateField.fromApiModel(api_mod.SignatureFormTemplateField apiModel) {
+  factory SignatureFormTemplateField.fromApiModel(
+    api_mod.SignatureFormTemplateField apiModel, {
+    NucleusOneApp? app,
+  }) {
     return SignatureFormTemplateField._(
-        id: apiModel.id!,
-        createdOn: apiModel.createdOn!,
-        type: apiModel.type!,
-        pageIndex: apiModel.pageIndex!,
-        documentSignatureSessionRecipientID: apiModel.documentSignatureSessionRecipientID!,
-        x: apiModel.x!,
-        y: apiModel.y!,
-        label: apiModel.label,
-        widthPercent: apiModel.widthPercent,
-        sortRank: apiModel.sortRank);
+      app: app,
+      id: apiModel.id!,
+      createdOn: apiModel.createdOn!,
+      type: apiModel.type!,
+      pageIndex: apiModel.pageIndex!,
+      documentSignatureSessionRecipientID: apiModel.documentSignatureSessionRecipientID!,
+      x: apiModel.x!,
+      y: apiModel.y!,
+      label: apiModel.label,
+      widthPercent: apiModel.widthPercent,
+      sortRank: apiModel.sortRank,
+    );
   }
 
   factory SignatureFormTemplateField.createNew({
@@ -137,12 +161,14 @@ class SignatureFormTemplateField with NucleusOneAppDependent {
     String? label,
     double? widthPercent,
     int? sortRank,
+    NucleusOneApp? app,
   }) {
     if (isNullOrEmpty(id)) {
       id = DateTime.now().millisecondsSinceEpoch.toString();
     }
 
     return SignatureFormTemplateField._(
+      app: app,
       id: id!,
       createdOn: createdOn,
       type: type,

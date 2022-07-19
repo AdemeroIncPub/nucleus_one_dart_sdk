@@ -6,15 +6,18 @@ import '../nucleus_one.dart';
 
 class SubscriptionPlanCollection
     extends EntityCollection<SubscriptionPlan, api_mod.SubscriptionPlanCollection> {
-  SubscriptionPlanCollection(
-      {NucleusOneAppInternal? app,
-      List<SubscriptionPlan>? items,
-      required this.currentUniqueNonReadOnlyTenantMemberCount,
-      required this.currentUniqueReadOnlyTenantMemberCount,
-      required this.salesTaxRate})
-      : super(app: app, items: items);
+  SubscriptionPlanCollection({
+    NucleusOneApp? app,
+    List<SubscriptionPlan>? items,
+    required this.currentUniqueNonReadOnlyTenantMemberCount,
+    required this.currentUniqueReadOnlyTenantMemberCount,
+    required this.salesTaxRate,
+  }) : super(app: app, items: items);
 
-  factory SubscriptionPlanCollection.fromApiModel(api_mod.SubscriptionPlanCollection apiModel) {
+  factory SubscriptionPlanCollection.fromApiModel(
+    api_mod.SubscriptionPlanCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return SubscriptionPlanCollection(
       items: apiModel.subscriptionPlans?.map((x) => SubscriptionPlan.fromApiModel(x)).toList(),
       currentUniqueNonReadOnlyTenantMemberCount:
@@ -41,29 +44,35 @@ class SubscriptionPlanCollection
 }
 
 class SubscriptionPlan with NucleusOneAppDependent {
-  SubscriptionPlan._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.title,
-      required this.currency,
-      required this.interval,
-      required this.savingsPercent,
-      required this.tieredPricing,
-      required this.amountPerUnit,
-      required this.active}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  SubscriptionPlan._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.title,
+    required this.currency,
+    required this.interval,
+    required this.savingsPercent,
+    required this.tieredPricing,
+    required this.amountPerUnit,
+    required this.active,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory SubscriptionPlan.fromApiModel(api_mod.SubscriptionPlan apiModel) {
+  factory SubscriptionPlan.fromApiModel(
+    api_mod.SubscriptionPlan apiModel, {
+    NucleusOneApp? app,
+  }) {
     return SubscriptionPlan._(
-        id: apiModel.id!,
-        title: apiModel.title!,
-        currency: apiModel.currency!,
-        interval: apiModel.interval!,
-        savingsPercent: apiModel.savingsPercent!,
-        tieredPricing: apiModel.tieredPricing!,
-        amountPerUnit: apiModel.amountPerUnit!,
-        active: apiModel.active!);
+      app: app,
+      id: apiModel.id!,
+      title: apiModel.title!,
+      currency: apiModel.currency!,
+      interval: apiModel.interval!,
+      savingsPercent: apiModel.savingsPercent!,
+      tieredPricing: apiModel.tieredPricing!,
+      amountPerUnit: apiModel.amountPerUnit!,
+      active: apiModel.active!,
+    );
   }
 
   String id;

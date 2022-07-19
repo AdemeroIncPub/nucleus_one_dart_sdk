@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 
-import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/document_for_client.dart' as api_mod;
 import '../common/model.dart';
 
@@ -8,7 +7,7 @@ import '../nucleus_one.dart';
 
 class DocumentForClientCollection extends EntityCollection<DocumentForClient, void> {
   DocumentForClientCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     List<DocumentForClient>? items,
   }) : super(app: app, items: items);
 
@@ -40,7 +39,7 @@ class DocumentForClientCollection extends EntityCollection<DocumentForClient, vo
 
 class DocumentForClient with NucleusOneAppDependent {
   DocumentForClient._({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     required this.id,
     required this.documentID,
     required this.createdOn,
@@ -67,11 +66,11 @@ class DocumentForClient with NucleusOneAppDependent {
     required this.processElementName,
     required this.score,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
   DocumentForClient({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
   }) : this._(
           app: app,
           id: '',
@@ -101,8 +100,12 @@ class DocumentForClient with NucleusOneAppDependent {
           score: null,
         );
 
-  factory DocumentForClient.fromApiModel(api_mod.DocumentForClient apiModel) {
+  factory DocumentForClient.fromApiModel(
+    api_mod.DocumentForClient apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentForClient._(
+      app: app,
       id: apiModel.id!,
       documentID: apiModel.documentID!,
       createdOn: apiModel.createdOn!,

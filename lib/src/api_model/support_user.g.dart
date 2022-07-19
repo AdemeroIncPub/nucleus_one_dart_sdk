@@ -6,15 +6,13 @@ part of 'support_user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SupportUserCollection _$SupportUserCollectionFromJson(
-        Map<String, dynamic> json) =>
+SupportUserCollection _$SupportUserCollectionFromJson(Map<String, dynamic> json) =>
     SupportUserCollection()
       ..supportUsers = (json['Users'] as List<dynamic>?)
           ?.map((e) => SupportUser.fromJson(e as Map<String, dynamic>))
           .toList();
 
-Map<String, dynamic> _$SupportUserCollectionToJson(
-    SupportUserCollection instance) {
+Map<String, dynamic> _$SupportUserCollectionToJson(SupportUserCollection instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

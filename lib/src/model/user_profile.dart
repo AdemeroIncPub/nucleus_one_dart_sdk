@@ -4,21 +4,27 @@ import '../api_model/user_profile.dart' as api_mod;
 import '../nucleus_one.dart';
 
 class UserProfile with NucleusOneAppDependent {
-  UserProfile._(
-      {NucleusOneAppInternal? app,
-      required this.userProvider,
-      required this.userEmail,
-      required this.userName,
-      required this.otpsmsNumber}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  UserProfile._({
+    NucleusOneApp? app,
+    required this.userProvider,
+    required this.userEmail,
+    required this.userName,
+    required this.otpsmsNumber,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory UserProfile.fromApiModel(api_mod.UserProfile apiModel) {
+  factory UserProfile.fromApiModel(
+    api_mod.UserProfile apiModel, {
+    NucleusOneApp? app,
+  }) {
     return UserProfile._(
-        userProvider: apiModel.userProvider!,
-        userEmail: apiModel.userEmail!,
-        userName: apiModel.userName!,
-        otpsmsNumber: apiModel.otpsmsNumber!);
+      app: app,
+      userProvider: apiModel.userProvider!,
+      userEmail: apiModel.userEmail!,
+      userName: apiModel.userName!,
+      otpsmsNumber: apiModel.otpsmsNumber!,
+    );
   }
 
   String userProvider;

@@ -1,18 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'work_task.dart';
+part of 'task.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-WorkTaskCollection _$WorkTaskCollectionFromJson(Map<String, dynamic> json) =>
-    WorkTaskCollection()
-      ..workTasks = (json['WorkTasks'] as List<dynamic>?)
-          ?.map((e) => WorkTask.fromJson(e as Map<String, dynamic>))
-          .toList();
+TaskCollection _$TaskCollectionFromJson(Map<String, dynamic> json) => TaskCollection()
+  ..tasks = (json['Tasks'] as List<dynamic>?)
+      ?.map((e) => Task.fromJson(e as Map<String, dynamic>))
+      .toList();
 
-Map<String, dynamic> _$WorkTaskCollectionToJson(WorkTaskCollection instance) {
+Map<String, dynamic> _$TaskCollectionToJson(TaskCollection instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -21,12 +20,16 @@ Map<String, dynamic> _$WorkTaskCollectionToJson(WorkTaskCollection instance) {
     }
   }
 
-  writeNotNull('WorkTasks', instance.workTasks);
+  writeNotNull('Tasks', instance.tasks);
   return val;
 }
 
-WorkTask _$WorkTaskFromJson(Map<String, dynamic> json) => WorkTask()
+Task _$TaskFromJson(Map<String, dynamic> json) => Task()
   ..id = json['ID'] as String?
+  ..organizationID = json['OrganizationID'] as String?
+  ..projectID = json['ProjectID'] as String?
+  ..projectName = json['ProjectName'] as String?
+  ..projectAccessType = json['ProjectAccessType'] as String?
   ..createdOn = json['CreatedOn'] as String?
   ..modifiedOn = json['ModifiedOn'] as String?
   ..createdByUserID = json['CreatedByUserID'] as String?
@@ -46,9 +49,9 @@ WorkTask _$WorkTaskFromJson(Map<String, dynamic> json) => WorkTask()
   ..description = json['Description'] as String?
   ..descriptionHtml = json['DescriptionHtml'] as String?
   ..descriptionRichTextJson = json['DescriptionRichTextJson'] as String?
-  ..roleID = json['RoleID'] as String?
-  ..roleName = json['RoleName'] as String?
-  ..roleNameLower = json['RoleNameLower'] as String?
+  ..assignmentUserEmail = json['AssignmentUserEmail'] as String?
+  ..assignmentUserName = json['AssignmentUserName'] as String?
+  ..assignmentUserNameLower = json['AssignmentUserNameLower'] as String?
   ..dueOn = json['DueOn'] as String?
   ..dueOnModifiedOn = json['DueOnModifiedOn'] as String?
   ..primaryDocument = json['PrimaryDocument'] == null
@@ -57,7 +60,7 @@ WorkTask _$WorkTaskFromJson(Map<String, dynamic> json) => WorkTask()
   ..otherDocuments = (json['OtherDocuments'] as List<dynamic>?)
       ?.map((e) => Document.fromJson(e as Map<String, dynamic>))
       .toList()
-  ..parentWorkTaskID = json['ParentWorkTaskID'] as String?
+  ..parentTaskID = json['ParentTaskID'] as String?
   ..processID = json['ProcessID'] as String?
   ..processName = json['ProcessName'] as String?
   ..processNameLower = json['ProcessNameLower'] as String?
@@ -68,7 +71,7 @@ WorkTask _$WorkTaskFromJson(Map<String, dynamic> json) => WorkTask()
   ..reminder_3_Day = json['Reminder_3_Day'] as String?
   ..reminder_1_Day = json['Reminder_1_Day'] as String?;
 
-Map<String, dynamic> _$WorkTaskToJson(WorkTask instance) {
+Map<String, dynamic> _$TaskToJson(Task instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -78,6 +81,10 @@ Map<String, dynamic> _$WorkTaskToJson(WorkTask instance) {
   }
 
   writeNotNull('ID', instance.id);
+  writeNotNull('OrganizationID', instance.organizationID);
+  writeNotNull('ProjectID', instance.projectID);
+  writeNotNull('ProjectName', instance.projectName);
+  writeNotNull('ProjectAccessType', instance.projectAccessType);
   writeNotNull('CreatedOn', instance.createdOn);
   writeNotNull('ModifiedOn', instance.modifiedOn);
   writeNotNull('CreatedByUserID', instance.createdByUserID);
@@ -97,14 +104,14 @@ Map<String, dynamic> _$WorkTaskToJson(WorkTask instance) {
   writeNotNull('Description', instance.description);
   writeNotNull('DescriptionHtml', instance.descriptionHtml);
   writeNotNull('DescriptionRichTextJson', instance.descriptionRichTextJson);
-  writeNotNull('RoleID', instance.roleID);
-  writeNotNull('RoleName', instance.roleName);
-  writeNotNull('RoleNameLower', instance.roleNameLower);
+  writeNotNull('AssignmentUserEmail', instance.assignmentUserEmail);
+  writeNotNull('AssignmentUserName', instance.assignmentUserName);
+  writeNotNull('AssignmentUserNameLower', instance.assignmentUserNameLower);
   writeNotNull('DueOn', instance.dueOn);
   writeNotNull('DueOnModifiedOn', instance.dueOnModifiedOn);
   writeNotNull('PrimaryDocument', instance.primaryDocument);
   writeNotNull('OtherDocuments', instance.otherDocuments);
-  writeNotNull('ParentWorkTaskID', instance.parentWorkTaskID);
+  writeNotNull('ParentTaskID', instance.parentTaskID);
   writeNotNull('ProcessID', instance.processID);
   writeNotNull('ProcessName', instance.processName);
   writeNotNull('ProcessNameLower', instance.processNameLower);

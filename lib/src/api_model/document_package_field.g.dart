@@ -6,12 +6,10 @@ part of 'document_package_field.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentPackageField _$DocumentPackageFieldFromJson(
-        Map<String, dynamic> json) =>
+DocumentPackageField _$DocumentPackageFieldFromJson(Map<String, dynamic> json) =>
     DocumentPackageField()
-      ..classificationFieldID = json['ClassificationFieldID'] as String?
-      ..classificationFieldRank = json['ClassificationFieldRank'] as int?
       ..fieldID = json['FieldID'] as String?
+      ..fieldRank = json['FieldRank'] as int?
       ..parentFieldID = json['ParentFieldID'] as String?
       ..name = json['Name'] as String?
       ..labelOrName = json['LabelOrName'] as String?
@@ -30,8 +28,7 @@ DocumentPackageField _$DocumentPackageFieldFromJson(
       ..useCreationDate = json['UseCreationDate'] as bool?
       ..textMatchType = json['TextMatchType'] as String?;
 
-Map<String, dynamic> _$DocumentPackageFieldToJson(
-    DocumentPackageField instance) {
+Map<String, dynamic> _$DocumentPackageFieldToJson(DocumentPackageField instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -40,9 +37,8 @@ Map<String, dynamic> _$DocumentPackageFieldToJson(
     }
   }
 
-  writeNotNull('ClassificationFieldID', instance.classificationFieldID);
-  writeNotNull('ClassificationFieldRank', instance.classificationFieldRank);
   writeNotNull('FieldID', instance.fieldID);
+  writeNotNull('FieldRank', instance.fieldRank);
   writeNotNull('ParentFieldID', instance.parentFieldID);
   writeNotNull('Name', instance.name);
   writeNotNull('LabelOrName', instance.labelOrName);
@@ -51,8 +47,7 @@ Map<String, dynamic> _$DocumentPackageFieldToJson(
   writeNotNull('AllowMultipleLines', instance.allowMultipleLines);
   writeNotNull('Rows', instance.rows);
   writeNotNull('AllowMultipleValues', instance.allowMultipleValues);
-  writeNotNull(
-      'AllowNewSelectionListItems', instance.allowNewSelectionListItems);
+  writeNotNull('AllowNewSelectionListItems', instance.allowNewSelectionListItems);
   writeNotNull('SaveNewSelectionListItems', instance.saveNewSelectionListItems);
   writeNotNull('DecimalPlaces', instance.decimalPlaces);
   writeNotNull('Mask', instance.mask);

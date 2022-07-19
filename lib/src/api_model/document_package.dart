@@ -1,10 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../common/api_model.dart';
 
-import 'document.dart';
-import 'document_subscription_for_client.dart';
-import 'document_package_field.dart';
+import '../common/api_model.dart';
 import 'approval.dart';
+import 'document.dart';
+import 'document_package_field.dart';
+import 'document_subscription_for_client.dart';
+import 'project.dart';
 
 part 'document_package.g.dart';
 
@@ -19,6 +20,12 @@ class DocumentPackage extends Entity {
   /// The constructor is named after the source class, in this case, DocumentPackage.
   factory DocumentPackage.fromJson(Map<String, dynamic> json) => _$DocumentPackageFromJson(json);
 
+  @JsonKey(name: 'ProjectMember')
+  ProjectMember? projectMember;
+
+  @JsonKey(name: 'ProjectAccessType')
+  String? projectAccessType;
+
   @JsonKey(name: 'Document')
   Document? document;
 
@@ -28,11 +35,8 @@ class DocumentPackage extends Entity {
   @JsonKey(name: 'Approval')
   Approval? approval;
 
-  @JsonKey(name: 'ClassificationField')
-  DocumentPackageField? classificationField;
-
-  @JsonKey(name: 'IndexFields')
-  List<DocumentPackageField>? indexFields;
+  @JsonKey(name: 'Fields')
+  List<DocumentPackageField>? fields;
 
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization

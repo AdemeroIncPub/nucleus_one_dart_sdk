@@ -6,8 +6,7 @@ part of 'document_signature_session.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentSignatureSession _$DocumentSignatureSessionFromJson(
-        Map<String, dynamic> json) =>
+DocumentSignatureSession _$DocumentSignatureSessionFromJson(Map<String, dynamic> json) =>
     DocumentSignatureSession()
       ..id = json['ID'] as String?
       ..createdOn = json['CreatedOn'] as String?
@@ -37,8 +36,7 @@ DocumentSignatureSession _$DocumentSignatureSessionFromJson(
       ..quickDesignPlaceEmail = json['QuickDesignPlaceEmail'] as bool?
       ..quickDesignPlaceTitle = json['QuickDesignPlaceTitle'] as bool?;
 
-Map<String, dynamic> _$DocumentSignatureSessionToJson(
-    DocumentSignatureSession instance) {
+Map<String, dynamic> _$DocumentSignatureSessionToJson(DocumentSignatureSession instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -85,27 +83,20 @@ DocumentSignatureSessionRecipient _$DocumentSignatureSessionRecipientFromJson(
       ..documentID = json['DocumentID'] as String?
       ..documentCreatedOn = json['DocumentCreatedOn'] as String?
       ..documentBucketName = json['DocumentBucketName'] as String?
-      ..documentThumbnailObjectName =
-          json['DocumentThumbnailObjectName'] as String?
+      ..documentThumbnailObjectName = json['DocumentThumbnailObjectName'] as String?
       ..documentName = json['DocumentName'] as String?
       ..documentNameLower = json['DocumentNameLower'] as String?
       ..documentPageCount = json['DocumentPageCount'] as int?
       ..documentFileSize = json['DocumentFileSize'] as int?
       ..documentClassificationID = json['DocumentClassificationID'] as String?
-      ..documentClassificationName =
-          json['DocumentClassificationName'] as String?
-      ..documentClassificationNameLower =
-          json['DocumentClassificationNameLower'] as String?
-      ..documentPreviewMetadata =
-          (json['DocumentPreviewMetadata'] as List<dynamic>?)
-              ?.map((e) => Map<String, String>.from(e as Map))
-              .toList()
-      ..documentSignatureSessionID =
-          json['DocumentSignatureSessionID'] as String?
-      ..documentSignatureSessionIsActive =
-          json['DocumentSignatureSessionIsActive'] as bool?
-      ..documentSignatureSessionIsComplete =
-          json['DocumentSignatureSessionIsComplete'] as bool?
+      ..documentClassificationName = json['DocumentClassificationName'] as String?
+      ..documentClassificationNameLower = json['DocumentClassificationNameLower'] as String?
+      ..documentPreviewMetadata = (json['DocumentPreviewMetadata'] as List<dynamic>?)
+          ?.map((e) => Map<String, String>.from(e as Map))
+          .toList()
+      ..documentSignatureSessionID = json['DocumentSignatureSessionID'] as String?
+      ..documentSignatureSessionIsActive = json['DocumentSignatureSessionIsActive'] as bool?
+      ..documentSignatureSessionIsComplete = json['DocumentSignatureSessionIsComplete'] as bool?
       ..uniqueID = json['UniqueID'] as String?
       ..rank = json['Rank'] as int?
       ..email = json['Email'] as String?
@@ -134,24 +125,18 @@ Map<String, dynamic> _$DocumentSignatureSessionRecipientToJson(
   writeNotNull('DocumentID', instance.documentID);
   writeNotNull('DocumentCreatedOn', instance.documentCreatedOn);
   writeNotNull('DocumentBucketName', instance.documentBucketName);
-  writeNotNull(
-      'DocumentThumbnailObjectName', instance.documentThumbnailObjectName);
+  writeNotNull('DocumentThumbnailObjectName', instance.documentThumbnailObjectName);
   writeNotNull('DocumentName', instance.documentName);
   writeNotNull('DocumentNameLower', instance.documentNameLower);
   writeNotNull('DocumentPageCount', instance.documentPageCount);
   writeNotNull('DocumentFileSize', instance.documentFileSize);
   writeNotNull('DocumentClassificationID', instance.documentClassificationID);
-  writeNotNull(
-      'DocumentClassificationName', instance.documentClassificationName);
-  writeNotNull('DocumentClassificationNameLower',
-      instance.documentClassificationNameLower);
+  writeNotNull('DocumentClassificationName', instance.documentClassificationName);
+  writeNotNull('DocumentClassificationNameLower', instance.documentClassificationNameLower);
   writeNotNull('DocumentPreviewMetadata', instance.documentPreviewMetadata);
-  writeNotNull(
-      'DocumentSignatureSessionID', instance.documentSignatureSessionID);
-  writeNotNull('DocumentSignatureSessionIsActive',
-      instance.documentSignatureSessionIsActive);
-  writeNotNull('DocumentSignatureSessionIsComplete',
-      instance.documentSignatureSessionIsComplete);
+  writeNotNull('DocumentSignatureSessionID', instance.documentSignatureSessionID);
+  writeNotNull('DocumentSignatureSessionIsActive', instance.documentSignatureSessionIsActive);
+  writeNotNull('DocumentSignatureSessionIsComplete', instance.documentSignatureSessionIsComplete);
   writeNotNull('UniqueID', instance.uniqueID);
   writeNotNull('Rank', instance.rank);
   writeNotNull('Email', instance.email);
@@ -172,11 +157,9 @@ DocumentSignatureSessionPackage _$DocumentSignatureSessionPackageFromJson(
     DocumentSignatureSessionPackage()
       ..session = json['Session'] == null
           ? null
-          : DocumentSignatureSession.fromJson(
-              json['Session'] as Map<String, dynamic>)
+          : DocumentSignatureSession.fromJson(json['Session'] as Map<String, dynamic>)
       ..recipients = (json['Recipients'] as List<dynamic>?)
-          ?.map((e) => DocumentSignatureSessionRecipient.fromJson(
-              e as Map<String, dynamic>))
+          ?.map((e) => DocumentSignatureSessionRecipient.fromJson(e as Map<String, dynamic>))
           .toList()
       ..beginSession = json['BeginSession'] as bool?
       ..resetSession = json['ResetSession'] as bool?;

@@ -2,14 +2,10 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_upload.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_documents.dart';
-import 'package:nucleus_one_dart_sdk/src/model/document_upload.dart';
-import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
+
 import '../../../src/common.dart';
-import '../../../src/mocks/http.dart';
-import '../../../src/model_helper.dart';
-import '../api_model/document_subscription_for_client.dart';
 import '../api_model/document_upload.dart';
 
 void main() {
@@ -22,7 +18,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.DocumentUpload apiModel) {
         expect(apiModel.signedUrl, 'A');
         expect(apiModel.objectName, 'B');
@@ -38,36 +34,11 @@ void main() {
       final apiModelOrig = api_mod.DocumentUpload.fromJson(jsonDecode(documentUploadJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = DocumentUpload.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
-    });
-
-    test('getDocumentUpload method tests', () async {
-      final expectedUrlPath = http.apiPaths.documentUploads;
-      final n1App = getStandardN1App();
-      // Test with default parameters
-      await performHttpTest<DocumentUpload>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getDocumentUpload(),
-        responseBody: documentUploadJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
-    });
-
-    test('getSubscription method tests', () async {
-      final expectedUrlPath =
-          http.apiPaths.documentSubscriptionsFormat.replaceFirst('<documentId>', '123');
-      final n1App = getStandardN1App();
-      // Test with default parameters
-      await performHttpTest<DocumentSubscriptionForClient>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppDocuments(app: n1App).getSubscription('123'),
-        responseBody: documentSubscriptionForClientJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = DocumentUpload.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 }

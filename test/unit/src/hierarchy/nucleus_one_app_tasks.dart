@@ -1,17 +1,17 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/api_model/work_task.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/task.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_work_tasks.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
-import 'package:nucleus_one_dart_sdk/src/model/work_task.dart';
-import 'package:nucleus_one_dart_sdk/src/model/work_task_comment.dart';
+import 'package:nucleus_one_dart_sdk/src/model/task.dart';
+import 'package:nucleus_one_dart_sdk/src/model/task_comment.dart';
 import 'package:test/test.dart';
 import '../../../src/assertions.dart';
-import '../api_model/work_task.dart';
+import '../api_model/task.dart';
 import '../../../src/common.dart';
 import '../../../src/model_helper.dart';
 import '../../../src/mocks/http.dart';
-import '../api_model/work_task_comment.dart';
+import '../api_model/task_comment.dart';
 
 Document document = Document.fromApiModel(api_mod.Document()
   ..id = 'A'

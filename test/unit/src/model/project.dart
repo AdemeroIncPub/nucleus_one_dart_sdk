@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/project.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
+import '../../../src/common.dart';
 import '../api_model/project.dart';
 
 void main() {
@@ -16,7 +18,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTest(api_mod.Project apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.createdOn, '2019-08-27T15:21:23.90425Z');
@@ -44,9 +46,36 @@ void main() {
       final apiModelOrig = api_mod.Project.fromJson(jsonDecode(projectJson));
       performTest(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = Project.fromApiModel(apiModelOrig).toApiModel();
-      performTest(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = Project.fromApiModel(apiModelOrig).toApiModel();
+        performTest(apiModelCycled);
+      });
+    });
+
+    test('document method tests', () {
+      final project = getStandardN1Project();
+
+      final doc = project.document('123');
+      expect(doc, isA<NucleusOneAppDocument>());
+      expect(doc.id, '123');
+      expect(doc.project, project);
+    });
+
+    test('documents method tests', () {
+      final project = getStandardN1Project();
+
+      final doc = project.documents();
+      expect(doc, isA<NucleusOneAppDocuments>());
+      expect(doc.project, project);
+    });
+
+    test('approvals method tests', () {
+      final project = getStandardN1Project();
+
+      final approvals = project.approvals();
+      expect(approvals, isA<NucleusOneAppApprovals>());
+      expect(approvals.project, project);
     });
   });
 
@@ -59,29 +88,35 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTest(api_mod.ProjectMember apiModel) {
         expect(apiModel.id, 'A');
-        expect(apiModel.createdOn, '2020-02-27T21:59:56.028225Z');
-        expect(apiModel.tenantID, 'B');
-        expect(apiModel.tenantName, 'C');
-        expect(apiModel.userID, 'D');
-        expect(apiModel.userName, 'E');
-        expect(apiModel.userNameLower, 'F');
-        expect(apiModel.userEmail, 'G');
-        expect(apiModel.disabled, true);
+        expect(apiModel.createdOn, '0001-01-01T00:00:00Z');
+        expect(apiModel.organizationMemberID, 'B');
+        expect(apiModel.organizationMemberIsAdmin, true);
+        expect(apiModel.organizationID, 'C');
+        expect(apiModel.organizationName, 'D');
+        expect(apiModel.projectID, 'E');
+        expect(apiModel.projectName, 'F');
+        expect(apiModel.projectIsDisabled, false);
+        expect(apiModel.projectAccessType, 'G');
+        expect(apiModel.userID, 'H');
+        expect(apiModel.userName, 'I');
+        expect(apiModel.userNameLower, 'J');
+        expect(apiModel.userEmail, 'K');
+        expect(apiModel.disabled, false);
         expect(apiModel.isReadOnly, false);
         expect(apiModel.isAdmin, true);
-        expect(apiModel.isOrganizationAdmin, false);
-        expect(apiModel.isOrganizationOrTenantAdmin, true);
       }
 
       final apiModelOrig = api_mod.ProjectMember.fromJson(jsonDecode(projectMemberJson));
       performTest(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = ProjectMember.fromApiModel(apiModelOrig).toApiModel();
-      performTest(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = ProjectMember.fromApiModel(apiModelOrig).toApiModel();
+        performTest(apiModelCycled);
+      });
     });
   });
 }

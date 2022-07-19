@@ -2,26 +2,25 @@ import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
 
-import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/organization_permissions.dart' as api_mod;
-import '../api_model/tenant.dart' as api_mod;
-import '../api_model/query_result.dart' as api_mod;
-import '../common/model.dart';
+import '../api_model/subscription_details.dart' as api_mod;
+import '../common/string.dart';
+import '../common/util.dart';
 import '../http.dart' as http;
-import '../model/organization_package.dart';
 import '../model/organization_permissions.dart';
+import '../model/subscription_details.dart';
 import '../nucleus_one.dart';
-import 'nucleus_one_app_subscriptions.dart';
 import 'nucleus_one_app_project.dart';
+import 'nucleus_one_app_subscriptions.dart';
 
 class NucleusOneAppOrganization with NucleusOneAppDependent {
   final String id;
 
   NucleusOneAppOrganization({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     required this.id,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
 
     if (id.isEmpty) {
       throw ArgumentError.value(id, 'id', 'Value cannot be blank.');
@@ -59,6 +58,24 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     );
 
     final apiModel = api_mod.OrganizationPermissions.fromJson(jsonDecode(responseBody));
-    return OrganizationPermissions.fromApiModel(apiModel);
+    return await DefineN1AppInScope(app, () {
+      return OrganizationPermissions.fromApiModel(apiModel);
+    });
+  }
+
+  /// Gets an organization's subscription.
+  ///
+  /// [organizationId]: The id of the organization.
+  Future<SubscriptionDetails> getOrganizationSubscription({
+    required String organizationId,
+  }) async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.organizationsSubscriptionsFormat.replaceOrganizationPlaceholder(id),
+      app,
+    );
+    final apiModel = api_mod.SubscriptionDetails.fromJson(jsonDecode(responseBody));
+    return await DefineN1AppInScope(app, () {
+      return SubscriptionDetails.fromApiModel(apiModel);
+    });
   }
 }

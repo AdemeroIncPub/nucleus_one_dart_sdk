@@ -4,48 +4,69 @@ import '../api_model/project.dart' as api_mod;
 import '../nucleus_one.dart';
 
 class ProjectMember with NucleusOneAppDependent {
-  ProjectMember._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.createdOn,
-      required this.tenantID,
-      required this.tenantName,
-      required this.userID,
-      required this.userName,
-      required this.userNameLower,
-      required this.userEmail,
-      required this.disabled,
-      required this.isReadOnly,
-      required this.isAdmin,
-      required this.isOrganizationAdmin,
-      required this.isOrganizationOrTenantAdmin}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  ProjectMember._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.createdOn,
+    required this.organizationMemberID,
+    required this.organizationMemberIsAdmin,
+    required this.organizationID,
+    required this.organizationName,
+    required this.projectID,
+    required this.projectName,
+    required this.projectIsDisabled,
+    required this.projectAccessType,
+    required this.userID,
+    required this.userName,
+    required this.userNameLower,
+    required this.userEmail,
+    required this.disabled,
+    required this.isReadOnly,
+    required this.isAdmin,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
   factory ProjectMember.fromApiModel(api_mod.ProjectMember apiModel) {
     return ProjectMember._(
         id: apiModel.id!,
         createdOn: apiModel.createdOn!,
-        tenantID: apiModel.tenantID!,
-        tenantName: apiModel.tenantName!,
+        organizationMemberID: apiModel.organizationMemberID!,
+        organizationMemberIsAdmin: apiModel.organizationMemberIsAdmin!,
+        organizationID: apiModel.organizationID!,
+        organizationName: apiModel.organizationName!,
+        projectID: apiModel.projectID!,
+        projectName: apiModel.projectName!,
+        projectIsDisabled: apiModel.projectIsDisabled!,
+        projectAccessType: apiModel.projectAccessType!,
         userID: apiModel.userID!,
         userName: apiModel.userName!,
         userNameLower: apiModel.userNameLower!,
         userEmail: apiModel.userEmail!,
         disabled: apiModel.disabled!,
         isReadOnly: apiModel.isReadOnly!,
-        isAdmin: apiModel.isAdmin!,
-        isOrganizationAdmin: apiModel.isOrganizationAdmin!,
-        isOrganizationOrTenantAdmin: apiModel.isOrganizationOrTenantAdmin!);
+        isAdmin: apiModel.isAdmin!);
   }
 
   String id;
 
   String createdOn;
 
-  String tenantID;
+  String organizationMemberID;
 
-  String tenantName;
+  bool organizationMemberIsAdmin;
+
+  String organizationID;
+
+  String organizationName;
+
+  String projectID;
+
+  String projectName;
+
+  bool projectIsDisabled;
+
+  String projectAccessType;
 
   String userID;
 
@@ -61,53 +82,54 @@ class ProjectMember with NucleusOneAppDependent {
 
   bool isAdmin;
 
-  bool isOrganizationAdmin;
-
-  bool isOrganizationOrTenantAdmin;
-
   api_mod.ProjectMember toApiModel() {
     return api_mod.ProjectMember()
       ..id = id
       ..createdOn = createdOn
-      ..tenantID = tenantID
-      ..tenantName = tenantName
+      ..organizationMemberID = organizationMemberID
+      ..organizationMemberIsAdmin = organizationMemberIsAdmin
+      ..organizationID = organizationID
+      ..organizationName = organizationName
+      ..projectID = projectID
+      ..projectName = projectName
+      ..projectIsDisabled = projectIsDisabled
+      ..projectAccessType = projectAccessType
       ..userID = userID
       ..userName = userName
       ..userNameLower = userNameLower
       ..userEmail = userEmail
       ..disabled = disabled
       ..isReadOnly = isReadOnly
-      ..isAdmin = isAdmin
-      ..isOrganizationAdmin = isOrganizationAdmin
-      ..isOrganizationOrTenantAdmin = isOrganizationOrTenantAdmin;
+      ..isAdmin = isAdmin;
   }
 }
 
 class Project with NucleusOneAppDependent {
-  Project._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.createdOn,
-      required this.organizationID,
-      required this.organizationName,
-      required this.organizationNameLower,
-      required this.organizationSubscriptionRequired,
-      required this.organizationSubscriptionFreeUsers,
-      required this.organizationSubscriptionExpiration,
-      required this.bucketName,
-      required this.name,
-      required this.nameLower,
-      required this.creatingUserID,
-      required this.creatingUserName,
-      required this.creatingUserEmail,
-      required this.crmAccountId,
-      required this.disabled,
-      required this.isMarkedForPurge,
-      required this.purgeMarkedOn,
-      required this.purgeMarkedByUserID,
-      required this.purgeMarkedByUserName,
-      required this.purgeMarkedByUserEmail}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  Project._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.createdOn,
+    required this.organizationID,
+    required this.organizationName,
+    required this.organizationNameLower,
+    required this.organizationSubscriptionRequired,
+    required this.organizationSubscriptionFreeUsers,
+    required this.organizationSubscriptionExpiration,
+    required this.bucketName,
+    required this.name,
+    required this.nameLower,
+    required this.creatingUserID,
+    required this.creatingUserName,
+    required this.creatingUserEmail,
+    required this.crmAccountId,
+    required this.disabled,
+    required this.isMarkedForPurge,
+    required this.purgeMarkedOn,
+    required this.purgeMarkedByUserID,
+    required this.purgeMarkedByUserName,
+    required this.purgeMarkedByUserEmail,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
   factory Project.fromApiModel(api_mod.Project apiModel) {

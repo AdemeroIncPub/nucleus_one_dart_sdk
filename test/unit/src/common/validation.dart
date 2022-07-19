@@ -13,7 +13,7 @@ void main() {
 
       try {
         validation.ensureArgumentIsNotEmpty('A', '1');
-      } on ArgumentError catch (e) {
+      } on ArgumentError {
         fail('ArgumentError should not have been thrown for non-empty value.');
       }
     });

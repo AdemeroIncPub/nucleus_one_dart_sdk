@@ -7,9 +7,11 @@ import 'package:nucleus_one_dart_sdk/src/api_model/approval.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_subscription_for_client.dart'
     as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_package_field.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/model/document_package.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/project.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
+import '../../../src/common.dart';
 import '../api_model/document_package.dart';
 
 void main() {
@@ -22,21 +24,24 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.DocumentPackage apiModel) {
         expect(apiModel.document, isA<api_mod.Document>());
         expect(apiModel.documentSubscription, isA<api_mod.DocumentSubscriptionForClient>());
         expect(apiModel.approval, isA<api_mod.Approval>());
-        expect(apiModel.classificationField, isA<api_mod.DocumentPackageField>());
-        expect(apiModel.indexFields, isA<List<api_mod.DocumentPackageField>>());
+        expect(apiModel.projectMember, isA<api_mod.ProjectMember>());
+        expect(apiModel.projectAccessType, 'A');
+        expect(apiModel.fields, isA<List<api_mod.DocumentPackageField>>());
       }
 
       final apiModelOrig = api_mod.DocumentPackage.fromJson(jsonDecode(documentPackageJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = DocumentPackage.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = DocumentPackage.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 }

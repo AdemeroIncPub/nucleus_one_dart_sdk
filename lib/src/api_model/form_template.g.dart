@@ -6,15 +6,13 @@ part of 'form_template.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FormTemplateCollection _$FormTemplateCollectionFromJson(
-        Map<String, dynamic> json) =>
+FormTemplateCollection _$FormTemplateCollectionFromJson(Map<String, dynamic> json) =>
     FormTemplateCollection()
       ..formTemplates = (json['FormTemplates'] as List<dynamic>?)
           ?.map((e) => FormTemplate.fromJson(e as Map<String, dynamic>))
           .toList();
 
-Map<String, dynamic> _$FormTemplateCollectionToJson(
-    FormTemplateCollection instance) {
+Map<String, dynamic> _$FormTemplateCollectionToJson(FormTemplateCollection instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -65,37 +63,32 @@ Map<String, dynamic> _$FormTemplateToJson(FormTemplate instance) {
   return val;
 }
 
-FormTemplateField _$FormTemplateFieldFromJson(Map<String, dynamic> json) =>
-    FormTemplateField()
-      ..id = json['ID'] as String?
-      ..formTemplateID = json['FormTemplateID'] as String?
-      ..formTemplateName = json['FormTemplateName'] as String?
-      ..formTemplateNameLower = json['FormTemplateNameLower'] as String?
-      ..tenantID = json['TenantID'] as String?
-      ..uniqueID = json['UniqueID'] as String?
-      ..createdOn = json['CreatedOn'] as String?
-      ..type = json['Type'] as String?
-      ..fieldID = json['FieldID'] as String?
-      ..field = json['Field'] == null
-          ? null
-          : Field.fromJson(json['Field'] as Map<String, dynamic>)
-      ..pageIndex = json['PageIndex'] as int?
-      ..x = (json['X'] as num?)?.toDouble()
-      ..y = (json['Y'] as num?)?.toDouble()
-      ..width = (json['Width'] as num?)?.toDouble()
-      ..fontSize = json['FontSize'] as int?
-      ..useColumnLayout = json['UseColumnLayout'] as bool?
-      ..assetBucketName = json['AssetBucketName'] as String?
-      ..assetObjectName = json['AssetObjectName'] as String?
-      ..assetContentType = json['AssetContentType'] as String?
-      ..assetSignedUrl = json['AssetSignedUrl'] as String?
-      ..defaultValue = json['DefaultValue'] as String?
-      ..defaultValues = json['DefaultValues'] as String?
-      ..possibleValues = (json['PossibleValues'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList()
-      ..value = json['Value'] as String?
-      ..values = json['Values'] as String?;
+FormTemplateField _$FormTemplateFieldFromJson(Map<String, dynamic> json) => FormTemplateField()
+  ..id = json['ID'] as String?
+  ..formTemplateID = json['FormTemplateID'] as String?
+  ..formTemplateName = json['FormTemplateName'] as String?
+  ..formTemplateNameLower = json['FormTemplateNameLower'] as String?
+  ..tenantID = json['TenantID'] as String?
+  ..uniqueID = json['UniqueID'] as String?
+  ..createdOn = json['CreatedOn'] as String?
+  ..type = json['Type'] as String?
+  ..fieldID = json['FieldID'] as String?
+  ..field = json['Field'] == null ? null : Field.fromJson(json['Field'] as Map<String, dynamic>)
+  ..pageIndex = json['PageIndex'] as int?
+  ..x = (json['X'] as num?)?.toDouble()
+  ..y = (json['Y'] as num?)?.toDouble()
+  ..width = (json['Width'] as num?)?.toDouble()
+  ..fontSize = json['FontSize'] as int?
+  ..useColumnLayout = json['UseColumnLayout'] as bool?
+  ..assetBucketName = json['AssetBucketName'] as String?
+  ..assetObjectName = json['AssetObjectName'] as String?
+  ..assetContentType = json['AssetContentType'] as String?
+  ..assetSignedUrl = json['AssetSignedUrl'] as String?
+  ..defaultValue = json['DefaultValue'] as String?
+  ..defaultValues = json['DefaultValues'] as String?
+  ..possibleValues = (json['PossibleValues'] as List<dynamic>?)?.map((e) => e as String).toList()
+  ..value = json['Value'] as String?
+  ..values = json['Values'] as String?;
 
 Map<String, dynamic> _$FormTemplateFieldToJson(FormTemplateField instance) {
   final val = <String, dynamic>{};
@@ -134,8 +127,7 @@ Map<String, dynamic> _$FormTemplateFieldToJson(FormTemplateField instance) {
   return val;
 }
 
-FormSubmissionPackage _$FormSubmissionPackageFromJson(
-        Map<String, dynamic> json) =>
+FormSubmissionPackage _$FormSubmissionPackageFromJson(Map<String, dynamic> json) =>
     FormSubmissionPackage()
       ..tenantID = json['TenantID'] as String?
       ..formTemplateID = json['FormTemplateID'] as String?
@@ -143,8 +135,7 @@ FormSubmissionPackage _$FormSubmissionPackageFromJson(
           ?.map((e) => FormSubmissionField.fromJson(e as Map<String, dynamic>))
           .toList();
 
-Map<String, dynamic> _$FormSubmissionPackageToJson(
-    FormSubmissionPackage instance) {
+Map<String, dynamic> _$FormSubmissionPackageToJson(FormSubmissionPackage instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -170,9 +161,7 @@ FormSubmissionField _$FormSubmissionFieldFromJson(Map<String, dynamic> json) =>
       ..createdOn = json['CreatedOn'] as String?
       ..type = json['Type'] as String?
       ..fieldID = json['FieldID'] as String?
-      ..field = json['Field'] == null
-          ? null
-          : Field.fromJson(json['Field'] as Map<String, dynamic>)
+      ..field = json['Field'] == null ? null : Field.fromJson(json['Field'] as Map<String, dynamic>)
       ..pageIndex = json['PageIndex'] as int?
       ..x = (json['X'] as num?)?.toDouble()
       ..y = (json['Y'] as num?)?.toDouble()
@@ -185,9 +174,8 @@ FormSubmissionField _$FormSubmissionFieldFromJson(Map<String, dynamic> json) =>
       ..assetSignedUrl = json['AssetSignedUrl'] as String?
       ..defaultValue = json['DefaultValue'] as String?
       ..defaultValues = json['DefaultValues'] as String?
-      ..possibleValues = (json['PossibleValues'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList()
+      ..possibleValues =
+          (json['PossibleValues'] as List<dynamic>?)?.map((e) => e as String).toList()
       ..value = json['Value'] as String?
       ..values = json['Values'] as String?
       ..formTemplateFieldID = json['FormTemplateFieldID'] as String?;

@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_for_client.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
+import '../../../src/common.dart';
 import '../api_model/document_for_client.dart';
 
 void main() {
@@ -16,7 +18,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.DocumentForClient apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.documentID, 'B');
@@ -49,19 +51,24 @@ void main() {
       final apiModelOrig = api_mod.DocumentForClient.fromJson(jsonDecode(documentForClientJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = DocumentForClient.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = DocumentForClient.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
 
     test('toApiModel method tests', () async {
-      expect(
-          () => DocumentForClientCollection().toApiModel(),
-          throwsA(allOf(
-            isUnsupportedError,
-            predicate((UnsupportedError e) =>
-                e.message.toString() == 'toApiModel() is not supported for this collection type.'),
-          )));
+      await DefineN1AppInScope(getStandardN1App(), () {
+        expect(
+            () => DocumentForClientCollection().toApiModel(),
+            throwsA(allOf(
+              isUnsupportedError,
+              predicate((UnsupportedError e) =>
+                  e.message.toString() ==
+                  'toApiModel() is not supported for this collection type.'),
+            )));
+      });
     });
   });
 }

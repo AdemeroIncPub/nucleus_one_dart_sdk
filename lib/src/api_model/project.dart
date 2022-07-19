@@ -20,11 +20,29 @@ class ProjectMember extends Entity {
   @JsonKey(name: 'CreatedOn')
   String? createdOn;
 
-  @JsonKey(name: 'TenantID')
-  String? tenantID;
+  @JsonKey(name: 'OrganizationMemberID')
+  String? organizationMemberID;
 
-  @JsonKey(name: 'TenantName')
-  String? tenantName;
+  @JsonKey(name: 'OrganizationMemberIsAdmin')
+  bool? organizationMemberIsAdmin;
+
+  @JsonKey(name: 'OrganizationID')
+  String? organizationID;
+
+  @JsonKey(name: 'OrganizationName')
+  String? organizationName;
+
+  @JsonKey(name: 'ProjectID')
+  String? projectID;
+
+  @JsonKey(name: 'ProjectName')
+  String? projectName;
+
+  @JsonKey(name: 'ProjectIsDisabled')
+  bool? projectIsDisabled;
+
+  @JsonKey(name: 'ProjectAccessType')
+  String? projectAccessType;
 
   @JsonKey(name: 'UserID')
   String? userID;
@@ -46,12 +64,6 @@ class ProjectMember extends Entity {
 
   @JsonKey(name: 'IsAdmin')
   bool? isAdmin;
-
-  @JsonKey(name: 'IsOrganizationAdmin')
-  bool? isOrganizationAdmin;
-
-  @JsonKey(name: 'IsOrganizationOrTenantAdmin')
-  bool? isOrganizationOrTenantAdmin;
 
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization

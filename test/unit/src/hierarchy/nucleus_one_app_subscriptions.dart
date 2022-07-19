@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/subscription_details.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_subscriptions.dart';
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
@@ -24,51 +24,33 @@ void main() {
     });
 
     test('getOrganizationSubscriptionPlans method tests', () async {
-      final expectedUrlPath =
-          http.apiPaths.billingSubscriptionPlansFormat.replaceFirst('<organizationId>', '123');
-      final n1App = getStandardN1App();
+      final subs = getStandardN1Org().subscriptions();
+      final expectedUrlPath = http.apiPaths.organizationsSubscriptionsPlansFormat
+          .replaceOrganizationPlaceholder(subs.organization.id);
 
       // Test with default parameters
       await performHttpTest<SubscriptionPlanCollection>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppSubscriptions(app: n1App).getOrganizationSubscriptionPlans(
-          organizationId: '123',
-        ),
+        httpCallCallback: () => subs.getOrganizationSubscriptionPlans(),
         responseBody: subscriptionPlanCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
       );
     });
 
-    test('getOrganizationSubscription method tests', () async {
-      final expectedUrlPath = http.apiPaths.billingOrganizationSubscriptionsFormat
-          .replaceFirst('<organizationId>', '123');
-      final n1App = getStandardN1App();
-
-      // Test with default parameters
-      await performHttpTest<SubscriptionDetails>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppSubscriptions(app: n1App).getOrganizationSubscription(
-          organizationId: '123',
-        ),
-        responseBody: subscriptionDetailsJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
-    });
-
     test('updateOrganizationSubscription method tests', () async {
-      final expectedUrlPath = http.apiPaths.billingOrganizationSubscriptionsFormat
-          .replaceFirst('<organizationId>', '123');
-      final n1App = getStandardN1App();
+      final subs = getStandardN1Org().subscriptions();
+      final expectedUrlPath = http.apiPaths.organizationsSubscriptionsFormat
+          .replaceOrganizationPlaceholder(subs.organization.id);
       final subscriptionDetails = SubscriptionDetails.fromApiModel(
-          api_mod.SubscriptionDetails.fromJson(jsonDecode(subscriptionDetailsJson)));
+        api_mod.SubscriptionDetails.fromJson(jsonDecode(subscriptionDetailsJson)),
+        app: subs.app,
+      );
 
       // Test with default parameters
       await performHttpTest(
         httpMethod: HttpMethods.PUT,
-        httpCallCallback: () => NucleusOneAppSubscriptions(app: n1App).updateOrganizationSubscription(
-          organizationId: '123',
+        httpCallCallback: () => subs.updateOrganizationSubscription(
           subscriptionDetails: subscriptionDetails,
         ),
         responseBody: '',
@@ -79,17 +61,14 @@ void main() {
     });
 
     test('getOrganizationSubscriptionInvoices method tests', () async {
-      final expectedUrlPath =
-          http.apiPaths.billingSubscriptionInvoicesFormat.replaceFirst('<organizationId>', '123');
-      final n1App = getStandardN1App();
+      final subs = getStandardN1Org().subscriptions();
+      final expectedUrlPath = http.apiPaths.organizationsSubscriptionsInvoicesFormat
+          .replaceOrganizationPlaceholder(subs.organization.id);
 
       // Test with default parameters
       await performHttpTest<SubscriptionInvoiceCollection>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () =>
-            NucleusOneAppSubscriptions(app: n1App).getOrganizationSubscriptionInvoices(
-          organizationId: '123',
-        ),
+        httpCallCallback: () => subs.getOrganizationSubscriptionInvoices(),
         responseBody: subscriptionInvoiceCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],

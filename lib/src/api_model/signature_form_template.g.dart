@@ -6,16 +6,14 @@ part of 'signature_form_template.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SignatureFormTemplate _$SignatureFormTemplateFromJson(
-        Map<String, dynamic> json) =>
+SignatureFormTemplate _$SignatureFormTemplateFromJson(Map<String, dynamic> json) =>
     SignatureFormTemplate()
       ..id = json['ID'] as String?
       ..name = json['Name'] as String?
       ..nameLower = json['NameLower'] as String?
       ..createdOn = json['CreatedOn'] as String?;
 
-Map<String, dynamic> _$SignatureFormTemplateToJson(
-    SignatureFormTemplate instance) {
+Map<String, dynamic> _$SignatureFormTemplateToJson(SignatureFormTemplate instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -31,23 +29,20 @@ Map<String, dynamic> _$SignatureFormTemplateToJson(
   return val;
 }
 
-SignatureFormTemplateField _$SignatureFormTemplateFieldFromJson(
-        Map<String, dynamic> json) =>
+SignatureFormTemplateField _$SignatureFormTemplateFieldFromJson(Map<String, dynamic> json) =>
     SignatureFormTemplateField()
       ..id = json['ID'] as String?
       ..createdOn = json['CreatedOn'] as String?
       ..type = json['Type'] as String?
       ..pageIndex = json['PageIndex'] as int?
-      ..documentSignatureSessionRecipientID =
-          json['DocumentSignatureSessionRecipientID'] as String?
+      ..documentSignatureSessionRecipientID = json['DocumentSignatureSessionRecipientID'] as String?
       ..x = (json['X'] as num?)?.toDouble()
       ..y = (json['Y'] as num?)?.toDouble()
       ..label = json['Label'] as String?
       ..widthPercent = (json['WidthPercent'] as num?)?.toDouble()
       ..sortRank = json['SortRank'] as int?;
 
-Map<String, dynamic> _$SignatureFormTemplateFieldToJson(
-    SignatureFormTemplateField instance) {
+Map<String, dynamic> _$SignatureFormTemplateFieldToJson(SignatureFormTemplateField instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -60,8 +55,7 @@ Map<String, dynamic> _$SignatureFormTemplateFieldToJson(
   writeNotNull('CreatedOn', instance.createdOn);
   writeNotNull('Type', instance.type);
   writeNotNull('PageIndex', instance.pageIndex);
-  writeNotNull('DocumentSignatureSessionRecipientID',
-      instance.documentSignatureSessionRecipientID);
+  writeNotNull('DocumentSignatureSessionRecipientID', instance.documentSignatureSessionRecipientID);
   writeNotNull('X', instance.x);
   writeNotNull('Y', instance.y);
   writeNotNull('Label', instance.label);

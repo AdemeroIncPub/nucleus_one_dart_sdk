@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import '../api_model/subscription_details.dart' as api_mod;
 import '../api_model/subscription_invoice.dart' as api_mod;
 import '../api_model/subscription_plan.dart' as api_mod;
 import '../common/string.dart';
+import '../common/util.dart';
 import '../http.dart' as http;
 import '../model/subscription_details.dart';
 import '../model/subscription_invoice.dart';
@@ -19,39 +19,20 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
     app = organization.app;
   }
 
-  /// Gets an organization's subscription plans.
-  ///
-  /// [organizationId]: The id of the organization.
-  Future<SubscriptionPlanCollection> getOrganizationSubscriptionPlans({
-    required String organizationId,
-  }) async {
+  /// Gets the organization's subscription plans.
+  Future<SubscriptionPlanCollection> getOrganizationSubscriptionPlans() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsSubscriptionsPlansFormat
           .replaceOrganizationPlaceholder(organization.id),
       app,
     );
     final apiModel = api_mod.SubscriptionPlanCollection.fromJson(jsonDecode(responseBody));
-    return SubscriptionPlanCollection.fromApiModel(apiModel);
+    return await DefineN1AppInScope(app, () {
+      return SubscriptionPlanCollection.fromApiModel(apiModel);
+    });
   }
 
-  /// Gets an organization's subscription.
-  ///
-  /// [organizationId]: The id of the organization.
-  Future<SubscriptionDetails> getOrganizationSubscription({
-    required String organizationId,
-  }) async {
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsSubscriptionsFormat
-          .replaceOrganizationPlaceholder(organization.id),
-      app,
-    );
-    final apiModel = api_mod.SubscriptionDetails.fromJson(jsonDecode(responseBody));
-    return SubscriptionDetails.fromApiModel(apiModel);
-  }
-
-  /// Updates an organization's subscription information.
-  ///
-  /// [organizationId]: The id of the organization.
+  /// Updates the organization's subscription information.
   ///
   /// [subscriptionDetails]: The subscription details.  Should be obtained by first calling
   /// [getOrganizationSubscription].
@@ -69,15 +50,15 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
   /// Gets an organization's subscription invoices.
   ///
   /// [organizationId]: The id of the organization.
-  Future<SubscriptionInvoiceCollection> getOrganizationSubscriptionInvoices({
-    required String organizationId,
-  }) async {
+  Future<SubscriptionInvoiceCollection> getOrganizationSubscriptionInvoices() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsSubscriptionsInvoicesFormat
           .replaceOrganizationPlaceholder(organization.id),
       app,
     );
     final apiModel = api_mod.SubscriptionInvoiceCollection.fromJson(jsonDecode(responseBody));
-    return SubscriptionInvoiceCollection.fromApiModel(apiModel);
+    return await DefineN1AppInScope(app, () {
+      return SubscriptionInvoiceCollection.fromApiModel(apiModel);
+    });
   }
 }

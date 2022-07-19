@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/organization.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
+import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_subscriptions.dart';
 import 'package:test/test.dart';
 
+import '../../../src/common.dart';
 import '../api_model/organization.dart';
 
 void main() {
@@ -16,7 +19,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.Organization apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.createdOn, '2021-05-25T13:21:29.111348Z');
@@ -39,9 +42,19 @@ void main() {
       final apiModelOrig = api_mod.Organization.fromJson(jsonDecode(organizationJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = Organization.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = Organization.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
+    });
+
+    test('subscriptions method tests', () {
+      final org = getStandardN1Org();
+
+      final sub = org.subscriptions();
+      expect(sub, isA<NucleusOneAppSubscriptions>());
+      expect(sub.app, org.app);
     });
   });
 }

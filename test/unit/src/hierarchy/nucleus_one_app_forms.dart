@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/form_template.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
-import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
@@ -23,13 +24,14 @@ void main() {
     });
 
     test('getFormTemplates method tests', () async {
-      final expectedUrlPath = http.apiPaths.formTemplates;
-      final n1App = getStandardN1App();
+      var forms = getStandardN1Project().forms();
+      final expectedUrlPath = http.apiPaths.organizationsProjectsFormTemplatesFormat
+          .replaceOrganizationAndProjectPlaceholders(forms.project);
 
       // Test with default parameters
       await performHttpTest<QueryResult<FormTemplateCollection>>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppForms(app: n1App).getFormTemplates(),
+        httpCallCallback: () => forms.getFormTemplates(),
         responseBody: formTemplateCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [
@@ -37,10 +39,11 @@ void main() {
         ],
       );
 
+      forms = getStandardN1Project().forms();
       // Test with cursor and optional arguments
       await performHttpTest<QueryResult<FormTemplateCollection>>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppForms(app: n1App).getFormTemplates(
+        httpCallCallback: () => forms.getFormTemplates(
           cursor: 'A',
           sortDescending: true,
         ),
@@ -54,13 +57,13 @@ void main() {
     });
 
     test('getFormTemplateById method tests', () async {
+      final forms = getStandardN1Project().forms();
       final expectedUrlPath =
-          http.apiPaths.formTemplatesPublicFormat.replaceFirst('<formTemplateId>', '123');
-      final n1App = getStandardN1App();
+          http.apiPaths.formTemplatesPublicFormat.replaceFormTemplateIdPlaceholder('123');
 
       await performHttpTest<FormTemplate>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppForms(app: n1App).getFormTemplateById('123', '456'),
+        httpCallCallback: () => forms.getFormTemplateById('123', '456'),
         responseBody: formTemplateJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [
@@ -70,13 +73,13 @@ void main() {
     });
 
     test('getFormTemplateFields method tests', () async {
+      final forms = getStandardN1Project().forms();
       final expectedUrlPath =
-          http.apiPaths.formTemplatesPublicFieldsFormat.replaceFirst('<formTemplateId>', '123');
-      final n1App = getStandardN1App();
+          http.apiPaths.formTemplatesPublicFieldsFormat.replaceFormTemplateIdPlaceholder('123');
 
       await performHttpTest<FormTemplateFieldCollection>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppForms(app: n1App).getFormTemplateFields('123', '456'),
+        httpCallCallback: () => forms.getFormTemplateFields('123', '456'),
         responseBody: formTemplateFieldCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [
@@ -86,16 +89,15 @@ void main() {
     });
 
     test('getFormTemplateFieldListItems method tests', () async {
+      var forms = getStandardN1Project().forms();
       final expectedUrlPath = http.apiPaths.formTemplatesPublicFieldListItemsFormat
-          .replaceFirst('<formTemplateId>', '123')
-          .replaceFirst('<formTemplateFieldId>', '234');
-      final n1App = getStandardN1App();
+          .replaceFormTemplateIdPlaceholder('123')
+          .replaceFormTemplateFieldIdPlaceholder('234');
 
       // Test with default parameters
       await performHttpTest<FieldListItemCollection>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () =>
-            NucleusOneAppForms(app: n1App).getFormTemplateFieldListItems('123', '234', '345'),
+        httpCallCallback: () => forms.getFormTemplateFieldListItems('123', '234', '345'),
         responseBody: fieldListItemCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [
@@ -103,10 +105,11 @@ void main() {
         ],
       );
 
+      forms = getStandardN1Project().forms();
       // Test with cursor and optional arguments
       await performHttpTest<FieldListItemCollection>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppForms(app: n1App).getFormTemplateFieldListItems(
+        httpCallCallback: () => forms.getFormTemplateFieldListItems(
           '123',
           '234',
           '345',
@@ -147,63 +150,67 @@ void main() {
     ];
 
     test('addFormTemplateFieldListItems method tests', () async {
+      var forms = getStandardN1Project().forms();
       final expectedUrlPath = http.apiPaths.formTemplatesPublicFieldListItemsFormat
-          .replaceFirst('<formTemplateId>', '123')
-          .replaceFirst('<formTemplateFieldId>', '234');
-      final n1App = getStandardN1App();
+          .replaceFormTemplateIdPlaceholder('123')
+          .replaceFormTemplateFieldIdPlaceholder('234');
 
       for (var item in addAndSetErrorDataSet) {
         try {
-          await performHttpTest(
-            httpMethod: HttpMethods.POST,
-            httpCallCallback: () => NucleusOneAppForms(app: n1App).addFormTemplateFieldListItems(
-              formTemplateId: item['formTemplateId']!,
-              formTemplateFieldId: item['formTemplateFieldId']!,
-              projectId: item['projectId']!,
-              items: FieldListItemCollection(),
-            ),
-            responseBody: '',
-            expectedRequestUrlPath: '',
-            expectedRequestQueryParams: [],
-          );
+          await DefineN1AppInScopeAsync(forms.project.app, () async {
+            return await performHttpTest(
+              httpMethod: HttpMethods.POST,
+              httpCallCallback: () => forms.addFormTemplateFieldListItems(
+                formTemplateId: item['formTemplateId']!,
+                formTemplateFieldId: item['formTemplateFieldId']!,
+                projectId: item['projectId']!,
+                items: FieldListItemCollection(),
+              ),
+              responseBody: '',
+              expectedRequestUrlPath: '',
+              expectedRequestQueryParams: [],
+            );
+          });
           fail('An error should have been thrown.');
         } on ArgumentError catch (e) {
           expect(e.name, item['expectedErrorField']);
         }
       }
 
-      final newListItems = FieldListItemCollection(
-        items: [FieldListItem.createNew(parentValue: 'LI_A', value: 'LI_B')],
-      );
-      // Test a successful operation
-      await performHttpTest(
-        httpMethod: HttpMethods.POST,
-        httpCallCallback: () => NucleusOneAppForms(app: n1App).addFormTemplateFieldListItems(
-          formTemplateId: '123',
-          formTemplateFieldId: '234',
-          projectId: '345',
-          items: newListItems,
-        ),
-        responseBody: '',
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [
-          'tenantId=345',
-        ],
-        expectedRequestBody: '[{"ID":"","ParentValue":"LI_A","Value":"LI_B"}]',
-      );
+      forms = getStandardN1Project().forms();
+      await DefineN1AppInScopeAsync(forms.project.app, () async {
+        final newListItems = FieldListItemCollection(
+          items: [FieldListItem.createNew(parentValue: 'LI_A', value: 'LI_B')],
+        );
+        // Test a successful operation
+        return await performHttpTest(
+          httpMethod: HttpMethods.POST,
+          httpCallCallback: () => forms.addFormTemplateFieldListItems(
+            formTemplateId: '123',
+            formTemplateFieldId: '234',
+            projectId: '345',
+            items: newListItems,
+          ),
+          responseBody: '',
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [
+            'tenantId=345',
+          ],
+          expectedRequestBody: '[{"ID":"","ParentValue":"LI_A","Value":"LI_B"}]',
+        );
+      });
     });
 
     test('setFormTemplateFieldListItems method tests', () async {
       final expectedUrlPath = http.apiPaths.formTemplatesPublicFieldListItemsFormat
-          .replaceFirst('<formTemplateId>', '123')
-          .replaceFirst('<formTemplateFieldId>', '234');
-      final n1App = getStandardN1App();
+          .replaceFormTemplateIdPlaceholder('123')
+          .replaceFormTemplateFieldIdPlaceholder('234');
 
       for (var item in addAndSetErrorDataSet) {
         try {
           await performHttpTest(
             httpMethod: HttpMethods.POST,
-            httpCallCallback: () => NucleusOneAppForms(app: n1App).setFormTemplateFieldListItems(
+            httpCallCallback: () => getStandardN1Project().forms().setFormTemplateFieldListItems(
               formTemplateId: item['formTemplateId']!,
               formTemplateFieldId: item['formTemplateFieldId']!,
               projectId: item['projectId']!,
@@ -219,10 +226,11 @@ void main() {
         }
       }
 
+      final forms = getStandardN1Project().forms();
       // Test a successful operation
       await performHttpTest(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => NucleusOneAppForms(app: n1App).setFormTemplateFieldListItems(
+        httpCallCallback: () => forms.setFormTemplateFieldListItems(
           formTemplateId: '123',
           formTemplateFieldId: '234',
           projectId: '345',
@@ -239,35 +247,45 @@ void main() {
     });
 
     test('submitForm method tests', () async {
+      var forms = getStandardN1Project().forms();
       final expectedUrlPath =
-          http.apiPaths.formTemplatesPublicSubmissions.replaceFirst('<formTemplateId>', '123');
-      final n1App = getStandardN1App();
-      final apiModel =
-          api_mod.FormSubmissionPackage.fromJson(jsonDecode(formSubmissionPackageJson));
-      final package = FormSubmissionPackage.fromApiModel(apiModel);
+          http.apiPaths.formTemplatesPublicSubmissions.replaceFormTemplateIdPlaceholder('123');
 
-      try {
-        await performHttpTest(
-          httpMethod: HttpMethods.POST,
-          httpCallCallback: () =>
-              NucleusOneAppForms(app: n1App).submitForm(formTemplateId: '', package: package),
-          responseBody: '',
-          expectedRequestUrlPath: '',
-          expectedRequestQueryParams: [],
-        );
-        fail('An error should have been thrown.');
-      } on ArgumentError catch (e) {
-        expect(e.name, 'formTemplateId');
-      }
+      await DefineN1AppInScopeAsync(forms.project.app, () async {
+        final apiModel =
+            api_mod.FormSubmissionPackage.fromJson(jsonDecode(formSubmissionPackageJson));
+        final package = FormSubmissionPackage.fromApiModel(apiModel);
 
-      await performHttpTest(
-        httpMethod: HttpMethods.POST,
-        httpCallCallback: () =>
-            NucleusOneAppForms(app: n1App).submitForm(formTemplateId: '123', package: package),
-        responseBody: '',
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
+        try {
+          await performHttpTest(
+            httpMethod: HttpMethods.POST,
+            httpCallCallback: () => forms.submitForm(formTemplateId: '', package: package),
+            responseBody: '',
+            expectedRequestUrlPath: '',
+            expectedRequestQueryParams: [],
+          );
+          fail('An error should have been thrown.');
+        } on ArgumentError catch (e) {
+          expect(e.name, 'formTemplateId');
+        }
+      });
+
+      forms = getStandardN1Project().forms();
+      await DefineN1AppInScopeAsync(forms.project.app, () async {
+        final apiModel =
+            api_mod.FormSubmissionPackage.fromJson(jsonDecode(formSubmissionPackageJson));
+        final package = FormSubmissionPackage.fromApiModel(apiModel);
+
+        return await DefineN1AppInScopeAsync(forms.project.app, () async {
+          return await performHttpTest(
+            httpMethod: HttpMethods.POST,
+            httpCallCallback: () => forms.submitForm(formTemplateId: '123', package: package),
+            responseBody: '',
+            expectedRequestUrlPath: expectedUrlPath,
+            expectedRequestQueryParams: [],
+          );
+        });
+      });
     });
   });
 }

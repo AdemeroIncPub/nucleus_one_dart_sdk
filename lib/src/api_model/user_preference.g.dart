@@ -6,17 +6,15 @@ part of 'user_preference.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserPreference _$UserPreferenceFromJson(Map<String, dynamic> json) =>
-    UserPreference()
-      ..id = json['ID'] as String?
-      ..userID = json['UserID'] as String?
-      ..userName = json['UserName'] as String?
-      ..userEmail = json['UserEmail'] as String?
-      ..stringValue = json['StringValue'] as String?
-      ..boolValue = json['BoolValue'] as bool?
-      ..intValue = json['IntValue'] as int?
-      ..floatValue = (json['FloatValue'] as num?)?.toDouble()
-      ..mapValue = json['MapValue'] as String?;
+UserPreference _$UserPreferenceFromJson(Map<String, dynamic> json) => UserPreference()
+  ..id = json['ID'] as String?
+  ..userID = json['UserID'] as String?
+  ..userName = json['UserName'] as String?
+  ..userEmail = json['UserEmail'] as String?
+  ..stringValue = json['StringValue'] as String?
+  ..boolValue = json['BoolValue'] as bool?
+  ..intValue = json['IntValue'] as int?
+  ..floatValue = (json['FloatValue'] as num?)?.toDouble();
 
 Map<String, dynamic> _$UserPreferenceToJson(UserPreference instance) {
   final val = <String, dynamic>{};
@@ -35,6 +33,5 @@ Map<String, dynamic> _$UserPreferenceToJson(UserPreference instance) {
   writeNotNull('BoolValue', instance.boolValue);
   writeNotNull('IntValue', instance.intValue);
   writeNotNull('FloatValue', instance.floatValue);
-  writeNotNull('MapValue', instance.mapValue);
   return val;
 }

@@ -43,10 +43,10 @@ void setRequestHeadersCommon(HttpClientRequest request) {
   // headers.set('Cookie', 'G_AUTHUSER_H=0');
 }
 
-void setAuthenticatedRequestHeaders(HttpClientRequest request, NucleusOneAppInternal app) {
+void setAuthenticatedRequestHeaders(HttpClientRequest request, NucleusOneApp app) {
   setRequestHeadersCommon(request);
 
-  request.headers.add('Authorization', 'Bearer ${app.options.apiKey}');
+  request.headers.add('Authorization', 'Bearer ${app.options.apiKey ?? ''}');
 }
 
 @visibleForTesting
@@ -80,12 +80,14 @@ String getQueryParamsString(Map<String, dynamic> queryParams) {
 
 Future<HttpClientResponse> _executeStandardHttpRequest(
   bool authenticated,
-  NucleusOneAppInternal app,
+  NucleusOneApp? app,
   String apiRelativeUrlPath,
   Map<String, dynamic>? qp,
   String? body,
   _HttpMethod method,
 ) async {
+  app = app ?? GetIt.instance.get<NucleusOneApp>();
+
   HttpClientRequest clientReq;
 
   {
@@ -132,7 +134,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
 
 Future<String> executeGetRequestWithTextResponse(
   String apiRelativeUrlPath,
-  NucleusOneAppInternal app, {
+  NucleusOneApp app, {
   Map<String, dynamic>? query,
   String? body,
   bool authenticated = true,
@@ -145,7 +147,7 @@ Future<String> executeGetRequestWithTextResponse(
 
 Future<HttpClientResponse> executeGetRequest(
   String apiRelativeUrlPath,
-  NucleusOneAppInternal app, {
+  NucleusOneApp app, {
   Map<String, dynamic>? query,
   String? body,
   bool authenticated = true,
@@ -153,15 +155,15 @@ Future<HttpClientResponse> executeGetRequest(
   return await _executeGetRequestInternal(authenticated, app, apiRelativeUrlPath, query, body);
 }
 
-Future<HttpClientResponse> _executeGetRequestInternal(bool authenticated, NucleusOneAppInternal app,
+Future<HttpClientResponse> _executeGetRequestInternal(bool authenticated, NucleusOneApp app,
     String apiRelativeUrlPath, Map<String, dynamic>? query, String? body) async {
   return await _executeStandardHttpRequest(
       authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.get);
 }
 
 Future<void> executeDeleteRequest(
-  String apiRelativeUrlPath,
-  NucleusOneAppInternal app, {
+  String apiRelativeUrlPath, {
+  NucleusOneApp? app,
   Map<String, dynamic>? query,
   String? body,
   bool authenticated = true,
@@ -172,7 +174,7 @@ Future<void> executeDeleteRequest(
 
 Future<String> executePostRequestWithTextResponse(
   String apiRelativeUrlPath,
-  NucleusOneAppInternal app, {
+  NucleusOneApp app, {
   Map<String, dynamic>? query,
   String? body,
   bool authenticated = true,
@@ -184,8 +186,8 @@ Future<String> executePostRequestWithTextResponse(
 }
 
 Future<void> executePostRequest(
-  String apiRelativeUrlPath,
-  NucleusOneAppInternal app, {
+  String apiRelativeUrlPath, {
+  NucleusOneApp? app,
   Map<String, dynamic>? query,
   String? body,
   bool authenticated = true,
@@ -196,7 +198,7 @@ Future<void> executePostRequest(
 
 Future<String> executePutRequestWithTextResponse(
   String apiRelativeUrlPath,
-  NucleusOneAppInternal app, {
+  NucleusOneApp app, {
   Map<String, dynamic>? query,
   String? body,
   bool authenticated = true,
@@ -209,7 +211,7 @@ Future<String> executePutRequestWithTextResponse(
 
 Future<void> executePutRequest(
   String apiRelativeUrlPath,
-  NucleusOneAppInternal app, {
+  NucleusOneApp app, {
   Map<String, dynamic>? query,
   String? body,
   bool authenticated = true,
@@ -226,7 +228,7 @@ Future<void> executePutRequest(
 // Future<void> downloadAuthenticated(
 //   String apiRelativeUrlPath,
 //   String destFilePath,
-//   NucleusOneAppInternal app, {
+//   NucleusOneApp app, {
 //   Map<String, dynamic>? query,
 // }) async {
 //   final response = await _executeGetRequestInternal(true, app, apiRelativeUrlPath, query, null);
@@ -307,6 +309,12 @@ abstract class apiPaths {
       '/organizations/<organizationId>/projects/<projectId>/signatureFormTemplates/<signatureFormTemplateId>';
   static const organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat =
       '/organizations/<organizationId>/projects/<projectId>/signatureFormTemplates/<signatureFormTemplateId>/fields';
+  static const organizationsProjectsTasksFormat =
+      '/organizations/<organizationId>/projects/<projectId>/tasks';
+  static const organizationsProjectsTasksTaskFormat =
+      '/organizations/<organizationId>/projects/<projectId>/tasks/<taskId>';
+  static const organizationsProjectsTasksTaskCommentsFormat =
+      '/organizations/<organizationId>/projects/<projectId>/tasks/<taskId>/comments';
   static const organizationsSubscriptionsFormat = '/organizations/<organizationId>/subscriptions';
   static const organizationsSubscriptionsInvoicesFormat =
       '/organizations/<organizationId>/subscriptions/invoices';
@@ -316,7 +324,6 @@ abstract class apiPaths {
   static const supportOrganizations = '/support/organizations';
   static const supportUsers = '/support/users';
   static const supportAdmin = '/supportAdmin';
-  static const userOrganizationsProjectsFormat = '/user/organizations/<organizationId>/projects';
   static const userAddressBookItems = '/user/addressBookItems';
   static const userEmailAddresses = '/user/emailAddresses';
   static const userEmailAddressesEmailChangeCodeFormat = '/user/emailAddresses/<emailChangeCode>';
@@ -326,14 +333,12 @@ abstract class apiPaths {
   static const userLogin = '/user/login';
   static const userLogout = '/user/logout';
   static const userOrganizations = '/user/organizations';
+  static const userOrganizationsProjectsFormat = '/user/organizations/<organizationId>/projects';
   static const userPreferences = '/user/preferences';
   static const userPreferenceFormat = '/user/preferences/<singleUserPreferenceId>';
   static const userProfile = '/user/profile';
   static const userSmsNumbers = '/user/smsNumbers';
   static const userSmsNumbersSmsChangeCodeFormat = '/user/smsNumbers/<smsChangeCode>';
-  static const workTasks = '/workTasks';
-  static const workTasksFormat = '/workTasks/<workTaskId>';
-  static const workTasksCommentsFormat = '/workTasks/<workTaskId>/comments';
 }
 
 abstract class ApiRequestBodyObject {

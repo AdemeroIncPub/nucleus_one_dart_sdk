@@ -6,15 +6,13 @@ part of 'document_comment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentCommentCollection _$DocumentCommentCollectionFromJson(
-        Map<String, dynamic> json) =>
+DocumentCommentCollection _$DocumentCommentCollectionFromJson(Map<String, dynamic> json) =>
     DocumentCommentCollection()
       ..documentEvents = (json['DocumentEvents'] as List<dynamic>?)
           ?.map((e) => DocumentEvent.fromJson(e as Map<String, dynamic>))
           .toList();
 
-Map<String, dynamic> _$DocumentCommentCollectionToJson(
-    DocumentCommentCollection instance) {
+Map<String, dynamic> _$DocumentCommentCollectionToJson(DocumentCommentCollection instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

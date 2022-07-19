@@ -6,8 +6,7 @@ part of 'document_subscription_for_client.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentSubscriptionForClient _$DocumentSubscriptionForClientFromJson(
-        Map<String, dynamic> json) =>
+DocumentSubscriptionForClient _$DocumentSubscriptionForClientFromJson(Map<String, dynamic> json) =>
     DocumentSubscriptionForClient()
       ..subscribed = json['Subscribed'] as bool?
       ..notify = json['Notify'] as bool?
@@ -18,16 +17,13 @@ DocumentSubscriptionForClient _$DocumentSubscriptionForClientFromJson(
       ..documentPageCount = json['DocumentPageCount'] as int?
       ..documentFileSize = json['DocumentFileSize'] as int?
       ..documentClassificationID = json['DocumentClassificationID'] as String?
-      ..documentClassificationName =
-          json['DocumentClassificationName'] as String?
-      ..documentPreviewMetadata =
-          (json['DocumentPreviewMetadata'] as List<dynamic>?)
-              ?.map((e) => Map<String, String>.from(e as Map))
-              .toList()
+      ..documentClassificationName = json['DocumentClassificationName'] as String?
+      ..documentPreviewMetadata = (json['DocumentPreviewMetadata'] as List<dynamic>?)
+          ?.map((e) => Map<String, String>.from(e as Map))
+          .toList()
       ..documentIsSigned = json['DocumentIsSigned'] as bool?;
 
-Map<String, dynamic> _$DocumentSubscriptionForClientToJson(
-    DocumentSubscriptionForClient instance) {
+Map<String, dynamic> _$DocumentSubscriptionForClientToJson(DocumentSubscriptionForClient instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -45,8 +41,7 @@ Map<String, dynamic> _$DocumentSubscriptionForClientToJson(
   writeNotNull('DocumentPageCount', instance.documentPageCount);
   writeNotNull('DocumentFileSize', instance.documentFileSize);
   writeNotNull('DocumentClassificationID', instance.documentClassificationID);
-  writeNotNull(
-      'DocumentClassificationName', instance.documentClassificationName);
+  writeNotNull('DocumentClassificationName', instance.documentClassificationName);
   writeNotNull('DocumentPreviewMetadata', instance.documentPreviewMetadata);
   writeNotNull('DocumentIsSigned', instance.documentIsSigned);
   return val;

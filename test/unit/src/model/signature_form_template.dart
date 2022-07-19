@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/signature_form_template.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
+import '../../../src/common.dart';
 import '../api_model/signature_form_template.dart';
 
 void main() {
@@ -16,7 +18,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.SignatureFormTemplate apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.name, 'B');
@@ -28,17 +30,21 @@ void main() {
           api_mod.SignatureFormTemplate.fromJson(jsonDecode(signatureFormTemplateJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = SignatureFormTemplate.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = SignatureFormTemplate.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
 
     test('createNew method test', () {
       for (var i = 0; i < 3; ++i) {
         final id = (i == 0) ? null : ((i == 1) ? '' : 'A');
         final epochBefore = DateTime.now().millisecondsSinceEpoch;
+        final n1App = getStandardN1App();
 
         var m = SignatureFormTemplate.createNew(
+          app: n1App,
           id: id,
           name: 'B',
           createdOn: 'C',
@@ -70,7 +76,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.SignatureFormTemplateCollection apiModel) {
         expect(apiModel.items.length, 1);
       }
@@ -79,10 +85,12 @@ void main() {
           jsonDecode(signatureFormTemplateCollectionJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final api_mod.SignatureFormTemplateCollection apiModelCycled =
-          SignatureFormTemplateCollection.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final api_mod.SignatureFormTemplateCollection apiModelCycled =
+            SignatureFormTemplateCollection.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 
@@ -95,7 +103,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.SignatureFormTemplateField apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.createdOn, '2021-06-28T18:26:57.85540675Z');
@@ -113,17 +121,21 @@ void main() {
           api_mod.SignatureFormTemplateField.fromJson(jsonDecode(signatureFormTemplateFieldJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = SignatureFormTemplateField.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = SignatureFormTemplateField.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
 
     test('createNew method test', () {
       for (var i = 0; i < 3; ++i) {
         final id = (i == 0) ? null : ((i == 1) ? '' : 'A');
         final epochBefore = DateTime.now().millisecondsSinceEpoch;
+        final n1App = getStandardN1App();
 
         var m = SignatureFormTemplateField.createNew(
+          app: n1App,
           id: id,
           createdOn: 'B',
           type: 'C',
@@ -168,7 +180,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.SignatureFormTemplateFieldCollection apiModel) {
         expect(apiModel.items.length, 1);
       }
@@ -177,10 +189,12 @@ void main() {
           jsonDecode(signatureFormTemplateFieldCollectionJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final api_mod.SignatureFormTemplateFieldCollection apiModelCycled =
-          SignatureFormTemplateFieldCollection.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final api_mod.SignatureFormTemplateFieldCollection apiModelCycled =
+            SignatureFormTemplateFieldCollection.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 }

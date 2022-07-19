@@ -7,11 +7,14 @@ import '../nucleus_one.dart';
 class DocumentEventCollection
     extends EntityCollection<DocumentEvent, api_mod.DocumentEventCollection> {
   DocumentEventCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     List<DocumentEvent>? items,
   }) : super(app: app, items: items);
 
-  factory DocumentEventCollection.fromApiModel(api_mod.DocumentEventCollection apiModel) {
+  factory DocumentEventCollection.fromApiModel(
+    api_mod.DocumentEventCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentEventCollection(
         items: apiModel.documentEvents?.map((x) => DocumentEvent.fromApiModel(x)).toList());
   }
@@ -24,29 +27,35 @@ class DocumentEventCollection
 }
 
 class DocumentEvent with NucleusOneAppDependent {
-  DocumentEvent._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.documentID,
-      required this.createdOn,
-      required this.createdByUserID,
-      required this.createdByUserName,
-      required this.createdByUserEmail,
-      required this.type,
-      required this.detailJson}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  DocumentEvent._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.documentID,
+    required this.createdOn,
+    required this.createdByUserID,
+    required this.createdByUserName,
+    required this.createdByUserEmail,
+    required this.type,
+    required this.detailJson,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory DocumentEvent.fromApiModel(api_mod.DocumentEvent apiModel) {
+  factory DocumentEvent.fromApiModel(
+    api_mod.DocumentEvent apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentEvent._(
-        id: apiModel.id!,
-        documentID: apiModel.documentID!,
-        createdOn: apiModel.createdOn!,
-        createdByUserID: apiModel.createdByUserID!,
-        createdByUserName: apiModel.createdByUserName!,
-        createdByUserEmail: apiModel.createdByUserEmail!,
-        type: apiModel.type!,
-        detailJson: apiModel.detailJson!);
+      app: app,
+      id: apiModel.id!,
+      documentID: apiModel.documentID!,
+      createdOn: apiModel.createdOn!,
+      createdByUserID: apiModel.createdByUserID!,
+      createdByUserName: apiModel.createdByUserName!,
+      createdByUserEmail: apiModel.createdByUserEmail!,
+      type: apiModel.type!,
+      detailJson: apiModel.detailJson!,
+    );
   }
 
   String id;

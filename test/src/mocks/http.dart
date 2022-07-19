@@ -42,7 +42,11 @@ class MockHttpHeaders extends Mock implements HttpHeaders {
   }
 
   @override
-  void add(String? name, Object? value, {bool? preserveHeaderCase = false}) {
+  void add(
+    String? name,
+    Object? value, {
+    bool? preserveHeaderCase = false,
+  }) {
     if (name == null) {
       throw 'The parameter "name" cannot be null.';
     }
@@ -59,7 +63,11 @@ class MockHttpHeaders extends Mock implements HttpHeaders {
   }
 
   @override
-  void set(String? name, Object? value, {bool? preserveHeaderCase = false}) {
+  void set(
+    String? name,
+    Object? value, {
+    bool? preserveHeaderCase = false,
+  }) {
     headers.remove(name);
     add(name, value);
   }

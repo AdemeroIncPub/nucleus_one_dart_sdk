@@ -1,5 +1,5 @@
 const documentPackageFieldJson =
-    r'{"ClassificationFieldID":"A", "ClassificationFieldRank":0,"FieldID":"B","ParentFieldID":"C","Name":"D","LabelOrName":"E","Type":"F","DisplaySelectionList":false,"AllowMultipleLines":false,"Rows":1,"AllowMultipleValues":false,"AllowNewSelectionListItems":false,"SaveNewSelectionListItems":false,"DecimalPlaces":2,"Mask":"G","Required":false,"Value":"H","Values":"I","UseCreationDate":false,"TextMatchType":"J"}';
+    r'{"FieldID":"A","FieldRank":0,"ParentFieldID":"B","Name":"C","LabelOrName":"D","Type":"E","DisplaySelectionList":false,"AllowMultipleLines":false,"Rows":1,"AllowMultipleValues":false,"AllowNewSelectionListItems":false,"SaveNewSelectionListItems":false,"DecimalPlaces":0,"Mask":"F","Required":false,"Value":"G","Values":"H","UseCreationDate":false,"TextMatchType":"I"}';
 
 void main() {
   /*

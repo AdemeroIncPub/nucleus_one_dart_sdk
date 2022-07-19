@@ -1,34 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:collection/collection.dart' show IterableExtension;
 import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
-import 'hierarchy/nucleus_one_app_approvals.dart';
-import 'hierarchy/nucleus_one_app_forms.dart';
-import 'hierarchy/nucleus_one_app_project.dart';
-import 'user.dart';
-
-import 'hierarchy/nucleus_one_app_subscriptions.dart';
-import 'hierarchy/nucleus_one_app_documents.dart';
-import 'api_model/email_login_options.dart' as api_mod;
-import 'hierarchy/nucleus_one_app_organization.dart';
-import 'hierarchy/nucleus_one_app_users.dart';
-import '../nucleus_one_dart_sdk.dart';
-import 'http.dart' as http;
-import 'model/email_login_options.dart';
+import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 
 final _getIt = GetIt.instance;
 
 /// The entry point for accessing Nucleus One.
 abstract class NucleusOne {
   static bool _sdkInitialized = false;
-
-  static NucleusOneApp app() {
-    return _getIt<NucleusOneApp>();
-  }
 
   /// Initializes the SDK.  This must be called prior to calling any other SDK methods.
   /// See also: [resetSdk].
@@ -41,7 +23,6 @@ abstract class NucleusOne {
       throw 'The SDK is already initialized.';
     }
 
-    _getIt.registerSingleton<NucleusOneApp>(NucleusOneAppUninitialized());
     _getIt.registerSingleton<file.FileSystem>(const file.LocalFileSystem());
     _sdkInitialized = true;
   }
@@ -56,92 +37,38 @@ abstract class NucleusOne {
     if (!_sdkInitialized) {
       return;
     }
-    _getIt.unregister<NucleusOneApp>();
     _getIt.unregister<file.FileSystem>();
     _sdkInitialized = false;
-  }
-
-  /// Initializes a new [NucleusOneApp] instance with [options] and returns the created app.
-  /// This method should be called before any usage of any Nucleus One components.
-  static Future<NucleusOneApp> initializeApp({
-    required NucleusOneOptions options,
-  }) async {
-    var app = NucleusOne.app();
-    if (!(app is NucleusOneAppUninitialized)) {
-      throw 'The app is already initialized.';
-    }
-
-    // This is effectively the same as "_getIt.unregister<NucleusOneApp>()".
-    // We already have the app though, so use it, instead
-    _getIt.unregister(instance: app);
-
-    app = NucleusOneAppInternal._(options: options);
-    _getIt.registerSingleton<NucleusOneApp>(app);
-    return app;
   }
 }
 
 class NucleusOneOptions {
-  final String baseUrl;
+  final String apiBaseUrl;
   final String? apiKey;
 
+  static const String _DefaultApiBaseUrl = 'https://client-api.nucleus.one';
+
   NucleusOneOptions({
-    required this.baseUrl,
+    String? apiBaseUrl,
     this.apiKey,
-  });
+  }) : apiBaseUrl = (apiBaseUrl == null) ? _DefaultApiBaseUrl : apiBaseUrl;
 }
 
 abstract class NucleusOneAppDependent {
-  NucleusOneAppInternal? _app;
-  NucleusOneAppInternal get app {
-    _app ??= GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
-    return _app!;
-  }
-
+  NucleusOneApp? _app;
+  NucleusOneApp get app => _app!;
   @protected
-  set app(NucleusOneAppInternal app) {
-    _app = app;
-  }
+  set app(NucleusOneApp app) => _app = app;
 }
 
-class NucleusOneAppUninitialized extends NucleusOneAppInternal {
-  NucleusOneAppUninitialized()
-      : super(
-          options: NucleusOneOptions(
-            baseUrl: '',
-          ),
-        );
+abstract class NucleusOneAppProjectDependent {
+  NucleusOneAppProject? _project;
+  NucleusOneAppProject get project => _project!;
+  @protected
+  set project(NucleusOneAppProject project) => _project = project;
 }
 
-class NucleusOneAppInternal extends NucleusOneApp {
-  @visibleForTesting
-  NucleusOneAppInternal({
-    required NucleusOneOptions options,
-  }) : this._(options: options);
-
-  NucleusOneAppInternal._({
-    required NucleusOneOptions options,
-  }) : super(options: options);
-
-  /// Internal use only.
-  void setAuthenticationState(String? sessionId) {
-    _authenticated = (sessionId != null) && sessionId.isNotEmpty;
-    _sessionId = sessionId;
-  }
-
-  /// Internal use only.
-  bool get authenticated => _authenticated;
-
-  /// Internal use only.
-  String? get sessionId => _sessionId;
-
-  /// Internal use only.
-  String getFullUrl(String apiRelativeUrlPath) {
-    return _baseUrlWithApi + apiRelativeUrlPath;
-  }
-}
-
-abstract class NucleusOneApp {
+class NucleusOneApp {
   @visibleForTesting
   static const String apiBaseUrlPath = '/api/v1';
   final NucleusOneOptions options;
@@ -150,36 +77,23 @@ abstract class NucleusOneApp {
   @visibleForTesting
   NucleusOneApp({
     required this.options,
-  }) : _baseUrlWithApi = options.baseUrl + apiBaseUrlPath;
+  }) : _baseUrlWithApi = options.apiBaseUrl + apiBaseUrlPath;
 
-  bool _authenticated = false;
-  String? _sessionId;
-
-  /// Folder Hierarchies
-  FolderHierarchyCollection folderHierarchies() {
-    return FolderHierarchyCollection(app: this as NucleusOneAppInternal);
-  }
-
-  /// Folder Hierarchy Items
-  FolderHierarchyItemCollection folderHierarchyItems() {
-    return FolderHierarchyItemCollection(app: this as NucleusOneAppInternal);
-  }
-
-  /// FormTemplates
-  FormTemplateCollection formTemplates() {
-    return FormTemplateCollection(app: this as NucleusOneAppInternal);
+  /// Internal use only.
+  String getFullUrl(String apiRelativeUrlPath) {
+    return _baseUrlWithApi + apiRelativeUrlPath;
   }
 
   /// Organization
   NucleusOneAppOrganization organization(String organizationId) {
     return NucleusOneAppOrganization(
-      app: this as NucleusOneAppInternal,
+      app: this,
       id: organizationId,
     );
   }
 
   /// Users
   NucleusOneAppUsers users() {
-    return NucleusOneAppUsers(app: this as NucleusOneAppInternal);
+    return NucleusOneAppUsers(app: this);
   }
 }

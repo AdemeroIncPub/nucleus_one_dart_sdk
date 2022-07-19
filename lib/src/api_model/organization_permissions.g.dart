@@ -6,8 +6,7 @@ part of 'organization_permissions.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrganizationPermissions _$OrganizationPermissionsFromJson(
-        Map<String, dynamic> json) =>
+OrganizationPermissions _$OrganizationPermissionsFromJson(Map<String, dynamic> json) =>
     OrganizationPermissions()
       ..organizationID = json['OrganizationID'] as String?
       ..organizationName = json['OrganizationName'] as String?
@@ -16,8 +15,7 @@ OrganizationPermissions _$OrganizationPermissionsFromJson(
       ..userEmail = json['UserEmail'] as String?
       ..isAdmin = json['IsAdmin'] as bool?;
 
-Map<String, dynamic> _$OrganizationPermissionsToJson(
-    OrganizationPermissions instance) {
+Map<String, dynamic> _$OrganizationPermissionsToJson(OrganizationPermissions instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

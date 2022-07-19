@@ -6,8 +6,7 @@ part of 'document_signature_form.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentSignatureForm _$DocumentSignatureFormFromJson(
-        Map<String, dynamic> json) =>
+DocumentSignatureForm _$DocumentSignatureFormFromJson(Map<String, dynamic> json) =>
     DocumentSignatureForm()
       ..id = json['ID'] as String?
       ..signatureFormTemplateID = json['SignatureFormTemplateID'] as String?
@@ -15,18 +14,15 @@ DocumentSignatureForm _$DocumentSignatureFormFromJson(
       ..tenantID = json['TenantID'] as String?
       ..documentID = json['DocumentID'] as String?
       ..documentClassificationID = json['DocumentClassificationID'] as String?
-      ..documentClassificationName =
-          json['DocumentClassificationName'] as String?
-      ..documentClassificationNameLower =
-          json['DocumentClassificationNameLower'] as String?
+      ..documentClassificationName = json['DocumentClassificationName'] as String?
+      ..documentClassificationNameLower = json['DocumentClassificationNameLower'] as String?
       ..documentName = json['DocumentName'] as String?
       ..documentNameLower = json['DocumentNameLower'] as String?
       ..hasFormFields = json['HasFormFields'] as bool?
       ..totalFormFields = json['TotalFormFields'] as int?
       ..lastViewedPageIndex = json['LastViewedPageIndex'] as int?;
 
-Map<String, dynamic> _$DocumentSignatureFormToJson(
-    DocumentSignatureForm instance) {
+Map<String, dynamic> _$DocumentSignatureFormToJson(DocumentSignatureForm instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -41,10 +37,8 @@ Map<String, dynamic> _$DocumentSignatureFormToJson(
   writeNotNull('TenantID', instance.tenantID);
   writeNotNull('DocumentID', instance.documentID);
   writeNotNull('DocumentClassificationID', instance.documentClassificationID);
-  writeNotNull(
-      'DocumentClassificationName', instance.documentClassificationName);
-  writeNotNull('DocumentClassificationNameLower',
-      instance.documentClassificationNameLower);
+  writeNotNull('DocumentClassificationName', instance.documentClassificationName);
+  writeNotNull('DocumentClassificationNameLower', instance.documentClassificationNameLower);
   writeNotNull('DocumentName', instance.documentName);
   writeNotNull('DocumentNameLower', instance.documentNameLower);
   writeNotNull('HasFormFields', instance.hasFormFields);

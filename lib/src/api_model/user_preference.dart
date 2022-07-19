@@ -1,5 +1,6 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
+
+import 'package:json_annotation/json_annotation.dart';
 
 import '../common/api_model.dart';
 part 'user_preference.g.dart';
@@ -14,16 +15,7 @@ class UserPreference extends Entity {
   /// from a map. Pass the map to the generated [_$UserPreferenceFromJson()] constructor.
   /// The constructor is named after the source class, in this case, UserPreference.
   factory UserPreference.fromJson(Map<String, dynamic> json) {
-    return UserPreference()
-      ..id = json['ID'] as String?
-      ..userID = json['UserID'] as String?
-      ..userName = json['UserName'] as String?
-      ..userEmail = json['UserEmail'] as String?
-      ..stringValue = json['StringValue'] as String?
-      ..boolValue = json['BoolValue'] as bool?
-      ..intValue = json['IntValue'] as int?
-      ..floatValue = (json['FloatValue'] as num?)?.toDouble()
-      ..mapValue = JsonEncoder().convert(json['MapValue']);
+    return _$UserPreferenceFromJson(json)..mapValue = JsonEncoder().convert(json['MapValue']);
   }
 
   @JsonKey(name: 'ID')
@@ -50,7 +42,7 @@ class UserPreference extends Entity {
   @JsonKey(name: 'FloatValue')
   double? floatValue;
 
-  @JsonKey(name: 'MapValue')
+  @JsonKey(ignore: true)
   String? mapValue;
 
   // coverage:ignore-start

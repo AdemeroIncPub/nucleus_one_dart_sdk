@@ -4,23 +4,29 @@ import '../api_model/document_content_package.dart' as api_mod;
 import '../nucleus_one.dart';
 
 class DocumentContentPackage with NucleusOneAppDependent {
-  DocumentContentPackage._(
-      {NucleusOneAppInternal? app,
-      required this.url,
-      required this.contentType,
-      required this.name,
-      required this.pageIndex,
-      required this.pageCount}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  DocumentContentPackage._({
+    NucleusOneApp? app,
+    required this.url,
+    required this.contentType,
+    required this.name,
+    required this.pageIndex,
+    required this.pageCount,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory DocumentContentPackage.fromApiModel(api_mod.DocumentContentPackage apiModel) {
+  factory DocumentContentPackage.fromApiModel(
+    api_mod.DocumentContentPackage apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentContentPackage._(
-        url: apiModel.url!,
-        contentType: apiModel.contentType!,
-        name: apiModel.name!,
-        pageIndex: apiModel.pageIndex!,
-        pageCount: apiModel.pageCount!);
+      app: app,
+      url: apiModel.url!,
+      contentType: apiModel.contentType!,
+      name: apiModel.name!,
+      pageIndex: apiModel.pageIndex!,
+      pageCount: apiModel.pageCount!,
+    );
   }
 
   String url;

@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:get_it/get_it.dart';
+
 import '../api_model/field_list_item.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../common/model.dart';
 import '../common/string.dart';
+import '../common/util.dart';
 import '../http.dart' as http;
 import '../model/field_list_item.dart';
 import '../model/form_template.dart';
@@ -12,13 +15,11 @@ import '../model/query_result.dart';
 import '../nucleus_one.dart';
 import 'nucleus_one_app_project.dart';
 
-class NucleusOneAppForms with NucleusOneAppDependent {
-  final NucleusOneAppProject project;
-
+class NucleusOneAppForms with NucleusOneAppProjectDependent {
   NucleusOneAppForms({
-    required this.project,
+    NucleusOneAppProject? project,
   }) {
-    app = project.app;
+    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
   }
 
   /// Gets form templates, by page.
@@ -38,19 +39,21 @@ class NucleusOneAppForms with NucleusOneAppDependent {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsFormTemplatesFormat
           .replaceOrganizationAndProjectPlaceholders(project),
-      app,
+      project.app,
       query: qp,
     );
     final apiModel =
         api_mod.QueryResult<api_mod.FormTemplateCollection>.fromJson(jsonDecode(responseBody));
 
-    return QueryResult(
-      results: FormTemplateCollection(
-          items:
-              apiModel.results!.formTemplates!.map((x) => FormTemplate.fromApiModel(x)).toList()),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
+    return await DefineN1AppAndProjectInScope(project, () {
+      return QueryResult(
+        results: FormTemplateCollection(
+            items:
+                apiModel.results!.formTemplates!.map((x) => FormTemplate.fromApiModel(x)).toList()),
+        cursor: apiModel.cursor!,
+        pageSize: apiModel.pageSize!,
+      );
+    });
   }
 
   /// Gets a form template by id.
@@ -63,12 +66,14 @@ class NucleusOneAppForms with NucleusOneAppDependent {
     qp['uniqueId'] = uniqueId;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.formTemplatesPublicFormat.replaceFirst('<formTemplateId>', id),
-      app,
+      http.apiPaths.formTemplatesPublicFormat.replaceFormTemplateIdPlaceholder(id),
+      project.app,
       query: qp,
     );
     final apiModel = api_mod.FormTemplate.fromJson(jsonDecode(responseBody));
-    return FormTemplate.fromApiModel(apiModel);
+    return await DefineN1AppInScope(project.app, () {
+      return FormTemplate.fromApiModel(apiModel);
+    });
   }
 
   /// Gets a form template by id.
@@ -83,12 +88,14 @@ class NucleusOneAppForms with NucleusOneAppDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.formTemplatesPublicFieldsFormat
-          .replaceFirst('<formTemplateId>', formTemplateId),
-      app,
+          .replaceFormTemplateIdPlaceholder(formTemplateId),
+      project.app,
       query: qp,
     );
     final apiModel = api_mod.FormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
-    return FormTemplateFieldCollection.fromApiModel(apiModel);
+    return await DefineN1AppInScope(project.app, () {
+      return FormTemplateFieldCollection.fromApiModel(apiModel);
+    });
   }
 
   /// Gets a form template field's list items.
@@ -116,13 +123,15 @@ class NucleusOneAppForms with NucleusOneAppDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.formTemplatesPublicFieldListItemsFormat
-          .replaceFirst('<formTemplateId>', formTemplateId)
-          .replaceFirst('<formTemplateFieldId>', formTemplateFieldId),
-      app,
+          .replaceFormTemplateIdPlaceholder(formTemplateId)
+          .replaceFormTemplateFieldIdPlaceholder(formTemplateFieldId),
+      project.app,
       query: qp,
     );
     final apiModel = api_mod.FieldListItemCollection.fromJson(jsonDecode(responseBody));
-    return FieldListItemCollection.fromApiModel(apiModel);
+    return await DefineN1AppInScope(project.app, () {
+      return FieldListItemCollection.fromApiModel(apiModel);
+    });
   }
 
   /// Adds list items to a form template field's selection list.
@@ -154,10 +163,10 @@ class NucleusOneAppForms with NucleusOneAppDependent {
     qp['tenantId'] = projectId;
 
     await ListItems.addListItems(
-      app: app,
+      app: project.app,
       apiRelativeUrlPath: http.apiPaths.formTemplatesPublicFieldListItemsFormat
-          .replaceFirst('<formTemplateId>', formTemplateId)
-          .replaceFirst('<formTemplateFieldId>', formTemplateFieldId),
+          .replaceFormTemplateIdPlaceholder(formTemplateId)
+          .replaceFormTemplateFieldIdPlaceholder(formTemplateFieldId),
       items: items,
       additionalQueryParams: qp,
     );
@@ -192,10 +201,10 @@ class NucleusOneAppForms with NucleusOneAppDependent {
     qp['tenantId'] = projectId;
 
     await ListItems.setListItems(
-      app: app,
+      app: project.app,
       apiRelativeUrlPath: http.apiPaths.formTemplatesPublicFieldListItemsFormat
-          .replaceFirst('<formTemplateId>', formTemplateId)
-          .replaceFirst('<formTemplateFieldId>', formTemplateFieldId),
+          .replaceFormTemplateIdPlaceholder(formTemplateId)
+          .replaceFormTemplateFieldIdPlaceholder(formTemplateFieldId),
       values: values,
       additionalQueryParams: qp,
     );
@@ -217,8 +226,8 @@ class NucleusOneAppForms with NucleusOneAppDependent {
     final packages = FormSubmissionPackageCollection(items: [package]);
 
     await http.executePostRequest(
-      http.apiPaths.formTemplatesPublicSubmissions.replaceFirst('<formTemplateId>', formTemplateId),
-      app,
+      http.apiPaths.formTemplatesPublicSubmissions.replaceFormTemplateIdPlaceholder(formTemplateId),
+      app: project.app,
       body: jsonEncode(packages.toApiModel()),
     );
   }

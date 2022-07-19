@@ -6,8 +6,7 @@ part of 'user_organization_project.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserOrganizationProject _$UserOrganizationProjectFromJson(
-        Map<String, dynamic> json) =>
+UserOrganizationProject _$UserOrganizationProjectFromJson(Map<String, dynamic> json) =>
     UserOrganizationProject()
       ..userEmail = json['UserEmail'] as String?
       ..organizationID = json['OrganizationID'] as String?
@@ -16,13 +15,11 @@ UserOrganizationProject _$UserOrganizationProjectFromJson(
       ..projectName = json['ProjectName'] as String?
       ..projectAccessType = json['ProjectAccessType'] as String?
       ..projectIsDisabled = json['ProjectIsDisabled'] as bool?
-      ..assignmentTypes = (json['AssignmentTypes'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList()
+      ..assignmentTypes =
+          (json['AssignmentTypes'] as List<dynamic>?)?.map((e) => e as String).toList()
       ..hasAssignment = json['HasAssignment'] as bool?;
 
-Map<String, dynamic> _$UserOrganizationProjectToJson(
-    UserOrganizationProject instance) {
+Map<String, dynamic> _$UserOrganizationProjectToJson(UserOrganizationProject instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -46,11 +43,9 @@ Map<String, dynamic> _$UserOrganizationProjectToJson(
 UserOrganizationProjectCollection _$UserOrganizationProjectCollectionFromJson(
         Map<String, dynamic> json) =>
     UserOrganizationProjectCollection()
-      ..userOrganizationProjects =
-          (json['UserOrganizationProjects'] as List<dynamic>?)
-              ?.map((e) =>
-                  UserOrganizationProject.fromJson(e as Map<String, dynamic>))
-              .toList();
+      ..userOrganizationProjects = (json['UserOrganizationProjects'] as List<dynamic>?)
+          ?.map((e) => UserOrganizationProject.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$UserOrganizationProjectCollectionToJson(
     UserOrganizationProjectCollection instance) {

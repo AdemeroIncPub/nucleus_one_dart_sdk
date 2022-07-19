@@ -12,9 +12,9 @@ import 'nucleus_one.dart';
 
 class User with NucleusOneAppDependent {
   User({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
   /// Gets all items in the user's address book.
@@ -42,12 +42,15 @@ class User with NucleusOneAppDependent {
     );
 
     final apiModel = api_mod.AddressBook.fromJson(jsonDecode(responseBody));
-    return mod.AddressBook.fromApiModel(apiModel);
+    return mod.AddressBook.fromApiModel(
+      apiModel,
+      app: app,
+    );
   }
 
   /// Clears the user's address book items.
   Future<void> clearAddressBook() async {
-    await http.executeDeleteRequest(http.apiPaths.userAddressBookItems, app);
+    await http.executeDeleteRequest(http.apiPaths.userAddressBookItems, app: app);
   }
 
   /// Gets the user's profile.

@@ -4,9 +4,10 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/approval.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
-import 'package:nucleus_one_dart_sdk/src/model/approval.dart';
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
+import '../../../src/common.dart';
 import '../api_model/approval.dart';
 
 void main() {
@@ -19,7 +20,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.Approval apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.createdOn, '2021-06-04T16:49:04.317582Z');
@@ -56,16 +57,18 @@ void main() {
         expect(apiModel.documentPreviewMetadata, isNotNull);
         expect(apiModel.documentPreviewMetadata!.length, 1);
         expect(apiModel.documentIsSigned, false);
-        expect(apiModel.workTaskDueOn, '0001-01-01T00:00:01Z');
+        expect(apiModel.taskDueOn, '0001-01-01T00:00:01Z');
         expect(apiModel.thumbnailUrl, 'AA');
       }
 
       final apiModelOrig = api_mod.Approval.fromJson(jsonDecode(approvalJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = Approval.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = Approval.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 
@@ -78,7 +81,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.QueryResult<api_mod.ApprovalCollection> apiModel) {
         expect(apiModel.results!.approvals!.length, 1);
       }
@@ -87,11 +90,14 @@ void main() {
           jsonDecode(approvalCollectionJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final api_mod.QueryResult<api_mod.ApprovalCollection> apiModelCycled =
-          ApprovalCollectionQueryResult.fromApiModelApprovalCollection(apiModelOrig)
-              .toApiModel<api_mod.ApprovalCollection>();
-      performTests(apiModelCycled);
+      final n1App = getStandardN1App();
+      await DefineN1AppInScope(n1App, () {
+        // Convert it to a model class then back again
+        final api_mod.QueryResult<api_mod.ApprovalCollection> apiModelCycled =
+            ApprovalCollectionQueryResult.fromApiModelApprovalCollection(apiModelOrig)
+                .toApiModel<api_mod.ApprovalCollection>();
+        performTests(apiModelCycled);
+      });
     });
   });
 }

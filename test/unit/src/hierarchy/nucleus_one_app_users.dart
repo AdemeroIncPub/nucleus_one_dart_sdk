@@ -1,6 +1,6 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
-import 'package:nucleus_one_dart_sdk/src/nucleus_one.dart';
 import 'package:test/test.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/user_preference.dart' as api_mod;
 
@@ -34,14 +34,16 @@ void main() {
       final expectedUrlPath = http.apiPaths.userPreferences;
       final n1App = getStandardN1App();
 
-      await performHttpTest<void>(
-        httpMethod: HttpMethods.PUT,
-        httpCallCallback: () =>
-            NucleusOneAppUsers(app: n1App).updateUserPreference(UserPreference.fromApiModel(up)),
-        responseBody: '',
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
+      await DefineN1AppInScopeAsync(n1App, () async {
+        return await performHttpTest<void>(
+          httpMethod: HttpMethods.PUT,
+          httpCallCallback: () =>
+              NucleusOneAppUsers(app: n1App).updateUserPreference(UserPreference.fromApiModel(up)),
+          responseBody: '',
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [],
+        );
+      });
     });
 
     test('updateUserPreferenceByUserPreferenceId method tests', () async {
@@ -49,16 +51,18 @@ void main() {
           http.apiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', 'A');
       final n1App = getStandardN1App();
 
-      await performHttpTest<void>(
-        httpMethod: HttpMethods.PUT,
-        httpCallCallback: () => NucleusOneAppUsers(app: n1App)
-            .updateUserPreferenceByUserPreferenceId(UserPreference.fromApiModel(up), 'A'),
-        responseBody: '',
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [
-          'singleUserPreferenceId=A',
-        ],
-      );
+      await DefineN1AppInScopeAsync(n1App, () async {
+        return await performHttpTest<void>(
+          httpMethod: HttpMethods.PUT,
+          httpCallCallback: () => NucleusOneAppUsers(app: n1App)
+              .updateUserPreferenceByUserPreferenceId(UserPreference.fromApiModel(up), 'A'),
+          responseBody: '',
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [
+            'singleUserPreferenceId=A',
+          ],
+        );
+      });
     });
 
     test('getPreferences method tests', () async {

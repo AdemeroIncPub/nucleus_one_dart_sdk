@@ -1,20 +1,30 @@
 import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import '../common/model.dart';
 
-import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../nucleus_one.dart';
 
 class FolderHierarchyCollection
-    extends EntityCollection<FolderHierarchy, api_mod.FolderHierarchyCollection> {
+    extends EntityCollection<FolderHierarchy, api_mod.FolderHierarchyCollection>
+    with NucleusOneAppProjectDependent {
   FolderHierarchyCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneAppProject? project,
     List<FolderHierarchy>? items,
-  }) : super(app: app, items: items);
+  }) : super(app: project?.app, items: items) {
+    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+  }
 
-  factory FolderHierarchyCollection.fromApiModel(api_mod.FolderHierarchyCollection apiModel) {
+  factory FolderHierarchyCollection.fromApiModel(
+    api_mod.FolderHierarchyCollection apiModel, {
+    NucleusOneAppProject? project,
+  }) {
     return FolderHierarchyCollection(
-        items: apiModel.folderHierarchies?.map((x) => FolderHierarchy.fromApiModel(x)).toList());
+      project: project,
+      items: apiModel.folderHierarchies
+          ?.map((x) => FolderHierarchy.fromApiModel(x, app: project?.app))
+          .toList(),
+    );
   }
 
   @override
@@ -25,21 +35,27 @@ class FolderHierarchyCollection
 }
 
 class FolderHierarchy with NucleusOneAppDependent {
-  FolderHierarchy._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.createdOn,
-      required this.name,
-      required this.nameLower}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  FolderHierarchy._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.createdOn,
+    required this.name,
+    required this.nameLower,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory FolderHierarchy.fromApiModel(api_mod.FolderHierarchy apiModel) {
+  factory FolderHierarchy.fromApiModel(
+    api_mod.FolderHierarchy apiModel, {
+    NucleusOneApp? app,
+  }) {
     return FolderHierarchy._(
-        id: apiModel.id!,
-        createdOn: apiModel.createdOn!,
-        name: apiModel.name!,
-        nameLower: apiModel.nameLower!);
+      app: app,
+      id: apiModel.id!,
+      createdOn: apiModel.createdOn!,
+      name: apiModel.name!,
+      nameLower: apiModel.nameLower!,
+    );
   }
 
   String id;
@@ -60,16 +76,25 @@ class FolderHierarchy with NucleusOneAppDependent {
 }
 
 class FolderHierarchyItemCollection
-    extends EntityCollection<FolderHierarchyItem, api_mod.FolderHierarchyItemCollection> {
+    extends EntityCollection<FolderHierarchyItem, api_mod.FolderHierarchyItemCollection>
+    with NucleusOneAppProjectDependent {
   FolderHierarchyItemCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneAppProject? project,
     List<FolderHierarchyItem>? items,
-  }) : super(app: app, items: items);
+  }) : super(app: project?.app, items: items) {
+    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+  }
 
   factory FolderHierarchyItemCollection.fromApiModel(
-      api_mod.FolderHierarchyItemCollection apiModel) {
+    api_mod.FolderHierarchyItemCollection apiModel, {
+    NucleusOneAppProject? project,
+  }) {
     return FolderHierarchyItemCollection(
-        items: apiModel.items.map((x) => FolderHierarchyItem.fromApiModel(x)).toList());
+      project: project,
+      items: apiModel.items
+          .map((x) => FolderHierarchyItem.fromApiModel(x, app: project?.app))
+          .toList(),
+    );
   }
 
   @override
@@ -80,31 +105,37 @@ class FolderHierarchyItemCollection
 }
 
 class FolderHierarchyItem with NucleusOneAppDependent {
-  FolderHierarchyItem._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.folderHierarchyID,
-      required this.folderHierarchyName,
-      required this.rank,
-      required this.type,
-      required this.fieldID,
-      required this.fieldName,
-      required this.fieldType,
-      required this.fieldValueType}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  FolderHierarchyItem._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.folderHierarchyID,
+    required this.folderHierarchyName,
+    required this.rank,
+    required this.type,
+    required this.fieldID,
+    required this.fieldName,
+    required this.fieldType,
+    required this.fieldValueType,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory FolderHierarchyItem.fromApiModel(api_mod.FolderHierarchyItem apiModel) {
+  factory FolderHierarchyItem.fromApiModel(
+    api_mod.FolderHierarchyItem apiModel, {
+    NucleusOneApp? app,
+  }) {
     return FolderHierarchyItem._(
-        id: apiModel.id!,
-        folderHierarchyID: apiModel.folderHierarchyID!,
-        folderHierarchyName: apiModel.folderHierarchyName!,
-        rank: apiModel.rank!,
-        type: apiModel.type!,
-        fieldID: apiModel.fieldID!,
-        fieldName: apiModel.fieldName!,
-        fieldType: apiModel.fieldType!,
-        fieldValueType: apiModel.fieldValueType!);
+      app: app,
+      id: apiModel.id!,
+      folderHierarchyID: apiModel.folderHierarchyID!,
+      folderHierarchyName: apiModel.folderHierarchyName!,
+      rank: apiModel.rank!,
+      type: apiModel.type!,
+      fieldID: apiModel.fieldID!,
+      fieldName: apiModel.fieldName!,
+      fieldType: apiModel.fieldType!,
+      fieldValueType: apiModel.fieldValueType!,
+    );
   }
 
   String id;

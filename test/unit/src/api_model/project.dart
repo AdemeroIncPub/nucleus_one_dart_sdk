@@ -1,5 +1,5 @@
 const projectJson = '{"ID":"A","CreatedOn":"2019-08-27T15:21:23.90425Z","OrganizationID":"B","OrganizationName":"C","OrganizationNameLower":"D","OrganizationSubscriptionRequired":true,"OrganizationSubscriptionFreeUsers":0,"OrganizationSubscriptionExpiration":"2021-06-24T01:01:56Z","BucketName":"E","Name":"F","NameLower":"G","CreatingUserID":"H","CreatingUserName":"I","CreatingUserEmail":"J","CrmAccountId":"K","Disabled":false,"IsMarkedForPurge":true,"PurgeMarkedOn":"0001-01-01T00:00:00Z","PurgeMarkedByUserID":"L","PurgeMarkedByUserName":"M","PurgeMarkedByUserEmail":"N"}';
-const projectMemberJson = '{"ID":"A","CreatedOn":"2020-02-27T21:59:56.028225Z","TenantID":"B","TenantName":"C","UserID":"D","UserName":"E","UserNameLower":"F","UserEmail":"G","Disabled":true,"IsReadOnly":false,"IsAdmin":true,"IsOrganizationAdmin":false,"IsOrganizationOrTenantAdmin":true}';
+const projectMemberJson = '{"ID":"A","CreatedOn":"0001-01-01T00:00:00Z","OrganizationMemberID":"B","OrganizationMemberIsAdmin":true,"OrganizationID":"C","OrganizationName":"D","ProjectID":"E","ProjectName":"F","ProjectIsDisabled":false,"ProjectAccessType":"G","UserID":"H","UserName":"I","UserNameLower":"J","UserEmail":"K","Disabled":false,"IsReadOnly":false,"IsAdmin":true}';
 
 void main() {
   /*

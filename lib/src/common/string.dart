@@ -1,4 +1,3 @@
-import '../hierarchy/nucleus_one_app_organization.dart';
 import '../hierarchy/nucleus_one_app_project.dart';
 
 bool isNotEmpty(String? value) {
@@ -41,5 +40,17 @@ extension CommonFormatting on String {
 
   String replaceSignatureFormTemplateIdPlaceholder(String templateId) {
     return replaceFirst('<signatureFormTemplateId>', templateId);
+  }
+
+  String replaceFormTemplateIdPlaceholder(String templateId) {
+    return replaceFirst('<formTemplateId>', templateId);
+  }
+
+  String replaceFormTemplateFieldIdPlaceholder(String fieldId) {
+    return replaceFirst('<formTemplateFieldId>', fieldId);
+  }
+
+  String replaceTaskIdPlaceholder(String taskId) {
+    return replaceFirst('<taskId>', taskId);
   }
 }

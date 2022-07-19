@@ -1,25 +1,27 @@
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import '../http.dart' as http;
+import '../model/document.dart' as mod;
 import '../model/document_for_client.dart' as mod;
 import '../model/document_comment.dart' as mod;
 import '../model/document_event.dart' as mod;
-import '../model/work_task_comment.dart' as mod;
-import '../model/work_task_event.dart' as mod;
+import '../model/task_comment.dart' as mod;
+import '../model/task_event.dart' as mod;
 import '../model/field.dart' as mod;
 import '../model/approval.dart' as mod;
 import '../model/field_list_item.dart' as mod;
 import '../model/folder_hierarchies.dart' as mod;
 import '../model/form_template.dart' as mod;
-import '../model/work_task.dart' as mod;
+import '../model/task.dart' as mod;
 import '../model/support_user.dart' as mod;
 import '../model/support_organization.dart' as mod;
 import '../model/support_error_event.dart' as mod;
 import '../model/organization_package.dart' as mod;
 import '../model/query_result.dart' as mod;
-import '../model/tenant.dart' as mod;
 import '../model/user_organization_project.dart' as mod;
+import '../api_model/document.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
@@ -29,11 +31,10 @@ import '../api_model/field.dart' as api_mod;
 import '../api_model/approval.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
-import '../api_model/tenant.dart' as api_mod;
 import '../api_model/user_organization_project.dart' as api_mod;
-import '../api_model/work_task.dart' as api_mod;
-import '../api_model/work_task_comment.dart' as api_mod;
-import '../api_model/work_task_event.dart' as api_mod;
+import '../api_model/task.dart' as api_mod;
+import '../api_model/task_comment.dart' as api_mod;
+import '../api_model/task_event.dart' as api_mod;
 import '../api_model/support_user.dart' as api_mod;
 import '../api_model/support_organization.dart' as api_mod;
 import '../api_model/support_error_event.dart' as api_mod;
@@ -81,10 +82,10 @@ abstract class IModelPagingCursor2 extends IModelPagingCursor {
 abstract class EntityCollection<TResult extends NucleusOneAppDependent, TApiModel>
     with NucleusOneAppDependent /*, IterableMixin<T>*/ {
   EntityCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     List<TResult>? items,
   }) : _items = List.unmodifiable(items ?? []) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
   final List<TResult> _items;
@@ -114,7 +115,7 @@ abstract class ListItems {
   }
 
   // static Future<void> downloadListItems({
-  //   required NucleusOneAppInternal app,
+  //   required NucleusOneApp app,
   //   required String apiRelativeUrlPath,
   //   String? parentValue,
   //   String? valueFilter,
@@ -127,7 +128,7 @@ abstract class ListItems {
   // }
 
   static Future<void> addListItems({
-    required NucleusOneAppInternal app,
+    NucleusOneApp? app,
     required String apiRelativeUrlPath,
     required mod.FieldListItemCollection items,
     Map<String, dynamic>? additionalQueryParams,
@@ -139,14 +140,14 @@ abstract class ListItems {
 
     await http.executePostRequest(
       apiRelativeUrlPath,
-      app,
+      app: app,
       query: qp,
       body: jsonEncode(items.toApiModel()),
     );
   }
 
   static Future<void> setListItems({
-    required NucleusOneAppInternal app,
+    NucleusOneApp? app,
     required String apiRelativeUrlPath,
     required List<String> values,
     Map<String, dynamic>? additionalQueryParams,
@@ -159,21 +160,20 @@ abstract class ListItems {
 
     await http.executePostRequest(
       apiRelativeUrlPath,
-      app,
+      app: app,
       query: qp,
       body: values.join('\n') + '\n',
     );
   }
 }
 
-abstract class DocumentForClientCollectionQueryResult {
-  static mod.QueryResult<mod.DocumentForClientCollection> fromApiModelDocumentResultCollection(
-      api_mod.QueryResult<api_mod.DocumentResultCollection> apiModel) {
+abstract class DocumentCollectionQueryResult {
+  static mod.QueryResult<mod.DocumentCollection> fromApiModelDocumentCollection(
+    api_mod.QueryResult<api_mod.DocumentCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult(
-      results: mod.DocumentForClientCollection(
-          items: apiModel.results!.documents!
-              .map((x) => mod.DocumentForClient.fromApiModel(x))
-              .toList()),
+      results: mod.DocumentCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
@@ -182,9 +182,11 @@ abstract class DocumentForClientCollectionQueryResult {
 
 abstract class DocumentCommentCollectionQueryResult {
   static mod.QueryResult2<mod.DocumentCommentCollection> fromApiModelDocumentCommentCollection(
-      api_mod.QueryResult2<api_mod.DocumentCommentCollection> apiModel) {
+    api_mod.QueryResult2<api_mod.DocumentCommentCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult2(
-      results: mod.DocumentCommentCollection.fromApiModel(apiModel.results!),
+      results: mod.DocumentCommentCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       reverseCursor: apiModel.reverseCursor!,
       pageSize: apiModel.pageSize!,
@@ -194,9 +196,11 @@ abstract class DocumentCommentCollectionQueryResult {
 
 abstract class DocumentEventCollectionQueryResult {
   static mod.QueryResult2<mod.DocumentEventCollection> fromApiModelDocumentEventCollection(
-      api_mod.QueryResult2<api_mod.DocumentEventCollection> apiModel) {
+    api_mod.QueryResult2<api_mod.DocumentEventCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult2(
-      results: mod.DocumentEventCollection.fromApiModel(apiModel.results!),
+      results: mod.DocumentEventCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       reverseCursor: apiModel.reverseCursor!,
       pageSize: apiModel.pageSize!,
@@ -206,9 +210,11 @@ abstract class DocumentEventCollectionQueryResult {
 
 abstract class FieldCollectionQueryResult {
   static mod.QueryResult<mod.FieldCollection> fromApiModelFieldCollection(
-      api_mod.QueryResult<api_mod.FieldCollection> apiModel) {
+    api_mod.QueryResult<api_mod.FieldCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult(
-      results: mod.FieldCollection.fromApiModel(apiModel.results!),
+      results: mod.FieldCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
@@ -217,9 +223,11 @@ abstract class FieldCollectionQueryResult {
 
 abstract class ApprovalCollectionQueryResult {
   static mod.QueryResult<mod.ApprovalCollection> fromApiModelApprovalCollection(
-      api_mod.QueryResult<api_mod.ApprovalCollection> apiModel) {
+    api_mod.QueryResult<api_mod.ApprovalCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult(
-      results: mod.ApprovalCollection.fromApiModel(apiModel.results!),
+      results: mod.ApprovalCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
@@ -228,9 +236,11 @@ abstract class ApprovalCollectionQueryResult {
 
 abstract class FolderHierarchyCollectionQueryResult {
   static mod.QueryResult<mod.FolderHierarchyCollection> fromApiModelFolderHierarchyCollection(
-      api_mod.QueryResult<api_mod.FolderHierarchyCollection> apiModel) {
+    api_mod.QueryResult<api_mod.FolderHierarchyCollection> apiModel, {
+    NucleusOneAppProject? project,
+  }) {
     return mod.QueryResult(
-      results: mod.FolderHierarchyCollection.fromApiModel(apiModel.results!),
+      results: mod.FolderHierarchyCollection.fromApiModel(apiModel.results!, project: project),
       cursor: apiModel.cursor!,
       // At the time of writing this, the API call for this didn't support this property
       pageSize: 0,
@@ -240,20 +250,11 @@ abstract class FolderHierarchyCollectionQueryResult {
 
 abstract class FormTemplateCollectionQueryResult {
   static mod.QueryResult<mod.FormTemplateCollection> fromApiModelFormTemplateCollection(
-      api_mod.QueryResult<api_mod.FormTemplateCollection> apiModel) {
+    api_mod.QueryResult<api_mod.FormTemplateCollection> apiModel, {
+    NucleusOneAppProject? project,
+  }) {
     return mod.QueryResult(
-      results: mod.FormTemplateCollection.fromApiModel(apiModel.results!),
-      cursor: apiModel.cursor!,
-      pageSize: apiModel.pageSize!,
-    );
-  }
-}
-
-abstract class TenantCollectionQueryResult {
-  static mod.QueryResult<mod.TenantCollection> fromApiModelTenantCollection(
-      api_mod.QueryResult<api_mod.TenantCollection> apiModel) {
-    return mod.QueryResult(
-      results: mod.TenantCollection.fromApiModel(apiModel.results!),
+      results: mod.FormTemplateCollection.fromApiModel(apiModel.results!, project: project),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
@@ -263,9 +264,11 @@ abstract class TenantCollectionQueryResult {
 abstract class OrganizationPackageCollectionQueryResult {
   static mod.QueryResult<mod.OrganizationPackageCollection>
       fromApiModelOrganizationPackageCollection(
-          api_mod.QueryResult<api_mod.OrganizationPackageCollection> apiModel) {
+    api_mod.QueryResult<api_mod.OrganizationPackageCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult(
-      results: mod.OrganizationPackageCollection.fromApiModel(apiModel.results!),
+      results: mod.OrganizationPackageCollection.fromApiModel(apiModel.results!, app: app),
       // At the time of writing this, the API call for this didn't support these properties
       cursor: '',
       pageSize: 0,
@@ -273,11 +276,13 @@ abstract class OrganizationPackageCollectionQueryResult {
   }
 }
 
-abstract class WorkTaskCollectionQueryResult {
-  static mod.QueryResult<mod.WorkTaskCollection> fromApiModelWorkTaskCollection(
-      api_mod.QueryResult<api_mod.WorkTaskCollection> apiModel) {
+abstract class TaskCollectionQueryResult {
+  static mod.QueryResult<mod.TaskCollection> fromApiModelTaskCollection(
+    api_mod.QueryResult<api_mod.TaskCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult(
-      results: mod.WorkTaskCollection.fromApiModel(apiModel.results!),
+      results: mod.TaskCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
@@ -286,9 +291,11 @@ abstract class WorkTaskCollectionQueryResult {
 
 abstract class SupportUserCollectionQueryResult {
   static mod.QueryResult<mod.SupportUserCollection> fromApiModelSupportUserCollection(
-      api_mod.QueryResult<api_mod.SupportUserCollection> apiModel) {
+    api_mod.QueryResult<api_mod.SupportUserCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult(
-      results: mod.SupportUserCollection.fromApiModel(apiModel.results!),
+      results: mod.SupportUserCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
@@ -298,9 +305,11 @@ abstract class SupportUserCollectionQueryResult {
 abstract class SupportOrganizationCollectionQueryResult {
   static mod.QueryResult<mod.SupportOrganizationCollection>
       fromApiModelSupportOrganizationCollection(
-          api_mod.QueryResult<api_mod.SupportOrganizationCollection> apiModel) {
+    api_mod.QueryResult<api_mod.SupportOrganizationCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult(
-      results: mod.SupportOrganizationCollection.fromApiModel(apiModel.results!),
+      results: mod.SupportOrganizationCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
@@ -309,20 +318,24 @@ abstract class SupportOrganizationCollectionQueryResult {
 
 abstract class SupportErrorEventCollectionQueryResult {
   static mod.QueryResult<mod.SupportErrorEventCollection> fromApiModelSupportErrorEventCollection(
-      api_mod.QueryResult<api_mod.SupportErrorEventCollection> apiModel) {
+    api_mod.QueryResult<api_mod.SupportErrorEventCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult(
-      results: mod.SupportErrorEventCollection.fromApiModel(apiModel.results!),
+      results: mod.SupportErrorEventCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
   }
 }
 
-abstract class WorkTaskCommentCollectionQueryResult {
-  static mod.QueryResult2<mod.WorkTaskCommentCollection> fromApiModelWorkTaskCommentCollection(
-      api_mod.QueryResult2<api_mod.WorkTaskCommentCollection> apiModel) {
+abstract class TaskCommentCollectionQueryResult {
+  static mod.QueryResult2<mod.TaskCommentCollection> fromApiModelTaskCommentCollection(
+    api_mod.QueryResult2<api_mod.TaskCommentCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult2(
-      results: mod.WorkTaskCommentCollection.fromApiModel(apiModel.results!),
+      results: mod.TaskCommentCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       reverseCursor: apiModel.reverseCursor!,
       pageSize: apiModel.pageSize!,
@@ -330,11 +343,13 @@ abstract class WorkTaskCommentCollectionQueryResult {
   }
 }
 
-abstract class WorkTaskEventCollectionQueryResult {
-  static mod.QueryResult2<mod.WorkTaskEventCollection> fromApiModelWorkTaskEventCollection(
-      api_mod.QueryResult2<api_mod.WorkTaskEventCollection> apiModel) {
+abstract class TaskEventCollectionQueryResult {
+  static mod.QueryResult2<mod.TaskEventCollection> fromApiModelTaskEventCollection(
+    api_mod.QueryResult2<api_mod.TaskEventCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult2(
-      results: mod.WorkTaskEventCollection.fromApiModel(apiModel.results!),
+      results: mod.TaskEventCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       reverseCursor: apiModel.reverseCursor!,
       pageSize: apiModel.pageSize!,
@@ -345,11 +360,13 @@ abstract class WorkTaskEventCollectionQueryResult {
 abstract class UserOrganizationProjectCollectionQueryResult {
   static mod.QueryResult<mod.UserOrganizationProjectCollection>
       fromApiModelUserOrganizationProjectCollection(
-          api_mod.QueryResult<api_mod.UserOrganizationProjectCollection> apiModel) {
+    api_mod.QueryResult<api_mod.UserOrganizationProjectCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
     return mod.QueryResult(
       results: mod.UserOrganizationProjectCollection(
           items: apiModel.results!.userOrganizationProjects!
-              .map((x) => mod.UserOrganizationProject.fromApiModel(x))
+              .map((x) => mod.UserOrganizationProject.fromApiModel(x, app: app))
               .toList()),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,

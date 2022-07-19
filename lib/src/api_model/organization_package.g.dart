@@ -6,16 +6,13 @@ part of 'organization_package.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrganizationPackageCollection _$OrganizationPackageCollectionFromJson(
-        Map<String, dynamic> json) =>
+OrganizationPackageCollection _$OrganizationPackageCollectionFromJson(Map<String, dynamic> json) =>
     OrganizationPackageCollection()
-      ..organizationPackages = (json['OrganizationPackagesForCurrentUser']
-              as List<dynamic>?)
+      ..organizationPackages = (json['OrganizationPackagesForCurrentUser'] as List<dynamic>?)
           ?.map((e) => OrganizationPackage.fromJson(e as Map<String, dynamic>))
           .toList();
 
-Map<String, dynamic> _$OrganizationPackageCollectionToJson(
-    OrganizationPackageCollection instance) {
+Map<String, dynamic> _$OrganizationPackageCollectionToJson(OrganizationPackageCollection instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -24,8 +21,7 @@ Map<String, dynamic> _$OrganizationPackageCollectionToJson(
     }
   }
 
-  writeNotNull(
-      'OrganizationPackagesForCurrentUser', instance.organizationPackages);
+  writeNotNull('OrganizationPackagesForCurrentUser', instance.organizationPackages);
   return val;
 }
 

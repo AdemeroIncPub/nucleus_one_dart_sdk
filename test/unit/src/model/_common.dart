@@ -17,8 +17,13 @@ void main() {
       if (l.key.toString().startsWith('package:nucleus_one_dart_sdk/src/model/')) {
         for (var d in l.value.declarations.entries) {
           final dm = d.value;
-          if ((dm is ClassMirror) &&
-              (getSymbolName(dm.superclass?.simpleName) == 'EntityCollection')) {
+          if ((dm is ClassMirror) && _derivesFromEntityCollection(dm)) {
+            // Dart will wrap some derived classes with a generated private class.
+            // Don't process those.
+            if (getSymbolName(dm.simpleName).startsWith('_')) {
+              continue;
+            }
+
             final className = getSymbolName(dm.simpleName);
 
             if (!classExceptions.contains(className)) {
@@ -44,4 +49,15 @@ void main() {
     expect(foundEntityCollectionClasses, isTrue,
         reason: 'No classes deriving from EntityCollection were found.');
   });
+}
+
+bool _derivesFromEntityCollection(ClassMirror cm) {
+  ClassMirror? cmLocal = cm;
+  do {
+    if (getSymbolName(cmLocal!.superclass?.simpleName) == 'EntityCollection') {
+      return true;
+    }
+    cmLocal = cmLocal.superclass;
+  } while (cmLocal != null);
+  return false;
 }

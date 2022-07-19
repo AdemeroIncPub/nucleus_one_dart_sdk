@@ -6,15 +6,13 @@ part of 'folder_hierarchies.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FolderHierarchyCollection _$FolderHierarchyCollectionFromJson(
-        Map<String, dynamic> json) =>
+FolderHierarchyCollection _$FolderHierarchyCollectionFromJson(Map<String, dynamic> json) =>
     FolderHierarchyCollection()
       ..folderHierarchies = (json['FolderHierarchies'] as List<dynamic>?)
           ?.map((e) => FolderHierarchy.fromJson(e as Map<String, dynamic>))
           .toList();
 
-Map<String, dynamic> _$FolderHierarchyCollectionToJson(
-    FolderHierarchyCollection instance) {
+Map<String, dynamic> _$FolderHierarchyCollectionToJson(FolderHierarchyCollection instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -27,12 +25,11 @@ Map<String, dynamic> _$FolderHierarchyCollectionToJson(
   return val;
 }
 
-FolderHierarchy _$FolderHierarchyFromJson(Map<String, dynamic> json) =>
-    FolderHierarchy()
-      ..id = json['ID'] as String?
-      ..createdOn = json['CreatedOn'] as String?
-      ..name = json['Name'] as String?
-      ..nameLower = json['NameLower'] as String?;
+FolderHierarchy _$FolderHierarchyFromJson(Map<String, dynamic> json) => FolderHierarchy()
+  ..id = json['ID'] as String?
+  ..createdOn = json['CreatedOn'] as String?
+  ..name = json['Name'] as String?
+  ..nameLower = json['NameLower'] as String?;
 
 Map<String, dynamic> _$FolderHierarchyToJson(FolderHierarchy instance) {
   final val = <String, dynamic>{};

@@ -1,10 +1,10 @@
 /// Nucleus One Dart SDK
 library nucleus_one_dart_sdk;
 
-export 'src/nucleus_one.dart' hide NucleusOneAppInternal, NucleusOneAppDependent;
+export 'src/nucleus_one.dart' hide NucleusOneAppDependent;
 export 'src/user.dart';
 export 'src/hierarchy/nucleus_one_app_approvals.dart';
-export 'src/hierarchy/nucleus_one_app_documents.dart';
+export 'src/hierarchy/nucleus_one_app_document.dart';
 export 'src/hierarchy/nucleus_one_app_forms.dart';
 export 'src/hierarchy/nucleus_one_app_organization.dart';
 export 'src/hierarchy/nucleus_one_app_project.dart';
@@ -32,7 +32,6 @@ export 'src/model/organization_permissions.dart';
 export 'src/model/query_result.dart';
 export 'src/model/signature_form_template.dart';
 export 'src/model/subscription_details.dart';
-export 'src/model/tenant.dart';
 export 'src/model/user_profile.dart';
 export 'src/model/user_preferences.dart';
 export 'src/model/selected_twain_device.dart';

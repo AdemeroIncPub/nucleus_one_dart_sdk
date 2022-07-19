@@ -6,11 +6,10 @@ part of 'approval.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ApprovalCollection _$ApprovalCollectionFromJson(Map<String, dynamic> json) =>
-    ApprovalCollection()
-      ..approvals = (json['Approvals'] as List<dynamic>?)
-          ?.map((e) => Approval.fromJson(e as Map<String, dynamic>))
-          .toList();
+ApprovalCollection _$ApprovalCollectionFromJson(Map<String, dynamic> json) => ApprovalCollection()
+  ..approvals = (json['Approvals'] as List<dynamic>?)
+      ?.map((e) => Approval.fromJson(e as Map<String, dynamic>))
+      .toList();
 
 Map<String, dynamic> _$ApprovalCollectionToJson(ApprovalCollection instance) {
   final val = <String, dynamic>{};
@@ -35,8 +34,7 @@ Approval _$ApprovalFromJson(Map<String, dynamic> json) => Approval()
   ..processElementID = json['ProcessElementID'] as String?
   ..processElementName = json['ProcessElementName'] as String?
   ..participationType = json['ParticipationType'] as String?
-  ..approvingTenantMemberIDs =
-      (json['ApprovingTenantMemberIDs'] as Map<String, dynamic>?)?.map(
+  ..approvingTenantMemberIDs = (json['ApprovingTenantMemberIDs'] as Map<String, dynamic>?)?.map(
     (k, e) => MapEntry(k, e as bool),
   )
   ..result = json['Result'] as String?
@@ -61,12 +59,11 @@ Approval _$ApprovalFromJson(Map<String, dynamic> json) => Approval()
   ..documentFileSize = json['DocumentFileSize'] as int?
   ..documentClassificationID = json['DocumentClassificationID'] as String?
   ..documentClassificationName = json['DocumentClassificationName'] as String?
-  ..documentPreviewMetadata =
-      (json['DocumentPreviewMetadata'] as List<dynamic>?)
-          ?.map((e) => Map<String, String>.from(e as Map))
-          .toList()
+  ..documentPreviewMetadata = (json['DocumentPreviewMetadata'] as List<dynamic>?)
+      ?.map((e) => Map<String, String>.from(e as Map))
+      .toList()
   ..documentIsSigned = json['DocumentIsSigned'] as bool?
-  ..workTaskDueOn = json['WorkTaskDueOn'] as String?
+  ..taskDueOn = json['TaskDueOn'] as String?
   ..thumbnailUrl = json['ThumbnailUrl'] as String?;
 
 Map<String, dynamic> _$ApprovalToJson(Approval instance) {
@@ -104,17 +101,15 @@ Map<String, dynamic> _$ApprovalToJson(Approval instance) {
   writeNotNull('DocumentName', instance.documentName);
   writeNotNull('DocumentCreatedOn', instance.documentCreatedOn);
   writeNotNull('DocumentCreatedByUserID', instance.documentCreatedByUserID);
-  writeNotNull(
-      'DocumentCreatedByUserEmail', instance.documentCreatedByUserEmail);
+  writeNotNull('DocumentCreatedByUserEmail', instance.documentCreatedByUserEmail);
   writeNotNull('DocumentCreatedByUserName', instance.documentCreatedByUserName);
   writeNotNull('DocumentPageCount', instance.documentPageCount);
   writeNotNull('DocumentFileSize', instance.documentFileSize);
   writeNotNull('DocumentClassificationID', instance.documentClassificationID);
-  writeNotNull(
-      'DocumentClassificationName', instance.documentClassificationName);
+  writeNotNull('DocumentClassificationName', instance.documentClassificationName);
   writeNotNull('DocumentPreviewMetadata', instance.documentPreviewMetadata);
   writeNotNull('DocumentIsSigned', instance.documentIsSigned);
-  writeNotNull('WorkTaskDueOn', instance.workTaskDueOn);
+  writeNotNull('TaskDueOn', instance.taskDueOn);
   writeNotNull('ThumbnailUrl', instance.thumbnailUrl);
   return val;
 }

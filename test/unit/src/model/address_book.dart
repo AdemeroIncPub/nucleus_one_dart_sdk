@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/address_book.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
+import '../../../src/common.dart';
 import '../api_model/address_book.dart';
 
 void main() {
@@ -17,18 +19,21 @@ void main() {
     });
 
     group('AddressBook class tests', () {
-      test('Serialization test', () {
+      test('Serialization test', () async {
         final apiModelOrig = api_mod.AddressBook.fromJson(jsonDecode(addressBookJson));
         expect(apiModelOrig.items.length, 1);
 
-        // Convert it to a model class then back again
-        final apiModelCycled = AddressBook.fromApiModel(apiModelOrig).toApiModel();
-        expect(apiModelCycled.items.length, 1);
+        final n1App = getStandardN1App();
+        await DefineN1AppInScope(n1App, () {
+          // Convert it to a model class then back again
+          final apiModelCycled = AddressBook.fromApiModel(apiModelOrig).toApiModel();
+          expect(apiModelCycled.items.length, 1);
+        });
       });
     });
 
     group('AddressBookItem tests', () {
-      test('Serialization test', () {
+      test('Serialization test', () async {
         void performTest(api_mod.AddressBookItem apiModel) {
           expect(apiModel.emailLower, '');
           expect(apiModel.name, 'Accounting');
@@ -43,9 +48,12 @@ void main() {
         final apiModelOrig = api_mod.AddressBookItem.fromJson(jsonDecode(addressBookItemJson));
         performTest(apiModelOrig);
 
-        // Convert it to a model class then back again
-        final apiModelCycled = AddressBookItem.fromApiModel(apiModelOrig).toApiModel();
-        performTest(apiModelCycled);
+        final n1App = getStandardN1App();
+        await DefineN1AppInScope(n1App, () {
+          // Convert it to a model class then back again
+          final apiModelCycled = AddressBookItem.fromApiModel(apiModelOrig).toApiModel();
+          performTest(apiModelCycled);
+        });
       });
     });
   });

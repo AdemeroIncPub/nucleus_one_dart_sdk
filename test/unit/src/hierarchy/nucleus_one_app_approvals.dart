@@ -1,7 +1,6 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_approvals.dart';
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
-import 'package:nucleus_one_dart_sdk/src/model/approval.dart';
 import 'package:test/test.dart';
 
 import '../api_model/approval.dart';
@@ -20,13 +19,14 @@ void main() {
     });
 
     test('get method tests', () async {
-      final expectedUrlPath = http.apiPaths.approvals;
-      final n1App = getStandardN1App();
+      final project = getStandardN1Project();
+      final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalsFormat
+          .replaceOrganizationAndProjectPlaceholders(project);
 
       // Test with default parameters
       await performHttpTest<QueryResult<ApprovalCollection>>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppApprovals(app: n1App).getApprovals(
+        httpCallCallback: () => NucleusOneAppApprovals(project: project).getApprovals(
           processElementId: 'A',
           sortDescending: false,
           processId: 'B',
@@ -44,13 +44,14 @@ void main() {
     });
 
     test('approveDocument method tests', () async {
-      final expectedUrlPath = http.apiPaths.approvalActionsApprove;
-      final n1App = getStandardN1App();
+      final project = getStandardN1Project();
+      final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalActionsApproveFormat
+          .replaceOrganizationAndProjectPlaceholders(project);
 
       // Test with default parameters
       await performHttpTest<void>(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => NucleusOneAppApprovals(app: n1App).approveDocument(
+        httpCallCallback: () => NucleusOneAppApprovals(project: project).approveDocument(
           ids: ['A', 'B'],
         ),
         responseBody: '',
@@ -61,13 +62,14 @@ void main() {
     });
 
     test('declineDocument method tests', () async {
-      final expectedUrlPath = http.apiPaths.approvalActionsDecline;
-      final n1App = getStandardN1App();
+      final project = getStandardN1Project();
+      final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalActionsDeclineFormat
+          .replaceOrganizationAndProjectPlaceholders(project);
 
       // Test with default parameters
       await performHttpTest<void>(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => NucleusOneAppApprovals(app: n1App).declineDocument(
+        httpCallCallback: () => NucleusOneAppApprovals(project: project).declineDocument(
           ids: ['A', 'B'],
         ),
         responseBody: '',
@@ -78,13 +80,14 @@ void main() {
     });
 
     test('denyDocument method tests', () async {
-      final expectedUrlPath = http.apiPaths.approvalActionsDeny;
-      final n1App = getStandardN1App();
+      final project = getStandardN1Project();
+      final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalActionsDenyFormat
+          .replaceOrganizationAndProjectPlaceholders(project);
 
       // Test with default parameters
       await performHttpTest<void>(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => NucleusOneAppApprovals(app: n1App).denyDocument(
+        httpCallCallback: () => NucleusOneAppApprovals(project: project).denyDocument(
           ids: ['A', 'B'],
         ),
         responseBody: '',

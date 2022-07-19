@@ -1,73 +1,91 @@
 import 'package:get_it/get_it.dart';
+
+import '../api_model/task.dart' as api_mod;
 import '../common/model.dart';
-import '../model/document.dart';
-
-import '../api_model/work_task.dart' as api_mod;
 import '../nucleus_one.dart';
+import 'document.dart';
 
-class WorkTaskCollection extends EntityCollection<WorkTask, api_mod.WorkTaskCollection> {
-  WorkTaskCollection({
-    NucleusOneAppInternal? app,
-    List<WorkTask>? items,
+class TaskCollection extends EntityCollection<Task, api_mod.TaskCollection> {
+  TaskCollection._({
+    NucleusOneApp? app,
+    List<Task>? items,
   }) : super(app: app, items: items);
 
-  factory WorkTaskCollection.fromApiModel(api_mod.WorkTaskCollection apiModel) {
-    return WorkTaskCollection(
-        items: apiModel.workTasks?.map((x) => WorkTask.fromApiModel(x)).toList());
+  factory TaskCollection.fromApiModel(
+    api_mod.TaskCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return TaskCollection._(
+      app: app,
+      items: apiModel.tasks?.map((x) => Task.fromApiModel(x, app: app)).toList(),
+    );
   }
 
   @override
-  api_mod.WorkTaskCollection toApiModel() {
-    return api_mod.WorkTaskCollection()..workTasks = items.map((x) => x.toApiModel()).toList();
+  api_mod.TaskCollection toApiModel() {
+    return api_mod.TaskCollection()..tasks = items.map((x) => x.toApiModel()).toList();
   }
 }
 
-class WorkTask with NucleusOneAppDependent {
-  WorkTask._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.createdOn,
-      required this.modifiedOn,
-      required this.createdByUserID,
-      required this.createdByUserEmail,
-      required this.createdByUserName,
-      required this.completedOn,
-      required this.completedByUserID,
-      required this.completedByUserEmail,
-      required this.completedByUserName,
-      required this.modifiedByUserID,
-      required this.modifiedByUserEmail,
-      required this.modifiedByUserName,
-      required this.revision,
-      required this.result,
-      required this.name,
-      required this.nameLower,
-      required this.description,
-      required this.descriptionHtml,
-      required this.descriptionRichTextJson,
-      required this.roleID,
-      required this.roleName,
-      required this.roleNameLower,
-      required this.dueOn,
-      required this.dueOnModifiedOn,
-      required this.primaryDocument,
-      required this.otherDocuments,
-      required this.parentWorkTaskID,
-      required this.processID,
-      required this.processName,
-      required this.processNameLower,
-      required this.processElementID,
-      required this.processElementName,
-      required this.processElementNameLower,
-      required this.reminder_7_Day,
-      required this.reminder_3_Day,
-      required this.reminder_1_Day}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+class Task with NucleusOneAppDependent {
+  Task._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.organizationID,
+    required this.projectID,
+    required this.projectName,
+    required this.projectAccessType,
+    required this.createdOn,
+    required this.modifiedOn,
+    required this.createdByUserID,
+    required this.createdByUserEmail,
+    required this.createdByUserName,
+    required this.completedOn,
+    required this.completedByUserID,
+    required this.completedByUserEmail,
+    required this.completedByUserName,
+    required this.modifiedByUserID,
+    required this.modifiedByUserEmail,
+    required this.modifiedByUserName,
+    required this.revision,
+    required this.result,
+    required this.name,
+    required this.nameLower,
+    required this.description,
+    required this.descriptionHtml,
+    required this.descriptionRichTextJson,
+    required this.assignmentUserEmail,
+    required this.assignmentUserName,
+    required this.assignmentUserNameLower,
+    required this.dueOn,
+    required this.dueOnModifiedOn,
+    required this.primaryDocument,
+    required this.otherDocuments,
+    required this.parentTaskID,
+    required this.processID,
+    required this.processName,
+    required this.processNameLower,
+    required this.processElementID,
+    required this.processElementName,
+    required this.processElementNameLower,
+    required this.reminder_7_Day,
+    required this.reminder_3_Day,
+    required this.reminder_1_Day,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory WorkTask.fromApiModel(api_mod.WorkTask apiModel) {
-    return WorkTask._(
+  factory Task.fromApiModel(
+    api_mod.Task apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return Task._(
+        app: app,
         id: apiModel.id!,
+        organizationID: apiModel.organizationID!,
+        projectID: apiModel.projectID!,
+        projectName: apiModel.projectName!,
+        projectAccessType: apiModel.projectAccessType!,
         createdOn: apiModel.createdOn!,
         modifiedOn: apiModel.modifiedOn!,
         createdByUserID: apiModel.createdByUserID!,
@@ -87,14 +105,15 @@ class WorkTask with NucleusOneAppDependent {
         description: apiModel.description!,
         descriptionHtml: apiModel.descriptionHtml!,
         descriptionRichTextJson: apiModel.descriptionRichTextJson!,
-        roleID: apiModel.roleID!,
-        roleName: apiModel.roleName!,
-        roleNameLower: apiModel.roleNameLower!,
+        assignmentUserEmail: apiModel.assignmentUserEmail!,
+        assignmentUserName: apiModel.assignmentUserName!,
+        assignmentUserNameLower: apiModel.assignmentUserNameLower!,
         dueOn: apiModel.dueOn!,
         dueOnModifiedOn: apiModel.dueOnModifiedOn!,
-        primaryDocument: Document.fromApiModel(apiModel.primaryDocument!),
-        otherDocuments: apiModel.otherDocuments?.map((x) => Document.fromApiModel(x)).toList(),
-        parentWorkTaskID: apiModel.parentWorkTaskID!,
+        primaryDocument: Document.fromApiModel(apiModel.primaryDocument!, app: app),
+        otherDocuments:
+            apiModel.otherDocuments!.map((x) => Document.fromApiModel(x, app: app)).toList(),
+        parentTaskID: apiModel.parentTaskID!,
         processID: apiModel.processID!,
         processName: apiModel.processName!,
         processNameLower: apiModel.processNameLower!,
@@ -107,6 +126,14 @@ class WorkTask with NucleusOneAppDependent {
   }
 
   String id;
+
+  String organizationID;
+
+  String projectID;
+
+  String projectName;
+
+  String projectAccessType;
 
   String createdOn;
 
@@ -146,11 +173,11 @@ class WorkTask with NucleusOneAppDependent {
 
   String descriptionRichTextJson;
 
-  String roleID;
+  String assignmentUserEmail;
 
-  String roleName;
+  String assignmentUserName;
 
-  String roleNameLower;
+  String assignmentUserNameLower;
 
   String dueOn;
 
@@ -160,7 +187,7 @@ class WorkTask with NucleusOneAppDependent {
 
   List<Document>? otherDocuments;
 
-  String parentWorkTaskID;
+  String parentTaskID;
 
   String processID;
 
@@ -180,9 +207,13 @@ class WorkTask with NucleusOneAppDependent {
 
   String reminder_1_Day;
 
-  api_mod.WorkTask toApiModel() {
-    return api_mod.WorkTask()
+  api_mod.Task toApiModel() {
+    return api_mod.Task()
       ..id = id
+      ..organizationID = organizationID
+      ..projectID = projectID
+      ..projectName = projectName
+      ..projectAccessType = projectAccessType
       ..createdOn = createdOn
       ..modifiedOn = modifiedOn
       ..createdByUserID = createdByUserID
@@ -202,14 +233,14 @@ class WorkTask with NucleusOneAppDependent {
       ..description = description
       ..descriptionHtml = descriptionHtml
       ..descriptionRichTextJson = descriptionRichTextJson
-      ..roleID = roleID
-      ..roleName = roleName
-      ..roleNameLower = roleNameLower
+      ..assignmentUserEmail = assignmentUserEmail
+      ..assignmentUserName = assignmentUserName
+      ..assignmentUserNameLower = assignmentUserNameLower
       ..dueOn = dueOn
       ..dueOnModifiedOn = dueOnModifiedOn
       ..primaryDocument = primaryDocument.toApiModel()
-      ..otherDocuments = otherDocuments!.map((x) => x.toApiModel()).toList()
-      ..parentWorkTaskID = parentWorkTaskID
+      ..otherDocuments = otherDocuments?.map((x) => x.toApiModel()).toList()
+      ..parentTaskID = parentTaskID
       ..processID = processID
       ..processName = processName
       ..processNameLower = processNameLower

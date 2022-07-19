@@ -4,14 +4,23 @@ import '../api_model/email_login_options.dart' as api_mod;
 import '../nucleus_one.dart';
 
 class EmailLoginOptions with NucleusOneAppDependent {
-  EmailLoginOptions._(
-      {NucleusOneAppInternal? app, required this.userExists, required this.smsNumberLast2}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  EmailLoginOptions._({
+    NucleusOneApp? app,
+    required this.userExists,
+    required this.smsNumberLast2,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory EmailLoginOptions.fromApiModel(api_mod.EmailLoginOptions apiModel) {
+  factory EmailLoginOptions.fromApiModel(
+    api_mod.EmailLoginOptions apiModel, {
+    NucleusOneApp? app,
+  }) {
     return EmailLoginOptions._(
-        userExists: apiModel.userExists!, smsNumberLast2: apiModel.smsNumberLast2!);
+      app: app,
+      userExists: apiModel.userExists!,
+      smsNumberLast2: apiModel.smsNumberLast2!,
+    );
   }
 
   bool userExists;

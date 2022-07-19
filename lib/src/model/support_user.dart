@@ -5,11 +5,14 @@ import '../nucleus_one.dart';
 
 class SupportUserCollection extends EntityCollection<SupportUser, api_mod.SupportUserCollection> {
   SupportUserCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     List<SupportUser>? items,
   }) : super(app: app, items: items);
 
-  factory SupportUserCollection.fromApiModel(api_mod.SupportUserCollection apiModel) {
+  factory SupportUserCollection.fromApiModel(
+    api_mod.SupportUserCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return SupportUserCollection(
         items: apiModel.supportUsers?.map((x) => SupportUser.fromApiModel(x)).toList());
   }
@@ -22,27 +25,33 @@ class SupportUserCollection extends EntityCollection<SupportUser, api_mod.Suppor
 }
 
 class SupportUser with NucleusOneAppDependent {
-  SupportUser._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.createdOn,
-      required this.lastSignIn,
-      required this.lastActivity,
-      required this.email,
-      required this.provider,
-      required this.name}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  SupportUser._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.createdOn,
+    required this.lastSignIn,
+    required this.lastActivity,
+    required this.email,
+    required this.provider,
+    required this.name,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory SupportUser.fromApiModel(api_mod.SupportUser apiModel) {
+  factory SupportUser.fromApiModel(
+    api_mod.SupportUser apiModel, {
+    NucleusOneApp? app,
+  }) {
     return SupportUser._(
-        id: apiModel.id!,
-        createdOn: apiModel.createdOn!,
-        lastSignIn: apiModel.lastSignIn!,
-        lastActivity: apiModel.lastActivity!,
-        email: apiModel.email!,
-        provider: apiModel.provider!,
-        name: apiModel.name!);
+      app: app,
+      id: apiModel.id!,
+      createdOn: apiModel.createdOn!,
+      lastSignIn: apiModel.lastSignIn!,
+      lastActivity: apiModel.lastActivity!,
+      email: apiModel.email!,
+      provider: apiModel.provider!,
+      name: apiModel.name!,
+    );
   }
 
   String id;

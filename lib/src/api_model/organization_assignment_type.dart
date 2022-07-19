@@ -13,7 +13,8 @@ class OrganizationAssignmentType extends Entity {
   /// A necessary factory constructor for creating a new OrganizationAssignmentType instance
   /// from a map. Pass the map to the generated [_$OrganizationAssignmentTypeFromJson()] constructor.
   /// The constructor is named after the source class, in this case, OrganizationAssignmentType.
-  factory OrganizationAssignmentType.fromJson(Map<String, dynamic> json) => _$OrganizationAssignmentTypeFromJson(json);
+  factory OrganizationAssignmentType.fromJson(Map<String, dynamic> json) =>
+      _$OrganizationAssignmentTypeFromJson(json);
 
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization

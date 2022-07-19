@@ -7,8 +7,7 @@ part of 'document_signature_session_signing_recipient_package.dart';
 // **************************************************************************
 
 DocumentSignatureSessionSigningRecipientPackage
-    _$DocumentSignatureSessionSigningRecipientPackageFromJson(
-            Map<String, dynamic> json) =>
+    _$DocumentSignatureSessionSigningRecipientPackageFromJson(Map<String, dynamic> json) =>
         DocumentSignatureSessionSigningRecipientPackage()
           ..requireAccessCode = json['RequireAccessCode'] as bool?
           ..signingRecipient = json['SigningRecipient'] == null
@@ -22,8 +21,7 @@ DocumentSignatureSessionSigningRecipientPackage
           ..serverDate = json['ServerDate'] as String?
           ..contentPackage = json['ContentPackage'] == null
               ? null
-              : DocumentContentPackage.fromJson(
-                  json['ContentPackage'] as Map<String, dynamic>);
+              : DocumentContentPackage.fromJson(json['ContentPackage'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$DocumentSignatureSessionSigningRecipientPackageToJson(
     DocumentSignatureSessionSigningRecipientPackage instance) {
@@ -43,24 +41,22 @@ Map<String, dynamic> _$DocumentSignatureSessionSigningRecipientPackageToJson(
   return val;
 }
 
-DocumentSignatureSessionFormFieldPackage
-    _$DocumentSignatureSessionFormFieldPackageFromJson(
-            Map<String, dynamic> json) =>
-        DocumentSignatureSessionFormFieldPackage()
-          ..formDesignType = json['FormDesignType'] as String?
-          ..quickDesignPlaceInitials = json['QuickDesignPlaceInitials'] as bool?
-          ..quickDesignPlaceFullName = json['QuickDesignPlaceFullName'] as bool?
-          ..quickDesignPlaceEmail = json['QuickDesignPlaceEmail'] as bool?
-          ..quickDesignPlaceTitle = json['QuickDesignPlaceTitle'] as bool?
-          ..formFields = (json['FormFields'] as List<dynamic>?)
-              ?.map((e) => DocumentSignatureSessionRecipientFormField.fromJson(
-                  e as Map<String, dynamic>))
-              .toList()
-          ..completedFormFields = (json['CompletedFormFields']
-                  as List<dynamic>?)
-              ?.map((e) => DocumentSignatureSessionRecipientFormField.fromJson(
-                  e as Map<String, dynamic>))
-              .toList();
+DocumentSignatureSessionFormFieldPackage _$DocumentSignatureSessionFormFieldPackageFromJson(
+        Map<String, dynamic> json) =>
+    DocumentSignatureSessionFormFieldPackage()
+      ..formDesignType = json['FormDesignType'] as String?
+      ..quickDesignPlaceInitials = json['QuickDesignPlaceInitials'] as bool?
+      ..quickDesignPlaceFullName = json['QuickDesignPlaceFullName'] as bool?
+      ..quickDesignPlaceEmail = json['QuickDesignPlaceEmail'] as bool?
+      ..quickDesignPlaceTitle = json['QuickDesignPlaceTitle'] as bool?
+      ..formFields = (json['FormFields'] as List<dynamic>?)
+          ?.map(
+              (e) => DocumentSignatureSessionRecipientFormField.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..completedFormFields = (json['CompletedFormFields'] as List<dynamic>?)
+          ?.map(
+              (e) => DocumentSignatureSessionRecipientFormField.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$DocumentSignatureSessionFormFieldPackageToJson(
     DocumentSignatureSessionFormFieldPackage instance) {
@@ -82,24 +78,21 @@ Map<String, dynamic> _$DocumentSignatureSessionFormFieldPackageToJson(
   return val;
 }
 
-DocumentSignatureSessionRecipientFormField
-    _$DocumentSignatureSessionRecipientFormFieldFromJson(
-            Map<String, dynamic> json) =>
-        DocumentSignatureSessionRecipientFormField()
-          ..id = json['ID'] as String?
-          ..documentSignatureFormFieldID =
-              json['DocumentSignatureFormFieldID'] as String?
-          ..documentSignatureSessionRecipientID =
-              json['DocumentSignatureSessionRecipientID'] as String?
-          ..documentSignatureSessionRecipientRank =
-              json['DocumentSignatureSessionRecipientRank'] as int?
-          ..isComplete = json['IsComplete'] as bool?
-          ..type = json['Type'] as String?
-          ..pageIndex = json['PageIndex'] as int?
-          ..x = (json['X'] as num?)?.toDouble()
-          ..y = (json['Y'] as num?)?.toDouble()
-          ..value = json['Value'] as String?
-          ..placementRank = json['PlacementRank'] as int?;
+DocumentSignatureSessionRecipientFormField _$DocumentSignatureSessionRecipientFormFieldFromJson(
+        Map<String, dynamic> json) =>
+    DocumentSignatureSessionRecipientFormField()
+      ..id = json['ID'] as String?
+      ..documentSignatureFormFieldID = json['DocumentSignatureFormFieldID'] as String?
+      ..documentSignatureSessionRecipientID = json['DocumentSignatureSessionRecipientID'] as String?
+      ..documentSignatureSessionRecipientRank =
+          json['DocumentSignatureSessionRecipientRank'] as int?
+      ..isComplete = json['IsComplete'] as bool?
+      ..type = json['Type'] as String?
+      ..pageIndex = json['PageIndex'] as int?
+      ..x = (json['X'] as num?)?.toDouble()
+      ..y = (json['Y'] as num?)?.toDouble()
+      ..value = json['Value'] as String?
+      ..placementRank = json['PlacementRank'] as int?;
 
 Map<String, dynamic> _$DocumentSignatureSessionRecipientFormFieldToJson(
     DocumentSignatureSessionRecipientFormField instance) {
@@ -112,12 +105,10 @@ Map<String, dynamic> _$DocumentSignatureSessionRecipientFormFieldToJson(
   }
 
   writeNotNull('ID', instance.id);
+  writeNotNull('DocumentSignatureFormFieldID', instance.documentSignatureFormFieldID);
+  writeNotNull('DocumentSignatureSessionRecipientID', instance.documentSignatureSessionRecipientID);
   writeNotNull(
-      'DocumentSignatureFormFieldID', instance.documentSignatureFormFieldID);
-  writeNotNull('DocumentSignatureSessionRecipientID',
-      instance.documentSignatureSessionRecipientID);
-  writeNotNull('DocumentSignatureSessionRecipientRank',
-      instance.documentSignatureSessionRecipientRank);
+      'DocumentSignatureSessionRecipientRank', instance.documentSignatureSessionRecipientRank);
   writeNotNull('IsComplete', instance.isComplete);
   writeNotNull('Type', instance.type);
   writeNotNull('PageIndex', instance.pageIndex);
@@ -128,12 +119,11 @@ Map<String, dynamic> _$DocumentSignatureSessionRecipientFormFieldToJson(
   return val;
 }
 
-DocumentSignatureSessionSigningRecipient
-    _$DocumentSignatureSessionSigningRecipientFromJson(
-            Map<String, dynamic> json) =>
-        DocumentSignatureSessionSigningRecipient()
-          ..email = json['Email'] as String?
-          ..fullName = json['FullName'] as String?;
+DocumentSignatureSessionSigningRecipient _$DocumentSignatureSessionSigningRecipientFromJson(
+        Map<String, dynamic> json) =>
+    DocumentSignatureSessionSigningRecipient()
+      ..email = json['Email'] as String?
+      ..fullName = json['FullName'] as String?;
 
 Map<String, dynamic> _$DocumentSignatureSessionSigningRecipientToJson(
     DocumentSignatureSessionSigningRecipient instance) {

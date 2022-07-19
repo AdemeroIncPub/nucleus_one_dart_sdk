@@ -8,7 +8,6 @@ import 'package:test/test.dart';
 
 import '../api_model/support_user.dart' as api_mod;
 import '../api_model/support_organization.dart' as api_mod;
-import '../api_model/support_organization_tenant.dart' as api_mod;
 import '../api_model/support_error_event.dart' as api_mod;
 import '../../../src/common.dart';
 import '../../../src/model_helper.dart';

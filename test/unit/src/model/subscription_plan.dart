@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/subscription_plan.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
+import '../../../src/common.dart';
 import '../api_model/subscription_plan.dart';
 
 void main() {
@@ -16,7 +18,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.SubscriptionPlan apiModel) {
         expect(apiModel.id, 'A');
         expect(apiModel.title, 'B');
@@ -31,9 +33,11 @@ void main() {
       final apiModelOrig = api_mod.SubscriptionPlan.fromJson(jsonDecode(subscriptionPlanJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final apiModelCycled = SubscriptionPlan.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final apiModelCycled = SubscriptionPlan.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 
@@ -46,7 +50,7 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('Serialization test', () {
+    test('Serialization test', () async {
       void performTests(api_mod.SubscriptionPlanCollection apiModel) {
         expect(apiModel.subscriptionPlans!.length, 1);
         expect(apiModel.currentUniqueNonReadOnlyTenantMemberCount, 0);
@@ -58,10 +62,12 @@ void main() {
           api_mod.SubscriptionPlanCollection.fromJson(jsonDecode(subscriptionPlanCollectionJson));
       performTests(apiModelOrig);
 
-      // Convert it to a model class then back again
-      final api_mod.SubscriptionPlanCollection apiModelCycled =
-          SubscriptionPlanCollection.fromApiModel(apiModelOrig).toApiModel();
-      performTests(apiModelCycled);
+      await DefineN1AppInScope(getStandardN1App(), () {
+        // Convert it to a model class then back again
+        final api_mod.SubscriptionPlanCollection apiModelCycled =
+            SubscriptionPlanCollection.fromApiModel(apiModelOrig).toApiModel();
+        performTests(apiModelCycled);
+      });
     });
   });
 }

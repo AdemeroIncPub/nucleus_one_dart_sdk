@@ -6,41 +6,37 @@ part of 'document_for_client.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentForClient _$DocumentForClientFromJson(Map<String, dynamic> json) =>
-    DocumentForClient()
-      ..id = json['ID'] as String?
-      ..documentID = json['DocumentID'] as String?
-      ..createdOn = json['CreatedOn'] as String?
-      ..purgeDate = json['PurgeDate'] as String?
-      ..name = json['Name'] as String?
-      ..pageCount = json['PageCount'] as int?
-      ..fileSize = json['FileSize'] as int?
-      ..thumbnailUrl = json['ThumbnailUrl'] as String?
-      ..isSigned = json['IsSigned'] as bool?
-      ..classificationID = json['ClassificationID'] as String?
-      ..classificationName = json['ClassificationName'] as String?
-      ..previewMetadata = (json['PreviewMetadata'] as List<dynamic>?)
-          ?.map((e) => Map<String, String>.from(e as Map))
-          .toList()
-      ..documentApprovalID = json['DocumentApprovalID'] as String?
-      ..documentApprovalCreatedOn = json['DocumentApprovalCreatedOn'] as String?
-      ..documentSubscriptionID = json['DocumentSubscriptionID'] as String?
-      ..documentSubscriptionCreatedOn =
-          json['DocumentSubscriptionCreatedOn'] as String?
-      ..documentSignatureSessionRecipientID =
-          json['DocumentSignatureSessionRecipientID'] as String?
-      ..documentSignatureSessionID =
-          json['DocumentSignatureSessionID'] as String?
-      ..documentSignatureSessionRecipientEmail =
-          json['DocumentSignatureSessionRecipientEmail'] as String?
-      ..documentSignatureSessionRecipientFullName =
-          json['DocumentSignatureSessionRecipientFullName'] as String?
-      ..documentSignatureSessionRecipientRequestedOn =
-          json['DocumentSignatureSessionRecipientRequestedOn'] as String?
-      ..roleName = json['RoleName'] as String?
-      ..processName = json['ProcessName'] as String?
-      ..processElementName = json['ProcessElementName'] as String?
-      ..score = json['Score'] as int?;
+DocumentForClient _$DocumentForClientFromJson(Map<String, dynamic> json) => DocumentForClient()
+  ..id = json['ID'] as String?
+  ..documentID = json['DocumentID'] as String?
+  ..createdOn = json['CreatedOn'] as String?
+  ..purgeDate = json['PurgeDate'] as String?
+  ..name = json['Name'] as String?
+  ..pageCount = json['PageCount'] as int?
+  ..fileSize = json['FileSize'] as int?
+  ..thumbnailUrl = json['ThumbnailUrl'] as String?
+  ..isSigned = json['IsSigned'] as bool?
+  ..classificationID = json['ClassificationID'] as String?
+  ..classificationName = json['ClassificationName'] as String?
+  ..previewMetadata = (json['PreviewMetadata'] as List<dynamic>?)
+      ?.map((e) => Map<String, String>.from(e as Map))
+      .toList()
+  ..documentApprovalID = json['DocumentApprovalID'] as String?
+  ..documentApprovalCreatedOn = json['DocumentApprovalCreatedOn'] as String?
+  ..documentSubscriptionID = json['DocumentSubscriptionID'] as String?
+  ..documentSubscriptionCreatedOn = json['DocumentSubscriptionCreatedOn'] as String?
+  ..documentSignatureSessionRecipientID = json['DocumentSignatureSessionRecipientID'] as String?
+  ..documentSignatureSessionID = json['DocumentSignatureSessionID'] as String?
+  ..documentSignatureSessionRecipientEmail =
+      json['DocumentSignatureSessionRecipientEmail'] as String?
+  ..documentSignatureSessionRecipientFullName =
+      json['DocumentSignatureSessionRecipientFullName'] as String?
+  ..documentSignatureSessionRecipientRequestedOn =
+      json['DocumentSignatureSessionRecipientRequestedOn'] as String?
+  ..roleName = json['RoleName'] as String?
+  ..processName = json['ProcessName'] as String?
+  ..processElementName = json['ProcessElementName'] as String?
+  ..score = json['Score'] as int?;
 
 Map<String, dynamic> _$DocumentForClientToJson(DocumentForClient instance) {
   final val = <String, dynamic>{};
@@ -66,14 +62,11 @@ Map<String, dynamic> _$DocumentForClientToJson(DocumentForClient instance) {
   writeNotNull('DocumentApprovalID', instance.documentApprovalID);
   writeNotNull('DocumentApprovalCreatedOn', instance.documentApprovalCreatedOn);
   writeNotNull('DocumentSubscriptionID', instance.documentSubscriptionID);
+  writeNotNull('DocumentSubscriptionCreatedOn', instance.documentSubscriptionCreatedOn);
+  writeNotNull('DocumentSignatureSessionRecipientID', instance.documentSignatureSessionRecipientID);
+  writeNotNull('DocumentSignatureSessionID', instance.documentSignatureSessionID);
   writeNotNull(
-      'DocumentSubscriptionCreatedOn', instance.documentSubscriptionCreatedOn);
-  writeNotNull('DocumentSignatureSessionRecipientID',
-      instance.documentSignatureSessionRecipientID);
-  writeNotNull(
-      'DocumentSignatureSessionID', instance.documentSignatureSessionID);
-  writeNotNull('DocumentSignatureSessionRecipientEmail',
-      instance.documentSignatureSessionRecipientEmail);
+      'DocumentSignatureSessionRecipientEmail', instance.documentSignatureSessionRecipientEmail);
   writeNotNull('DocumentSignatureSessionRecipientFullName',
       instance.documentSignatureSessionRecipientFullName);
   writeNotNull('DocumentSignatureSessionRecipientRequestedOn',

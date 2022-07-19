@@ -5,15 +5,20 @@ import '../nucleus_one.dart';
 
 class AddressBook with NucleusOneAppDependent {
   AddressBook._({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     required this.items,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory AddressBook.fromApiModel(api_model.AddressBook apiModel) {
+  factory AddressBook.fromApiModel(
+    api_model.AddressBook apiModel, {
+    NucleusOneApp? app,
+  }) {
     return AddressBook._(
-        items: apiModel.items.map((x) => AddressBookItem.fromApiModel(x)).toList());
+      app: app,
+      items: apiModel.items.map((x) => AddressBookItem.fromApiModel(x)).toList(),
+    );
   }
 
   List<AddressBookItem> items;
@@ -24,29 +29,35 @@ class AddressBook with NucleusOneAppDependent {
 }
 
 class AddressBookItem with NucleusOneAppDependent {
-  AddressBookItem._(
-      {NucleusOneAppInternal? app,
-      required this.emailLower,
-      required this.name,
-      required this.tenantMemberID,
-      required this.roleID,
-      required this.fieldID,
-      required this.formTemplateID,
-      required this.formTemplateName,
-      required this.formTemplateFieldID}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  AddressBookItem._({
+    NucleusOneApp? app,
+    required this.emailLower,
+    required this.name,
+    required this.tenantMemberID,
+    required this.roleID,
+    required this.fieldID,
+    required this.formTemplateID,
+    required this.formTemplateName,
+    required this.formTemplateFieldID,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory AddressBookItem.fromApiModel(api_model.AddressBookItem apiModel) {
+  factory AddressBookItem.fromApiModel(
+    api_model.AddressBookItem apiModel, {
+    NucleusOneApp? app,
+  }) {
     return AddressBookItem._(
-        emailLower: apiModel.emailLower!,
-        name: apiModel.name!,
-        tenantMemberID: apiModel.tenantMemberID!,
-        roleID: apiModel.roleID!,
-        fieldID: apiModel.fieldID!,
-        formTemplateID: apiModel.formTemplateID!,
-        formTemplateName: apiModel.formTemplateName!,
-        formTemplateFieldID: apiModel.formTemplateFieldID!);
+      app: app,
+      emailLower: apiModel.emailLower!,
+      name: apiModel.name!,
+      tenantMemberID: apiModel.tenantMemberID!,
+      roleID: apiModel.roleID!,
+      fieldID: apiModel.fieldID!,
+      formTemplateID: apiModel.formTemplateID!,
+      formTemplateName: apiModel.formTemplateName!,
+      formTemplateFieldID: apiModel.formTemplateFieldID!,
+    );
   }
 
   String emailLower;

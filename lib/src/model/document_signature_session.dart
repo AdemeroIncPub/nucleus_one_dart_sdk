@@ -5,67 +5,73 @@ import '../common/model.dart';
 import '../nucleus_one.dart';
 
 class DocumentSignatureSession with NucleusOneAppDependent {
-  DocumentSignatureSession._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.createdOn,
-      required this.modifiedOn,
-      required this.createdByUserID,
-      required this.createdByUserEmail,
-      required this.createdByUserName,
-      required this.lastModifiedByUserID,
-      required this.lastModifiedByUserEmail,
-      required this.lastModifiedByUserName,
-      required this.documentID,
-      required this.documentRevisionID,
-      required this.isActive,
-      required this.isComplete,
-      required this.wasStopped,
-      required this.completedOn,
-      required this.isRendered,
-      required this.renderedOn,
-      required this.formDesignType,
-      required this.useAccessCode,
-      required this.accessCode,
-      required this.useCustomSubjectAndBody,
-      required this.customSubject,
-      required this.customBody,
-      required this.quickDesignPlaceInitials,
-      required this.quickDesignPlaceFullName,
-      required this.quickDesignPlaceEmail,
-      required this.quickDesignPlaceTitle}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  DocumentSignatureSession._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.createdOn,
+    required this.modifiedOn,
+    required this.createdByUserID,
+    required this.createdByUserEmail,
+    required this.createdByUserName,
+    required this.lastModifiedByUserID,
+    required this.lastModifiedByUserEmail,
+    required this.lastModifiedByUserName,
+    required this.documentID,
+    required this.documentRevisionID,
+    required this.isActive,
+    required this.isComplete,
+    required this.wasStopped,
+    required this.completedOn,
+    required this.isRendered,
+    required this.renderedOn,
+    required this.formDesignType,
+    required this.useAccessCode,
+    required this.accessCode,
+    required this.useCustomSubjectAndBody,
+    required this.customSubject,
+    required this.customBody,
+    required this.quickDesignPlaceInitials,
+    required this.quickDesignPlaceFullName,
+    required this.quickDesignPlaceEmail,
+    required this.quickDesignPlaceTitle,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory DocumentSignatureSession.fromApiModel(api_mod.DocumentSignatureSession apiModel) {
+  factory DocumentSignatureSession.fromApiModel(
+    api_mod.DocumentSignatureSession apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentSignatureSession._(
-        id: apiModel.id!,
-        createdOn: apiModel.createdOn!,
-        modifiedOn: apiModel.modifiedOn!,
-        createdByUserID: apiModel.createdByUserID!,
-        createdByUserEmail: apiModel.createdByUserEmail!,
-        createdByUserName: apiModel.createdByUserName!,
-        lastModifiedByUserID: apiModel.lastModifiedByUserID!,
-        lastModifiedByUserEmail: apiModel.lastModifiedByUserEmail!,
-        lastModifiedByUserName: apiModel.lastModifiedByUserName!,
-        documentID: apiModel.documentID!,
-        documentRevisionID: apiModel.documentRevisionID!,
-        isActive: apiModel.isActive!,
-        isComplete: apiModel.isComplete!,
-        wasStopped: apiModel.wasStopped!,
-        completedOn: apiModel.completedOn!,
-        isRendered: apiModel.isRendered!,
-        renderedOn: apiModel.renderedOn!,
-        formDesignType: apiModel.formDesignType!,
-        useAccessCode: apiModel.useAccessCode!,
-        accessCode: apiModel.accessCode!,
-        useCustomSubjectAndBody: apiModel.useCustomSubjectAndBody!,
-        customSubject: apiModel.customSubject!,
-        customBody: apiModel.customBody!,
-        quickDesignPlaceInitials: apiModel.quickDesignPlaceInitials!,
-        quickDesignPlaceFullName: apiModel.quickDesignPlaceFullName!,
-        quickDesignPlaceEmail: apiModel.quickDesignPlaceEmail!,
-        quickDesignPlaceTitle: apiModel.quickDesignPlaceTitle!);
+      app: app,
+      id: apiModel.id!,
+      createdOn: apiModel.createdOn!,
+      modifiedOn: apiModel.modifiedOn!,
+      createdByUserID: apiModel.createdByUserID!,
+      createdByUserEmail: apiModel.createdByUserEmail!,
+      createdByUserName: apiModel.createdByUserName!,
+      lastModifiedByUserID: apiModel.lastModifiedByUserID!,
+      lastModifiedByUserEmail: apiModel.lastModifiedByUserEmail!,
+      lastModifiedByUserName: apiModel.lastModifiedByUserName!,
+      documentID: apiModel.documentID!,
+      documentRevisionID: apiModel.documentRevisionID!,
+      isActive: apiModel.isActive!,
+      isComplete: apiModel.isComplete!,
+      wasStopped: apiModel.wasStopped!,
+      completedOn: apiModel.completedOn!,
+      isRendered: apiModel.isRendered!,
+      renderedOn: apiModel.renderedOn!,
+      formDesignType: apiModel.formDesignType!,
+      useAccessCode: apiModel.useAccessCode!,
+      accessCode: apiModel.accessCode!,
+      useCustomSubjectAndBody: apiModel.useCustomSubjectAndBody!,
+      customSubject: apiModel.customSubject!,
+      customBody: apiModel.customBody!,
+      quickDesignPlaceInitials: apiModel.quickDesignPlaceInitials!,
+      quickDesignPlaceFullName: apiModel.quickDesignPlaceFullName!,
+      quickDesignPlaceEmail: apiModel.quickDesignPlaceEmail!,
+      quickDesignPlaceTitle: apiModel.quickDesignPlaceTitle!,
+    );
   }
 
   String id;
@@ -155,74 +161,79 @@ class DocumentSignatureSession with NucleusOneAppDependent {
 }
 
 class DocumentSignatureSessionRecipient with NucleusOneAppDependent {
-  DocumentSignatureSessionRecipient._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.tenantID,
-      required this.documentID,
-      required this.documentCreatedOn,
-      required this.documentBucketName,
-      required this.documentThumbnailObjectName,
-      required this.documentName,
-      required this.documentNameLower,
-      required this.documentPageCount,
-      required this.documentFileSize,
-      required this.documentClassificationID,
-      required this.documentClassificationName,
-      required this.documentClassificationNameLower,
-      required this.documentPreviewMetadata,
-      required this.documentSignatureSessionID,
-      required this.documentSignatureSessionIsActive,
-      required this.documentSignatureSessionIsComplete,
-      required this.uniqueID,
-      required this.rank,
-      required this.email,
-      required this.fullName,
-      required this.type,
-      required this.tenantMemberID,
-      required this.signingRequestSent,
-      required this.requestedOn,
-      required this.isActive,
-      required this.isComplete,
-      required this.completedOn,
-      required this.ipAddress}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  DocumentSignatureSessionRecipient._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.tenantID,
+    required this.documentID,
+    required this.documentCreatedOn,
+    required this.documentBucketName,
+    required this.documentThumbnailObjectName,
+    required this.documentName,
+    required this.documentNameLower,
+    required this.documentPageCount,
+    required this.documentFileSize,
+    required this.documentClassificationID,
+    required this.documentClassificationName,
+    required this.documentClassificationNameLower,
+    required this.documentPreviewMetadata,
+    required this.documentSignatureSessionID,
+    required this.documentSignatureSessionIsActive,
+    required this.documentSignatureSessionIsComplete,
+    required this.uniqueID,
+    required this.rank,
+    required this.email,
+    required this.fullName,
+    required this.type,
+    required this.tenantMemberID,
+    required this.signingRequestSent,
+    required this.requestedOn,
+    required this.isActive,
+    required this.isComplete,
+    required this.completedOn,
+    required this.ipAddress,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureSessionRecipient.fromApiModel(
-      api_mod.DocumentSignatureSessionRecipient apiModel) {
+    api_mod.DocumentSignatureSessionRecipient apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentSignatureSessionRecipient._(
-        id: apiModel.id!,
-        tenantID: apiModel.tenantID!,
-        documentID: apiModel.documentID!,
-        documentCreatedOn: apiModel.documentCreatedOn!,
-        documentBucketName: apiModel.documentBucketName!,
-        documentThumbnailObjectName: apiModel.documentThumbnailObjectName!,
-        documentName: apiModel.documentName!,
-        documentNameLower: apiModel.documentNameLower!,
-        documentPageCount: apiModel.documentPageCount!,
-        documentFileSize: apiModel.documentFileSize!,
-        documentClassificationID: apiModel.documentClassificationID!,
-        documentClassificationName: apiModel.documentClassificationName!,
-        documentClassificationNameLower: apiModel.documentClassificationNameLower!,
-        documentPreviewMetadata: (apiModel.documentPreviewMetadata == null)
-            ? null
-            : apiModel.documentPreviewMetadata!.toList(),
-        documentSignatureSessionID: apiModel.documentSignatureSessionID!,
-        documentSignatureSessionIsActive: apiModel.documentSignatureSessionIsActive!,
-        documentSignatureSessionIsComplete: apiModel.documentSignatureSessionIsComplete!,
-        uniqueID: apiModel.uniqueID!,
-        rank: apiModel.rank!,
-        email: apiModel.email!,
-        fullName: apiModel.fullName!,
-        type: apiModel.type!,
-        tenantMemberID: apiModel.tenantMemberID!,
-        signingRequestSent: apiModel.signingRequestSent!,
-        requestedOn: apiModel.requestedOn!,
-        isActive: apiModel.isActive!,
-        isComplete: apiModel.isComplete!,
-        completedOn: apiModel.completedOn!,
-        ipAddress: apiModel.ipAddress!);
+      app: app,
+      id: apiModel.id!,
+      tenantID: apiModel.tenantID!,
+      documentID: apiModel.documentID!,
+      documentCreatedOn: apiModel.documentCreatedOn!,
+      documentBucketName: apiModel.documentBucketName!,
+      documentThumbnailObjectName: apiModel.documentThumbnailObjectName!,
+      documentName: apiModel.documentName!,
+      documentNameLower: apiModel.documentNameLower!,
+      documentPageCount: apiModel.documentPageCount!,
+      documentFileSize: apiModel.documentFileSize!,
+      documentClassificationID: apiModel.documentClassificationID!,
+      documentClassificationName: apiModel.documentClassificationName!,
+      documentClassificationNameLower: apiModel.documentClassificationNameLower!,
+      documentPreviewMetadata: (apiModel.documentPreviewMetadata == null)
+          ? null
+          : apiModel.documentPreviewMetadata!.toList(),
+      documentSignatureSessionID: apiModel.documentSignatureSessionID!,
+      documentSignatureSessionIsActive: apiModel.documentSignatureSessionIsActive!,
+      documentSignatureSessionIsComplete: apiModel.documentSignatureSessionIsComplete!,
+      uniqueID: apiModel.uniqueID!,
+      rank: apiModel.rank!,
+      email: apiModel.email!,
+      fullName: apiModel.fullName!,
+      type: apiModel.type!,
+      tenantMemberID: apiModel.tenantMemberID!,
+      signingRequestSent: apiModel.signingRequestSent!,
+      requestedOn: apiModel.requestedOn!,
+      isActive: apiModel.isActive!,
+      isComplete: apiModel.isComplete!,
+      completedOn: apiModel.completedOn!,
+      ipAddress: apiModel.ipAddress!,
+    );
   }
 
   String id;
@@ -320,14 +331,19 @@ class DocumentSignatureSessionRecipient with NucleusOneAppDependent {
 class DocumentSignatureSessionPackageCollection extends EntityCollection<
     DocumentSignatureSessionPackage, api_mod.DocumentSignatureSessionPackageCollection> {
   DocumentSignatureSessionPackageCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     List<DocumentSignatureSessionPackage>? items,
   }) : super(app: app, items: items);
 
   factory DocumentSignatureSessionPackageCollection.fromApiModel(
-      api_mod.DocumentSignatureSessionPackageCollection apiModel) {
+    api_mod.DocumentSignatureSessionPackageCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentSignatureSessionPackageCollection(
-        items: apiModel.items.map((x) => DocumentSignatureSessionPackage.fromApiModel(x)).toList());
+        app: app,
+        items: apiModel.items
+            .map((x) => DocumentSignatureSessionPackage.fromApiModel(x, app: app))
+            .toList());
   }
 
   @override
@@ -338,24 +354,29 @@ class DocumentSignatureSessionPackageCollection extends EntityCollection<
 }
 
 class DocumentSignatureSessionPackage with NucleusOneAppDependent {
-  DocumentSignatureSessionPackage._(
-      {NucleusOneAppInternal? app,
-      required this.session,
-      required this.recipients,
-      required this.beginSession,
-      required this.resetSession}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  DocumentSignatureSessionPackage._({
+    NucleusOneApp? app,
+    required this.session,
+    required this.recipients,
+    required this.beginSession,
+    required this.resetSession,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureSessionPackage.fromApiModel(
-      api_mod.DocumentSignatureSessionPackage apiModel) {
+    api_mod.DocumentSignatureSessionPackage apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentSignatureSessionPackage._(
-        session: DocumentSignatureSession.fromApiModel(apiModel.session!),
-        recipients: apiModel.recipients!
-            .map((x) => DocumentSignatureSessionRecipient.fromApiModel(x))
-            .toList(),
-        beginSession: apiModel.beginSession!,
-        resetSession: apiModel.resetSession!);
+      app: app,
+      session: DocumentSignatureSession.fromApiModel(apiModel.session!, app: app),
+      recipients: apiModel.recipients!
+          .map((x) => DocumentSignatureSessionRecipient.fromApiModel(x, app: app))
+          .toList(),
+      beginSession: apiModel.beginSession!,
+      resetSession: apiModel.resetSession!,
+    );
   }
 
   DocumentSignatureSession session;

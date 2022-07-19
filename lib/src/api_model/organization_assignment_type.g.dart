@@ -6,10 +6,8 @@ part of 'organization_assignment_type.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrganizationAssignmentType _$OrganizationAssignmentTypeFromJson(
-        Map<String, dynamic> json) =>
+OrganizationAssignmentType _$OrganizationAssignmentTypeFromJson(Map<String, dynamic> json) =>
     OrganizationAssignmentType();
 
-Map<String, dynamic> _$OrganizationAssignmentTypeToJson(
-        OrganizationAssignmentType instance) =>
+Map<String, dynamic> _$OrganizationAssignmentTypeToJson(OrganizationAssignmentType instance) =>
     <String, dynamic>{};

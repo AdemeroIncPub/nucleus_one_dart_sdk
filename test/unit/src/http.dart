@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart';
 import 'package:test/test.dart';
 
+import '../../src/assertions.dart';
 import '../../src/common.dart';
 import '../../src/mocks/http.dart';
 
@@ -37,11 +39,10 @@ void main() {
   });
 
   test('setAuthenticatedRequestHeaders method Tests', () async {
-    late MockHttpHeaders headers;
+    MockHttpHeaders? headers;
     await createMockHttpClientScopeForGetRequest(
       additionalMockSetup: (client, requestLocal, response) {
         final n1App = getStandardN1App();
-        n1App.setAuthenticationState('123');
         setAuthenticatedRequestHeaders(requestLocal, n1App);
         headers = requestLocal.headers as MockHttpHeaders;
       },
@@ -52,47 +53,25 @@ void main() {
       responseBody: '',
     );
 
-    expect(headers.headers.length, greaterThan(1));
-    expect(headers.headers['Cookie'], isNotNull);
-  });
+    expect(headers!.headers.length, 6);
+    expect(headers!.headers['Authorization'], ['Bearer ']);
 
-  group('setRequestHeadersAuthCookie method Tests', () {
-    test('Unset session', () async {
-      late MockHttpHeaders headers;
-      await createMockHttpClientScopeForGetRequest(
-        additionalMockSetup: (client, requestLocal, response) {
-          final n1App = getStandardN1App();
-          setRequestHeadersAuthCookie(requestLocal, n1App);
-          headers = requestLocal.headers as MockHttpHeaders;
-        },
-        callback: () async {
-          // This is an arbitrary http call to trigger HTTP request execution
-          await HttpClient().getUrl(Uri.parse('https://google.com'));
-        },
-        responseBody: '',
-      );
+    headers = null;
+    await createMockHttpClientScopeForGetRequest(
+      additionalMockSetup: (client, requestLocal, response) {
+        final n1App = getStandardN1App(apiKey: '123');
+        setAuthenticatedRequestHeaders(requestLocal, n1App);
+        headers = requestLocal.headers as MockHttpHeaders;
+      },
+      callback: () async {
+        // This is an arbitrary http call to trigger HTTP request execution
+        await HttpClient().getUrl(Uri.parse('https://google.com'));
+      },
+      responseBody: '',
+    );
 
-      expect(headers.headers['Cookie'], isNull);
-    });
-
-    test('Sucessful', () async {
-      late MockHttpHeaders headers;
-      await createMockHttpClientScopeForGetRequest(
-        additionalMockSetup: (client, requestLocal, response) {
-          final n1App = getStandardN1App();
-          n1App.setAuthenticationState('123');
-          setRequestHeadersAuthCookie(requestLocal, n1App);
-          headers = requestLocal.headers as MockHttpHeaders;
-        },
-        callback: () async {
-          // This is an arbitrary http call to trigger HTTP request execution
-          await HttpClient().getUrl(Uri.parse('https://google.com'));
-        },
-        responseBody: '',
-      );
-
-      expect(headers.headers['Cookie'], ['session_v1=123']);
-    });
+    expect(headers!.headers.length, 6);
+    expect(headers!.headers['Authorization'], ['Bearer 123']);
   });
 
   group('_executeStandardHttpRequest consumer methods Tests', () {
@@ -144,9 +123,6 @@ void main() {
             },
             callback: () async {
               final n1App = getStandardN1App();
-              if (reqAuthenticated) {
-                n1App.setAuthenticationState('123');
-              }
               responseText = await executeGetRequestWithTextResponse(
                 '',
                 n1App,
@@ -175,13 +151,36 @@ void main() {
 
           if (reqAuthenticated) {
             expect(headers.headers.length, greaterThan(expectedCommonHeaderCount));
-            expect(headers.headers['Cookie'], isNotNull);
+            expect(headers.headers['Authorization'], isNotNull);
           } else {
             expect(headers.headers.length, expectedCommonHeaderCount);
-            expect(headers.headers['Cookie'], isNull);
+            expect(headers.headers['Authorization'], isNull);
           }
         }
       }
+    });
+
+    test('_executeStandardHttpRequest method handles null app and context app tests', () async {
+      testAssertionErrorAsync(
+        () async => await createMockHttpClientScopeForDeleteRequest(
+          callback: () async {
+            await executeDeleteRequest('', app: null, query: {});
+          },
+          responseBody: '123',
+        ),
+        'instanceFactory != null',
+      );
+
+      testValidAssertionAsync(() async {
+        await DefineN1AppInScopeAsync(getStandardN1App(), () async {
+          await createMockHttpClientScopeForDeleteRequest(
+            callback: () async {
+              await executeDeleteRequest('', app: null, query: {});
+            },
+            responseBody: '123',
+          );
+        });
+      });
     });
 
     test('executeDeleteRequest method Tests', () async {
@@ -189,7 +188,7 @@ void main() {
         callback: () async {
           await executeDeleteRequest(
             '',
-            getStandardN1App(),
+            app: getStandardN1App(),
             query: {},
           );
         },
@@ -204,7 +203,7 @@ void main() {
         callback: () async {
           await executePostRequest(
             '',
-            getStandardN1App(),
+            app: getStandardN1App(),
             query: {},
           );
         },
@@ -335,6 +334,44 @@ void main() {
       e = HttpException.fromJsonSafe(500, '{"message":"xyz"}');
       expect(e.status, 500);
       expect(e.message, 'xyz');
+    });
+  });
+
+  group('StandardQueryParams class tests', () {
+    test('get method test', () {
+      var sqp = StandardQueryParams.get();
+      expect(sqp.isEmpty, isTrue);
+
+      sqp = StandardQueryParams.get([]);
+      expect(sqp.isEmpty, isTrue);
+
+      sqp = StandardQueryParams.get([
+        (sqp) => sqp.cursor('123'),
+      ]);
+      expect(sqp.length, 1);
+    });
+
+    test('Standard methods test', () {
+      void performTest<T>(
+          String keyName, T value, void Function(StandardQueryParams, T?) sqpCallback) {
+        // Test that a null value is correctly handled
+        var sqp = StandardQueryParams.get([
+          (sqp) => sqpCallback(sqp, null),
+        ]);
+        expect(sqp.isEmpty, isTrue);
+
+        // Test that a value is correctly handled
+        sqp = StandardQueryParams.get([
+          (sqp) => sqpCallback(sqp, value),
+        ]);
+        expect(sqp.length, 1);
+        expect(sqp[keyName], value);
+      }
+
+      performTest<bool>('sortDescending', true, (sqp, value) => sqp.sortDescending(value));
+      performTest<String>('sortType', '123', (sqp, value) => sqp.sortType(value));
+      performTest<int>('offset', 123, (sqp, value) => sqp.offset(value));
+      performTest<String>('cursor', '123', (sqp, value) => sqp.cursor(value));
     });
   });
 }

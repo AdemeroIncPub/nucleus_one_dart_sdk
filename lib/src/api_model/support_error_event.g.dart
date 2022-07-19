@@ -6,15 +6,13 @@ part of 'support_error_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SupportErrorEventCollection _$SupportErrorEventCollectionFromJson(
-        Map<String, dynamic> json) =>
+SupportErrorEventCollection _$SupportErrorEventCollectionFromJson(Map<String, dynamic> json) =>
     SupportErrorEventCollection()
       ..supportErrorEvents = (json['ErrorEvents'] as List<dynamic>?)
           ?.map((e) => SupportErrorEvent.fromJson(e as Map<String, dynamic>))
           .toList();
 
-Map<String, dynamic> _$SupportErrorEventCollectionToJson(
-    SupportErrorEventCollection instance) {
+Map<String, dynamic> _$SupportErrorEventCollectionToJson(SupportErrorEventCollection instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -27,29 +25,24 @@ Map<String, dynamic> _$SupportErrorEventCollectionToJson(
   return val;
 }
 
-SupportErrorEvent _$SupportErrorEventFromJson(Map<String, dynamic> json) =>
-    SupportErrorEvent()
-      ..id = json['ID'] as String?
-      ..createdOn = json['CreatedOn'] as String?
-      ..tenantID = json['TenantID'] as String?
-      ..tenantName = json['TenantName'] as String?
-      ..tenantNameLower = json['TenantNameLower'] as String?
-      ..userEmailLower = json['UserEmailLower'] as String?
-      ..userID = json['UserID'] as String?
-      ..serviceNameLower = json['ServiceNameLower'] as String?
-      ..level = json['Level'] as String?
-      ..uniqueID = json['UniqueID'] as String?
-      ..requestURI = json['RequestURI'] as String?
-      ..header = json['Header'] as String?
-      ..message = json['Message'] as String?
-      ..clientMessage = json['ClientMessage'] as String?
-      ..httpStatus = json['HttpStatus'] as int?
-      ..otherValues = (json['OtherValues'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList()
-      ..wordsLower = (json['WordsLower'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList();
+SupportErrorEvent _$SupportErrorEventFromJson(Map<String, dynamic> json) => SupportErrorEvent()
+  ..id = json['ID'] as String?
+  ..createdOn = json['CreatedOn'] as String?
+  ..tenantID = json['TenantID'] as String?
+  ..tenantName = json['TenantName'] as String?
+  ..tenantNameLower = json['TenantNameLower'] as String?
+  ..userEmailLower = json['UserEmailLower'] as String?
+  ..userID = json['UserID'] as String?
+  ..serviceNameLower = json['ServiceNameLower'] as String?
+  ..level = json['Level'] as String?
+  ..uniqueID = json['UniqueID'] as String?
+  ..requestURI = json['RequestURI'] as String?
+  ..header = json['Header'] as String?
+  ..message = json['Message'] as String?
+  ..clientMessage = json['ClientMessage'] as String?
+  ..httpStatus = json['HttpStatus'] as int?
+  ..otherValues = (json['OtherValues'] as List<dynamic>?)?.map((e) => e as String).toList()
+  ..wordsLower = (json['WordsLower'] as List<dynamic>?)?.map((e) => e as String).toList();
 
 Map<String, dynamic> _$SupportErrorEventToJson(SupportErrorEvent instance) {
   final val = <String, dynamic>{};

@@ -4,25 +4,31 @@ import '../api_model/selected_twain_device.dart' as api_mod;
 import '../nucleus_one.dart';
 
 class SelectedTwainDevice with NucleusOneAppDependent {
-  SelectedTwainDevice._(
-      {NucleusOneAppInternal? app,
-      required this.deviceSourceName,
-      required this.duplexType,
-      required this.inputSource,
-      required this.pixelType,
-      required this.resolution,
-      required this.size}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  SelectedTwainDevice._({
+    NucleusOneApp? app,
+    required this.deviceSourceName,
+    required this.duplexType,
+    required this.inputSource,
+    required this.pixelType,
+    required this.resolution,
+    required this.size,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory SelectedTwainDevice.fromApiModel(api_mod.SelectedTwainDevice apiModel) {
+  factory SelectedTwainDevice.fromApiModel(
+    api_mod.SelectedTwainDevice apiModel, {
+    NucleusOneApp? app,
+  }) {
     return SelectedTwainDevice._(
-        deviceSourceName: apiModel.deviceSourceName!,
-        duplexType: apiModel.duplexType!,
-        inputSource: apiModel.inputSource!,
-        pixelType: apiModel.pixelType!,
-        resolution: apiModel.resolution!,
-        size: apiModel.size!);
+      app: app,
+      deviceSourceName: apiModel.deviceSourceName!,
+      duplexType: apiModel.duplexType!,
+      inputSource: apiModel.inputSource!,
+      pixelType: apiModel.pixelType!,
+      resolution: apiModel.resolution!,
+      size: apiModel.size!,
+    );
   }
 
   String deviceSourceName;

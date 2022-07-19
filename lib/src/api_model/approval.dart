@@ -140,8 +140,8 @@ class Approval extends Entity {
   @JsonKey(name: 'DocumentIsSigned')
   bool? documentIsSigned;
 
-  @JsonKey(name: 'WorkTaskDueOn')
-  String? workTaskDueOn;
+  @JsonKey(name: 'TaskDueOn')
+  String? taskDueOn;
 
   @JsonKey(name: 'ThumbnailUrl')
   String? thumbnailUrl;

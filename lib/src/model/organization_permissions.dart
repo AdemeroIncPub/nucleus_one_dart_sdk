@@ -4,25 +4,31 @@ import '../api_model/organization_permissions.dart' as api_mod;
 import '../nucleus_one.dart';
 
 class OrganizationPermissions with NucleusOneAppDependent {
-  OrganizationPermissions._(
-      {NucleusOneAppInternal? app,
-      required this.organizationID,
-      required this.organizationName,
-      required this.userID,
-      required this.userName,
-      required this.userEmail,
-      required this.isAdmin}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  OrganizationPermissions._({
+    NucleusOneApp? app,
+    required this.organizationID,
+    required this.organizationName,
+    required this.userID,
+    required this.userName,
+    required this.userEmail,
+    required this.isAdmin,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory OrganizationPermissions.fromApiModel(api_mod.OrganizationPermissions apiModel) {
+  factory OrganizationPermissions.fromApiModel(
+    api_mod.OrganizationPermissions apiModel, {
+    NucleusOneApp? app,
+  }) {
     return OrganizationPermissions._(
-        organizationID: apiModel.organizationID!,
-        organizationName: apiModel.organizationName!,
-        userID: apiModel.userID!,
-        userName: apiModel.userName!,
-        userEmail: apiModel.userEmail!,
-        isAdmin: apiModel.isAdmin!);
+      app: app,
+      organizationID: apiModel.organizationID!,
+      organizationName: apiModel.organizationName!,
+      userID: apiModel.userID!,
+      userName: apiModel.userName!,
+      userEmail: apiModel.userEmail!,
+      isAdmin: apiModel.isAdmin!,
+    );
   }
 
   String organizationID;

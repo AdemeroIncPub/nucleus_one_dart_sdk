@@ -7,11 +7,14 @@ import '../nucleus_one.dart';
 class FieldListItemCollection
     extends EntityCollection<FieldListItem, api_mod.FieldListItemCollection> {
   FieldListItemCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     List<FieldListItem>? items,
   }) : super(app: app, items: items);
 
-  factory FieldListItemCollection.fromApiModel(api_mod.FieldListItemCollection apiModel) {
+  factory FieldListItemCollection.fromApiModel(
+    api_mod.FieldListItemCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return FieldListItemCollection(
         items: apiModel.items.map((x) => FieldListItem.fromApiModel(x)).toList());
   }
@@ -23,21 +26,32 @@ class FieldListItemCollection
 }
 
 class FieldListItem with NucleusOneAppDependent {
-  FieldListItem._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.parentValue,
-      required this.value}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  FieldListItem._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.parentValue,
+    required this.value,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  factory FieldListItem.createNew({required String parentValue, required String value}) {
+  factory FieldListItem.createNew({
+    required String parentValue,
+    required String value,
+  }) {
     return FieldListItem._(id: '', parentValue: parentValue, value: value);
   }
 
-  factory FieldListItem.fromApiModel(api_mod.FieldListItem apiModel) {
+  factory FieldListItem.fromApiModel(
+    api_mod.FieldListItem apiModel, {
+    NucleusOneApp? app,
+  }) {
     return FieldListItem._(
-        id: apiModel.id!, parentValue: apiModel.parentValue!, value: apiModel.value!);
+      app: app,
+      id: apiModel.id!,
+      parentValue: apiModel.parentValue!,
+      value: apiModel.value!,
+    );
   }
 
   String id;

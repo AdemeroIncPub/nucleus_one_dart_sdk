@@ -8,14 +8,19 @@ import '../nucleus_one.dart';
 class DocumentSignatureFormFieldCollection extends EntityCollection<DocumentSignatureFormField,
     api_mod.DocumentSignatureFormFieldCollection> {
   DocumentSignatureFormFieldCollection({
-    NucleusOneAppInternal? app,
+    NucleusOneApp? app,
     List<DocumentSignatureFormField>? items,
   }) : super(app: app, items: items);
 
   factory DocumentSignatureFormFieldCollection.fromApiModel(
-      api_mod.DocumentSignatureFormFieldCollection apiModel) {
+    api_mod.DocumentSignatureFormFieldCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentSignatureFormFieldCollection(
-        items: apiModel.items.map((x) => DocumentSignatureFormField.fromApiModel(x)).toList());
+      app: app,
+      items:
+          apiModel.items.map((x) => DocumentSignatureFormField.fromApiModel(x, app: app)).toList(),
+    );
   }
 
   @override
@@ -26,16 +31,17 @@ class DocumentSignatureFormFieldCollection extends EntityCollection<DocumentSign
 }
 
 class DocumentSignatureFormField with NucleusOneAppDependent {
-  DocumentSignatureFormField._(
-      {NucleusOneAppInternal? app,
-      required this.id,
-      required this.createdOn,
-      required this.type,
-      required this.pageIndex,
-      required this.documentSignatureSessionRecipientID,
-      required this.x,
-      required this.y}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>() as NucleusOneAppInternal;
+  DocumentSignatureFormField._({
+    NucleusOneApp? app,
+    required this.id,
+    required this.createdOn,
+    required this.type,
+    required this.pageIndex,
+    required this.documentSignatureSessionRecipientID,
+    required this.x,
+    required this.y,
+  }) {
+    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureFormField.createNew({
@@ -46,12 +52,14 @@ class DocumentSignatureFormField with NucleusOneAppDependent {
     required String documentSignatureSessionRecipientID,
     required double x,
     required double y,
+    NucleusOneApp? app,
   }) {
     if (isNullOrEmpty(id)) {
       id = DateTime.now().millisecondsSinceEpoch.toString();
     }
 
     return DocumentSignatureFormField._(
+      app: app,
       id: id!,
       createdOn: createdOn,
       type: type,
@@ -62,15 +70,20 @@ class DocumentSignatureFormField with NucleusOneAppDependent {
     );
   }
 
-  factory DocumentSignatureFormField.fromApiModel(api_mod.DocumentSignatureFormField apiModel) {
+  factory DocumentSignatureFormField.fromApiModel(
+    api_mod.DocumentSignatureFormField apiModel, {
+    NucleusOneApp? app,
+  }) {
     return DocumentSignatureFormField._(
-        id: apiModel.id!,
-        createdOn: apiModel.createdOn!,
-        type: apiModel.type!,
-        pageIndex: apiModel.pageIndex!,
-        documentSignatureSessionRecipientID: apiModel.documentSignatureSessionRecipientID!,
-        x: apiModel.x!,
-        y: apiModel.y!);
+      app: app,
+      id: apiModel.id!,
+      createdOn: apiModel.createdOn!,
+      type: apiModel.type!,
+      pageIndex: apiModel.pageIndex!,
+      documentSignatureSessionRecipientID: apiModel.documentSignatureSessionRecipientID!,
+      x: apiModel.x!,
+      y: apiModel.y!,
+    );
   }
 
   String id;
