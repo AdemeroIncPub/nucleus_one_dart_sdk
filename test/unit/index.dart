@@ -41,6 +41,7 @@ import 'src/api_model/task.dart' as api_mod__task;
 import 'src/api_model/task_comment.dart' as api_mod__task_comment;
 import 'src/api_model/task_event.dart' as api_mod__task_event;
 import 'src/api_model/user.dart' as api_mod__user;
+import 'src/api_model/user_organization.dart' as api_mod__user_organization;
 import 'src/api_model/user_organization_project.dart' as api_mod__user_organization_project;
 import 'src/api_model/user_preference.dart' as api_mod__user_preference;
 import 'src/api_model/user_preferences.dart' as api_mod__user_preferences;
@@ -102,6 +103,7 @@ import 'src/model/user.dart' as mod__user;
 import 'src/model/user_preference.dart' as mod__user_preference;
 import 'src/model/user_preferences.dart' as mod__user_preferences;
 import 'src/model/user_profile.dart' as mod__user_profile;
+import 'src/model/user_organization.dart' as mod__user_organization;
 import 'src/model/user_organization_project.dart' as mod__user_organization_project;
 import 'src/nucleus_one.dart' as n1;
 
@@ -157,6 +159,7 @@ void _apiModelTests() {
   api_mod__task_comment.main();
   api_mod__task_event.main();
   api_mod__user.main();
+  api_mod__user_organization.main();
   api_mod__user_organization_project.main();
   api_mod__user_preference.main();
   api_mod__user_preferences.main();
@@ -203,6 +206,7 @@ void _modelTests() {
   mod__task_comment.main();
   mod__task_event.main();
   mod__user.main();
+  mod__user_organization.main();
   mod__user_organization_project.main();
   mod__user_preference.main();
   mod__user_preferences.main();

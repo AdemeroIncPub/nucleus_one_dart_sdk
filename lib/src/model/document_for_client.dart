@@ -69,37 +69,6 @@ class DocumentForClient with NucleusOneAppDependent {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>();
   }
 
-  DocumentForClient({
-    NucleusOneApp? app,
-  }) : this._(
-          app: app,
-          id: '',
-          documentID: '',
-          createdOn: '',
-          purgeDate: '',
-          name: '',
-          pageCount: 0,
-          fileSize: 0,
-          thumbnailUrl: '',
-          isSigned: false,
-          classificationID: '',
-          classificationName: '',
-          previewMetadata: [],
-          documentApprovalID: null,
-          documentApprovalCreatedOn: null,
-          documentSubscriptionID: '',
-          documentSubscriptionCreatedOn: '',
-          documentSignatureSessionRecipientID: '',
-          documentSignatureSessionID: '',
-          documentSignatureSessionRecipientEmail: '',
-          documentSignatureSessionRecipientFullName: '',
-          documentSignatureSessionRecipientRequestedOn: '',
-          roleName: '',
-          processName: '',
-          processElementName: '',
-          score: null,
-        );
-
   factory DocumentForClient.fromApiModel(
     api_mod.DocumentForClient apiModel, {
     NucleusOneApp? app,

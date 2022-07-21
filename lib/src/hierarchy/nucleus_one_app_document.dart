@@ -501,35 +501,6 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
       return DocumentSignatureSessionPackageCollection.fromApiModel(apiModel);
     });
   }
-
-  /// Gets a document signature forms.
-  ///
-  /// [docNameStartsWith]: The value that the document name starts with.
-  ///
-  /// [excludingId]: The id of a signature form to exclude from the results.
-  Future<DocumentSignatureFormCollection> getSignatureForms({
-    String? docNameStartsWith,
-    String? excludingId,
-  }) async {
-    final qp = http.StandardQueryParams.get();
-    if (docNameStartsWith != null) {
-      qp['nameFilter'] = docNameStartsWith;
-    }
-    if (excludingId != null) {
-      qp['excludingId'] = excludingId;
-    }
-
-    final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat
-          .replaceOrganizationAndProjectPlaceholders(project),
-      project.app,
-      query: qp,
-    );
-    final apiModel = api_mod.DocumentSignatureFormCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
-      return DocumentSignatureFormCollection.fromApiModel(apiModel);
-    });
-  }
 }
 
 class NucleusOneAppDocuments with NucleusOneAppProjectDependent {

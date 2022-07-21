@@ -1,12 +1,17 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
+import 'package:nucleus_one_dart_sdk/src/model/user_organization.dart';
+import 'package:nucleus_one_dart_sdk/src/model/user_organization_project.dart';
 import 'package:test/test.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/user_preference.dart' as api_mod;
 
 import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
+import '../api_model/user_organization.dart';
+import '../api_model/user_organization_project.dart';
 import '../api_model/user_preferences.dart';
 
 final up = api_mod.UserPreference()
@@ -28,6 +33,33 @@ void main() {
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('getOrganizations method tests', () async {
+      final expectedUrlPath = http.apiPaths.userOrganizations;
+      final n1App = getStandardN1App();
+      // Test with default parameters
+      await performHttpTest<UserOrganizationCollection>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppUsers(app: n1App).getOrganizations(),
+        responseBody: userOrganizationCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('getProjects method tests', () async {
+      final expectedUrlPath =
+          http.apiPaths.userOrganizationsProjectsFormat.replaceOrganizationPlaceholder('123');
+      final n1App = getStandardN1App();
+      // Test with default parameters
+      await performHttpTest<UserOrganizationProjectCollection>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppUsers(app: n1App).getProjects(organizationId: '123'),
+        responseBody: userOrganizationProjectCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
     });
 
     test('updateUserPreference method tests', () async {

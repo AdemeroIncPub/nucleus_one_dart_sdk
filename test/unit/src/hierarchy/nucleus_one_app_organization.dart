@@ -19,6 +19,21 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
+    test('Constructor test', () {
+      final app = getStandardN1App();
+      final org = NucleusOneAppOrganization(app: app, id: '123');
+      expect(org.app, app);
+      expect(org.id, '123');
+
+      expect(
+          () => NucleusOneAppOrganization(app: app, id: ''),
+          throwsA(allOf(
+            isArgumentError,
+            predicate(
+                (ArgumentError e) => (e.name == 'id') && (e.message == 'Value cannot be blank.')),
+          )));
+    });
+
     test('getPermissions method tests', () async {
       final expectedUrlPath =
           http.apiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', '123');

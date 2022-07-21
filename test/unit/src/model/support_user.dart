@@ -42,6 +42,7 @@ void main() {
       });
     });
   });
+  
   group('SupportUserCollection tests', () {
     setUp(() async {
       await NucleusOne.intializeSdk();

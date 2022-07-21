@@ -78,10 +78,13 @@ class UserOrganizationProjectCollection
   }) : super(app: app, items: items);
 
   factory UserOrganizationProjectCollection.fromApiModel(
-      api_mod.UserOrganizationProjectCollection apiModel) {
+    api_mod.UserOrganizationProjectCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
     return UserOrganizationProjectCollection(
+        app: app,
         items: apiModel.userOrganizationProjects
-            ?.map((x) => UserOrganizationProject.fromApiModel(x))
+            ?.map((x) => UserOrganizationProject.fromApiModel(x, app: app))
             .toList());
   }
 

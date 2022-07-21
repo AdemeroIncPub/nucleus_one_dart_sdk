@@ -364,10 +364,7 @@ abstract class UserOrganizationProjectCollectionQueryResult {
     NucleusOneApp? app,
   }) {
     return mod.QueryResult(
-      results: mod.UserOrganizationProjectCollection(
-          items: apiModel.results!.userOrganizationProjects!
-              .map((x) => mod.UserOrganizationProject.fromApiModel(x, app: app))
-              .toList()),
+      results: mod.UserOrganizationProjectCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );

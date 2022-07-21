@@ -55,30 +55,6 @@ class UserOrganization with NucleusOneAppDependent {
   }
 }
 
-/*
-class UserOrganizationCollection with NucleusOneAppDependent {
-  UserOrganizationCollection._({required NucleusOneApp app, required this.items}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
-  }
-
-  factory UserOrganizationCollection.fromApiModel(
-    api_mod.UserOrganizationCollection apiModel, {
-    NucleusOneApp? app,
-  }) {
-    return UserOrganizationCollection._(
-      app: app,
-      items: apiModel.items.map((x) => UserOrganization.fromApiModel(x)).toList(),
-    );
-  }
-
-  List<UserOrganization> items;
-
-  api_mod.UserOrganizationCollection toApiModel() {
-    return api_mod.UserOrganizationCollection()..items = items.map((x) => x.toApiModel()).toList();
-  }
-}
-*/
-
 class UserOrganizationCollection
     extends EntityCollection<UserOrganization, api_mod.UserOrganizationCollection> {
   UserOrganizationCollection({

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../api_model/document.dart' as api_mod;
+import '../api_model/document_signature_form.dart' as api_mod;
 import '../api_model/document_upload.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/signature_form_template.dart' as api_mod;
@@ -9,6 +10,7 @@ import '../common/util.dart';
 import '../http.dart' as http;
 import '../common/string.dart';
 import '../model/document.dart';
+import '../model/document_signature_form.dart';
 import '../model/document_upload.dart';
 import '../model/folder_hierarchies.dart';
 import '../model/form_template.dart';
@@ -271,6 +273,35 @@ class NucleusOneAppProject with NucleusOneAppDependent {
         api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
     return await DefineN1AppInScope(app, () {
       return SignatureFormTemplateFieldCollection.fromApiModel(apiModel);
+    });
+  }
+
+  /// Gets a document signature forms.
+  ///
+  /// [docNameStartsWith]: The value that the document name starts with.
+  ///
+  /// [excludingId]: The id of a signature form to exclude from the results.
+  Future<DocumentSignatureFormCollection> getSignatureForms({
+    String? docNameStartsWith,
+    String? excludingId,
+  }) async {
+    final qp = http.StandardQueryParams.get();
+    if (docNameStartsWith != null) {
+      qp['nameFilter'] = docNameStartsWith;
+    }
+    if (excludingId != null) {
+      qp['excludingId'] = excludingId;
+    }
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat
+          .replaceOrganizationAndProjectPlaceholders(this),
+      app,
+      query: qp,
+    );
+    final apiModel = api_mod.DocumentSignatureFormCollection.fromJson(jsonDecode(responseBody));
+    return await DefineN1AppInScope(app, () {
+      return DocumentSignatureFormCollection.fromApiModel(apiModel);
     });
   }
 

@@ -10,6 +10,7 @@ import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/document.dart';
+import '../api_model/document_signature_form.dart';
 import '../api_model/document_upload.dart';
 import '../api_model/signature_form_template.dart';
 
@@ -21,6 +22,21 @@ void main() {
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Constructor test', () {
+      final org = getStandardN1Org();
+      final project = NucleusOneAppProject(organization: org, id: '123');
+      expect(project.app, org.app);
+      expect(project.id, '123');
+
+      expect(
+          () => NucleusOneAppProject(organization: org, id: ''),
+          throwsA(allOf(
+            isArgumentError,
+            predicate(
+                (ArgumentError e) => (e.name == 'id') && (e.message == 'Value cannot be blank.')),
+          )));
     });
 
     test('getDocumentCount method test', () async {
@@ -234,6 +250,53 @@ void main() {
           'clearExisting=true',
         ],
         expectedRequestBody: signatureFormTemplateFieldCollectionJson,
+      );
+    });
+
+    test('getSignatureForms method tests', () async {
+      Future<void> performTest(
+          Map<Symbol, dynamic> namedParams, List<String> expectedValues) async {
+        final project = getStandardN1Project();
+        final expectedUrlPath = http
+            .apiPaths.organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat
+            .replaceOrganizationAndProjectPlaceholders(project);
+        await performHttpTest<DocumentSignatureFormCollection>(
+          httpMethod: HttpMethods.GET,
+          httpCallCallback: () {
+            return Function.apply(project.getSignatureForms, [], namedParams);
+          },
+          responseBody: documentSignatureFormCollectionJson,
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: expectedValues,
+        );
+      }
+
+      // Test with default parameters
+      await performTest({}, []);
+      // Test with docNameStartsWith parameter
+      await performTest(
+        <Symbol, dynamic>{
+          const Symbol('docNameStartsWith'): '123',
+        },
+        ['nameFilter=123'],
+      );
+      // Test with excludingId parameter
+      await performTest(
+        <Symbol, dynamic>{
+          const Symbol('excludingId'): '234',
+        },
+        ['excludingId=234'],
+      );
+      // Test with both parameters
+      await performTest(
+        <Symbol, dynamic>{
+          const Symbol('docNameStartsWith'): '123',
+          const Symbol('excludingId'): '234',
+        },
+        [
+          'nameFilter=123',
+          'excludingId=234',
+        ],
       );
     });
 
