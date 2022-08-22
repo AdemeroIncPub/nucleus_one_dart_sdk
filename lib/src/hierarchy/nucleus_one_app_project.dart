@@ -77,11 +77,13 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
   /// Gets documents, by page.
   ///
-  /// [sortType]: Which field to sort on.
+  /// [showAll]: Whether to get all documents recursively under this folder path, regardless of their
+  /// depth within the heirarchy.
   ///
-  /// [sortDescending]: Sort order.
+  /// [documentFolderId]: The document's parent folder id.
   ///
-  /// [offset]: The number of initial results to skip.
+  /// [documentGroupId]: The document's group id.  This is only relevant when a document was created
+  /// via a form.
   ///
   /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
   ///
