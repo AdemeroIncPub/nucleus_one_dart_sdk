@@ -301,6 +301,7 @@ abstract class apiPaths {
       '/organizations/<organizationId>/projects/<projectId>/fields/<fieldId>';
   static const organizationsProjectsFieldsFieldListItemsFormat =
       '/organizations/<organizationId>/projects/<projectId>/fields/<fieldId>/listItems';
+  static const organizationsProjectsFormat = '/organizations/<organizationId>/projects';
   static const organizationsProjectsFormTemplatesFormat =
       '/organizations/<organizationId>/projects/<projectId>/formTemplates';
   static const organizationsProjectsSignatureFormTemplatesFormat =

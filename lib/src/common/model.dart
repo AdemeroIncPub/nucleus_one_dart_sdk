@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import '../http.dart' as http;
 import '../model/document.dart' as mod;
-import '../model/document_for_client.dart' as mod;
 import '../model/document_comment.dart' as mod;
 import '../model/document_event.dart' as mod;
 import '../model/task_comment.dart' as mod;
@@ -19,14 +18,15 @@ import '../model/support_user.dart' as mod;
 import '../model/support_organization.dart' as mod;
 import '../model/support_error_event.dart' as mod;
 import '../model/organization_package.dart' as mod;
+import '../model/organization_project.dart' as mod;
 import '../model/query_result.dart' as mod;
 import '../model/user_organization_project.dart' as mod;
 import '../api_model/document.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/organization_package.dart' as api_mod;
+import '../api_model/organization_project.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
-import '../api_model/document_results.dart' as api_mod;
 import '../api_model/field.dart' as api_mod;
 import '../api_model/approval.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
@@ -365,6 +365,20 @@ abstract class UserOrganizationProjectCollectionQueryResult {
   }) {
     return mod.QueryResult(
       results: mod.UserOrganizationProjectCollection.fromApiModel(apiModel.results!, app: app),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class OrganizationProjectCollectionQueryResult {
+  static mod.QueryResult<mod.OrganizationProjectCollection>
+      fromApiModelOrganizationProjectCollection(
+    api_mod.QueryResult<api_mod.OrganizationProjectCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return mod.QueryResult(
+      results: mod.OrganizationProjectCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
