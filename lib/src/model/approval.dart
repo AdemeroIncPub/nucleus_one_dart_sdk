@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/approval.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
@@ -64,7 +63,7 @@ class Approval with NucleusOneAppDependent {
     required this.taskDueOn,
     required this.thumbnailUrl,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory Approval.fromApiModel(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 import '../http.dart' as http;
 import '../model/document.dart' as mod;
 import '../model/document_comment.dart' as mod;
@@ -87,7 +87,7 @@ abstract class EntityCollection<TResult extends NucleusOneAppDependent, TApiMode
     NucleusOneApp? app,
     List<TResult>? items,
   }) : _items = List.unmodifiable(items ?? []) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   final List<TResult> _items;

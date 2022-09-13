@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 
 import '../api_model/field_list_item.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
@@ -19,7 +19,7 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
   NucleusOneAppForms({
     NucleusOneAppProject? project,
   }) {
-    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+    this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
   /// Gets form templates, by page.

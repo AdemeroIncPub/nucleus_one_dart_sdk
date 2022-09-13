@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/document_signature_session_signing_recipient_package.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 import 'document_content_package.dart';
@@ -14,7 +13,7 @@ class DocumentSignatureSessionSigningRecipientPackage with NucleusOneAppDependen
     required this.serverDate,
     required this.contentPackage,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureSessionSigningRecipientPackage.fromApiModel(
@@ -66,7 +65,7 @@ class DocumentSignatureSessionFormFieldPackage with NucleusOneAppDependent {
     required this.formFields,
     required this.completedFormFields,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureSessionFormFieldPackage.fromApiModel(
@@ -156,7 +155,7 @@ class DocumentSignatureSessionRecipientFormField with NucleusOneAppDependent {
     required this.value,
     required this.placementRank,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureSessionRecipientFormField.fromApiModel(
@@ -223,7 +222,7 @@ class DocumentSignatureSessionSigningRecipient with NucleusOneAppDependent {
     required this.email,
     required this.fullName,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureSessionSigningRecipient.fromApiModel(

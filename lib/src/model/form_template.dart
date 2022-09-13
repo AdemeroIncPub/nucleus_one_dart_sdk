@@ -1,7 +1,6 @@
-import 'package:get_it/get_it.dart';
-
 import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/form_template.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
@@ -11,7 +10,7 @@ class FormTemplateCollection extends EntityCollection<FormTemplate, api_mod.Form
     NucleusOneAppProject? project,
     List<FormTemplate>? items,
   }) : super(app: project?.app, items: items) {
-    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+    this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
   factory FormTemplateCollection.fromApiModel(
@@ -46,7 +45,7 @@ class FormTemplate with NucleusOneAppDependent {
     required this.classificationNameLower,
     required this.aspect,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory FormTemplate.fromApiModel(
@@ -167,7 +166,7 @@ mixin FormTemplateFieldMixin {
     NucleusOneApp? app,
   }) {
     model
-      ..app = app ?? GetIt.instance.get<NucleusOneApp>()
+      ..app = app ?? getIt.get<NucleusOneApp>()
       ..id = apiModel.id!
       ..formTemplateID = apiModel.formTemplateID!
       ..formTemplateName = apiModel.formTemplateName!
@@ -230,7 +229,7 @@ class FormTemplateField with NucleusOneAppDependent, FormTemplateFieldMixin {
   FormTemplateField._({
     NucleusOneApp? app,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory FormTemplateField.fromApiModel(
@@ -281,7 +280,7 @@ class FormSubmissionPackage with NucleusOneAppDependent {
     required this.formTemplateID,
     required this.formSubmissionFields,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory FormSubmissionPackage.createNew({
@@ -338,7 +337,7 @@ class FormSubmissionField with NucleusOneAppDependent, FormTemplateFieldMixin {
     NucleusOneApp? app,
     required this.formTemplateFieldID,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory FormSubmissionField.fromFormTemplateField(

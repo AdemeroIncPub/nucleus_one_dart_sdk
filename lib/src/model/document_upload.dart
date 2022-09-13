@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/document_upload.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class DocumentUpload with NucleusOneAppDependent {
@@ -14,7 +13,7 @@ class DocumentUpload with NucleusOneAppDependent {
     required this.classificationID,
     required this.fieldIDsAndValues,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentUpload.fromApiModel(

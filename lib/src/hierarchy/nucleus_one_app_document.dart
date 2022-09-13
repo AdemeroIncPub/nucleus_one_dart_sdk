@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 
 import '../api_model/document_content_package.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
@@ -39,7 +39,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     NucleusOneAppProject? project,
     required this.id,
   }) {
-    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+    this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
   /// Gets subscription to a document.
@@ -507,7 +507,7 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
   NucleusOneAppDocuments({
     NucleusOneAppProject? project,
   }) {
-    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+    this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
   /// Restores one or more documents from the Recycle Bin.

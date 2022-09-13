@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/organization.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class Organization with NucleusOneAppDependent {
@@ -23,7 +22,7 @@ class Organization with NucleusOneAppDependent {
     required this.subscriptionExpiration,
     required this.maxProjects,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory Organization.fromApiModel(

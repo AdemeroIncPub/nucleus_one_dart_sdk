@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/document_package_field.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class DocumentPackageField with NucleusOneAppDependent {
@@ -25,7 +24,7 @@ class DocumentPackageField with NucleusOneAppDependent {
       required this.values,
       required this.useCreationDate,
       required this.textMatchType}) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentPackageField.fromApiModel(

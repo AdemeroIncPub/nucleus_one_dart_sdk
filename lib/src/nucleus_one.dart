@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
-import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 
-final _getIt = GetIt.instance;
+import 'common/get_it.dart';
 
 /// The entry point for accessing Nucleus One.
 abstract class NucleusOne {
@@ -23,7 +22,7 @@ abstract class NucleusOne {
       throw 'The SDK is already initialized.';
     }
 
-    _getIt.registerSingleton<file.FileSystem>(const file.LocalFileSystem());
+    getIt.registerSingleton<file.FileSystem>(const file.LocalFileSystem());
     _sdkInitialized = true;
   }
 
@@ -37,7 +36,7 @@ abstract class NucleusOne {
     if (!_sdkInitialized) {
       return;
     }
-    _getIt.unregister<file.FileSystem>();
+    getIt.unregister<file.FileSystem>();
     _sdkInitialized = false;
   }
 }

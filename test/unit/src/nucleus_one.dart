@@ -1,15 +1,13 @@
 import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
-import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 import 'package:test/test.dart';
 
 import '../../src/assertions.dart';
 import '../../src/common.dart';
 
 void main() {
-  final getIt = GetIt.instance;
-
   group('NucleusOne class tests', () {
     test('intializeSdk & resetSdk methods test', () async {
       expect(getIt.isRegistered<file.FileSystem>(), isFalse);

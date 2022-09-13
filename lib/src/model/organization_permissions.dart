@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/organization_permissions.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class OrganizationPermissions with NucleusOneAppDependent {
@@ -13,7 +12,7 @@ class OrganizationPermissions with NucleusOneAppDependent {
     required this.userEmail,
     required this.isAdmin,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory OrganizationPermissions.fromApiModel(

@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/task_event.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 import '../common/model.dart';
 
@@ -38,7 +37,7 @@ class TaskEvent with NucleusOneAppDependent {
     required this.taskRevision,
     required this.detailJson,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory TaskEvent.fromApiModel(

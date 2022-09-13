@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 
 import '../api_model/user_preferences.dart' as api_mod_ups;
 import '../api_model/user_preference.dart' as api_mod_up;
@@ -19,7 +19,7 @@ class NucleusOneAppUsers with NucleusOneAppDependent {
   NucleusOneAppUsers({
     NucleusOneApp? app,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   /// Updates a User Preference.

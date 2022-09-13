@@ -1,4 +1,4 @@
-import 'package:get_it/get_it.dart';
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../api_model/support_user.dart' as api_mod;
 import '../nucleus_one.dart';
@@ -35,7 +35,7 @@ class SupportUser with NucleusOneAppDependent {
     required this.provider,
     required this.name,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory SupportUser.fromApiModel(

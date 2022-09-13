@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/document.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
@@ -49,7 +48,7 @@ class Document with NucleusOneAppDependent {
     required this.paperMarginTop,
     required this.paperMarginBottom,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory Document.fromApiModel(

@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/task.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 import 'document.dart';
@@ -72,7 +71,7 @@ class Task with NucleusOneAppDependent {
     required this.reminder_3_Day,
     required this.reminder_1_Day,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory Task.fromApiModel(

@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/document_content_package.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class DocumentContentPackage with NucleusOneAppDependent {
@@ -12,7 +11,7 @@ class DocumentContentPackage with NucleusOneAppDependent {
     required this.pageIndex,
     required this.pageCount,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentContentPackage.fromApiModel(

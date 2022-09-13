@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/document_signature_session.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
@@ -35,7 +34,7 @@ class DocumentSignatureSession with NucleusOneAppDependent {
     required this.quickDesignPlaceEmail,
     required this.quickDesignPlaceTitle,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureSession.fromApiModel(
@@ -193,7 +192,7 @@ class DocumentSignatureSessionRecipient with NucleusOneAppDependent {
     required this.completedOn,
     required this.ipAddress,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureSessionRecipient.fromApiModel(
@@ -361,7 +360,7 @@ class DocumentSignatureSessionPackage with NucleusOneAppDependent {
     required this.beginSession,
     required this.resetSession,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureSessionPackage.fromApiModel(

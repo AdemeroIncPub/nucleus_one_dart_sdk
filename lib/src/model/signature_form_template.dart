@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/signature_form_template.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../common/string.dart';
 import '../nucleus_one.dart';
@@ -37,7 +36,7 @@ class SignatureFormTemplate with NucleusOneAppDependent {
     required this.nameLower,
     required this.createdOn,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory SignatureFormTemplate.fromApiModel(
@@ -128,7 +127,7 @@ class SignatureFormTemplateField with NucleusOneAppDependent {
     required this.widthPercent,
     required this.sortRank,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory SignatureFormTemplateField.fromApiModel(

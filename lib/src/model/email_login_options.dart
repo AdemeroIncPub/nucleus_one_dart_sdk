@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/email_login_options.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class EmailLoginOptions with NucleusOneAppDependent {
@@ -9,7 +8,7 @@ class EmailLoginOptions with NucleusOneAppDependent {
     required this.userExists,
     required this.smsNumberLast2,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory EmailLoginOptions.fromApiModel(

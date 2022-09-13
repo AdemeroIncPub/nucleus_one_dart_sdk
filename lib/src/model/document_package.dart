@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/document_package.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 import 'approval.dart';
 import 'document.dart';
@@ -18,7 +17,7 @@ class DocumentPackage with NucleusOneAppDependent {
     this.approval,
     required this.fields,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentPackage.fromApiModel(

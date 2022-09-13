@@ -1,6 +1,6 @@
-import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import '../api_model/query_result.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
@@ -12,7 +12,7 @@ class QueryResult<T extends EntityCollection> with NucleusOneAppDependent {
     required this.cursor,
     required this.pageSize,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   T results;

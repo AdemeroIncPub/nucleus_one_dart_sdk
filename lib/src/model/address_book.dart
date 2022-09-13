@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/address_book.dart' as api_model;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class AddressBook with NucleusOneAppDependent {
@@ -8,7 +7,7 @@ class AddressBook with NucleusOneAppDependent {
     NucleusOneApp? app,
     required this.items,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory AddressBook.fromApiModel(
@@ -40,7 +39,7 @@ class AddressBookItem with NucleusOneAppDependent {
     required this.formTemplateName,
     required this.formTemplateFieldID,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory AddressBookItem.fromApiModel(

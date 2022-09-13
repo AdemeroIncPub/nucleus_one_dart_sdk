@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/selected_twain_device.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class SelectedTwainDevice with NucleusOneAppDependent {
@@ -13,7 +12,7 @@ class SelectedTwainDevice with NucleusOneAppDependent {
     required this.resolution,
     required this.size,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory SelectedTwainDevice.fromApiModel(

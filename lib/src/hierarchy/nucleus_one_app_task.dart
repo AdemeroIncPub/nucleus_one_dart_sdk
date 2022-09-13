@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 
 import '../api_model/query_result.dart' as api_mod;
 import '../common/string.dart';
@@ -20,7 +20,7 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
     NucleusOneAppProject? project,
     required this.id,
   }) {
-    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+    this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
   /// Gets Tasks by id.
@@ -91,7 +91,7 @@ class NucleusOneAppTasks with NucleusOneAppProjectDependent {
   NucleusOneAppTasks({
     NucleusOneAppProject? project,
   }) {
-    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+    this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
   /// Gets all Tasks in this project.

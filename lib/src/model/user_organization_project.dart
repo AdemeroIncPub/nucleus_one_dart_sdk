@@ -1,7 +1,7 @@
-import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
 import '../api_model/user_organization_project.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
@@ -19,7 +19,7 @@ class UserOrganizationProject with NucleusOneAppDependent {
     required this.assignmentTypes,
     required this.hasAssignment,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory UserOrganizationProject.fromApiModel(

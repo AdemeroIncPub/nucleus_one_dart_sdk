@@ -1,11 +1,12 @@
-import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+
+import 'get_it.dart';
 
 /// Defines a [NucleusOneApp] instance in a local scope, such that it may be retrieved using the
 /// following code.
 ///
 /// ```dart
-/// final app = GetIt.instance.get<NucleusOneApp>();
+/// final app = getIt.get<NucleusOneApp>();
 /// ```
 Future<T> DefineN1AppInScope<T>(NucleusOneApp app, T Function() action) async {
   return _DefineObjectInScopeInternal<NucleusOneApp, T>(app, action);
@@ -15,7 +16,7 @@ Future<T> DefineN1AppInScope<T>(NucleusOneApp app, T Function() action) async {
 /// following code.
 ///
 /// ```dart
-/// final app = GetIt.instance.get<NucleusOneApp>();
+/// final app = getIt.get<NucleusOneApp>();
 /// ```
 Future<T> DefineN1AppInScopeAsync<T>(NucleusOneApp app, Future<T> Function() action) async {
   return _DefineObjectInScopeAsyncInternal<NucleusOneApp, T>(app, action);
@@ -25,7 +26,7 @@ Future<T> DefineN1AppInScopeAsync<T>(NucleusOneApp app, Future<T> Function() act
 /// following code.
 ///
 /// ```dart
-/// final app = GetIt.instance.get<NucleusOneAppProject>();
+/// final app = getIt.get<NucleusOneAppProject>();
 /// ```
 Future<T> DefineN1AppAndProjectInScope<T>(NucleusOneAppProject project, T Function() action) async {
   return _DefineObjectInScopeAsyncInternal<NucleusOneAppProject, T>(project, () async {
@@ -37,13 +38,12 @@ Future<T> DefineN1AppAndProjectInScope<T>(NucleusOneAppProject project, T Functi
 /// following code.
 ///
 /// ```dart
-/// final app = GetIt.instance.get<TSingleton>();
+/// final app = getIt.get<TSingleton>();
 /// ```
 Future<TRet> _DefineObjectInScopeInternal<TSingleton extends Object, TRet>(
   TSingleton value,
   TRet Function() action,
 ) async {
-  final getIt = GetIt.I;
   bool scopeCreated = false;
   try {
     getIt.pushNewScope();
@@ -61,7 +61,6 @@ Future<TRet> _DefineObjectInScopeAsyncInternal<TSingleton extends Object, TRet>(
   TSingleton value,
   Future<TRet> Function() action,
 ) async {
-  final getIt = GetIt.I;
   bool scopeCreated = false;
   try {
     getIt.pushNewScope();

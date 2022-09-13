@@ -1,4 +1,4 @@
-import 'package:get_it/get_it.dart';
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../api_model/support_organization.dart' as api_mod;
 import '../nucleus_one.dart';
@@ -41,7 +41,7 @@ class SupportOrganization with NucleusOneAppDependent {
     required this.uniqueNonReadOnlyTenantMembers,
     required this.uniqueReadOnlyTenantMembers,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory SupportOrganization.fromApiModel(

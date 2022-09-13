@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/user_profile.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class UserProfile with NucleusOneAppDependent {
@@ -11,7 +10,7 @@ class UserProfile with NucleusOneAppDependent {
     required this.userName,
     required this.otpsmsNumber,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory UserProfile.fromApiModel(

@@ -1,4 +1,4 @@
-import 'package:get_it/get_it.dart';
+import '../common/get_it.dart';
 import '../common/model.dart';
 
 import '../api_model/subscription_invoice.dart' as api_mod;
@@ -35,7 +35,7 @@ class SubscriptionInvoice with NucleusOneAppDependent {
     required this.status,
     required this.pdfUrl,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory SubscriptionInvoice.fromApiModel(

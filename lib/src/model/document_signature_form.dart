@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/document_signature_form.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
@@ -41,7 +40,7 @@ class DocumentSignatureForm with NucleusOneAppDependent {
     required this.totalFormFields,
     required this.lastViewedPageIndex,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentSignatureForm.fromApiModel(

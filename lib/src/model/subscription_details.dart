@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/subscription_details.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class SubscriptionDetails with NucleusOneAppDependent {
@@ -18,7 +17,7 @@ class SubscriptionDetails with NucleusOneAppDependent {
     required this.freeUsers,
     required this.isExpired,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory SubscriptionDetails.fromApiModel(

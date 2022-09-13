@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/user_preferences.dart' as api_mod;
+import '../common/get_it.dart';
 import 'selected_twain_device.dart';
 import '../nucleus_one.dart';
 
@@ -21,7 +20,7 @@ class UserPreferences with NucleusOneAppDependent {
     required this.selectedTwainDevice,
     required this.disableTwainDeviceSoftware,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory UserPreferences.fromApiModel(

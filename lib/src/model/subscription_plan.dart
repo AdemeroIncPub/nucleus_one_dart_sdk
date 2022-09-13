@@ -1,4 +1,4 @@
-import 'package:get_it/get_it.dart';
+import '../common/get_it.dart';
 import '../common/model.dart';
 
 import '../api_model/subscription_plan.dart' as api_mod;
@@ -55,7 +55,7 @@ class SubscriptionPlan with NucleusOneAppDependent {
     required this.amountPerUnit,
     required this.active,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory SubscriptionPlan.fromApiModel(

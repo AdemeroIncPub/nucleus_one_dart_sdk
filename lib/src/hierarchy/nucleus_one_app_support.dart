@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 import 'package:nucleus_one_dart_sdk/src/model/support_organization.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/support_organization.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/model/support_error_event.dart';
@@ -17,7 +17,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   NucleusOneAppSupport({
     NucleusOneApp? app,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   /// Gets Support Users.

@@ -1,4 +1,4 @@
-import 'package:get_it/get_it.dart';
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../api_model/support_error_event.dart' as api_mod;
 import '../nucleus_one.dart';
@@ -46,7 +46,7 @@ class SupportErrorEvent with NucleusOneAppDependent {
     required this.otherValues,
     required this.wordsLower,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory SupportErrorEvent.fromApiModel(

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 
 import 'api_model/address_book.dart' as api_mod;
 import 'api_model/user_profile.dart' as api_mod;
@@ -14,7 +14,7 @@ class User with NucleusOneAppDependent {
   User({
     NucleusOneApp? app,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   /// Gets all items in the user's address book.

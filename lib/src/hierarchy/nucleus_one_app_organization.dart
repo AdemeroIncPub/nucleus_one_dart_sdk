@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/organization_permissions.dart' as api_mod;
@@ -24,7 +24,7 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     NucleusOneApp? app,
     required this.id,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
 
     if (id.isEmpty) {
       throw ArgumentError.value(id, 'id', 'Value cannot be blank.');

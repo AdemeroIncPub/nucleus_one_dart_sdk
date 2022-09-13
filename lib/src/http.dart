@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 
 import 'common/string.dart';
 import 'nucleus_one.dart';
@@ -86,7 +86,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
   String? body,
   _HttpMethod method,
 ) async {
-  app = app ?? GetIt.instance.get<NucleusOneApp>();
+  app = app ?? getIt.get<NucleusOneApp>();
 
   HttpClientRequest clientReq;
   HttpClient? httpClient;
@@ -239,7 +239,7 @@ Future<void> executePutRequest(
 //   Map<String, dynamic>? query,
 // }) async {
 //   final response = await _executeGetRequestInternal(true, app, apiRelativeUrlPath, query, null);
-//   final fs = GetIt.instance.get<file.FileSystem>();
+//   final fs = getIt.get<file.FileSystem>();
 //   final fileStream = fs.file(destFilePath).openWrite();
 //   await response.pipe(fileStream);
 // }

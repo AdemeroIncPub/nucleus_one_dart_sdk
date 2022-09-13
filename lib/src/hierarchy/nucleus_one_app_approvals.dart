@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:get_it/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 
 import '../api_model/approval.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
@@ -16,7 +16,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
   NucleusOneAppApprovals({
     NucleusOneAppProject? project,
   }) {
-    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+    this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
   /// Declines a document.

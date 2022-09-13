@@ -1,7 +1,6 @@
-import 'package:get_it/get_it.dart';
-
 import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/organization_package.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
@@ -40,7 +39,7 @@ class OrganizationPackage with NucleusOneAppDependent {
     required this.freeUsers,
     required this.isExpired,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory OrganizationPackage.fromApiModel(

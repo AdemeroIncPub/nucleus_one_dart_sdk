@@ -1,7 +1,7 @@
-import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
 import '../api_model/organization_project.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
@@ -48,7 +48,7 @@ class OrganizationProject with NucleusOneAppDependent {
     required this.purgeMarkedByUserName,
     required this.purgeMarkedByUserEmail,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory OrganizationProject.fromApiModel(api_mod.OrganizationProject apiModel) {

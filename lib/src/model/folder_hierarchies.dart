@@ -1,5 +1,5 @@
-import 'package:get_it/get_it.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import '../common/get_it.dart';
 import '../common/model.dart';
 
 import '../api_model/folder_hierarchies.dart' as api_mod;
@@ -12,7 +12,7 @@ class FolderHierarchyCollection
     NucleusOneAppProject? project,
     List<FolderHierarchy>? items,
   }) : super(app: project?.app, items: items) {
-    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+    this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
   factory FolderHierarchyCollection.fromApiModel(
@@ -42,7 +42,7 @@ class FolderHierarchy with NucleusOneAppDependent {
     required this.name,
     required this.nameLower,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory FolderHierarchy.fromApiModel(
@@ -82,7 +82,7 @@ class FolderHierarchyItemCollection
     NucleusOneAppProject? project,
     List<FolderHierarchyItem>? items,
   }) : super(app: project?.app, items: items) {
-    this.project = project ?? GetIt.instance.get<NucleusOneAppProject>();
+    this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
   factory FolderHierarchyItemCollection.fromApiModel(
@@ -117,7 +117,7 @@ class FolderHierarchyItem with NucleusOneAppDependent {
     required this.fieldType,
     required this.fieldValueType,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory FolderHierarchyItem.fromApiModel(

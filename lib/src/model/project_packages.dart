@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/project_packages.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 import 'project.dart';
@@ -33,7 +32,7 @@ class ProjectPackage with NucleusOneAppDependent {
     required this.tenantMember,
     required this.isAdmin,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory ProjectPackage.fromApiModel(

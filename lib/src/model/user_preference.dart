@@ -1,6 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../api_model/user_preference.dart' as api_mod;
+import '../common/get_it.dart';
 import '../nucleus_one.dart';
 
 class UserPreference with NucleusOneAppDependent {
@@ -16,7 +15,7 @@ class UserPreference with NucleusOneAppDependent {
     required this.floatValue,
     required this.mapValue,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory UserPreference.fromApiModel(
