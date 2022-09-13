@@ -61,12 +61,12 @@ Function GetPubDevPackages {
     )
 
     $pubspecYamlText = Get-Content $PubspecYamlFilePath -Raw
-    
+
     # Match just the contents of the "dependencies:" section
     [regex]$r = '(?<=[\r\n]dependencies:[\r\n]+\s+flutter:[\r\n]+\s+sdk: flutter[\r\n]+)(.|[\r\n])+?(?=[\r\n]\w+:)'
     $dependenciesMatch = $r.Match($pubspecYamlText)
-    # Only select uncommented rows with version numbers
-    [regex]$r = '(?<=^|[\r\n]  )(\w+)(?:: +?)([\d.^+]+)'
+    # Only select uncommented rows with version numbers or "any"
+    [regex]$r = '(?<=^|[\r\n]  )(\w+)(?:: +?)(any|[\d.^+]+)'
 
     # Put the package entries into a hash table
     $depDict = @{}
@@ -92,7 +92,7 @@ Function GetPubDevPackageLicense {
 
     $webClient = New-Object Net.WebClient
     $pubDevHtmlContent = $webClient.DownloadString('https://pub.dev/packages/' + $PackageName)
-    
+
     # PowerShell doesn't provide an on-the-rails way to parse HTML, so use regex to "parse" it
     [regex]$r = '(?<=<h3 class="title">License</h3><p\b(.|[\r\n])+?/>)(.+?)(?=\(.+?LICENSE\b)'
     $license = $r.Match($pubDevHtmlContent).Value.Trim()
@@ -114,11 +114,11 @@ Function GetGitHubRepoLicenseViaPubDev {
 
     $webClient = New-Object Net.WebClient
     $pubDevHtmlContent = $webClient.DownloadString('https://pub.dev/packages/' + $PackageName)
-    
+
     # PowerShell doesn't provide an on-the-rails way to parse HTML, so use regex to "parse" it
     [regex]$r = '(?:<h3 [^>]+>Metadata.+<a\b.+?href=")([^"]+)(?:.+?Repository \(GitHub\))'
     $match = $r.Match($pubDevHtmlContent)
-    
+
     if ($match.Success) {
         return GetGitHubRepoLicense $match.Groups[1].Value.Trim()
     } else {
@@ -132,7 +132,7 @@ Function GetGitHubRepoLicense {
     $repoUrlParts = $RepoUrl.Split('/')
     $repoOwner = $repoUrlParts[3]
     $repoName = $repoUrlParts[4]
-    
+
     # Use the GitHub API to get the license info for this package
     $jsonDataRaw = Invoke-WebRequest -Uri "https://api.github.com/repos/${repoOwner}/${repoName}"
     $jsonData = ConvertFrom-Json $jsonDataRaw.content
@@ -158,20 +158,20 @@ Function Default {
         $packageName = $null
         $depDict = GetPubDevPackages -PubspecYamlFilePath $pubspecYamlFilePath -PackageNameOut ([ref]$packageName)
         $errorMessages = "`r`nLibrary: ${packageName}"
-            
+
         if ($OutputList -eq $true) {
             Write-Output "Library ""${packageName}"":"
         }
-            
+
         foreach ($depKvp in $depDict.GetEnumerator()) {
             $license = GetPubDevPackageLicense -PackageName $depKvp.Name
-    
+
             # GPL and LGPL license are not to be used by our libraries for legal reasons
             if ($license.Contains('GPL') -Or $license.Contains('General Public License')) {
                 $invalidPackageFound = $true
                 $errorMessages += "`r`n- Package ""$($depKvp.Name)"" uses unacceptable license ""${license}""`r`n"
             }
-                
+
             if ($OutputList -eq $true) {
                 Write-Output "$($depKvp.Name)	${license}"
             }
