@@ -1,11 +1,13 @@
 import 'package:get_it/get_it.dart';
+import 'package:meta/meta.dart';
 
 import '../api_model/user_organization_project.dart' as api_mod;
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
 class UserOrganizationProject with NucleusOneAppDependent {
-  UserOrganizationProject._({
+  @visibleForTesting
+  UserOrganizationProject({
     NucleusOneApp? app,
     required this.userEmail,
     required this.organizationID,
@@ -24,7 +26,7 @@ class UserOrganizationProject with NucleusOneAppDependent {
     api_mod.UserOrganizationProject apiModel, {
     NucleusOneApp? app,
   }) {
-    return UserOrganizationProject._(
+    return UserOrganizationProject(
       app: app,
       userEmail: apiModel.userEmail!,
       organizationID: apiModel.organizationID!,

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:meta/meta.dart';
 
 import '../api_model/organization_project.dart' as api_mod;
 import '../common/model.dart';
@@ -28,7 +29,8 @@ class OrganizationProjectCollection
 }
 
 class OrganizationProject with NucleusOneAppDependent {
-  OrganizationProject._({
+  @visibleForTesting
+  OrganizationProject({
     NucleusOneApp? app,
     required this.id,
     required this.organizationID,
@@ -50,7 +52,7 @@ class OrganizationProject with NucleusOneAppDependent {
   }
 
   factory OrganizationProject.fromApiModel(api_mod.OrganizationProject apiModel) {
-    return OrganizationProject._(
+    return OrganizationProject(
         id: apiModel.id!,
         organizationID: apiModel.organizationID!,
         accessType: apiModel.accessType!,

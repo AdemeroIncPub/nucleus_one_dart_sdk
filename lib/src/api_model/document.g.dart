@@ -47,10 +47,10 @@ Document _$DocumentFromJson(Map<String, dynamic> json) => Document()
   ..revision = json['Revision'] as int?
   ..paperSize = json['PaperSize'] as String?
   ..paperOrientation = json['PaperOrientation'] as String?
-  ..paperMarginLeft = json['PaperMarginLeft'] as int?
-  ..paperMarginRight = json['PaperMarginRight'] as int?
-  ..paperMarginTop = json['PaperMarginTop'] as int?
-  ..paperMarginBottom = json['PaperMarginBottom'] as int?;
+  ..paperMarginLeft = (json['PaperMarginLeft'] as num?)?.toDouble()
+  ..paperMarginRight = (json['PaperMarginRight'] as num?)?.toDouble()
+  ..paperMarginTop = (json['PaperMarginTop'] as num?)?.toDouble()
+  ..paperMarginBottom = (json['PaperMarginBottom'] as num?)?.toDouble();
 
 Map<String, dynamic> _$DocumentToJson(Document instance) {
   final val = <String, dynamic>{};

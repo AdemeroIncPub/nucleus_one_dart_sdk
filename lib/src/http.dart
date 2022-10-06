@@ -89,40 +89,47 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
   app = app ?? GetIt.instance.get<NucleusOneApp>();
 
   HttpClientRequest clientReq;
+  HttpClient? httpClient;
+  late HttpClientResponse resp;
 
-  {
-    final qpAsString = ((qp == null) || qp.isEmpty) ? '' : '?' + getQueryParamsString(qp);
-    final fullUrl = app.getFullUrl(apiRelativeUrlPath) + qpAsString;
-    final parsedUri = Uri.parse(fullUrl);
-    final httpClient = getStandardHttpClient();
+  try {
+    httpClient = getStandardHttpClient();
 
-    switch (method) {
-      case _HttpMethod.delete:
-        clientReq = await httpClient.deleteUrl(parsedUri);
-        break;
-      case _HttpMethod.get:
-        clientReq = await httpClient.getUrl(parsedUri);
-        break;
-      case _HttpMethod.post:
-        clientReq = await httpClient.postUrl(parsedUri);
-        break;
-      case _HttpMethod.put:
-        clientReq = await httpClient.putUrl(parsedUri);
-        break;
+    {
+      final qpAsString = ((qp == null) || qp.isEmpty) ? '' : '?' + getQueryParamsString(qp);
+      final fullUrl = app.getFullUrl(apiRelativeUrlPath) + qpAsString;
+      final parsedUri = Uri.parse(fullUrl);
+
+      switch (method) {
+        case _HttpMethod.delete:
+          clientReq = await httpClient.deleteUrl(parsedUri);
+          break;
+        case _HttpMethod.get:
+          clientReq = await httpClient.getUrl(parsedUri);
+          break;
+        case _HttpMethod.post:
+          clientReq = await httpClient.postUrl(parsedUri);
+          break;
+        case _HttpMethod.put:
+          clientReq = await httpClient.putUrl(parsedUri);
+          break;
+      }
     }
-  }
 
-  if (authenticated) {
-    setAuthenticatedRequestHeaders(clientReq, app);
-  } else {
-    setRequestHeadersCommon(clientReq);
-  }
+    if (authenticated) {
+      setAuthenticatedRequestHeaders(clientReq, app);
+    } else {
+      setRequestHeadersCommon(clientReq);
+    }
 
-  if (isNotEmpty(body)) {
-    clientReq.write(body);
-  }
+    if (isNotEmpty(body)) {
+      clientReq.write(body);
+    }
 
-  final resp = await clientReq.close();
+    resp = await clientReq.close();
+  } finally {
+    httpClient?.close();
+  }
 
   if (resp.statusCode != HttpStatus.ok) {
     final respBody = await resp.transform(utf8.decoder).join();

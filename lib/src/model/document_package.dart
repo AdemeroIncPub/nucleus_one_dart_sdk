@@ -15,7 +15,7 @@ class DocumentPackage with NucleusOneAppDependent {
     required this.projectAccessType,
     required this.document,
     required this.documentSubscription,
-    required this.approval,
+    this.approval,
     required this.fields,
   }) {
     this.app = app ?? GetIt.instance.get<NucleusOneApp>();
@@ -25,13 +25,15 @@ class DocumentPackage with NucleusOneAppDependent {
     api_mod.DocumentPackage apiModel, {
     NucleusOneApp? app,
   }) {
+    final approval =
+        (apiModel.approval == null) ? null : Approval.fromApiModel(apiModel.approval!, app: app);
     return DocumentPackage._(
       projectMember: ProjectMember.fromApiModel(apiModel.projectMember!),
       projectAccessType: apiModel.projectAccessType!,
       document: Document.fromApiModel(apiModel.document!, app: app),
       documentSubscription:
           DocumentSubscriptionForClient.fromApiModel(apiModel.documentSubscription!),
-      approval: Approval.fromApiModel(apiModel.approval!, app: app),
+      approval: approval,
       fields: apiModel.fields!.map((x) => DocumentPackageField.fromApiModel(x, app: app)).toList(),
     );
   }

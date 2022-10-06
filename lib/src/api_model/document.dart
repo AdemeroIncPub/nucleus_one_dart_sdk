@@ -127,16 +127,16 @@ class Document extends Entity {
   String? paperOrientation;
 
   @JsonKey(name: 'PaperMarginLeft')
-  int? paperMarginLeft;
+  double? paperMarginLeft;
 
   @JsonKey(name: 'PaperMarginRight')
-  int? paperMarginRight;
+  double? paperMarginRight;
 
   @JsonKey(name: 'PaperMarginTop')
-  int? paperMarginTop;
+  double? paperMarginTop;
 
   @JsonKey(name: 'PaperMarginBottom')
-  int? paperMarginBottom;
+  double? paperMarginBottom;
 
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization

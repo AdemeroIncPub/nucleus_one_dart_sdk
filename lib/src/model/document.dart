@@ -66,7 +66,7 @@ class Document with NucleusOneAppDependent {
       documentID: apiModel.documentID!,
       documentFolderID: apiModel.documentFolderID!,
       documentFolderPath: apiModel.documentFolderPath!,
-      assignmentUserEmails: apiModel.assignmentUserEmails!,
+      assignmentUserEmails: apiModel.assignmentUserEmails ?? [],
       groupID: apiModel.groupID!,
       createdOn: apiModel.createdOn!,
       createdByUserEmail: apiModel.createdByUserEmail!,
@@ -176,13 +176,13 @@ class Document with NucleusOneAppDependent {
 
   String paperOrientation;
 
-  int paperMarginLeft;
+  double paperMarginLeft;
 
-  int paperMarginRight;
+  double paperMarginRight;
 
-  int paperMarginTop;
+  double paperMarginTop;
 
-  int paperMarginBottom;
+  double paperMarginBottom;
 
   api_mod.Document toApiModel() {
     return api_mod.Document()

@@ -74,7 +74,6 @@ class NucleusOneApp {
   final NucleusOneOptions options;
   final String _baseUrlWithApi;
 
-  @visibleForTesting
   NucleusOneApp({
     required this.options,
   }) : _baseUrlWithApi = options.apiBaseUrl + apiBaseUrlPath;

@@ -1,11 +1,13 @@
 import 'package:get_it/get_it.dart';
+import 'package:meta/meta.dart';
 
 import '../api_model/user_organization.dart' as api_mod;
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
 class UserOrganization with NucleusOneAppDependent {
-  UserOrganization._({
+  @visibleForTesting
+  UserOrganization({
     NucleusOneApp? app,
     required this.userEmail,
     required this.organizationID,
@@ -21,7 +23,7 @@ class UserOrganization with NucleusOneAppDependent {
     api_mod.UserOrganization apiModel, {
     NucleusOneApp? app,
   }) {
-    return UserOrganization._(
+    return UserOrganization(
       app: app,
       userEmail: apiModel.userEmail!,
       organizationID: apiModel.organizationID!,

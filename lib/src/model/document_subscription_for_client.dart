@@ -37,10 +37,10 @@ class DocumentSubscriptionForClient with NucleusOneAppDependent {
       documentName: apiModel.documentName!,
       documentPageCount: apiModel.documentPageCount!,
       documentFileSize: apiModel.documentFileSize!,
-      documentClassificationID: apiModel.documentClassificationID!,
-      documentClassificationName: apiModel.documentClassificationName!,
+      documentClassificationID: apiModel.documentClassificationID ?? '',
+      documentClassificationName: apiModel.documentClassificationName ?? '',
       documentPreviewMetadata:
-          apiModel.documentPreviewMetadata!.map((x) => Map<String, String>.from(x)).toList(),
+          (apiModel.documentPreviewMetadata ?? []).map((x) => Map<String, String>.from(x)).toList(),
       documentIsSigned: apiModel.documentIsSigned!,
     );
   }
