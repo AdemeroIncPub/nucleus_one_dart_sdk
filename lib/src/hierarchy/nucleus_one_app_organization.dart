@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
-
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/organization_permissions.dart' as api_mod;
 import '../api_model/organization_project.dart' as api_mod;
 import '../api_model/subscription_details.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/string.dart';
 import '../common/util.dart';
 import '../http.dart' as http;

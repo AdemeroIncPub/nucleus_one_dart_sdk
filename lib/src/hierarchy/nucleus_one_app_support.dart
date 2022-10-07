@@ -1,17 +1,17 @@
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
-import 'package:nucleus_one_dart_sdk/src/model/support_organization.dart';
-import 'package:nucleus_one_dart_sdk/src/api_model/support_organization.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/model/support_error_event.dart';
-import 'package:nucleus_one_dart_sdk/src/api_model/support_error_event.dart' as api_mod;
-import '../api_model/query_result.dart' as api_mod;
-import '../common/util.dart';
-import '../nucleus_one.dart';
-import '../model/support_user.dart';
-import '../http.dart' as http;
-import '../api_model/support_user.dart' as api_mod;
 import '../../nucleus_one_dart_sdk.dart';
+import '../api_model/query_result.dart' as api_mod;
+import '../api_model/support_error_event.dart' as api_mod;
+import '../api_model/support_organization.dart' as api_mod;
+import '../api_model/support_user.dart' as api_mod;
+import '../common/get_it.dart';
+import '../common/util.dart';
+import '../http.dart' as http;
+import '../model/support_error_event.dart';
+import '../model/support_organization.dart';
+import '../model/support_user.dart';
+import '../nucleus_one.dart';
 
 class NucleusOneAppSupport with NucleusOneAppDependent {
   NucleusOneAppSupport({

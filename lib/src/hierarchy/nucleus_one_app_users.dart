@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
-
 import '../api_model/user_preferences.dart' as api_mod_ups;
 import '../api_model/user_preference.dart' as api_mod_up;
 import '../api_model/user_organization.dart' as api_mod_uo;
 import '../api_model/user_organization_project.dart' as api_mod_uop;
+import '../common/get_it.dart';
 import '../common/string.dart';
 import '../common/util.dart';
 import '../http.dart' as http;

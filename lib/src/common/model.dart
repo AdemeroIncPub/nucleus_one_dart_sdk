@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 import '../http.dart' as http;
 import '../model/document.dart' as mod;
 import '../model/document_comment.dart' as mod;
@@ -42,6 +41,7 @@ import '../api_model/support_organization.dart' as api_mod;
 import '../api_model/support_error_event.dart' as api_mod;
 
 import '../nucleus_one.dart';
+import 'get_it.dart';
 
 abstract class IApiModelPagingCursor {
   abstract String? cursor;

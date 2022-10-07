@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:meta/meta.dart';
-import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 
+import 'common/get_it.dart';
 import 'common/string.dart';
 import 'nucleus_one.dart';
 

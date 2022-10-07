@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
 import '../api_model/document_folder.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
@@ -32,7 +33,7 @@ class DocumentFolder with NucleusOneAppDependent {
     required this.assignmentUserEmails,
     required this.hexColor,
   }) {
-    this.app = app ?? GetIt.instance.get<NucleusOneApp>();
+    this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
   factory DocumentFolder.fromApiModel(

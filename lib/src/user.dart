@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
-
 import 'api_model/address_book.dart' as api_mod;
 import 'api_model/user_profile.dart' as api_mod;
+import 'common/get_it.dart';
 import 'common/string.dart';
 import 'http.dart' as http;
 import 'model/address_book.dart' as mod;

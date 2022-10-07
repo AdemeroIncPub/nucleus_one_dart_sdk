@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
-
 import '../api_model/document_content_package.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
@@ -13,6 +11,7 @@ import '../api_model/document_signature_session.dart' as api_mod;
 import '../api_model/document_signature_session_signing_recipient_package.dart' as api_mod;
 import '../api_model/document_subscription_for_client.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
+import '../common/get_it.dart';
 import '../common/model.dart';
 import '../common/string.dart';
 import '../common/util.dart';
