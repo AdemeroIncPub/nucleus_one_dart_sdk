@@ -2,8 +2,6 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
-import 'package:nucleus_one_dart_sdk/src/model/user_organization.dart';
-import 'package:nucleus_one_dart_sdk/src/model/user_organization_project.dart';
 import 'package:test/test.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/user_preference.dart' as api_mod;
 

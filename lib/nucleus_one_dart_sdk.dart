@@ -13,6 +13,7 @@ export 'src/http.dart' show HttpException;
 export 'src/model/project.dart';
 export 'src/model/project_packages.dart';
 export 'src/model/address_book.dart';
+export 'src/model/document_folder.dart';
 export 'src/model/document_for_client.dart';
 export 'src/model/document_comment.dart';
 export 'src/model/document_content_package.dart';

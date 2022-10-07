@@ -274,6 +274,10 @@ abstract class apiPaths {
       '/organizations/<organizationId>/projects/<projectId>/documentActions/sendToRecycleBin';
   static const organizationsProjectsDocumentContentPackagesFormat =
       '/organizations/<organizationId>/projects/<projectId>/documentContentPackages/<documentId>';
+  static const organizationsProjectsDocumentFoldersFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documentFolders';
+  static const organizationsProjectsDocumentFoldersDocumentFolderFormat =
+      '/organizations/<organizationId>/projects/<projectId>/documentFolders/<documentFolderId>';
   static const organizationsProjectsDocumentPackagesFormat =
       '/organizations/<organizationId>/projects/<projectId>/documentPackages/<documentId>';
   static const organizationsProjectsDocumentSubscriptionsFormat =

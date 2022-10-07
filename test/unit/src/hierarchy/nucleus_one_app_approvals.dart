@@ -18,8 +18,8 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('get method tests', () async {
-      final project = getStandardN1Project();
+    test('getApprovals method tests', () async {
+      var project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalsFormat
           .replaceOrganizationAndProjectPlaceholders(project);
 
@@ -37,6 +37,26 @@ void main() {
         expectedRequestQueryParams: [
           'processElementID=A',
           'sortDescending=false',
+          'processID=B',
+          'sortType=C',
+        ],
+      );
+
+      project = getStandardN1Project();
+      // Test with cursor and optional arguments
+      await performHttpTest<QueryResult<ApprovalCollection>>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => NucleusOneAppApprovals(project: project).getApprovals(
+          processElementId: 'A',
+          sortDescending: true,
+          processId: 'B',
+          sortType: 'C',
+        ),
+        responseBody: approvalCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'processElementID=A',
+          'sortDescending=true',
           'processID=B',
           'sortType=C',
         ],

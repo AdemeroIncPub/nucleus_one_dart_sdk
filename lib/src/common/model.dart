@@ -6,6 +6,7 @@ import '../http.dart' as http;
 import '../model/document.dart' as mod;
 import '../model/document_comment.dart' as mod;
 import '../model/document_event.dart' as mod;
+import '../model/document_folder.dart' as mod;
 import '../model/task_comment.dart' as mod;
 import '../model/task_event.dart' as mod;
 import '../model/field.dart' as mod;
@@ -23,6 +24,7 @@ import '../model/query_result.dart' as mod;
 import '../model/user_organization_project.dart' as mod;
 import '../api_model/document.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
+import '../api_model/document_folder.dart' as api_mod;
 import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/organization_project.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
@@ -215,6 +217,19 @@ abstract class FieldCollectionQueryResult {
   }) {
     return mod.QueryResult(
       results: mod.FieldCollection.fromApiModel(apiModel.results!, app: app),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class DocumentFolderCollectionQueryResult {
+  static mod.QueryResult<mod.DocumentFolderCollection> fromApiModelDocumentFolderCollection(
+    api_mod.QueryResult<api_mod.DocumentFolderCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return mod.QueryResult(
+      results: mod.DocumentFolderCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );

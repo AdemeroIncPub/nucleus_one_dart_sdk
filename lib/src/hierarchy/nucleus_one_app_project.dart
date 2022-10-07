@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../api_model/document.dart' as api_mod;
+import '../api_model/document_folder.dart' as api_mod;
 import '../api_model/document_signature_form.dart' as api_mod;
 import '../api_model/document_upload.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
@@ -10,6 +11,7 @@ import '../common/util.dart';
 import '../http.dart' as http;
 import '../common/string.dart';
 import '../model/document.dart';
+import '../model/document_folder.dart';
 import '../model/document_signature_form.dart';
 import '../model/document_upload.dart';
 import '../model/folder_hierarchies.dart';
@@ -152,6 +154,53 @@ class NucleusOneAppProject with NucleusOneAppDependent {
       query: qp,
     );
     return int.parse(responseBody);
+  }
+
+  /// Gets folders for the current project.  Only one folder hierarchy level is returned per call.
+  Future<QueryResult<DocumentFolderCollection>> getDocumentFolders({
+    String? parentId,
+    String? cursor,
+  }) async {
+    final qp = http.StandardQueryParams.get([
+      (sqp) => sqp.cursor(cursor),
+    ]);
+    if (parentId != null) {
+      qp['parentId'] = parentId;
+    }
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.organizationsProjectsDocumentFoldersFormat
+          .replaceOrganizationAndProjectPlaceholders(this),
+      app,
+      query: qp,
+    );
+    final apiModel =
+        api_mod.QueryResult<api_mod.DocumentFolderCollection>.fromJson(jsonDecode(responseBody));
+
+    return await DefineN1AppInScope(app, () {
+      return DocumentFolderCollectionQueryResult.fromApiModelDocumentFolderCollection(apiModel);
+    });
+  }
+
+  /// Gets a folder in the current project.
+  Future<DocumentFolder> getDocumentFolder({
+    required String documentFolderId,
+  }) async {
+    final qp = http.StandardQueryParams.get();
+    qp['documentFolderId'] = documentFolderId;
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.organizationsProjectsDocumentFoldersDocumentFolderFormat
+          .replaceOrganizationAndProjectPlaceholders(this)
+          .replaceDocumentFolderIdPlaceholder(documentFolderId),
+      app,
+      query: qp,
+    );
+    final apiModel = api_mod.DocumentFolder.fromJson(jsonDecode(responseBody));
+
+    return await DefineN1AppInScope(app, () {
+      return DocumentFolder.fromApiModel(apiModel);
+    });
   }
 
   /// Gets the page count.

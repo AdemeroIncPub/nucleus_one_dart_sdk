@@ -10,6 +10,7 @@ import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/document.dart';
+import '../api_model/document_folder.dart';
 import '../api_model/document_signature_form.dart';
 import '../api_model/document_upload.dart';
 import '../api_model/signature_form_template.dart';
@@ -54,6 +55,56 @@ void main() {
         additionalValidationsCallback: (x) {
           expect(x, 1);
         },
+      );
+    });
+
+    test('getDocumentFolders method tests', () async {
+      var project = getStandardN1Project();
+      final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentFoldersFormat
+          .replaceOrganizationAndProjectPlaceholders(project);
+
+      // Test with default parameters
+      await performHttpTest<QueryResult<DocumentFolderCollection>>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => project.getDocumentFolders(),
+        responseBody: documentFolderCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+
+      project = getStandardN1Project();
+      // Test with cursor and optional arguments
+      await performHttpTest<QueryResult<DocumentFolderCollection>>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => project.getDocumentFolders(
+          parentId: 'B',
+          cursor: 'A',
+        ),
+        responseBody: documentFolderCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'cursor=A',
+          'parentId=B',
+        ],
+      );
+    });
+
+    test('getDocumentFolder method tests', () async {
+      var project = getStandardN1Project();
+      final documentFolderId = '123';
+      final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentFoldersDocumentFolderFormat
+          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceDocumentFolderIdPlaceholder(documentFolderId);
+
+      // Test with default parameters
+      await performHttpTest<DocumentFolder>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => project.getDocumentFolder(documentFolderId: documentFolderId),
+        responseBody: documentFolderJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'documentFolderId=123',
+        ],
       );
     });
 

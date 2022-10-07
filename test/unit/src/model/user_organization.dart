@@ -5,7 +5,6 @@ import 'package:test/test.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/user_organization.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/util.dart';
-import 'package:nucleus_one_dart_sdk/src/model/user_organization.dart';
 
 import '../../../src/common.dart';
 import '../api_model/user_organization.dart';

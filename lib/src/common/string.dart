@@ -22,6 +22,10 @@ extension CommonFormatting on String {
     return replaceFirst('<documentId>', documentId);
   }
 
+  String replaceDocumentFolderIdPlaceholder(String documentFolderId) {
+    return replaceFirst('<documentFolderId>', documentFolderId);
+  }
+
   String replaceDocumentSignatureFormIdPlaceholder(String signatureFormId) {
     return replaceFirst('<documentSignatureFormId>', signatureFormId);
   }
