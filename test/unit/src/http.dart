@@ -17,7 +17,7 @@ void main() {
 
   test('setRequestHeadersCommon method Tests', () async {
     late MockHttpHeaders headers;
-    await createMockHttpClientScopeForGetRequest(
+    await createStandardMockHttpClientScopeForAllRequests(
       additionalMockSetup: (client, requestLocal, response) {
         setRequestHeadersCommon(requestLocal);
         headers = requestLocal.headers as MockHttpHeaders;
@@ -26,6 +26,7 @@ void main() {
         // This is an arbitrary http call to trigger HTTP request execution
         await HttpClient().getUrl(Uri.parse('https://google.com'));
       },
+      requestHttpMethod: HttpMethods.GET,
       responseBody: '',
     );
 
@@ -40,7 +41,7 @@ void main() {
 
   test('setAuthenticatedRequestHeaders method Tests', () async {
     MockHttpHeaders? headers;
-    await createMockHttpClientScopeForGetRequest(
+    await createStandardMockHttpClientScopeForAllRequests(
       additionalMockSetup: (client, requestLocal, response) {
         final n1App = getStandardN1App();
         setAuthenticatedRequestHeaders(requestLocal, n1App);
@@ -50,6 +51,7 @@ void main() {
         // This is an arbitrary http call to trigger HTTP request execution
         await HttpClient().getUrl(Uri.parse('https://google.com'));
       },
+      requestHttpMethod: HttpMethods.GET,
       responseBody: '',
     );
 
@@ -57,7 +59,7 @@ void main() {
     expect(headers!.headers['Authorization'], ['Bearer ']);
 
     headers = null;
-    await createMockHttpClientScopeForGetRequest(
+    await createStandardMockHttpClientScopeForAllRequests(
       additionalMockSetup: (client, requestLocal, response) {
         final n1App = getStandardN1App(apiKey: '123');
         setAuthenticatedRequestHeaders(requestLocal, n1App);
@@ -67,6 +69,7 @@ void main() {
         // This is an arbitrary http call to trigger HTTP request execution
         await HttpClient().getUrl(Uri.parse('https://google.com'));
       },
+      requestHttpMethod: HttpMethods.GET,
       responseBody: '',
     );
 
@@ -117,7 +120,7 @@ void main() {
 
         late HttpClientOperationResult opResult;
         try {
-          opResult = await createMockHttpClientScopeForGetRequest(
+          opResult = await createStandardMockHttpClientScopeForAllRequests(
             additionalMockSetup: (client, requestLocal, response) {
               headers = requestLocal.headers as MockHttpHeaders;
             },
@@ -131,6 +134,7 @@ void main() {
                 authenticated: reqAuthenticated,
               );
             },
+            requestHttpMethod: HttpMethods.GET,
             responseBody: '123',
             responseHttpStatus: responseHttpStatus,
           );
@@ -162,10 +166,11 @@ void main() {
 
     test('_executeStandardHttpRequest method handles null app and context app tests', () async {
       testAssertionErrorAsync(
-        () async => await createMockHttpClientScopeForDeleteRequest(
+        () async => await createStandardMockHttpClientScopeForAllRequests(
           callback: () async {
             await executeDeleteRequest('', app: null, query: {});
           },
+          requestHttpMethod: HttpMethods.DELETE,
           responseBody: '123',
         ),
         'instanceFactory != null',
@@ -173,10 +178,11 @@ void main() {
 
       testValidAssertionAsync(() async {
         await DefineN1AppInScopeAsync(getStandardN1App(), () async {
-          await createMockHttpClientScopeForDeleteRequest(
+          await createStandardMockHttpClientScopeForAllRequests(
             callback: () async {
               await executeDeleteRequest('', app: null, query: {});
             },
+            requestHttpMethod: HttpMethods.DELETE,
             responseBody: '123',
           );
         });
@@ -184,7 +190,7 @@ void main() {
     });
 
     test('executeDeleteRequest method Tests', () async {
-      final opResult = await createMockHttpClientScopeForDeleteRequest(
+      final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
           await executeDeleteRequest(
             '',
@@ -192,6 +198,7 @@ void main() {
             query: {},
           );
         },
+        requestHttpMethod: HttpMethods.DELETE,
         responseBody: '123',
       );
 
@@ -199,7 +206,7 @@ void main() {
     });
 
     test('executePostRequest method Tests', () async {
-      final opResult = await createMockHttpClientScopeForPostRequest(
+      final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
           await executePostRequest(
             '',
@@ -207,6 +214,7 @@ void main() {
             query: {},
           );
         },
+        requestHttpMethod: HttpMethods.POST,
         responseBody: '123',
       );
 
@@ -215,7 +223,7 @@ void main() {
 
     test('executePostRequestWithTextResponse method Tests', () async {
       late String responseText;
-      final opResult = await createMockHttpClientScopeForPostRequest(
+      final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
           responseText = await executePostRequestWithTextResponse(
             '',
@@ -223,6 +231,7 @@ void main() {
             query: {},
           );
         },
+        requestHttpMethod: HttpMethods.POST,
         responseBody: '123',
       );
 
@@ -231,7 +240,7 @@ void main() {
     });
 
     test('executePutRequest method Tests', () async {
-      final opResult = await createMockHttpClientScopeForPutRequest(
+      final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
           await executePutRequest(
             '',
@@ -239,6 +248,7 @@ void main() {
             query: {},
           );
         },
+        requestHttpMethod: HttpMethods.PUT,
         responseBody: '123',
       );
 
@@ -247,7 +257,7 @@ void main() {
 
     test('executePutRequestWithTextResponse method Tests', () async {
       late String responseText;
-      final opResult = await createMockHttpClientScopeForPutRequest(
+      final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
           responseText = await executePutRequestWithTextResponse(
             '',
@@ -255,6 +265,7 @@ void main() {
             query: {},
           );
         },
+        requestHttpMethod: HttpMethods.PUT,
         responseBody: '123',
       );
 

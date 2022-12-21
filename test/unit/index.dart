@@ -50,6 +50,7 @@ import 'src/api_model/user_preferences.dart' as api_mod__user_preferences;
 import 'src/api_model/user_profile.dart' as api_mod__user_profile;
 import 'src/common/api_model.dart' as common__api_model;
 import 'src/common/string.dart' as common__string;
+import 'src/common/util.dart' as common__util;
 import 'src/common/validation.dart' as common__validation;
 import 'src/hierarchy/nucleus_one_app_approvals.dart' as hierarchy__nucleus_one_app_approvals;
 import 'src/hierarchy/nucleus_one_app_document.dart' as hierarchy__nucleus_one_app_document;
@@ -60,7 +61,7 @@ import 'src/hierarchy/nucleus_one_app_subscriptions.dart'
     as hierarchy__nucleus_one_app_subscriptions;
 import 'src/hierarchy/nucleus_one_app_support.dart' as hierarchy__nucleus_one_app_support;
 import 'src/hierarchy/nucleus_one_app_task.dart' as hierarchy__nucleus_one_app_task;
-import 'src/hierarchy/nucleus_one_app_users.dart' as hierarchy__nucleus_one_app_users;
+import 'src/hierarchy/nucleus_one_app_user.dart' as hierarchy__nucleus_one_app_users;
 import 'src/http.dart' as http;
 import 'src/model/_common.dart' as mod___common;
 import 'src/model/address_book.dart' as mod__address_book;
@@ -236,5 +237,6 @@ void _hierarchyTests() {
 void _commonTests() {
   common__api_model.main();
   common__string.main();
+  common__util.main();
   common__validation.main();
 }

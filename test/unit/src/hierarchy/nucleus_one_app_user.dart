@@ -12,7 +12,7 @@ import '../api_model/user_organization.dart';
 import '../api_model/user_organization_project.dart';
 import '../api_model/user_preferences.dart';
 
-final up = api_mod.UserPreference()
+final _up = api_mod.UserPreference()
   ..id = 'A'
   ..userID = 'B'
   ..userName = 'C'
@@ -22,6 +22,8 @@ final up = api_mod.UserPreference()
   ..intValue = 0
   ..floatValue = 1
   ..mapValue = 'F';
+const _expectedUserPrefJson =
+    r'{"ID":"A","UserID":"B","UserName":"C","UserEmail":"D","StringValue":"E","BoolValue":false,"IntValue":0,"FloatValue":1.0}';
 
 void main() {
   group('NucleusOneAppProject class tests', () {
@@ -39,7 +41,7 @@ void main() {
       // Test with default parameters
       await performHttpTest<UserOrganizationCollection>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppUsers(app: n1App).getOrganizations(),
+        httpCallCallback: () => NucleusOneAppUser(app: n1App).getOrganizations(),
         responseBody: userOrganizationCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
@@ -53,7 +55,7 @@ void main() {
       // Test with default parameters
       await performHttpTest<UserOrganizationProjectCollection>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppUsers(app: n1App).getProjects(organizationId: '123'),
+        httpCallCallback: () => NucleusOneAppUser(app: n1App).getProjects(organizationId: '123'),
         responseBody: userOrganizationProjectCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
@@ -68,7 +70,8 @@ void main() {
         return await performHttpTest<void>(
           httpMethod: HttpMethods.PUT,
           httpCallCallback: () =>
-              NucleusOneAppUsers(app: n1App).updateUserPreference(UserPreference.fromApiModel(up)),
+              NucleusOneAppUser(app: n1App).updateUserPreference(UserPreference.fromApiModel(_up)),
+          expectedRequestBody: _expectedUserPrefJson,
           responseBody: '',
           expectedRequestUrlPath: expectedUrlPath,
           expectedRequestQueryParams: [],
@@ -84,8 +87,9 @@ void main() {
       await DefineN1AppInScopeAsync(n1App, () async {
         return await performHttpTest<void>(
           httpMethod: HttpMethods.PUT,
-          httpCallCallback: () => NucleusOneAppUsers(app: n1App)
-              .updateUserPreferenceByUserPreferenceId(UserPreference.fromApiModel(up), 'A'),
+          httpCallCallback: () => NucleusOneAppUser(app: n1App)
+              .updateUserPreferenceByUserPreferenceId(UserPreference.fromApiModel(_up), 'A'),
+          expectedRequestBody: _expectedUserPrefJson,
           responseBody: '',
           expectedRequestUrlPath: expectedUrlPath,
           expectedRequestQueryParams: [
@@ -101,7 +105,7 @@ void main() {
       // Test with default parameters
       await performHttpTest<UserPreferences>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppUsers(app: n1App).getPreferences(),
+        httpCallCallback: () => NucleusOneAppUser(app: n1App).getPreferences(),
         responseBody: userPreferencesJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
@@ -114,7 +118,7 @@ void main() {
 
       await performHttpTest<void>(
         httpMethod: HttpMethods.POST,
-        httpCallCallback: () => NucleusOneAppUsers(app: n1App).setSmsNumber('123'),
+        httpCallCallback: () => NucleusOneAppUser(app: n1App).setSmsNumber('123'),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
@@ -129,7 +133,7 @@ void main() {
 
       await performHttpTest<void>(
         httpMethod: HttpMethods.PUT,
-        httpCallCallback: () => NucleusOneAppUsers(app: n1App).verifySmsNumber('123'),
+        httpCallCallback: () => NucleusOneAppUser(app: n1App).verifySmsNumber('123'),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
@@ -142,7 +146,7 @@ void main() {
 
       await performHttpTest<void>(
         httpMethod: HttpMethods.DELETE,
-        httpCallCallback: () => NucleusOneAppUsers(app: n1App).deleteSmsNumber(),
+        httpCallCallback: () => NucleusOneAppUser(app: n1App).deleteSmsNumber(),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],

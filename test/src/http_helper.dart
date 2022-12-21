@@ -3,42 +3,13 @@ import 'package:test/test.dart';
 import 'common.dart';
 import 'mocks/http.dart';
 
-Future<void> performHttpTest<T>({
-  required String httpMethod,
+Future<void> performHttpTests<T>({
   required Future<T> Function() httpCallCallback,
-  required String responseBody,
-  Map<String, String>? responseCookies,
-  required String expectedRequestUrlPath,
-  required List<String> expectedRequestQueryParams,
-  String? expectedRequestBody,
   void Function(T resultEntity)? additionalValidationsCallback,
+  required List<HttpOperation> httpOperationsOrdered,
 }) async {
-  Future<HttpClientOperationResult> Function({
-    required Future<void> Function() callback,
-    void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)?
-        additionalMockSetup,
-    required String responseBody,
-    Map<String, String>? responseCookies,
-  }) createMockHttpClientScopeForRequestHandler;
-
-  switch (httpMethod) {
-    case HttpMethods.GET:
-      createMockHttpClientScopeForRequestHandler = createMockHttpClientScopeForGetRequest;
-      break;
-    case HttpMethods.DELETE:
-      createMockHttpClientScopeForRequestHandler = createMockHttpClientScopeForDeleteRequest;
-      break;
-    case HttpMethods.POST:
-      createMockHttpClientScopeForRequestHandler = createMockHttpClientScopeForPostRequest;
-      break;
-    case HttpMethods.PUT:
-      createMockHttpClientScopeForRequestHandler = createMockHttpClientScopeForPutRequest;
-      break;
-    default:
-      throw UnimplementedError();
-  }
-
-  final result = await createMockHttpClientScopeForRequestHandler(
+  final results = await createStandardMockHttpClientScopeForAllRequests2(
+    httpOperations: httpOperationsOrdered,
     callback: () async {
       final resultEntity = await httpCallCallback();
 
@@ -46,23 +17,32 @@ Future<void> performHttpTest<T>({
         additionalValidationsCallback(resultEntity);
       }
     },
-    responseBody: responseBody,
-    responseCookies: responseCookies,
+    additionalMockSetup: null,
   );
 
-  expect(result.request.method, httpMethod);
-  expect(result.request.uri.path, apiRequestPathMatches(expectedRequestUrlPath));
-  expect(result.request.uri.queryParameters.length, expectedRequestQueryParams.length,
-      reason: 'Details:\r\n  Expected (in any order): ' +
-          expectedRequestQueryParams.join(',') +
-          '\r\n  Actual: ' +
-          result.request.uri.queryParameters.entries.map((x) => x.key + '=' + x.value).join(','));
-  if (expectedRequestBody != null) {
-    expect(result.request.getBodyAsString(), expectedRequestBody);
-  }
+  final resultCount = results.length;
+  expect(resultCount, httpOperationsOrdered.length);
 
-  final reqUriQuery = result.request.uri.query;
-  for (var expectedQP in expectedRequestQueryParams) {
-    expect(reqUriQuery, matches('\\b' + RegExp.escape(expectedQP) + '\\b'));
+  for (var i = 0; i < resultCount; ++i) {
+    final result = results[i];
+    final httpOp = httpOperationsOrdered[i];
+
+    expect(result.request.method, httpOp.requestHttpMethod);
+    if (httpOp.isN1ApiOperation) {
+      expect(result.request.uri.path, apiRequestPathMatches(httpOp.requestUrl.toString()));
+    } else {
+      expect(result.request.uri.path, httpOp.requestUrl.toString());
+    }
+    expect(result.request.uri.queryParameters.length, httpOp.requestQueryParams.length,
+        reason: 'Details:\r\n  Expected (in any order): ' +
+            httpOp.requestQueryParams.join(',') +
+            '\r\n  Actual: ' +
+            result.request.uri.queryParameters.entries.map((x) => x.key + '=' + x.value).join(','));
+    expect(result.request.getBodyAsString(), httpOp.requestBody);
+
+    final reqUriQuery = result.request.uri.query;
+    for (var expectedQP in httpOp.requestQueryParams) {
+      expect(reqUriQuery, matches('\\b' + RegExp.escape(expectedQP) + '\\b'));
+    }
   }
 }

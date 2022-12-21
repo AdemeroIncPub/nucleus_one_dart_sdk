@@ -23,6 +23,13 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
+    const expectedJson =
+        r'{"ID":"A","OrganizationID":"X","ProjectID":"Y","ProjectName":"Z","ProjectAccessType":"AA","CreatedOn":"0001-01-01T00:00:00Z","ModifiedOn":"0001-01-01T00:00:00Z","CreatedByUserID":"B","CreatedByUserEmail":"C","CreatedByUserName":"D","CompletedOn":"0001-01-01T00:00:00Z","CompletedByUserID":"E","CompletedByUserEmail":"F","CompletedByUserName":"G","ModifiedByUserID":"H","ModifiedByUserEmail":"I","ModifiedByUserName":"J","Revision":0,"Result":"K","Name":"L","NameLower":"M","Description":"N","DescriptionHtml":"O","DescriptionRichTextJson":"P","AssignmentUserEmail":"AB","AssignmentUserName":"AC","AssignmentUserNameLower":"AD","DueOn":"0001-01-01T00:00:00Z","DueOnModifiedOn":"0001-01-01T00:00:00Z",' +
+            r'"PrimaryDocument":{"ID":"J","OrganizationID":"N","ProjectID":"U","ProjectName":"V","ProjectAccessType":"T","DocumentID":"G","DocumentFolderID":"E","DocumentFolderPath":"F","AssignmentUserEmails":["B"],"GroupID":"I","CreatedOn":"0001-01-01T00:00:00Z","CreatedByUserEmail":"C","CreatedByUserName":"D","ModifiedOn":"0001-01-01T00:00:00Z","ModifiedByUserEmail":"K","ModifiedByUserName":"L","PurgeDate":"0001-01-01T00:00:00Z","Name":"M","Origin":"O","PageCount":1,"FileSize":1,"ThumbnailUrl":"W","IsSigned":false,"PreviewMetadata":[{"0":"00","1":"11","2":"22"}],"ApprovalID":"A","ApprovalCreatedOn":"0001-01-01T00:00:00Z","IsMarkedForPurge":false,"HasSinglePageImages":false,"SignatureSessionIsActive":false,"SignaturesCompletedOn":"0001-01-01T00:00:00Z","DocumentSubscriptionID":"H","DocumentSubscriptionCreatedOn":"0001-01-01T00:00:00Z","ProcessName":"S","ProcessElementName":"R","Revision":6,"PaperSize":"Q","PaperOrientation":"P","PaperMarginLeft":3.0,"PaperMarginRight":4.0,"PaperMarginTop":5.0,"PaperMarginBottom":2.0},' +
+            r'"OtherDocuments":[{"ID":"J","OrganizationID":"N","ProjectID":"U","ProjectName":"V","ProjectAccessType":"T","DocumentID":"G","DocumentFolderID":"E","DocumentFolderPath":"F","AssignmentUserEmails":["B"],"GroupID":"I","CreatedOn":"0001-01-01T00:00:00Z","CreatedByUserEmail":"C","CreatedByUserName":"D","ModifiedOn":"0001-01-01T00:00:00Z","ModifiedByUserEmail":"K","ModifiedByUserName":"L","PurgeDate":"0001-01-01T00:00:00Z","Name":"M","Origin":"O","PageCount":1,"FileSize":1,"ThumbnailUrl":"W","IsSigned":false,"PreviewMetadata":[{"0":"00","1":"11","2":"22"}],"ApprovalID":"A","ApprovalCreatedOn":"0001-01-01T00:00:00Z","IsMarkedForPurge":false,"HasSinglePageImages":false,"SignatureSessionIsActive":false,"SignaturesCompletedOn":"0001-01-01T00:00:00Z","DocumentSubscriptionID":"H","DocumentSubscriptionCreatedOn":"0001-01-01T00:00:00Z","ProcessName":"S","ProcessElementName":"R","Revision":6,"PaperSize":"Q","PaperOrientation":"P","PaperMarginLeft":3.0,"PaperMarginRight":4.0,"PaperMarginTop":5.0,"PaperMarginBottom":2.0}],' +
+            r'"ParentTaskID":"Q","ProcessID":"R","ProcessName":"S","ProcessNameLower":"T","ProcessElementID":"U","ProcessElementName":"V","ProcessElementNameLower":"W","Reminder_7_Day":"0001-01-01T00:00:00Z","Reminder_3_Day":"0001-01-01T00:00:00Z","Reminder_1_Day":"0001-01-01T00:00:00Z"}';
+    const expectedJsonCollection = '[' + expectedJson + ']';
+
     test('getTasks method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsTasksFormat
@@ -77,7 +84,8 @@ void main() {
         httpMethod: HttpMethods.POST,
         httpCallCallback: () =>
             project.tasks().create(TaskCollection.fromApiModel(ts, app: project.app)),
-        responseBody: '[' + taskJson + ']',
+        expectedRequestBody: expectedJsonCollection,
+        responseBody: expectedJsonCollection,
         expectedRequestUrlPath: http.apiPaths.organizationsProjectsTasksFormat
             .replaceOrganizationAndProjectPlaceholders(project),
         expectedRequestQueryParams: [],
@@ -95,7 +103,8 @@ void main() {
         httpMethod: HttpMethods.PUT,
         httpCallCallback: () =>
             project.tasks().update(Task.fromApiModel(ts.tasks![0], app: project.app)),
-        responseBody: '',
+        expectedRequestBody: expectedJson,
+        responseBody: expectedJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [
           'taskId=A',

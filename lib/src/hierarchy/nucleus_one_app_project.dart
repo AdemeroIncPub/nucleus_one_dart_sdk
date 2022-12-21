@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:math' as math;
+import 'dart:typed_data';
 
 import '../api_model/document.dart' as api_mod;
 import '../api_model/document_folder.dart' as api_mod;
@@ -10,6 +12,7 @@ import '../common/model.dart';
 import '../common/util.dart';
 import '../http.dart' as http;
 import '../common/string.dart';
+import '../http.dart';
 import '../model/document.dart';
 import '../model/document_folder.dart';
 import '../model/document_signature_form.dart';
@@ -389,8 +392,11 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     });
   }
 
-  /// Gets a Document Upload.
-  Future<DocumentUpload> getDocumentUpload() async {
+  /// Gets a Document Upload reservation.
+  ///
+  /// Call this *only* if you want to handle the upload process of a document manually; otherwise,
+  /// you likely want to call `uploadDocument`, instead, which handles the entire process.
+  Future<DocumentUpload> getDocumentUploadReservation() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentUploadsFormat
           .replaceOrganizationAndProjectPlaceholders(this),
@@ -400,5 +406,115 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     return await DefineN1AppInScope(app, () {
       return DocumentUpload.fromApiModel(apiModel);
     });
+  }
+
+  /// Uploads a file to Google Cloud Storage, in chunks.
+  Future<void> _uploadFileToGcsFromUrl({
+    required String gcsPublicReservationUrl,
+    required String contentType,
+    required Uint8List file,
+  }) async {
+    final Uri sessionUri;
+    {
+      final apiUri = Uri.parse(gcsPublicReservationUrl);
+      final httpClient = getStandardHttpClient();
+
+      final initialReq = await httpClient.putUrl(apiUri);
+      initialReq.headers.add('Content-Type', 'application/octet-stream');
+      initialReq.headers.add('x-goog-resumable', 'start');
+      initialReq.write('{}');
+
+      final initialResp = await initialReq.close();
+      if (initialResp.statusCode != 200) {
+        throw 'Error initializing upload to cloud storage.  HTTP ${initialResp.statusCode}: ' +
+            (await initialResp.readToEnd());
+      }
+
+      final sessionUriString = initialResp.headers['location'];
+
+      if ((sessionUriString == null) ||
+          (sessionUriString.length != 1) ||
+          isNullOrEmpty(sessionUriString[0])) {
+        throw 'Unable to get upload URL.';
+      }
+      sessionUri = Uri.parse(sessionUriString[0]);
+    }
+
+    int offset = 0;
+    final fileSize = file.length;
+
+    // Read each chunk and upload synchronously
+    while (offset < fileSize || fileSize == 0) {
+      // Get chunk
+      final currentChunkSize = math.min(offset + NucleusOneOptions.uploadChunkSize, fileSize),
+          binaryChunk = file.sublist(offset, currentChunkSize),
+          byteEnd = (fileSize == 0)
+              ? 0
+              : math.min(offset + NucleusOneOptions.uploadChunkSize - 1, fileSize - 1);
+
+      final chunkReqHttpClient = getStandardHttpClient();
+      final chunkReq = await chunkReqHttpClient.putUrl(sessionUri);
+      chunkReq.headers.add('Content-Type', contentType);
+      chunkReq.headers.add('Content-Range', 'bytes $offset-$byteEnd/$fileSize');
+
+      chunkReq.write(binaryChunk);
+      final chunkResp = await chunkReq.close();
+
+      // A 308 is desired after uploading a chunk
+      if ((chunkResp.statusCode != 200) && (chunkResp.statusCode != 308)) {
+        //throw await chunkResp.readToEnd();
+        throw 'Error uploading to cloud storage.  HTTP ${chunkResp.statusCode}: ' +
+            (await chunkResp.readToEnd());
+      }
+
+      // Stop here if this is a 0-byte binary
+      if (fileSize == 0) {
+        break;
+      }
+      // Increment offset
+      offset += binaryChunk.length;
+    }
+  }
+
+  /// Uploads a new document.
+  ///
+  /// [userEmail]: The email address of the user by whom the Document will be uploaded.
+  ///
+  /// [fileName]: The file name to use when uploading the file.
+  ///
+  /// [contentType]: The MIME type of the file.
+  ///
+  /// [file]: The file to upload.
+  Future<void> uploadDocument({
+    required String userEmail,
+    required String fileName,
+    required String contentType,
+    required Uint8List file,
+  }) async {
+    final docUploadReservation = await getDocumentUploadReservation();
+
+    final fileSize = file.length;
+    await _uploadFileToGcsFromUrl(
+      gcsPublicReservationUrl: docUploadReservation.signedUrl,
+      contentType: contentType,
+      file: file,
+    );
+
+    docUploadReservation.originalFilename = fileName;
+    docUploadReservation.originalFileSize = fileSize;
+
+    final qp = http.StandardQueryParams.get();
+    qp['uniqueId'] = docUploadReservation.uniqueId;
+    qp['captureOriginal'] = false;
+
+    /*final responseBody = */ await http.executePutRequestWithTextResponse(
+      http.apiPaths.organizationsProjectsDocumentUploadsFormat
+          .replaceOrganizationAndProjectPlaceholders(this),
+      app,
+      query: qp,
+      body: jsonEncode([docUploadReservation.toApiModel()]),
+    );
+
+    //print(responseBody);
   }
 }

@@ -49,8 +49,8 @@ void main() {
     test('users method tests', () {
       final n1App = getStandardN1App();
 
-      final users = n1App.users();
-      expect(users, isA<NucleusOneAppUsers>());
+      final users = n1App.user();
+      expect(users, isA<NucleusOneAppUser>());
       expect(users.app, n1App);
     });
 

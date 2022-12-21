@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:test/test.dart';
 
 import 'http_helper.dart' as http_helper;
+import 'mocks/http.dart';
 
 Future<void> performHttpTest<T>({
   required String httpMethod,
@@ -11,36 +14,62 @@ Future<void> performHttpTest<T>({
   required String expectedRequestUrlPath,
   required List<String> expectedRequestQueryParams,
   String? expectedRequestBody,
-  int? expectedQueryResultPageSize = 24,
-  String? expectedQueryResultCursor = 'QueryResultA',
-  String? expectedQueryResultReverseCursor = 'QueryResultB',
+  int? expectedResultQueryResultPageSize = 24,
+  String? expectedResultQueryResultCursor = 'QueryResultA',
+  String? expectedResultQueryResultReverseCursor = 'QueryResultB',
   void Function(T resultEntity)? additionalValidationsCallback,
 }) async {
-  // Use the stock performHttpTest method, passing in additional tests specific to the model
-  return http_helper.performHttpTest<T>(
+  final httpOperation = HttpOperation(
+    requestUrl: Uri.parse(expectedRequestUrlPath),
+    requestHttpMethod: httpMethod,
+    requestBody: expectedRequestBody ?? '',
+    requestQueryParams: expectedRequestQueryParams,
+    responseBody: responseBody,
+    responseHttpStatus: HttpStatus.ok,
+    responseCookies: responseCookies,
+  );
+
+  return performHttpTests<T>(
     httpMethod: httpMethod,
     httpCallCallback: httpCallCallback,
-    responseBody: responseBody,
-    responseCookies: responseCookies,
-    expectedRequestUrlPath: expectedRequestUrlPath,
-    expectedRequestQueryParams: expectedRequestQueryParams,
-    expectedRequestBody: expectedRequestBody,
+    httpOperationsOrdered: [httpOperation],
+    expectedResultQueryResultPageSize: expectedResultQueryResultPageSize,
+    expectedResultQueryResultCursor: expectedResultQueryResultCursor,
+    expectedResultQueryResultReverseCursor: expectedResultQueryResultReverseCursor,
+    additionalValidationsCallback: additionalValidationsCallback,
+  );
+}
+
+Future<void> performHttpTests<T>({
+  required String httpMethod,
+  required Future<T> Function() httpCallCallback,
+  int? expectedResultQueryResultPageSize = 24,
+  String? expectedResultQueryResultCursor = 'QueryResultA',
+  String? expectedResultQueryResultReverseCursor = 'QueryResultB',
+  void Function(T resultEntity)? additionalValidationsCallback,
+  required List<HttpOperation> httpOperationsOrdered,
+}) async {
+  // Use the stock performHttpTest method, passing in additional tests specific to the model
+  return http_helper.performHttpTests<T>(
+    httpCallCallback: httpCallCallback,
     additionalValidationsCallback: (resultEntity) {
       // If T isn't the void type then the returned value should be an instance of T
       if (T.toString() != 'void') {
         expect(resultEntity, isNotNull);
       }
       if (resultEntity is QueryResult2) {
-        validateQueryResult2(resultEntity, expectedQueryResultCursor, expectedQueryResultPageSize,
-            expectedQueryResultReverseCursor);
+        validateQueryResult2(resultEntity, expectedResultQueryResultCursor,
+            expectedResultQueryResultPageSize, expectedResultQueryResultReverseCursor);
       } else if (resultEntity is QueryResult) {
-        validateQueryResult(resultEntity, expectedQueryResultCursor, expectedQueryResultPageSize);
+        validateQueryResult(
+            resultEntity, expectedResultQueryResultCursor, expectedResultQueryResultPageSize);
       }
 
       if (additionalValidationsCallback != null) {
         additionalValidationsCallback(resultEntity);
       }
     },
+    httpOperationsOrdered: httpOperationsOrdered,
   );
 }
 

@@ -1,5 +1,6 @@
-const documentUploadJson =
-    r'{"SignedUrl": "A","ObjectName": "B","UniqueId": "C","OriginalFilename": "D","OriginalFileSize": 0,"ClassificationID": "E","FieldIDsAndValues": {"A":["A", "B"]}}';
+const documentUploadJsonFileSizeFormat =
+    r'{"SignedUrl":"A","ObjectName":"B","UniqueId":"C","OriginalFilename":"D","OriginalFileSize":{0},"ClassificationID":"E","FieldIDsAndValues":{"A":["A","B"]}}';
+final documentUploadJson = documentUploadJsonFileSizeFormat.replaceFirst('{0}', '0');
 
 void main() {
   /*

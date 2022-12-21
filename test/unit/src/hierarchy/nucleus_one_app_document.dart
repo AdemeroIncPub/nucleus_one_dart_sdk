@@ -199,6 +199,7 @@ void main() {
         httpCallCallback: () => document.updateDocumentName(
           documentName: '234',
         ),
+        expectedRequestBody: '{"ID":"234","Name":"234"}',
         responseBody: documentForClientJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],

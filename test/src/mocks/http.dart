@@ -71,6 +71,9 @@ class MockHttpHeaders extends Mock implements HttpHeaders {
     headers.remove(name);
     add(name, value);
   }
+
+  @override
+  List<String>? operator [](String name) => headers[name];
 }
 
 class MockHttpClient extends Mock implements HttpClient {}
@@ -79,92 +82,30 @@ class HttpClientOperationResult {
   MockHttpClient client;
   MockHttpClientRequest request;
   MockHttpClientResponse response;
-  MockHttpHeaders headers;
 
   HttpClientOperationResult()
       : client = MockHttpClient(),
         request = MockHttpClientRequest(),
-        response = MockHttpClientResponse(),
-        headers = MockHttpHeaders();
-}
+        response = MockHttpClientResponse();
 
-/// Mocks HttpClient and prepares it for an HTTP GET request.
-Future<HttpClientOperationResult> createMockHttpClientScopeForGetRequest({
-  required Future<void> Function() callback,
-  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
-  required String responseBody,
-  int responseHttpStatus = HttpStatus.ok,
-  Map<String, String>? responseCookies,
-}) async {
-  return _createStandardMockHttpClientScopeForAllRequests(
-    callback: callback,
-    additionalMockSetup: additionalMockSetup,
-    responseBody: responseBody,
-    responseHttpStatus: responseHttpStatus,
-    responseCookies: responseCookies,
-  );
-}
-
-/// Mocks HttpClient and prepares it for an HTTP POST request.
-Future<HttpClientOperationResult> createMockHttpClientScopeForPostRequest({
-  required Future<void> Function() callback,
-  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
-  required String responseBody,
-  int responseHttpStatus = HttpStatus.ok,
-  Map<String, String>? responseCookies,
-}) async {
-  return _createStandardMockHttpClientScopeForAllRequests(
-    callback: callback,
-    additionalMockSetup: additionalMockSetup,
-    responseBody: responseBody,
-    responseHttpStatus: responseHttpStatus,
-    responseCookies: responseCookies,
-  );
-}
-
-/// Mocks HttpClient and prepares it for an HTTP DELETE request.
-Future<HttpClientOperationResult> createMockHttpClientScopeForDeleteRequest({
-  required Future<void> Function() callback,
-  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
-  required String responseBody,
-  int responseHttpStatus = HttpStatus.ok,
-  Map<String, String>? responseCookies,
-}) async {
-  return _createStandardMockHttpClientScopeForAllRequests(
-    callback: callback,
-    additionalMockSetup: additionalMockSetup,
-    responseBody: responseBody,
-    responseHttpStatus: responseHttpStatus,
-    responseCookies: responseCookies,
-  );
-}
-
-/// Mocks HttpClient and prepares it for an HTTP PUT request.
-Future<HttpClientOperationResult> createMockHttpClientScopeForPutRequest({
-  required Future<void> Function() callback,
-  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
-  required String responseBody,
-  int responseHttpStatus = HttpStatus.ok,
-  Map<String, String>? responseCookies,
-}) async {
-  return _createStandardMockHttpClientScopeForAllRequests(
-    callback: callback,
-    additionalMockSetup: additionalMockSetup,
-    responseBody: responseBody,
-    responseHttpStatus: responseHttpStatus,
-    responseCookies: responseCookies,
-  );
+  void requiredCallbackAfterCompletion() {
+    reset(client);
+    reset(request);
+    reset(response);
+  }
 }
 
 /// Creates the standard MockHttpClient scope for all requests.
-Future<HttpClientOperationResult> _createStandardMockHttpClientScopeForAllRequests({
+Future<HttpClientOperationResult> createStandardMockHttpClientScopeForAllRequests({
   required Future<void> Function() callback,
   void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
+  required String requestHttpMethod,
   required String responseBody,
   int responseHttpStatus = HttpStatus.ok,
   Map<String, String>? responseCookies,
 }) async {
-  return _createMockHttpClientScopeForAllRequestsInternal(
+/*
+  return (await _createMockHttpClientScopeForAllRequestsInternal(
     callback: callback,
     createHttpClientHandler: (SecurityContext? securityContext) {
       return _createMockHttpClientAllRequests(
@@ -174,26 +115,72 @@ Future<HttpClientOperationResult> _createStandardMockHttpClientScopeForAllReques
         responseCookies: responseCookies,
       );
     },
+  ))[0];
+*/
+
+  final httpOperation = HttpOperation(
+    requestUrl: Uri.parse(''), // Not relevant
+    requestHttpMethod: requestHttpMethod,
+    requestBody: '', // Not relevant
+    responseBody: responseBody,
+    responseHttpStatus: responseHttpStatus,
+    responseCookies: responseCookies,
+  );
+
+  return (await createStandardMockHttpClientScopeForAllRequests2(
+    httpOperations: [httpOperation],
+    callback: callback,
+    additionalMockSetup: additionalMockSetup,
+  ))[0];
+}
+
+/// Creates the standard MockHttpClient scope for all requests.
+Future<List<HttpClientOperationResult>> createStandardMockHttpClientScopeForAllRequests2({
+  required List<HttpOperation> httpOperations,
+  required Future<void> Function() callback,
+  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
+}) async {
+  late HttpOperation httpOp;
+  int httpOpIndex = -1;
+
+  void moveToNextHttpOp() {
+    if (++httpOpIndex == httpOperations.length) {
+      throw 'The last HttpOperation has already been served.';
+    }
+    httpOp = httpOperations[httpOpIndex];
+  }
+
+  return _createMockHttpClientScopeForAllRequestsInternal(
+    callback: callback,
+    createHttpClientHandler: (SecurityContext? securityContext) {
+      moveToNextHttpOp();
+      return _createMockHttpClientAllRequests2(
+        additionalMockSetup: additionalMockSetup,
+        httpOperation: httpOp,
+      );
+    },
   );
 }
 
-Future<HttpClientOperationResult> _createMockHttpClientScopeForAllRequestsInternal<T>({
+Future<List<HttpClientOperationResult>> _createMockHttpClientScopeForAllRequestsInternal<T>({
   required Future<void> Function() callback,
   required HttpClientOperationResult Function(SecurityContext?) createHttpClientHandler,
 }) async {
-  late HttpClientOperationResult opResult;
-  return await HttpOverrides.runZoned<Future<HttpClientOperationResult>>(
+  final opResults = <HttpClientOperationResult>[];
+  return await HttpOverrides.runZoned<Future<List<HttpClientOperationResult>>>(
     () async {
       await callback();
-      return opResult;
+      return opResults;
     },
     createHttpClient: (SecurityContext? securityContext) {
-      opResult = createHttpClientHandler(securityContext);
+      final opResult = createHttpClientHandler(securityContext);
+      opResults.add(opResult);
       return opResult.client;
     },
   );
 }
 
+/*
 HttpClientOperationResult _createMockHttpClientAllRequests({
   void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
   required String responseBody,
@@ -270,6 +257,104 @@ HttpClientOperationResult _createMockHttpClientAllRequests({
   }
 
   return httpOpResult;
+}*/
+
+HttpClientOperationResult _createMockHttpClientAllRequests2({
+  required HttpOperation httpOperation,
+  void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)? additionalMockSetup,
+}) {
+  final httpOpResult = HttpClientOperationResult(),
+      client = httpOpResult.client,
+      request = httpOpResult.request,
+      response = httpOpResult.response;
+
+  {
+    Future<HttpClientRequest> handleHttpUrlInvocation(Invocation invocation, String httpMethod) {
+      if (httpOperation.requestHttpMethod != httpMethod) {
+        throw 'Expected HTTP method "${httpOperation.requestHttpMethod}".';
+      }
+
+      request
+        ..uri = invocation.positionalArguments[0]
+        ..method = httpMethod;
+      return Future.value(request);
+    }
+
+    when(() => client.getUrl(any())).thenAnswer((Invocation invocation) {
+      return handleHttpUrlInvocation(invocation, HttpMethods.GET);
+    });
+    when(() => client.deleteUrl(any())).thenAnswer((Invocation invocation) {
+      return handleHttpUrlInvocation(invocation, HttpMethods.DELETE);
+    });
+    when(() => client.postUrl(any())).thenAnswer((Invocation invocation) {
+      return handleHttpUrlInvocation(invocation, HttpMethods.POST);
+    });
+    when(() => client.putUrl(any())).thenAnswer((Invocation invocation) {
+      return handleHttpUrlInvocation(invocation, HttpMethods.PUT);
+    });
+  }
+
+  when(() => request.headers).thenAnswer((_) {
+    return httpOperation.requestHeaders;
+  });
+  when(() => request.close()).thenAnswer((_) {
+    when(() => response.headers).thenAnswer((_) {
+      return httpOperation.responseHeaders;
+    });
+    when(() => response.contentLength).thenAnswer((_) {
+      return httpOperation.responseBody.length;
+    });
+    when(() => response.statusCode).thenAnswer((_) {
+      return httpOperation.responseHttpStatus;
+    });
+    when(() => response.compressionState)
+        .thenReturn(HttpClientResponseCompressionState.notCompressed);
+    when(() => response.cookies).thenAnswer((_) {
+      return httpOperation.responseCookies.entries
+          .map((mapEntry) => Cookie(mapEntry.key, mapEntry.value))
+          .toList();
+    });
+    when(() => response.transform(utf8.decoder)).thenAnswer((_) {
+      return Stream.value(httpOperation.responseBody);
+    });
+    // Originally from https://stackoverflow.com/a/49642337
+    when(() => response.listen(
+          any(),
+          onError: any(named: 'onError'),
+          onDone: any(named: 'onDone'),
+          cancelOnError: any(named: 'cancelOnError'),
+        )).thenAnswer((Invocation invocation) {
+      final void Function(List<int>) onData = invocation.positionalArguments[0];
+      final void Function() onDone = invocation.namedArguments[#onDone];
+      final void Function(Object, StackTrace) onError = invocation.namedArguments[#onError];
+      final bool? cancelOnError = invocation.namedArguments[#cancelOnError];
+      final responseBodyBytes = utf8.encode(httpOperation.responseBody);
+      return Stream<List<int>>.value(responseBodyBytes).listen(
+        onData,
+        onDone: onDone,
+        onError: onError,
+        cancelOnError: cancelOnError,
+      );
+    });
+
+    return Future<MockHttpClientResponse>.value(response);
+  });
+  when(() => request.write(any())).thenAnswer((realInvocation) {
+    final pArg0 = realInvocation.positionalArguments[0];
+    String contentAsString;
+    if (pArg0 is List<int>) {
+      contentAsString = pArg0.map((x) => String.fromCharCode(x)).join();
+    } else {
+      contentAsString = pArg0.toString();
+    }
+    httpOpResult.request._body.addAll(utf8.encode(contentAsString));
+  });
+
+  if (additionalMockSetup != null) {
+    additionalMockSetup(client, request, response);
+  }
+
+  return httpOpResult;
 }
 
 abstract class HttpMethods {
@@ -277,4 +362,65 @@ abstract class HttpMethods {
   static const String DELETE = 'DELETE';
   static const String POST = 'POST';
   static const String PUT = 'PUT';
+}
+
+class HttpOperation {
+  final bool isN1ApiOperation;
+  final Uri requestUrl;
+  final String requestHttpMethod;
+  final void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)?
+      additionalMockSetup;
+  final MockHttpHeaders requestHeaders;
+  final List<String> requestQueryParams;
+  final String requestBody;
+  final String responseBody;
+  final int responseHttpStatus;
+  final Map<String, String> responseCookies;
+  final MockHttpHeaders responseHeaders;
+
+  HttpOperation({
+    this.isN1ApiOperation = true,
+    required this.requestUrl,
+    required this.requestHttpMethod,
+    this.additionalMockSetup,
+    MockHttpHeaders? requestHeaders,
+    List<String>? requestQueryParams,
+    required this.requestBody,
+    required this.responseBody,
+    this.responseHttpStatus = HttpStatus.ok,
+    Map<String, String>? responseCookies,
+    MockHttpHeaders? responseHeaders,
+  })  : requestHeaders = requestHeaders ?? MockHttpHeaders(),
+        requestQueryParams = requestQueryParams ?? <String>[],
+        responseCookies = responseCookies ?? <String, String>{},
+        responseHeaders = responseHeaders ?? MockHttpHeaders();
+
+  HttpOperation shallowCopyWith({
+    bool? isN1ApiOperation,
+    Uri? requestUrl,
+    String? requestHttpMethod,
+    void Function(MockHttpClient, MockHttpClientRequest, MockHttpClientResponse)?
+        additionalMockSetup,
+    MockHttpHeaders? requestHeaders,
+    List<String>? requestQueryParams,
+    String? requestBody,
+    String? responseBody,
+    int? responseHttpStatus,
+    Map<String, String>? responseCookies,
+    MockHttpHeaders? responseHeaders,
+  }) {
+    return HttpOperation(
+      isN1ApiOperation: isN1ApiOperation ?? this.isN1ApiOperation,
+      requestUrl: requestUrl ?? this.requestUrl,
+      requestHttpMethod: requestHttpMethod ?? this.requestHttpMethod,
+      additionalMockSetup: additionalMockSetup ?? this.additionalMockSetup,
+      requestHeaders: requestHeaders ?? this.requestHeaders,
+      requestQueryParams: requestQueryParams ?? this.requestQueryParams,
+      requestBody: requestBody ?? this.requestBody,
+      responseBody: responseBody ?? this.responseBody,
+      responseHttpStatus: responseHttpStatus ?? this.responseHttpStatus,
+      responseCookies: responseCookies ?? this.responseCookies,
+      responseHeaders: responseHeaders ?? this.responseHeaders,
+    );
+  }
 }

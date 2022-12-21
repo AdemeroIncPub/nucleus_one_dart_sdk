@@ -14,7 +14,7 @@ const formTemplateFieldJson =
 const formTemplateFieldCollectionJson = '[$formTemplateFieldJson]';
 
 const formSubmissionFieldJson =
-    '{"FormTemplateFieldID":"A","ID":"B","FormTemplateID":"C","FormTemplateName":"D","FormTemplateNameLower":"E","TenantID":"F","UniqueID":"G","CreatedOn":"H","Type":"I","FieldID":"J","Field":$fieldJson,"PageIndex":0,"X":1.2,"Y":2.3,"Width":3.4,"FontSize":4,"UseColumnLayout":true,"AssetBucketName":"K","AssetObjectName":"L","AssetContentType":"M","AssetSignedUrl":"N","DefaultValue":"O","DefaultValues":"P","PossibleValues":["Q"],"Value":"R","Values":"S"}';
+    '{"ID":"B","FormTemplateID":"C","FormTemplateName":"D","FormTemplateNameLower":"E","TenantID":"F","UniqueID":"G","CreatedOn":"H","Type":"I","FieldID":"J","Field":$fieldJson,"PageIndex":0,"X":1.2,"Y":2.3,"Width":3.4,"FontSize":4,"UseColumnLayout":true,"AssetBucketName":"K","AssetObjectName":"L","AssetContentType":"M","AssetSignedUrl":"N","DefaultValue":"O","DefaultValues":"P","PossibleValues":["Q"],"Value":"R","Values":"S","FormTemplateFieldID":"A"}';
 const formSubmissionPackageJson =
     '{"TenantID":"A","FormTemplateID":"B","FormSubmissionFields":[$formSubmissionFieldJson]}';
 const formSubmissionPackageCollectionJson = '[$formSubmissionPackageJson]';

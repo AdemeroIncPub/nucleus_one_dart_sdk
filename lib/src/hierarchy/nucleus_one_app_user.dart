@@ -14,8 +14,8 @@ import '../model/user_preferences.dart';
 import '../model/user_preference.dart';
 import '../nucleus_one.dart';
 
-class NucleusOneAppUsers with NucleusOneAppDependent {
-  NucleusOneAppUsers({
+class NucleusOneAppUser with NucleusOneAppDependent {
+  NucleusOneAppUser({
     NucleusOneApp? app,
   }) {
     this.app = app ?? getIt.get<NucleusOneApp>();

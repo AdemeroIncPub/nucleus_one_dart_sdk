@@ -280,6 +280,7 @@ void main() {
           return await performHttpTest(
             httpMethod: HttpMethods.POST,
             httpCallCallback: () => forms.submitForm(formTemplateId: '123', package: package),
+            expectedRequestBody: formSubmissionPackageCollectionJson,
             responseBody: '',
             expectedRequestUrlPath: expectedUrlPath,
             expectedRequestQueryParams: [],

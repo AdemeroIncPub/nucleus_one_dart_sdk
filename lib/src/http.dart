@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 
 import 'common/get_it.dart';
 import 'common/string.dart';
+import 'common/util.dart';
 import 'nucleus_one.dart';
 
 // static HttpClient _getHttpClientWithProxy() {
@@ -132,7 +133,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
   }
 
   if (resp.statusCode != HttpStatus.ok) {
-    final respBody = await resp.transform(utf8.decoder).join();
+    final respBody = await resp.readToEnd();
     throw HttpException.fromJsonSafe(resp.statusCode, respBody);
   }
 
@@ -148,7 +149,7 @@ Future<String> executeGetRequestWithTextResponse(
 }) async {
   final clientResponse =
       await _executeGetRequestInternal(authenticated, app, apiRelativeUrlPath, query, body);
-  final respBody = await clientResponse.transform(utf8.decoder).join();
+  final respBody = await clientResponse.readToEnd();
   return respBody;
 }
 
@@ -188,7 +189,7 @@ Future<String> executePostRequestWithTextResponse(
 }) async {
   final clientResponse = await _executeStandardHttpRequest(
       authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.post);
-  final respBody = await clientResponse.transform(utf8.decoder).join();
+  final respBody = await clientResponse.readToEnd();
   return respBody;
 }
 
@@ -212,7 +213,7 @@ Future<String> executePutRequestWithTextResponse(
 }) async {
   final clientResponse = await _executeStandardHttpRequest(
       authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.put);
-  final respBody = await clientResponse.transform(utf8.decoder).join();
+  final respBody = await clientResponse.readToEnd();
   return respBody;
 }
 

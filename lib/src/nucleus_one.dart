@@ -46,6 +46,7 @@ class NucleusOneOptions {
   final String? apiKey;
 
   static const String _DefaultApiBaseUrl = 'https://client-api.nucleus.one';
+  static const uploadChunkSize = 1024 * 1024;
 
   NucleusOneOptions({
     String? apiBaseUrl,
@@ -90,8 +91,8 @@ class NucleusOneApp {
     );
   }
 
-  /// Users
-  NucleusOneAppUsers users() {
-    return NucleusOneAppUsers(app: this);
+  /// User
+  NucleusOneAppUser user() {
+    return NucleusOneAppUser(app: this);
   }
 }

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 
 import 'get_it.dart';
@@ -71,5 +74,13 @@ Future<TRet> _DefineObjectInScopeAsyncInternal<TSingleton extends Object, TRet>(
     if (scopeCreated) {
       await getIt.popScope();
     }
+  }
+}
+
+extension StreamHandling on Stream<List<int>> {
+  /// Reads a stream completely to its end then returns the entire contents as a UTF-8 string.
+  Future<String> readToEnd() async {
+    final StreamTransformer st = utf8.decoder;
+    return st.bind(this).join();
   }
 }

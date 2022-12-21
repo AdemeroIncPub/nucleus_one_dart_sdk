@@ -10,8 +10,8 @@ class DocumentUpload with NucleusOneAppDependent {
     required this.uniqueId,
     required this.originalFilename,
     required this.originalFileSize,
-    required this.classificationID,
-    required this.fieldIDsAndValues,
+    this.classificationID,
+    this.fieldIDsAndValues,
   }) {
     this.app = app ?? getIt.get<NucleusOneApp>();
   }
@@ -27,7 +27,7 @@ class DocumentUpload with NucleusOneAppDependent {
       uniqueId: apiModel.uniqueId!,
       originalFilename: apiModel.originalFilename!,
       originalFileSize: apiModel.originalFileSize!,
-      classificationID: apiModel.classificationID!,
+      classificationID: apiModel.classificationID,
       fieldIDsAndValues: apiModel.fieldIDsAndValues,
     );
   }
@@ -42,7 +42,7 @@ class DocumentUpload with NucleusOneAppDependent {
 
   int originalFileSize;
 
-  String classificationID;
+  String? classificationID;
 
   Map<String, List<String>>? fieldIDsAndValues;
 

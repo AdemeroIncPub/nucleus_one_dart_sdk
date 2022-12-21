@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/signature_form_template.dart' as api_mod;
@@ -351,17 +353,151 @@ void main() {
       );
     });
 
-    test('getDocumentUpload method tests', () async {
+    test('getDocumentUploadReservation method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentUploadsFormat
           .replaceOrganizationAndProjectPlaceholders(project);
       // Test with default parameters
       await performHttpTest<DocumentUpload>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => project.getDocumentUpload(),
+        httpCallCallback: () => project.getDocumentUploadReservation(),
         responseBody: documentUploadJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
+      );
+    });
+
+    test('uploadDocument method tests', () async {
+      final project = getStandardN1Project();
+      final expectedApiUrlPath = http.apiPaths.organizationsProjectsDocumentUploadsFormat
+          .replaceOrganizationAndProjectPlaceholders(project);
+
+      const fileLen = NucleusOneOptions.uploadChunkSize * 2;
+      final fileData = Uint8List.fromList(List.generate(fileLen, (i) => 65));
+      final fileDataFirstHalf = Uint8List.fromList(fileData.take(fileLen ~/ 2).toList());
+      final fileDataFirstHalfAsString = fileDataFirstHalf.map((x) => String.fromCharCode(x)).join();
+      final documentUploadLocal =
+          documentUploadJsonFileSizeFormat.replaceFirst('{0}', fileLen.toString());
+
+      final opDocumentUploads = HttpOperation(
+        requestUrl: Uri.parse(expectedApiUrlPath),
+        requestHttpMethod: HttpMethods.GET,
+        requestBody: '',
+        responseBody: documentUploadLocal,
+        responseHttpStatus: HttpStatus.ok,
+        responseCookies: null,
+      );
+      final opGcsInitResponseSuccesful = HttpOperation(
+        isN1ApiOperation: false,
+        requestUrl: Uri.parse('A'),
+        requestHttpMethod: HttpMethods.PUT,
+        requestBody: '{}',
+        responseBody: '',
+        responseHttpStatus: HttpStatus.ok,
+        responseCookies: null,
+        responseHeaders: MockHttpHeaders()..add('location', 'A'),
+      );
+      final opGcsInitResponseFailure = opGcsInitResponseSuccesful.shallowCopyWith(
+        responseHttpStatus: HttpStatus.notFound,
+      );
+      final opGcsUploadResponseSuccessful200 = HttpOperation(
+        isN1ApiOperation: false,
+        requestUrl: Uri.parse('A'),
+        requestHttpMethod: HttpMethods.PUT,
+        requestBody: fileDataFirstHalfAsString,
+        responseBody: '',
+        responseHttpStatus: HttpStatus.ok,
+        responseCookies: null,
+      );
+      final opGcsUploadResponseSuccessful308 = opGcsUploadResponseSuccessful200.shallowCopyWith(
+        responseHttpStatus: HttpStatus.permanentRedirect,
+      );
+      final opGcsUploadResponseFailure = opGcsUploadResponseSuccessful200.shallowCopyWith(
+        responseHttpStatus: HttpStatus.notFound,
+      );
+      final opUploadCompletion = HttpOperation(
+        requestUrl: Uri.parse(expectedApiUrlPath),
+        requestHttpMethod: HttpMethods.PUT,
+        requestQueryParams: <String>[
+          'uniqueId=C',
+          'captureOriginal=false',
+        ],
+        requestBody: '[' + documentUploadLocal + ']',
+        responseBody: '',
+        responseHttpStatus: HttpStatus.ok,
+        responseCookies: null,
+      );
+
+      Future<void> performUploadTest({
+        required bool shouldFail,
+        String? exceptionMessageStartsWith,
+        required List<HttpOperation> httpOperationsOrdered,
+      }) async {
+        try {
+          await performHttpTests<void>(
+            httpMethod: HttpMethods.GET,
+            httpCallCallback: () => project.uploadDocument(
+              userEmail: '1@2.com',
+              fileName: 'D',
+              contentType: '3',
+              file: fileData,
+            ),
+            httpOperationsOrdered: httpOperationsOrdered,
+          );
+          if (shouldFail) {
+            fail('An exception should have been thrown.');
+          }
+        } catch (e) {
+          if (!shouldFail) {
+            rethrow;
+          }
+          expect(e, startsWith(exceptionMessageStartsWith!));
+        }
+      }
+
+      // Test GCS upload initialization failure
+      await performUploadTest(
+        shouldFail: true,
+        exceptionMessageStartsWith: 'Error initializing upload to cloud storage.  HTTP ',
+        httpOperationsOrdered: [
+          opDocumentUploads,
+          opGcsInitResponseFailure,
+        ],
+      );
+
+      // Test GCS upload failure
+      await performUploadTest(
+        shouldFail: true,
+        exceptionMessageStartsWith: 'Error uploading to cloud storage.  HTTP ',
+        httpOperationsOrdered: [
+          opDocumentUploads,
+          opGcsInitResponseSuccesful,
+          opGcsUploadResponseFailure,
+        ],
+      );
+
+      // Test success with a 200 response from GCS
+      await performUploadTest(
+        shouldFail: false,
+        httpOperationsOrdered: [
+          opDocumentUploads,
+          opGcsInitResponseSuccesful,
+          opGcsUploadResponseSuccessful200,
+          opGcsUploadResponseSuccessful200,
+          opUploadCompletion,
+        ],
+      );
+
+      // Test success with a 308 response from GCS
+      await performUploadTest(
+        shouldFail: false,
+        httpOperationsOrdered: [
+          opDocumentUploads,
+          opGcsInitResponseSuccesful,
+          opGcsUploadResponseSuccessful308,
+          opGcsUploadResponseSuccessful308,
+          opUploadCompletion,
+        ],
       );
     });
 

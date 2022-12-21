@@ -8,7 +8,7 @@ export 'src/hierarchy/nucleus_one_app_document.dart';
 export 'src/hierarchy/nucleus_one_app_forms.dart';
 export 'src/hierarchy/nucleus_one_app_organization.dart';
 export 'src/hierarchy/nucleus_one_app_project.dart';
-export 'src/hierarchy/nucleus_one_app_users.dart';
+export 'src/hierarchy/nucleus_one_app_user.dart';
 export 'src/http.dart' show HttpException;
 export 'src/model/project.dart';
 export 'src/model/project_packages.dart';

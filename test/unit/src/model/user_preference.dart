@@ -50,7 +50,7 @@ void main() {
       final n1App = getStandardN1App();
       await performHttpTest<UserPreference>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => NucleusOneAppUsers(app: n1App).getPreferencesById('ABC'),
+        httpCallCallback: () => NucleusOneAppUser(app: n1App).getPreferencesById('ABC'),
         responseBody: userPreferenceJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
