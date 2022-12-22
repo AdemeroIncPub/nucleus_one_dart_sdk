@@ -6,6 +6,7 @@ import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
+import '../../../src/mirrors.dart';
 import '../api_model/user_preference.dart';
 import '../../../src/common.dart';
 import '../../../src/model_helper.dart';
@@ -14,11 +15,15 @@ import '../../../src/mocks/http.dart';
 void main() {
   group('UserPreference class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.UserPreference), 9);
     });
 
     test('Serialization test', () async {

@@ -8,16 +8,21 @@ import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
+import '../../../src/mirrors.dart';
 import '../api_model/document_signature_session_signing_recipient_package.dart';
 
 void main() {
   group('DocumentSignatureSessionRecipientFormFieldCollection class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionRecipientFormFieldCollection), 1);
     });
 
     test('Serialization test', () async {
@@ -41,11 +46,15 @@ void main() {
 
   group('DocumentSignatureSessionRecipientFormField class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionRecipientFormField), 11);
     });
 
     test('Serialization test', () async {
@@ -78,11 +87,15 @@ void main() {
 
   group('DocumentSignatureSessionFormFieldPackage class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionFormFieldPackage), 7);
     });
 
     test('Serialization test', () async {
@@ -113,11 +126,15 @@ void main() {
 
   group('DocumentSignatureSessionSigningRecipient class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionSigningRecipient), 2);
     });
 
     test('Serialization test', () async {
@@ -141,11 +158,15 @@ void main() {
 
   group('DocumentSignatureSessionSigningRecipientPackage class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionSigningRecipientPackage), 5);
     });
 
     test('Serialization test', () async {

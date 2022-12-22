@@ -20,7 +20,7 @@ import '../api_model/signature_form_template.dart';
 void main() {
   group('NucleusOneAppProject class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {

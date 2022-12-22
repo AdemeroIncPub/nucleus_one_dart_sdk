@@ -7,16 +7,22 @@ import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
+import '../../../src/mirrors.dart';
 import '../api_model/query_result.dart';
 
 void main() {
   group('QueryResult & QueryResult2 Tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.QueryResult<dynamic>), 3);
+      expect(getClassPublicFieldCount(api_mod.QueryResult2<dynamic>), 4);
     });
 
     void performTests<T>(api_mod.QueryResult<dynamic> apiModel) {

@@ -18,6 +18,9 @@ class SubscriptionDetails extends Entity {
   @JsonKey(name: 'PaymentSubscriptionExists')
   bool? paymentSubscriptionExists;
 
+  @JsonKey(name: 'PaymentSubscriptionCanceled')
+  bool? paymentSubscriptionCanceled;
+
   @JsonKey(name: 'PaymentPlanId')
   String? paymentPlanId;
 
@@ -36,6 +39,9 @@ class SubscriptionDetails extends Entity {
   @JsonKey(name: 'OrganizationName')
   String? organizationName;
 
+  @JsonKey(name: 'SubscriptionRequired')
+  bool? subscriptionRequired;
+
   @JsonKey(name: 'Expiration')
   String? expiration;
 
@@ -44,6 +50,9 @@ class SubscriptionDetails extends Entity {
 
   @JsonKey(name: 'FreeUsers')
   int? freeUsers;
+
+  @JsonKey(name: 'SubtractFreeUsersFromPlan')
+  bool? subtractFreeUsersFromPlan;
 
   @JsonKey(name: 'IsExpired')
   bool? isExpired;

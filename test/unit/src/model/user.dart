@@ -14,7 +14,7 @@ import '../api_model/user_profile.dart';
 void main() {
   group('User class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {

@@ -9,16 +9,21 @@ import 'package:nucleus_one_dart_sdk/src/model/support_error_event.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
+import '../../../src/mirrors.dart';
 import '../api_model/support_error_event.dart';
 
 void main() {
   group('SupportErrorEvent tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.SupportErrorEvent), 17);
     });
 
     test('Serialization test', () async {
@@ -54,11 +59,15 @@ void main() {
   });
   group('SupportErrorEventCollection tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.SupportErrorEventCollection), 1);
     });
 
     test('Serialization test', () async {

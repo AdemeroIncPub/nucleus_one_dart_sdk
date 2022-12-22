@@ -9,16 +9,21 @@ import 'package:nucleus_one_dart_sdk/src/model/support_user.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
+import '../../../src/mirrors.dart';
 import '../api_model/support_user.dart';
 
 void main() {
   group('SupportUser tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.SupportUser), 7);
     });
 
     test('Serialization test', () async {
@@ -45,11 +50,15 @@ void main() {
   
   group('SupportUserCollection tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.SupportUserCollection), 1);
     });
 
     test('Serialization test', () async {

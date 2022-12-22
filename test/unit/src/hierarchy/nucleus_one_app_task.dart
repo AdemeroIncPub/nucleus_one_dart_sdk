@@ -16,7 +16,7 @@ import '../api_model/task_comment.dart';
 void main() {
   group('NucleusOneAppTasks class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {

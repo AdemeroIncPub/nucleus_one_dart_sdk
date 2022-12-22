@@ -16,7 +16,7 @@ import '../api_model/subscription_plan.dart';
 void main() {
   group('NucleusOneAppBilling class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {

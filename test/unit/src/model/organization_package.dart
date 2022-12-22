@@ -9,16 +9,21 @@ import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
+import '../../../src/mirrors.dart';
 import '../api_model/organization_package.dart';
 
 void main() {
   group('OrganizationPackage class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.OrganizationPackage), 7);
     });
 
     test('Serialization test', () async {
@@ -46,11 +51,15 @@ void main() {
 
   group('OrganizationPackageCollection class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.OrganizationPackageCollection), 1);
     });
 
     test('Serialization test', () async {

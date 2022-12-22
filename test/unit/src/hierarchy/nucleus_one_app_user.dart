@@ -28,7 +28,7 @@ const _expectedUserPrefJson =
 void main() {
   group('NucleusOneAppProject class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {

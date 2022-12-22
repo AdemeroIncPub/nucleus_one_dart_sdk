@@ -8,16 +8,21 @@ import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
+import '../../../src/mirrors.dart';
 import '../api_model/organization_project.dart';
 
 void main() {
   group('OrganizationProjectCollection tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.OrganizationProjectCollection), 1);
     });
 
     test('Serialization test', () async {
@@ -44,11 +49,15 @@ void main() {
 
   group('OrganizationProject tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.OrganizationProject), 15);
     });
 
     test('Serialization test', () async {

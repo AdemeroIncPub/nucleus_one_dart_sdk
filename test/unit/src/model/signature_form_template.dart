@@ -6,16 +6,21 @@ import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
+import '../../../src/mirrors.dart';
 import '../api_model/signature_form_template.dart';
 
 void main() {
   group('SignatureFormTemplate class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.SignatureFormTemplate), 4);
     });
 
     test('Serialization test', () async {
@@ -69,11 +74,15 @@ void main() {
 
   group('SignatureFormTemplateCollection class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.SignatureFormTemplateCollection), 1);
     });
 
     test('Serialization test', () async {
@@ -96,11 +105,15 @@ void main() {
 
   group('SignatureFormTemplateField class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.SignatureFormTemplateField), 10);
     });
 
     test('Serialization test', () async {
@@ -173,11 +186,15 @@ void main() {
 
   group('SignatureFormTemplateFieldCollection class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.SignatureFormTemplateFieldCollection), 1);
     });
 
     test('Serialization test', () async {

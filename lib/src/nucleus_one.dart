@@ -13,7 +13,7 @@ abstract class NucleusOne {
 
   /// Initializes the SDK.  This must be called prior to calling any other SDK methods.
   /// See also: [resetSdk].
-  static Future<void> intializeSdk() async {
+  static Future<void> initializeSdk() async {
     // This method is intentionally async, even though we don't currently make use of it.  This is
     // because of the high likelihood that it will be needed in the near future.  By making it async
     // now, it won't be a breaking change when we do introduce the need to await within this method.
@@ -27,7 +27,7 @@ abstract class NucleusOne {
   }
 
   /// Resets the SDK to its initial state.
-  /// See also: [intializeSdk].
+  /// See also: [initializeSdk].
   static Future<void> resetSdk() async {
     // This method is intentionally async, even though we don't currently make use of it.  This is
     // because of the high likelihood that it will be needed in the near future.  By making it async

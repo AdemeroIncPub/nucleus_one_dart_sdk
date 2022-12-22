@@ -9,9 +9,9 @@ import '../../src/common.dart';
 
 void main() {
   group('NucleusOne class tests', () {
-    test('intializeSdk & resetSdk methods test', () async {
+    test('initializeSdk & resetSdk methods test', () async {
       expect(getIt.isRegistered<file.FileSystem>(), isFalse);
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
       expect(getIt.isRegistered<file.FileSystem>(), isTrue);
       expect(getIt.get<file.FileSystem>(), isA<file.LocalFileSystem>());
 
@@ -46,12 +46,12 @@ void main() {
       expect(n1App.getFullUrl('/test'), baseUrl + NucleusOneApp.apiBaseUrlPath + '/test');
     });
 
-    test('users method tests', () {
+    test('user method tests', () {
       final n1App = getStandardN1App();
 
-      final users = n1App.user();
-      expect(users, isA<NucleusOneAppUser>());
-      expect(users.app, n1App);
+      final user = n1App.user();
+      expect(user, isA<NucleusOneAppUser>());
+      expect(user.app, n1App);
     });
 
     test('organization method tests', () {
@@ -131,7 +131,7 @@ void main() {
 
   //   group('Methods dependent on SDK being initialized', () {
   //     setUp(() async {
-  //       await NucleusOne.intializeSdk();
+  //       await NucleusOne.initializeSdk();
   //     });
 
   //     tearDown(() async {

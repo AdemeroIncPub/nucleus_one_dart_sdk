@@ -17,6 +17,7 @@ import 'nucleus_one_app_project.dart';
 import 'nucleus_one_app_subscriptions.dart';
 
 class NucleusOneAppOrganization with NucleusOneAppDependent {
+  /// The organization ID.
   final String id;
 
   NucleusOneAppOrganization({
@@ -46,17 +47,9 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
   }
 
   /// Gets organization's tenants.
-  ///
-  /// [organizationId] The id of the organization.
-  Future<OrganizationPermissions> getPermissions({
-    required String organizationId,
-  }) async {
-    if (organizationId.isEmpty) {
-      throw ArgumentError.value(organizationId, 'organizationId', 'Value cannot be blank.');
-    }
-
+  Future<OrganizationPermissions> getPermissions() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', organizationId),
+      http.apiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', id),
       app,
     );
 
@@ -82,9 +75,7 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     });
   }
 
-  /// Gets organization projects, by page.
-  ///
-  /// [organizationId]: The id of the organization.
+  /// Gets projects that the current user is a member of, by page.
   ///
   /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
   ///
@@ -100,7 +91,6 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
   ///
   /// [adminOnly]:
   Future<QueryResult<OrganizationProjectCollection>> getProjects({
-    required String organizationId,
     String? cursor,
     String? projectAccessType,
     String? includeProjectId,
@@ -128,7 +118,7 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsFormat.replaceOrganizationPlaceholder(organizationId),
+      http.apiPaths.organizationsProjectsFormat.replaceOrganizationPlaceholder(id),
       app,
       query: qp,
     );

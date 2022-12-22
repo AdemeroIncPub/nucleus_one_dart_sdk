@@ -13,7 +13,7 @@ import '../api_model/subscription_details.dart';
 void main() {
   group('NucleusOneAppOrganization class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
@@ -37,26 +37,14 @@ void main() {
 
     test('getPermissions method tests', () async {
       final expectedUrlPath =
-          http.apiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', '123');
+          http.apiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', 'orgId');
       var org = getStandardN1Org();
-
-      try {
-        await performHttpTest<OrganizationPermissions>(
-          httpMethod: HttpMethods.GET,
-          httpCallCallback: () => org.getPermissions(organizationId: ''),
-          responseBody: '',
-          expectedRequestUrlPath: '',
-          expectedRequestQueryParams: [],
-        );
-      } on ArgumentError catch (e) {
-        expect(e.name, 'organizationId');
-      }
 
       org = getStandardN1Org();
       // Test with default parameters
       await performHttpTest<OrganizationPermissions>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => org.getPermissions(organizationId: '123'),
+        httpCallCallback: () => org.getPermissions(),
         responseBody: organizationPermissionsJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
@@ -97,9 +85,7 @@ void main() {
       // Test with default parameters
       await performHttpTest<QueryResult<OrganizationProjectCollection>>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => org.getProjects(
-          organizationId: 'orgId',
-        ),
+        httpCallCallback: () => org.getProjects(),
         responseBody: organizationProjectCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
@@ -110,7 +96,6 @@ void main() {
       await performHttpTest<QueryResult<OrganizationProjectCollection>>(
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => org.getProjects(
-          organizationId: 'orgId',
           cursor: 'A',
           projectAccessType: 'B',
           includeProjectId: 'C',

@@ -11,7 +11,7 @@ import '../../../src/mocks/http.dart';
 void main() {
   group('NucleusOneAppApprovals class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {

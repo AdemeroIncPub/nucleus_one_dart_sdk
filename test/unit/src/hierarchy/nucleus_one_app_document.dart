@@ -28,7 +28,7 @@ import '../api_model/document_subscription_for_client.dart';
 void main() {
   group('NucleusOneAppDocument class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
@@ -473,7 +473,7 @@ void main() {
 
   group('NucleusOneAppDocuments class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {

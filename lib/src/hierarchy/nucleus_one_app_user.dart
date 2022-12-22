@@ -60,7 +60,9 @@ class NucleusOneAppUser with NucleusOneAppDependent {
     });
   }
 
-  /// Gets the current user's organizations.
+  /// Gets projects in which the current user has work assigned.
+  ///
+  /// [organizationId]: The id of the organization.
   Future<UserOrganizationProjectCollection> getProjects({
     required String organizationId,
   }) async {

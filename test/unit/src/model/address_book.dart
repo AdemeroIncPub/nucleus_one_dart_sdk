@@ -6,12 +6,13 @@ import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
+import '../../../src/mirrors.dart';
 import '../api_model/address_book.dart';
 
 void main() {
   group('AddressBook & AddressBookItem Tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
@@ -19,6 +20,10 @@ void main() {
     });
 
     group('AddressBook class tests', () {
+      test('Expected class field count test', () {
+        expect(getClassPublicFieldCount(api_mod.AddressBook), 1);
+      });
+
       test('Serialization test', () async {
         final apiModelOrig = api_mod.AddressBook.fromJson(jsonDecode(addressBookJson));
         expect(apiModelOrig.items.length, 1);
@@ -33,6 +38,10 @@ void main() {
     });
 
     group('AddressBookItem tests', () {
+      test('Expected class field count test', () {
+        expect(getClassPublicFieldCount(api_mod.AddressBookItem), 8);
+      });
+
       test('Serialization test', () async {
         void performTest(api_mod.AddressBookItem apiModel) {
           expect(apiModel.emailLower, '');

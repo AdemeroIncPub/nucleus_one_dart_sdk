@@ -1,5 +1,5 @@
 const subscriptionDetailsJson =
-    '{"PaymentSubscriptionExists":true,"PaymentPlanId":"A","TokenId":"B","CustomerName":"C","BillingEmail":"D","PostalCode":"E","OrganizationName":"F","Expiration":"0001-01-01T00:00:00Z","IsExpiringSoon":false,"FreeUsers":0,"IsExpired":true}';
+    '{"PaymentSubscriptionExists":true,"PaymentSubscriptionCanceled":true,"PaymentPlanId":"A","TokenId":"B","CustomerName":"C","BillingEmail":"D","PostalCode":"E","OrganizationName":"F","SubscriptionRequired":true,"Expiration":"0001-01-01T00:00:00Z","IsExpiringSoon":false,"FreeUsers":0,"SubtractFreeUsersFromPlan":true,"IsExpired":true}';
 
 void main() {
   /*

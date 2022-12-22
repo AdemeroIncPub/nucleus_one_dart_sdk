@@ -15,11 +15,15 @@ import '../api_model/form_template.dart';
 void main() {
   group('FormTemplate class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.FormTemplate), 12);
     });
 
     test('Serialization test', () async {
@@ -51,11 +55,15 @@ void main() {
 
   group('FormTemplateCollection class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.FormTemplateCollection), 1);
     });
 
     test('Serialization test', () async {
@@ -79,11 +87,15 @@ void main() {
 
   group('FormTemplateFieldCollection class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.FormTemplateFieldCollection), 1);
     });
 
     test('Serialization test', () async {
@@ -110,7 +122,7 @@ void main() {
 
   group('FormTemplateField class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
@@ -119,6 +131,10 @@ void main() {
 
     test('Inherits from FormTemplateFieldMixin', () {
       expect(classIsSubtypeOf<FormTemplateField, FormTemplateFieldMixin>(), isTrue);
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.FormTemplateField), 25);
     });
 
     test('Serialization test', () async {
@@ -163,7 +179,7 @@ void main() {
 
   group('FormSubmissionField class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
@@ -172,6 +188,10 @@ void main() {
 
     test('Inherits from FormTemplateFieldMixin', () {
       expect(classIsSubtypeOf<FormSubmissionField, FormTemplateFieldMixin>(), isTrue);
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.FormSubmissionField), 26);
     });
 
     test('Serialization test', () async {
@@ -254,11 +274,15 @@ void main() {
 
   group('FormSubmissionPackageCollection class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.FormSubmissionPackageCollection), 1);
     });
 
     test('Serialization test', () async {
@@ -281,11 +305,15 @@ void main() {
 
   group('FormSubmissionPackage class tests', () {
     setUp(() async {
-      await NucleusOne.intializeSdk();
+      await NucleusOne.initializeSdk();
     });
 
     tearDown(() async {
       await NucleusOne.resetSdk();
+    });
+
+    test('Expected class field count test', () {
+      expect(getClassPublicFieldCount(api_mod.FormSubmissionPackage), 3);
     });
 
     test('Serialization test', () async {
