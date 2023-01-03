@@ -37,7 +37,7 @@ int getClassPublicFieldCount(Type classType) {
   if (classMirror.superclass != null) {
     iterableList.add(classMirror.superclass!.mixin.declarations.values);
   }
-  
+
   for (var iterable in iterableList) {
     for (var d in iterable) {
       if ((d is VariableMirror) && !d.isPrivate) {

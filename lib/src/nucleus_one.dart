@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
@@ -6,6 +7,11 @@ import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 
 import 'common/get_it.dart';
+import 'common/model.dart';
+import 'common/util.dart';
+import 'http.dart' as http;
+import 'api_model/organization_for_client.dart' as api_mod;
+import 'api_model/query_result.dart' as api_mod;
 
 /// The entry point for accessing Nucleus One.
 abstract class NucleusOne {
@@ -89,6 +95,28 @@ class NucleusOneApp {
       app: this,
       id: organizationId,
     );
+  }
+
+  /// Gets organizations that the current user is a member of, by page.
+  Future<QueryResult<OrganizationForClientCollection>> getOrganizations({
+    String? cursor,
+  }) async {
+    final qp = http.StandardQueryParams.get([
+      (sqp) => sqp.cursor(cursor),
+    ]);
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.organizations,
+      this,
+      query: qp,
+    );
+
+    final apiModel = api_mod.QueryResult<api_mod.OrganizationForClientCollection>.fromJson(
+        jsonDecode(responseBody));
+
+    return await DefineN1AppInScope(this, () {
+      return OrganizationForClientCollectionQueryResult.fromApiModelOrganizationForClientCollection(
+          apiModel);
+    });
   }
 
   /// User

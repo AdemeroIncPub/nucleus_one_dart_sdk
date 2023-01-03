@@ -145,7 +145,10 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   /// [ignoreInbox]: Whether results should contain documents from the Inbox.
   ///
   /// [ignoreRecycleBin]: Whether results should contain documents from the Recycle Bin.
-  Future<int> getDocumentCount(bool ignoreInbox, bool ignoreRecycleBin) async {
+  Future<int> getDocumentCount({
+    required bool ignoreInbox,
+    required bool ignoreRecycleBin,
+  }) async {
     final qp = {
       'ignoreInbox': ignoreInbox,
       'ignoreRecycleBin': ignoreRecycleBin,

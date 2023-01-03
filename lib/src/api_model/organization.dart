@@ -20,8 +20,8 @@ class Organization extends Entity {
   @JsonKey(name: 'CreatedOn')
   String? createdOn;
 
-  @JsonKey(name: 'Disabled')
-  bool? disabled;
+  @JsonKey(name: 'BucketName')
+  String? bucketName;
 
   @JsonKey(name: 'Name')
   String? name;
@@ -38,17 +38,35 @@ class Organization extends Entity {
   @JsonKey(name: 'CreatingUserEmail')
   String? creatingUserEmail;
 
-  @JsonKey(name: 'CrmLeadId')
-  String? crmLeadId;
-
   @JsonKey(name: 'CrmAccountId')
   String? crmAccountId;
+
+  @JsonKey(name: 'CrmLeadId')
+  String? crmLeadId;
 
   @JsonKey(name: 'CrmContactId')
   String? crmContactId;
 
   @JsonKey(name: 'CrmDealId')
   String? crmDealId;
+
+  @JsonKey(name: 'Disabled')
+  bool? disabled;
+
+  @JsonKey(name: 'IsMarkedForPurge')
+  bool? isMarkedForPurge;
+
+  @JsonKey(name: 'PurgeMarkedOn')
+  String? purgeMarkedOn;
+
+  @JsonKey(name: 'PurgeMarkedByUserID')
+  String? purgeMarkedByUserID;
+
+  @JsonKey(name: 'PurgeMarkedByUserName')
+  String? purgeMarkedByUserName;
+
+  @JsonKey(name: 'PurgeMarkedByUserEmail')
+  String? purgeMarkedByUserEmail;
 
   @JsonKey(name: 'SubscriptionRequired')
   bool? subscriptionRequired;
@@ -59,8 +77,11 @@ class Organization extends Entity {
   @JsonKey(name: 'SubscriptionExpiration')
   String? subscriptionExpiration;
 
-  @JsonKey(name: 'MaxTenants')
-  int? maxProjects;
+  @JsonKey(name: 'SearchIndexRemovedForCostSavings')
+  bool? searchIndexRemovedForCostSavings;
+
+  @JsonKey(name: 'SearchIndexRestoredAtLeastOnce')
+  bool? searchIndexRestoredAtLeastOnce;
 
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization

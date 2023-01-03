@@ -18,7 +18,7 @@ void main() {
     tearDown(() async {
       await NucleusOne.resetSdk();
     });
-    
+
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SubscriptionDetails), 14);
     });

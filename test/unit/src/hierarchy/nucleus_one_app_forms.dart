@@ -34,9 +34,7 @@ void main() {
         httpCallCallback: () => forms.getFormTemplates(),
         responseBody: formTemplateCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [
-          'sortDescending=false',
-        ],
+        expectedRequestQueryParams: [],
       );
 
       forms = getStandardN1Project().forms();
@@ -45,13 +43,11 @@ void main() {
         httpMethod: HttpMethods.GET,
         httpCallCallback: () => forms.getFormTemplates(
           cursor: 'A',
-          sortDescending: true,
         ),
         responseBody: formTemplateCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [
           'cursor=A',
-          'sortDescending=true',
         ],
       );
     });

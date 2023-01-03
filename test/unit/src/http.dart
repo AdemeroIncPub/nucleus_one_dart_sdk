@@ -138,7 +138,7 @@ void main() {
             responseBody: '123',
             responseHttpStatus: responseHttpStatus,
           );
-        } on HttpException catch (e) {
+        } on NucleusOneHttpException catch (e) {
           // Verify that an exception was expected and that it has the right HTTP status
           expect(responseIsError, isTrue);
           expect(e.status, responseHttpStatus);
@@ -326,23 +326,23 @@ void main() {
     });
   });
 
-  group('HttpException class tests', () {
+  group('NucleusOneHttpException class tests', () {
     test('Constructor test', () {
-      var e = HttpException(200);
+      var e = NucleusOneHttpException(200);
       expect(e.status, 200);
       expect(e.message, isNull);
 
-      e = HttpException(500, 'abc');
+      e = NucleusOneHttpException(500, 'abc');
       expect(e.status, 500);
       expect(e.message, 'abc');
     });
 
     test('fromJsonSafe factory constructor test', () {
-      var e = HttpException.fromJsonSafe(200, 'abc');
+      var e = NucleusOneHttpException.fromJsonSafe(200, 'abc');
       expect(e.status, 200);
       expect(e.message, 'abc');
 
-      e = HttpException.fromJsonSafe(500, '{"message":"xyz"}');
+      e = NucleusOneHttpException.fromJsonSafe(500, '{"message":"xyz"}');
       expect(e.status, 500);
       expect(e.message, 'xyz');
     });

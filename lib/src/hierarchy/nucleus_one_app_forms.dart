@@ -24,15 +24,11 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
   /// Gets form templates, by page.
   ///
   /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  ///
-  /// [sortDescending]: Sort order.
   Future<QueryResult<FormTemplateCollection>> getFormTemplates({
     String? cursor,
-    bool sortDescending = false,
   }) async {
     final qp = http.StandardQueryParams.get([
       (sqp) => sqp.cursor(cursor),
-      (sqp) => sqp.sortDescending(sortDescending),
     ]);
 
     final responseBody = await http.executeGetRequestWithTextResponse(

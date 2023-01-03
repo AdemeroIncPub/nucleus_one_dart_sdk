@@ -83,8 +83,6 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
   /// - GlobalAssignments_MemberContentByDefault
   /// - MembersOnlyAssignments_MemberContentByAssignment
   ///
-  /// [includeProjectId]: Includes a specific project in the results.
-  ///
   /// [nameFilter]: Filters results to only those projects starting with this value.
   ///
   /// [getAll]: Returns all projects in a single results, without using paging.
@@ -93,7 +91,6 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
   Future<QueryResult<OrganizationProjectCollection>> getProjects({
     String? cursor,
     String? projectAccessType,
-    String? includeProjectId,
     String? nameFilter,
     bool? getAll,
     bool? adminOnly,
@@ -103,9 +100,6 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     ]);
     if (projectAccessType != null) {
       qp['projectAccessType'] = projectAccessType;
-    }
-    if (includeProjectId != null) {
-      qp['includeProjectId'] = includeProjectId;
     }
     if (nameFilter != null) {
       qp['nameFilter'] = nameFilter;

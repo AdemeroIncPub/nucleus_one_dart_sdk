@@ -23,7 +23,7 @@ void main() {
   /*
   Because these "API model" classes are purely boilerplate for generated json_serializable logic,
   it is sufficient to cover the tests for these under the equivalent "model" classes, under
-  ".\model\*", so longer as 100% coverage is achieved.
+  ".\model\*", so long as 100% coverage is achieved.
   */
 
   group('FormTemplateField class tests', () {
@@ -34,7 +34,8 @@ void main() {
 
   group('FormSubmissionField class tests', () {
     test('Inherits from FormTemplateFieldMixin', () {
-      expect(classIsSubtypeOf<api_mod.FormSubmissionField, api_mod.FormTemplateFieldMixin>(), isTrue);
+      expect(
+          classIsSubtypeOf<api_mod.FormSubmissionField, api_mod.FormTemplateFieldMixin>(), isTrue);
     });
   });
 }

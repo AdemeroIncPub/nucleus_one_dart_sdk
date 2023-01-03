@@ -122,6 +122,7 @@ void main() {
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentContentPackagesFormat
           .replaceOrganizationAndProjectPlaceholders(document.project)
           .replaceDocumentIdPlaceholder('123');
+
       // Test with default parameters
       await performHttpTest(
         httpMethod: HttpMethods.GET,
@@ -134,6 +135,21 @@ void main() {
           'singlePage=false',
           'requireSinglePage=false',
           'pageIndex=0',
+        ],
+      );
+      
+      // Test with pageIndex parameter
+      await performHttpTest(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => document.getDocumentContentPackage(pageIndex: 1),
+        responseBody: documentContentPackageJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'displayInline=false',
+          'preview=false',
+          'singlePage=false',
+          'requireSinglePage=false',
+          'pageIndex=1',
         ],
       );
     });

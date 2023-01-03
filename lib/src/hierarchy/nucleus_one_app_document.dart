@@ -175,13 +175,17 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   }
 
   /// Gets this document's content package.
-  Future<DocumentContentPackage> getDocumentContentPackage() async {
+  ///
+  /// [pageIndex]: The starting page of the document to return, if the document has multiple pages.
+  Future<DocumentContentPackage> getDocumentContentPackage({
+    int pageIndex = 0,
+  }) async {
     final qp = http.StandardQueryParams.get();
     qp['displayInline'] = 'false';
     qp['preview'] = 'false';
     qp['singlePage'] = 'false';
     qp['requireSinglePage'] = 'false';
-    qp['pageIndex'] = '0';
+    qp['pageIndex'] = pageIndex;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentContentPackagesFormat

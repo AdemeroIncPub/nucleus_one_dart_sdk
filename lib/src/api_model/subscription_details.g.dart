@@ -9,8 +9,7 @@ part of 'subscription_details.dart';
 SubscriptionDetails _$SubscriptionDetailsFromJson(Map<String, dynamic> json) =>
     SubscriptionDetails()
       ..paymentSubscriptionExists = json['PaymentSubscriptionExists'] as bool?
-      ..paymentSubscriptionCanceled =
-          json['PaymentSubscriptionCanceled'] as bool?
+      ..paymentSubscriptionCanceled = json['PaymentSubscriptionCanceled'] as bool?
       ..paymentPlanId = json['PaymentPlanId'] as String?
       ..tokenId = json['TokenId'] as String?
       ..customerName = json['CustomerName'] as String?
@@ -34,8 +33,7 @@ Map<String, dynamic> _$SubscriptionDetailsToJson(SubscriptionDetails instance) {
   }
 
   writeNotNull('PaymentSubscriptionExists', instance.paymentSubscriptionExists);
-  writeNotNull(
-      'PaymentSubscriptionCanceled', instance.paymentSubscriptionCanceled);
+  writeNotNull('PaymentSubscriptionCanceled', instance.paymentSubscriptionCanceled);
   writeNotNull('PaymentPlanId', instance.paymentPlanId);
   writeNotNull('TokenId', instance.tokenId);
   writeNotNull('CustomerName', instance.customerName);

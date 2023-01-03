@@ -17,6 +17,7 @@ import '../model/task.dart' as mod;
 import '../model/support_user.dart' as mod;
 import '../model/support_organization.dart' as mod;
 import '../model/support_error_event.dart' as mod;
+import '../model/organization_for_client.dart' as mod;
 import '../model/organization_package.dart' as mod;
 import '../model/organization_project.dart' as mod;
 import '../model/query_result.dart' as mod;
@@ -39,6 +40,7 @@ import '../api_model/task_event.dart' as api_mod;
 import '../api_model/support_user.dart' as api_mod;
 import '../api_model/support_organization.dart' as api_mod;
 import '../api_model/support_error_event.dart' as api_mod;
+import '../api_model/organization_for_client.dart' as api_mod;
 
 import '../nucleus_one.dart';
 import 'get_it.dart';
@@ -394,6 +396,20 @@ abstract class OrganizationProjectCollectionQueryResult {
   }) {
     return mod.QueryResult(
       results: mod.OrganizationProjectCollection.fromApiModel(apiModel.results!, app: app),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+abstract class OrganizationForClientCollectionQueryResult {
+  static mod.QueryResult<mod.OrganizationForClientCollection>
+      fromApiModelOrganizationForClientCollection(
+    api_mod.QueryResult<api_mod.OrganizationForClientCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return mod.QueryResult(
+      results: mod.OrganizationForClientCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );

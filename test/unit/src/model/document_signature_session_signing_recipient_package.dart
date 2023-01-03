@@ -22,7 +22,8 @@ void main() {
     });
 
     test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionRecipientFormFieldCollection), 1);
+      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionRecipientFormFieldCollection),
+          1);
     });
 
     test('Serialization test', () async {

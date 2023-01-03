@@ -94,12 +94,31 @@ class NucleusOneAppTasks with NucleusOneAppProjectDependent {
   }
 
   /// Gets all Tasks in this project.
+  ///
+  /// [activeOnly]: Only return active tasks.
+  ///
+  /// [completedOnly]: Only return completed tasks.
+  ///
+  /// [deniedOnly]: Only return denied tasks.
   Future<QueryResult<TaskCollection>> get({
+    bool? activeOnly,
+    bool? completedOnly,
+    bool? deniedOnly,
     String? cursor,
   }) async {
     final qp = http.StandardQueryParams.get([
       (sqp) => sqp.cursor(cursor),
     ]);
+
+    if (activeOnly != null) {
+      qp['activeOnly'] = activeOnly;
+    }
+    if (completedOnly != null) {
+      qp['completedOnly'] = completedOnly;
+    }
+    if (deniedOnly != null) {
+      qp['deniedOnly'] = deniedOnly;
+    }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsTasksFormat

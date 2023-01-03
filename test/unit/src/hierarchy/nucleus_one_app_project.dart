@@ -46,7 +46,10 @@ void main() {
       final project = getStandardN1Project();
       await performHttpTest<int>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => project.getDocumentCount(true, false),
+        httpCallCallback: () => project.getDocumentCount(
+          ignoreInbox: true,
+          ignoreRecycleBin: false,
+        ),
         responseBody: '1',
         expectedRequestUrlPath: http.apiPaths.organizationsProjectsCountsDocumentsFormat
             .replaceOrganizationAndProjectPlaceholders(project),

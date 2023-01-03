@@ -43,6 +43,42 @@ void main() {
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
       );
+
+      // Test with only cursor flag
+      await performHttpTest<QueryResult<TaskCollection>>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => project.tasks().get(cursor: 'A'),
+        responseBody: taskCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: ['cursor=A'],
+      );
+
+      // Test with only activeOnly flag
+      await performHttpTest<QueryResult<TaskCollection>>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => project.tasks().get(activeOnly: true),
+        responseBody: taskCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: ['activeOnly=true'],
+      );
+
+      // Test with only completedOnly flag
+      await performHttpTest<QueryResult<TaskCollection>>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => project.tasks().get(completedOnly: true),
+        responseBody: taskCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: ['completedOnly=true'],
+      );
+
+      // Test with only deniedOnly flag
+      await performHttpTest<QueryResult<TaskCollection>>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => project.tasks().get(deniedOnly: true),
+        responseBody: taskCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: ['deniedOnly=true'],
+      );
     });
 
     test('getTasksByTaskId method tests', () async {

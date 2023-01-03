@@ -134,7 +134,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
 
   if (resp.statusCode != HttpStatus.ok) {
     final respBody = await resp.readToEnd();
-    throw HttpException.fromJsonSafe(resp.statusCode, respBody);
+    throw NucleusOneHttpException.fromJsonSafe(resp.statusCode, respBody);
   }
 
   return resp;
@@ -411,13 +411,13 @@ class StandardQueryParams {
 }
 
 @immutable
-class HttpException implements Exception {
+class NucleusOneHttpException implements Exception {
   final String? message;
   final int status;
 
-  HttpException(this.status, [this.message]);
+  NucleusOneHttpException(this.status, [this.message]);
 
-  factory HttpException.fromJsonSafe(int status, String json) {
+  factory NucleusOneHttpException.fromJsonSafe(int status, String json) {
     String? message;
     try {
       message = (jsonDecode(json) as Map)['message'];
@@ -426,6 +426,6 @@ class HttpException implements Exception {
       // then just set the "json" as the message
       message = json;
     }
-    return HttpException(status, message);
+    return NucleusOneHttpException(status, message);
   }
 }
