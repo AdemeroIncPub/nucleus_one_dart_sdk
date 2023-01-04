@@ -2,10 +2,14 @@ import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
 import '../../src/assertions.dart';
 import '../../src/common.dart';
+import '../../src/mocks/http.dart';
+import '../../src/model_helper.dart';
+import 'api_model/organization_for_client.dart';
 
 void main() {
   group('NucleusOne class tests', () {
@@ -60,6 +64,63 @@ void main() {
       final org = n1App.organization('123');
       expect(org, isA<NucleusOneAppOrganization>());
       expect(org.app, n1App);
+    });
+
+    test('getOrganization method tests', () async {
+      // final org = getStandardN1Org();
+      // final expectedUrlPath =
+      //     http.apiPaths.organizationsOrganizationFormat.replaceOrgIdPlaceholder(org.id);
+      final expectedUrlPath = http.apiPaths.organizations;
+
+      await performHttpTest<void>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => getStandardN1App().getOrganization(organizationId: 'A'),
+        responseBody: organizationForClientCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+
+      // Test that an eror is thrown when the requested org is not found.  This is only necessary
+      // untilthe proper implementation is in place in the N1 API.  See the getOrganization method
+      // for details.
+      final pt = performHttpTest<void>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => getStandardN1App().getOrganization(organizationId: '123'),
+        responseBody: organizationForClientCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+
+      expect(
+          () => pt,
+          throwsA(allOf(
+            TypeMatcher<NucleusOneHttpException>(),
+            predicate((NucleusOneHttpException e) => (e.status == 404)),
+          )));
+    });
+
+    test('getOrganizations method tests', () async {
+      final expectedUrlPath = http.apiPaths.organizations;
+
+      // Test with default parameters
+      await performHttpTest<QueryResult<OrganizationForClientCollection>>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => getStandardN1App().getOrganizations(),
+        responseBody: organizationForClientCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+
+      // Test with cursor parameter
+      await performHttpTest<QueryResult<OrganizationForClientCollection>>(
+        httpMethod: HttpMethods.GET,
+        httpCallCallback: () => getStandardN1App().getOrganizations(cursor: 'A'),
+        responseBody: organizationForClientCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [
+          'cursor=A',
+        ],
+      );
     });
   });
 

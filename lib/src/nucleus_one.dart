@@ -5,6 +5,7 @@ import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
 import 'common/get_it.dart';
 import 'common/model.dart';
@@ -94,6 +95,34 @@ class NucleusOneApp {
     return NucleusOneAppOrganization(
       app: this,
       id: organizationId,
+    );
+  }
+
+  /// Gets an organization by ID.
+  ///
+  /// [organizationId]: The organization ID.
+  Future<OrganizationForClient> getOrganization({
+    required String organizationId,
+  }) async {
+    // This will be the correct implementation when the GET operation is implemented in the API
+    /*
+    final qp = http.StandardQueryParams.get();
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.organizationsOrganizationFormat.replaceOrgIdPlaceholder(organizationId),
+      this,
+      query: qp,
+    );
+    final apiModel = api_mod.OrganizationForClient.fromJson(jsonDecode(responseBody));
+    return await DefineN1AppInScope(this, () {
+      return OrganizationForClient.fromApiModel(apiModel);
+    });
+    */
+    
+    final orgs = await getOrganizations();
+    return orgs.results.items.firstWhere(
+      (x) => x.id == organizationId,
+      orElse: () => throw NucleusOneHttpException(404),
     );
   }
 

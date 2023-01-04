@@ -50,7 +50,7 @@ void main() {
 
     test('getProjects method tests', () async {
       final expectedUrlPath =
-          http.apiPaths.userOrganizationsProjectsFormat.replaceOrganizationPlaceholder('123');
+          http.apiPaths.userOrganizationsProjectsFormat.replaceOrgIdPlaceholder('123');
       final n1App = getStandardN1App();
       // Test with default parameters
       await performHttpTest<UserOrganizationProjectCollection>(

@@ -33,7 +33,7 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsFormTemplatesFormat
-          .replaceOrganizationAndProjectPlaceholders(project),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       project.app,
       query: qp,
     );

@@ -4,6 +4,7 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/organization_for_client.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_subscriptions.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
@@ -69,30 +70,6 @@ void main() {
       final sub = org.subscriptions();
       expect(sub, isA<NucleusOneAppSubscriptions>());
       expect(sub.app, org.app);
-    });
-
-    test('getOrganizations method tests', () async {
-      final expectedUrlPath = http.apiPaths.organizations;
-
-      // Test with default parameters
-      await performHttpTest<QueryResult<OrganizationForClientCollection>>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => getStandardN1App().getOrganizations(),
-        responseBody: organizationForClientCollectionJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
-
-      // Test with cursor parameter
-      await performHttpTest<QueryResult<OrganizationForClientCollection>>(
-        httpMethod: HttpMethods.GET,
-        httpCallCallback: () => getStandardN1App().getOrganizations(cursor: 'A'),
-        responseBody: organizationForClientCollectionJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [
-          'cursor=A',
-        ],
-      );
     });
   });
 

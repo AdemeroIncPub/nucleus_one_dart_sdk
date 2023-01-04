@@ -67,7 +67,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
     required String organizationId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.userOrganizationsProjectsFormat.replaceOrganizationPlaceholder(organizationId),
+      http.apiPaths.userOrganizationsProjectsFormat.replaceOrgIdPlaceholder(organizationId),
       app,
     );
     final apiModel =

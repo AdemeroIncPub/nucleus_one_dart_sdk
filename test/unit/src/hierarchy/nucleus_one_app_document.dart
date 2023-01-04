@@ -38,7 +38,7 @@ void main() {
     test('getComments method tests', () async {
       var document = getStandardN1Project().document('123');
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
 
       // Test with default parameters
@@ -64,7 +64,7 @@ void main() {
     test('postComments method tests', () async {
       var document = getStandardN1Project().document('123');
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
       // Test with no comments
       await performHttpTest(
@@ -95,7 +95,7 @@ void main() {
     test('getEvents method tests', () async {
       var document = getStandardN1Project().document('123');
       final expectedUrlPath = http.apiPaths.organizationProjectsDocumentsDocumentEventsFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
       // Test with default parameters
       await performHttpTest(
@@ -120,7 +120,7 @@ void main() {
     test('getDocumentContentPackage method tests', () async {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentContentPackagesFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
 
       // Test with default parameters
@@ -137,7 +137,7 @@ void main() {
           'pageIndex=0',
         ],
       );
-      
+
       // Test with pageIndex parameter
       await performHttpTest(
         httpMethod: HttpMethods.GET,
@@ -157,7 +157,7 @@ void main() {
     test('getDocumentPackage method tests', () async {
       final document = getStandardN1Project().document('ABC');
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentPackagesFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('ABC');
       // Test with default parameters
       await performHttpTest<DocumentPackage>(
@@ -172,7 +172,7 @@ void main() {
     test('getThumbnailUrl method tests', () async {
       final document = getStandardN1Project().document('ABC');
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentsThumbnailsFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('ABC');
 
       await performHttpTest<String>(
@@ -187,7 +187,7 @@ void main() {
     test('updateDocumentName method tests', () async {
       var document = getStandardN1Project().document('123');
       var expectedUrlPath = http.apiPaths.organizationsProjectsDocumentsDocumentFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
 
       try {
@@ -208,7 +208,7 @@ void main() {
 
       document = getStandardN1Project().document('234');
       expectedUrlPath = http.apiPaths.organizationsProjectsDocumentsDocumentFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('234');
       await performHttpTest(
         httpMethod: HttpMethods.PUT,
@@ -226,7 +226,7 @@ void main() {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsDocumentsDocumentSignatureFormsFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
 
       await performHttpTest(
@@ -242,7 +242,7 @@ void main() {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234');
 
@@ -261,7 +261,7 @@ void main() {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('A');
 
@@ -285,7 +285,7 @@ void main() {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234');
 
@@ -304,7 +304,7 @@ void main() {
       var document = getStandardN1Project().document('123');
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234');
       final apiModel = api_mod.DocumentSignatureFormFieldCollection.fromJson(
@@ -352,7 +352,7 @@ void main() {
       final field = DocumentSignatureFormField.fromApiModel(apiModel, app: document.project.app);
       final expectedUrlPath = http.apiPaths
           .organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234')
           .replaceDocumentSignatureFormFieldIdPlaceholder(field.id);
@@ -394,7 +394,7 @@ void main() {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http.apiPaths
           .organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234')
           .replaceDocumentSignatureFormFieldIdPlaceholder('345');
@@ -416,7 +416,7 @@ void main() {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234');
 
@@ -436,7 +436,7 @@ void main() {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
 
       await performHttpTest<DocumentSignatureSessionPackage>(
@@ -452,7 +452,7 @@ void main() {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
       final packagesApiModel = api_mod.DocumentSignatureSessionPackageCollection.fromJson(
           jsonDecode(documentSignatureSessionPackageCollectionJson));
@@ -474,7 +474,7 @@ void main() {
     test('getSubscription method tests', () async {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentSubscriptionsFormat
-          .replaceOrganizationAndProjectPlaceholders(document.project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
       // Test with default parameters
       await performHttpTest<DocumentSubscriptionForClient>(
@@ -501,7 +501,7 @@ void main() {
       var documents = project.documents();
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsDocumentActionsRestoreFromRecycleBinFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
       // Test with no document ids
       testAssertionErrorAsync(
           () async => await performHttpTest(
@@ -532,7 +532,7 @@ void main() {
       var documents = project.documents();
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsDocumentActionsSendToRecycleBinFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
       // Test with no document ids
       testAssertionErrorAsync(
           () async => await performHttpTest(

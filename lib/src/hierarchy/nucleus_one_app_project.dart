@@ -134,7 +134,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   Future<int> getRecycleBinDocumentCount() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsCountsRecycleBinDocumentsFormat
-          .replaceOrganizationAndProjectPlaceholders(this),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
     );
     return int.parse(responseBody);
@@ -155,7 +155,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     };
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsCountsDocumentsFormat
-          .replaceOrganizationAndProjectPlaceholders(this),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       query: qp,
     );
@@ -176,7 +176,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentFoldersFormat
-          .replaceOrganizationAndProjectPlaceholders(this),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       query: qp,
     );
@@ -197,7 +197,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentFoldersDocumentFolderFormat
-          .replaceOrganizationAndProjectPlaceholders(this)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceDocumentFolderIdPlaceholder(documentFolderId),
       app,
       query: qp,
@@ -214,7 +214,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   Future<int> getPageCount() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsCountsPagesFormat
-          .replaceOrganizationAndProjectPlaceholders(this),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
     );
     return int.parse(responseBody);
@@ -224,7 +224,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   Future<SignatureFormTemplateCollection> getSignatureFormTemplates() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsSignatureFormTemplatesFormat
-          .replaceOrganizationAndProjectPlaceholders(this),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
     );
     final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
@@ -241,7 +241,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
       SignatureFormTemplateCollection templates) async {
     final responseBody = await http.executePostRequestWithTextResponse(
       http.apiPaths.organizationsProjectsSignatureFormTemplatesFormat
-          .replaceOrganizationAndProjectPlaceholders(this),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       body: jsonEncode(templates.toApiModel()),
     );
@@ -262,7 +262,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   }) async {
     await http.executePutRequest(
       http.apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
-          .replaceOrganizationAndProjectPlaceholders(this)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
       app,
       body: jsonEncode(template.toApiModel()),
@@ -277,7 +277,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   }) async {
     await http.executeDeleteRequest(
       http.apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
-          .replaceOrganizationAndProjectPlaceholders(this)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
       app: app,
     );
@@ -291,7 +291,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
-          .replaceOrganizationAndProjectPlaceholders(this)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
       app,
     );
@@ -320,7 +320,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
     final responseBody = await http.executePostRequestWithTextResponse(
       http.apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
-          .replaceOrganizationAndProjectPlaceholders(this)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
       app,
       query: qp,
@@ -352,7 +352,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat
-          .replaceOrganizationAndProjectPlaceholders(this),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       query: qp,
     );
@@ -383,7 +383,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsFormat
-          .replaceOrganizationAndProjectPlaceholders(this),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       query: qp,
     );
@@ -402,7 +402,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   Future<DocumentUpload> getDocumentUploadReservation() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentUploadsFormat
-          .replaceOrganizationAndProjectPlaceholders(this),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
     );
     final apiModel = api_mod.DocumentUpload.fromJson(jsonDecode(responseBody));
@@ -512,7 +512,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
     /*final responseBody = */ await http.executePutRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentUploadsFormat
-          .replaceOrganizationAndProjectPlaceholders(this),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       query: qp,
       body: jsonEncode([docUploadReservation.toApiModel()]),

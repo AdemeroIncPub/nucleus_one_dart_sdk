@@ -26,7 +26,7 @@ void main() {
     test('getFormTemplates method tests', () async {
       var forms = getStandardN1Project().forms();
       final expectedUrlPath = http.apiPaths.organizationsProjectsFormTemplatesFormat
-          .replaceOrganizationAndProjectPlaceholders(forms.project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(forms.project);
 
       // Test with default parameters
       await performHttpTest<QueryResult<FormTemplateCollection>>(

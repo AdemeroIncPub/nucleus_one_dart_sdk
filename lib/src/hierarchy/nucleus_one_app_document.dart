@@ -45,7 +45,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   Future<DocumentSubscriptionForClient> getSubscription() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentSubscriptionsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
     );
@@ -56,12 +56,10 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   }
 
   /// Gets the document package for the current document.
-  ///
-  /// [documentId]: The id of the document.
   Future<DocumentPackage> getDocumentPackage() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentPackagesFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
     );
@@ -118,7 +116,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
       query: qp,
@@ -138,7 +136,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   }) async {
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       app: project.app,
       body: jsonEncode({'Comments': comments}),
@@ -161,7 +159,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationProjectsDocumentsDocumentEventsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
       query: qp,
@@ -189,7 +187,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentContentPackagesFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
       query: qp,
@@ -276,7 +274,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
       ..name = documentName;
     final responseBody = await http.executePutRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsDocumentFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
       body: jsonEncode(doc),
@@ -291,7 +289,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   Future<String> getThumbnailUrl() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsThumbnailsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
     );
@@ -303,7 +301,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   Future<DocumentSignatureForm> getOrCreateSignatureForm() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsDocumentSignatureFormsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
     );
@@ -321,7 +319,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
       project.app,
@@ -341,7 +339,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   }) async {
     await http.executePutRequest(
       http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureForm.id),
       project.app,
@@ -357,7 +355,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
       project.app,
@@ -387,7 +385,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
 
     final responseBody = await http.executePostRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
       project.app,
@@ -420,7 +418,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     final responseBody = await http.executePutRequestWithTextResponse(
       http.apiPaths
           .organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId)
           .replaceDocumentSignatureFormFieldIdPlaceholder(signatureFormField.id),
@@ -446,7 +444,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     await http.executeDeleteRequest(
       http.apiPaths
           .organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId)
           .replaceDocumentSignatureFormFieldIdPlaceholder(signatureFormFieldId),
@@ -462,7 +460,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   }) async {
     await http.executeDeleteRequest(
       http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
       app: project.app,
@@ -473,7 +471,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   Future<DocumentSignatureSessionPackage> getSignatureSessionPackage() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
     );
@@ -493,7 +491,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   }) async {
     final responseBody = await http.executePutRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
       body: jsonEncode(packages.toApiModel()),
@@ -521,7 +519,7 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
 
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsDocumentActionsRestoreFromRecycleBinFormat
-          .replaceOrganizationAndProjectPlaceholders(project),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode({'IDs': documentIds}),
     );
@@ -535,7 +533,7 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
 
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsDocumentActionsSendToRecycleBinFormat
-          .replaceOrganizationAndProjectPlaceholders(project),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode({'IDs': documentIds}),
     );

@@ -19,17 +19,29 @@ void main() {
     });
 
     group('CommonFormatting class tests', () {
-      test('replaceOrganizationAndProjectPlaceholders method tests', () {
+      test('replaceOrgIdAndProjectIdPlaceholdersUsingProject method tests', () {
         final project = getStandardN1Project();
-        expect('<projectId>'.replaceOrganizationAndProjectPlaceholders(project), project.id);
+        expect('<projectId>'.replaceOrgIdAndProjectIdPlaceholdersUsingProject(project), project.id);
       });
 
-      test('replaceOrganizationPlaceholder method tests', () {
-        expect('<organizationId>'.replaceOrganizationPlaceholder('123'), '123');
+      test('replaceOrgIdAndProjectIdPlaceholders method tests', () {
+        final project = getStandardN1Project();
+        expect(
+            '<organizationId>/<projectId>'
+                .replaceOrgIdAndProjectIdPlaceholders(project.organization.id, project.id),
+            project.organization.id + '/' + project.id);
+      });
+
+      test('replaceOrgIdPlaceholder method tests', () {
+        expect('<organizationId>'.replaceOrgIdPlaceholder('123'), '123');
       });
 
       test('replaceDocumentIdPlaceholder method tests', () {
         expect('<documentId>'.replaceDocumentIdPlaceholder('123'), '123');
+      });
+
+      test('replaceDocumentFolderIdPlaceholder method tests', () {
+        expect('<documentFolderId>'.replaceDocumentFolderIdPlaceholder('123'), '123');
       });
 
       test('replaceDocumentSignatureFormIdPlaceholder method tests', () {

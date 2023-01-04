@@ -29,7 +29,7 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsTasksTaskFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder(id),
       project.app,
       query: qp,
@@ -58,7 +58,7 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsTasksTaskCommentsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder(id),
       project.app,
       query: qp,
@@ -78,7 +78,7 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
   }) async {
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsTasksTaskCommentsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder(id),
       app: project.app,
       body: jsonEncode({'Comments': comments}),
@@ -122,7 +122,7 @@ class NucleusOneAppTasks with NucleusOneAppProjectDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsTasksFormat
-          .replaceOrganizationAndProjectPlaceholders(project),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       project.app,
       query: qp,
     );
@@ -144,7 +144,7 @@ class NucleusOneAppTasks with NucleusOneAppProjectDependent {
     final apiModel = tasks.toApiModel().tasks;
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsTasksFormat
-          .replaceOrganizationAndProjectPlaceholders(project),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode(apiModel),
     );
@@ -159,7 +159,7 @@ class NucleusOneAppTasks with NucleusOneAppProjectDependent {
 
     await http.executePutRequest(
       http.apiPaths.organizationsProjectsTasksTaskFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder(task.id),
       project.app,
       body: jsonEncode(task.toApiModel()),

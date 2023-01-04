@@ -28,7 +28,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
 
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsApprovalActionsDeclineFormat
-          .replaceOrganizationAndProjectPlaceholders(project),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode(reqBody),
     );
@@ -44,7 +44,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
 
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsApprovalActionsDenyFormat
-          .replaceOrganizationAndProjectPlaceholders(project),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode(reqBody),
     );
@@ -60,7 +60,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
 
     await http.executePostRequest(
       http.apiPaths.organizationsProjectsApprovalActionsApproveFormat
-          .replaceOrganizationAndProjectPlaceholders(project),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode(reqBody),
     );
@@ -86,7 +86,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsApprovalsFormat
-          .replaceOrganizationAndProjectPlaceholders(project),
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       project.app,
       query: qp,
     );

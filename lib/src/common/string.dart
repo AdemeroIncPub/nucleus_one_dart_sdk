@@ -1,3 +1,5 @@
+import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+
 import '../hierarchy/nucleus_one_app_project.dart';
 
 bool isNotEmpty(String? value) {
@@ -9,13 +11,20 @@ bool isNullOrEmpty(String? value) {
 }
 
 extension CommonFormatting on String {
-  String replaceOrganizationAndProjectPlaceholders(NucleusOneAppProject project) {
-    return replaceOrganizationPlaceholder(project.organization.id)
-        .replaceFirst('<projectId>', project.id);
+  String replaceOrgIdAndProjectIdPlaceholdersUsingProject(NucleusOneAppProject project) {
+    return replaceOrgIdPlaceholder(project.organization.id).replaceProjectIdPlaceholder(project.id);
   }
 
-  String replaceOrganizationPlaceholder(String organizationId) {
+  String replaceOrgIdAndProjectIdPlaceholders(String organizationId, String projectId) {
+    return replaceOrgIdPlaceholder(organizationId).replaceProjectIdPlaceholder(projectId);
+  }
+
+  String replaceOrgIdPlaceholder(String organizationId) {
     return replaceFirst('<organizationId>', organizationId);
+  }
+
+  String replaceProjectIdPlaceholder(String projectId) {
+    return replaceFirst('<projectId>', projectId);
   }
 
   String replaceDocumentIdPlaceholder(String documentId) {

@@ -66,12 +66,32 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     required String organizationId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsSubscriptionsFormat.replaceOrganizationPlaceholder(id),
+      http.apiPaths.organizationsSubscriptionsFormat.replaceOrgIdPlaceholder(id),
       app,
     );
     final apiModel = api_mod.SubscriptionDetails.fromJson(jsonDecode(responseBody));
     return await DefineN1AppInScope(app, () {
       return SubscriptionDetails.fromApiModel(apiModel);
+    });
+  }
+
+  /// Gets a project by ID.
+  ///
+  /// [projectId]: The organization's project ID.
+  Future<OrganizationProject> getProject({
+    required String projectId,
+  }) async {
+    final qp = http.StandardQueryParams.get();
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      http.apiPaths.organizationsProjectsProjectFormat
+          .replaceOrgIdAndProjectIdPlaceholders(id, projectId),
+      app,
+      query: qp,
+    );
+    final apiModel = api_mod.OrganizationProject.fromJson(jsonDecode(responseBody));
+    return await DefineN1AppInScope(app, () {
+      return OrganizationProject.fromApiModel(apiModel);
     });
   }
 
@@ -112,7 +132,7 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsFormat.replaceOrganizationPlaceholder(id),
+      http.apiPaths.organizationsProjectsFormat.replaceOrgIdPlaceholder(id),
       app,
       query: qp,
     );

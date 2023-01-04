@@ -21,7 +21,7 @@ void main() {
     test('getApprovals method tests', () async {
       var project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalsFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<QueryResult<ApprovalCollection>>(
@@ -66,7 +66,7 @@ void main() {
     test('approveDocument method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalActionsApproveFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<void>(
@@ -84,7 +84,7 @@ void main() {
     test('declineDocument method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalActionsDeclineFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<void>(
@@ -102,7 +102,7 @@ void main() {
     test('denyDocument method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalActionsDenyFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<void>(

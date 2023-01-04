@@ -22,8 +22,7 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
   /// Gets the organization's subscription plans.
   Future<SubscriptionPlanCollection> getOrganizationSubscriptionPlans() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsSubscriptionsPlansFormat
-          .replaceOrganizationPlaceholder(organization.id),
+      http.apiPaths.organizationsSubscriptionsPlansFormat.replaceOrgIdPlaceholder(organization.id),
       app,
     );
     final apiModel = api_mod.SubscriptionPlanCollection.fromJson(jsonDecode(responseBody));
@@ -40,8 +39,7 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
     required SubscriptionDetails subscriptionDetails,
   }) async {
     await http.executePutRequest(
-      http.apiPaths.organizationsSubscriptionsFormat
-          .replaceOrganizationPlaceholder(organization.id),
+      http.apiPaths.organizationsSubscriptionsFormat.replaceOrgIdPlaceholder(organization.id),
       app,
       body: jsonEncode(subscriptionDetails.toApiModel()),
     );
@@ -53,7 +51,7 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
   Future<SubscriptionInvoiceCollection> getOrganizationSubscriptionInvoices() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsSubscriptionsInvoicesFormat
-          .replaceOrganizationPlaceholder(organization.id),
+          .replaceOrgIdPlaceholder(organization.id),
       app,
     );
     final apiModel = api_mod.SubscriptionInvoiceCollection.fromJson(jsonDecode(responseBody));

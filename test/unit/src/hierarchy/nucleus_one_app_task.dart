@@ -33,7 +33,7 @@ void main() {
     test('getTasks method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsTasksFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<QueryResult<TaskCollection>>(
@@ -84,7 +84,7 @@ void main() {
     test('getTasksByTaskId method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsTasksTaskFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder('123');
 
       // Test with default parameters
@@ -123,7 +123,7 @@ void main() {
         expectedRequestBody: expectedJsonCollection,
         responseBody: expectedJsonCollection,
         expectedRequestUrlPath: http.apiPaths.organizationsProjectsTasksFormat
-            .replaceOrganizationAndProjectPlaceholders(project),
+            .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
         expectedRequestQueryParams: [],
       );
     });
@@ -132,7 +132,7 @@ void main() {
       final project = getStandardN1Project();
       final ts = _getTaskCollection(project);
       final expectedUrlPath = http.apiPaths.organizationsProjectsTasksTaskFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder('A');
 
       await performHttpTest<void>(
@@ -151,7 +151,7 @@ void main() {
     test('getTaskComments method tests', () async {
       var project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsTasksTaskCommentsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder('123');
       // Test with default parameters
       await performHttpTest<QueryResult2<TaskCommentCollection>>(
@@ -177,7 +177,7 @@ void main() {
     test('createTaskComments method tests', () async {
       var project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsTasksTaskCommentsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder('123');
       // Test with no comments
       await performHttpTest(

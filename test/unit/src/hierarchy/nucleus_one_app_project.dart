@@ -52,7 +52,7 @@ void main() {
         ),
         responseBody: '1',
         expectedRequestUrlPath: http.apiPaths.organizationsProjectsCountsDocumentsFormat
-            .replaceOrganizationAndProjectPlaceholders(project),
+            .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
         expectedRequestQueryParams: [
           'ignoreInbox=true',
           'ignoreRecycleBin=false',
@@ -66,7 +66,7 @@ void main() {
     test('getDocumentFolders method tests', () async {
       var project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentFoldersFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<QueryResult<DocumentFolderCollection>>(
@@ -98,7 +98,7 @@ void main() {
       var project = getStandardN1Project();
       final documentFolderId = '123';
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentFoldersDocumentFolderFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentFolderIdPlaceholder(documentFolderId);
 
       // Test with default parameters
@@ -120,7 +120,7 @@ void main() {
         httpCallCallback: () => project.getPageCount(),
         responseBody: '1',
         expectedRequestUrlPath: http.apiPaths.organizationsProjectsCountsPagesFormat
-            .replaceOrganizationAndProjectPlaceholders(project),
+            .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
         expectedRequestQueryParams: [],
         additionalValidationsCallback: (x) {
           expect(x, 1);
@@ -135,7 +135,7 @@ void main() {
         httpCallCallback: () => project.getRecycleBinDocumentCount(),
         responseBody: '1',
         expectedRequestUrlPath: http.apiPaths.organizationsProjectsCountsRecycleBinDocumentsFormat
-            .replaceOrganizationAndProjectPlaceholders(project),
+            .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
         expectedRequestQueryParams: [],
         additionalValidationsCallback: (x) {
           expect(x, 1);
@@ -151,7 +151,7 @@ void main() {
         httpCallCallback: () => project.getDocuments(),
         responseBody: documentCollectionJson,
         expectedRequestUrlPath: http.apiPaths.organizationsProjectsDocumentsFormat
-            .replaceOrganizationAndProjectPlaceholders(project),
+            .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
         expectedRequestQueryParams: [],
       );
 
@@ -167,7 +167,7 @@ void main() {
         ),
         responseBody: documentCollectionJson,
         expectedRequestUrlPath: http.apiPaths.organizationsProjectsDocumentsFormat
-            .replaceOrganizationAndProjectPlaceholders(project),
+            .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
         expectedRequestQueryParams: [
           'showAll=true',
           'documentFolderId=A',
@@ -180,7 +180,7 @@ void main() {
     test('getSignatureFormTemplates method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsSignatureFormTemplatesFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       await performHttpTest<SignatureFormTemplateCollection>(
         httpMethod: HttpMethods.GET,
@@ -195,7 +195,7 @@ void main() {
     test('addSignatureFormTemplates method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsSignatureFormTemplatesFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
       final packagesApiModel = api_mod.SignatureFormTemplateCollection.fromJson(
           jsonDecode(signatureFormTemplateCollectionJson));
       final templates =
@@ -215,7 +215,7 @@ void main() {
       final project = getStandardN1Project();
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceSignatureFormTemplateIdPlaceholder('123');
       final packagesApiModel =
           api_mod.SignatureFormTemplate.fromJson(jsonDecode(signatureFormTemplateJson));
@@ -236,7 +236,7 @@ void main() {
       final project = getStandardN1Project();
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceSignatureFormTemplateIdPlaceholder('123');
 
       await performHttpTest<void>(
@@ -253,7 +253,7 @@ void main() {
       final project = getStandardN1Project();
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceSignatureFormTemplateIdPlaceholder('123');
 
       await performHttpTest<SignatureFormTemplateFieldCollection>(
@@ -270,7 +270,7 @@ void main() {
       var project = getStandardN1Project();
       final expectedUrlPath = http
           .apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
-          .replaceOrganizationAndProjectPlaceholders(project)
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceSignatureFormTemplateIdPlaceholder('123');
       final apiModel = api_mod.SignatureFormTemplateFieldCollection.fromJson(
           jsonDecode(signatureFormTemplateFieldCollectionJson));
@@ -315,7 +315,7 @@ void main() {
         final project = getStandardN1Project();
         final expectedUrlPath = http
             .apiPaths.organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat
-            .replaceOrganizationAndProjectPlaceholders(project);
+            .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
         await performHttpTest<DocumentSignatureFormCollection>(
           httpMethod: HttpMethods.GET,
           httpCallCallback: () {
@@ -359,7 +359,7 @@ void main() {
     test('getDocumentUploadReservation method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentUploadsFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
       // Test with default parameters
       await performHttpTest<DocumentUpload>(
         httpMethod: HttpMethods.GET,
@@ -373,7 +373,7 @@ void main() {
     test('uploadDocument method tests', () async {
       final project = getStandardN1Project();
       final expectedApiUrlPath = http.apiPaths.organizationsProjectsDocumentUploadsFormat
-          .replaceOrganizationAndProjectPlaceholders(project);
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       const fileLen = NucleusOneOptions.uploadChunkSize * 2;
       final fileData = Uint8List.fromList(List.generate(fileLen, (i) => 65));

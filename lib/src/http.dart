@@ -254,6 +254,7 @@ abstract class apiPaths {
       '/formTemplatesPublic/<formTemplateId>/fields/<formTemplateFieldId>/listItems';
   static const formTemplatesPublicSubmissions = '/formTemplatesPublic/<formTemplateId>/submissions';
   static const organizations = '/organizations';
+  static const organizationsOrganizationFormat = '/organizations/<organizationId>';
   static const organizationsPermissionsFormat = '/organizations/<organizationId>/permissions';
   static const organizationsProjectsApprovalActionsApproveFormat =
       '/organizations/<organizationId>/projects/<projectId>/approvalActions/approve';
@@ -314,6 +315,8 @@ abstract class apiPaths {
   static const organizationsProjectsFieldsFieldListItemsFormat =
       '/organizations/<organizationId>/projects/<projectId>/fields/<fieldId>/listItems';
   static const organizationsProjectsFormat = '/organizations/<organizationId>/projects';
+  static const organizationsProjectsProjectFormat =
+      '/organizations/<organizationId>/projects/<projectId>';
   static const organizationsProjectsFormTemplatesFormat =
       '/organizations/<organizationId>/projects/<projectId>/formTemplates';
   static const organizationsProjectsSignatureFormTemplatesFormat =

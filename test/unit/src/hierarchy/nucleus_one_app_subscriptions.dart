@@ -26,7 +26,7 @@ void main() {
     test('getOrganizationSubscriptionPlans method tests', () async {
       final subs = getStandardN1Org().subscriptions();
       final expectedUrlPath = http.apiPaths.organizationsSubscriptionsPlansFormat
-          .replaceOrganizationPlaceholder(subs.organization.id);
+          .replaceOrgIdPlaceholder(subs.organization.id);
 
       // Test with default parameters
       await performHttpTest<SubscriptionPlanCollection>(
@@ -41,7 +41,7 @@ void main() {
     test('updateOrganizationSubscription method tests', () async {
       final subs = getStandardN1Org().subscriptions();
       final expectedUrlPath = http.apiPaths.organizationsSubscriptionsFormat
-          .replaceOrganizationPlaceholder(subs.organization.id);
+          .replaceOrgIdPlaceholder(subs.organization.id);
       final subscriptionDetails = SubscriptionDetails.fromApiModel(
         api_mod.SubscriptionDetails.fromJson(jsonDecode(subscriptionDetailsJson)),
         app: subs.app,
@@ -63,7 +63,7 @@ void main() {
     test('getOrganizationSubscriptionInvoices method tests', () async {
       final subs = getStandardN1Org().subscriptions();
       final expectedUrlPath = http.apiPaths.organizationsSubscriptionsInvoicesFormat
-          .replaceOrganizationPlaceholder(subs.organization.id);
+          .replaceOrgIdPlaceholder(subs.organization.id);
 
       // Test with default parameters
       await performHttpTest<SubscriptionInvoiceCollection>(
