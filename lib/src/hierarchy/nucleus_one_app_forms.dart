@@ -27,9 +27,11 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
   Future<QueryResult<FormTemplateCollection>> getFormTemplates({
     String? cursor,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsFormTemplatesFormat
@@ -56,7 +58,10 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
   /// [id]: The id of the form template.
   ///
   /// [uniqueId]: A unique id that identifies that you are permitted to access this resource.
-  Future<FormTemplate> getFormTemplateById(String id, String uniqueId) async {
+  Future<FormTemplate> getFormTemplateById({
+    required String id,
+    required String uniqueId,
+  }) async {
     final qp = http.StandardQueryParams.get();
     qp['uniqueId'] = uniqueId;
 

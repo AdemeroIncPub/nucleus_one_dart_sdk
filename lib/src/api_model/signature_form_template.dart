@@ -9,7 +9,10 @@ class SignatureFormTemplateCollection extends EntityCollection<SignatureFormTemp
 
   factory SignatureFormTemplateCollection.fromJson(List<dynamic> json) {
     return EntityCollection.fromJson(
-        json, SignatureFormTemplateCollection(), (x) => SignatureFormTemplate.fromJson(x));
+      json: json,
+      instance: SignatureFormTemplateCollection(),
+      entityFromJsonCallback: (x) => SignatureFormTemplate.fromJson(x),
+    );
   }
 }
 
@@ -51,8 +54,11 @@ class SignatureFormTemplateFieldCollection extends EntityCollection<SignatureFor
   SignatureFormTemplateFieldCollection() : super();
 
   factory SignatureFormTemplateFieldCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(json, SignatureFormTemplateFieldCollection(),
-        (x) => SignatureFormTemplateField.fromJson(x));
+    return EntityCollection.fromJson(
+      json: json,
+      instance: SignatureFormTemplateFieldCollection(),
+      entityFromJsonCallback: (x) => SignatureFormTemplateField.fromJson(x),
+    );
   }
 }
 

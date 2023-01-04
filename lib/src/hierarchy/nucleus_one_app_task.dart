@@ -24,7 +24,7 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
 
   /// Gets Tasks by id.
   Future<Task> get() async {
-    final qp = http.StandardQueryParams.get([]);
+    final qp = http.StandardQueryParams.get();
     qp['taskId'] = id;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
@@ -51,10 +51,12 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
     bool sortDescending = true,
     String? cursor,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-      (sqp) => sqp.sortDescending(sortDescending),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+        (sqp) => sqp.sortDescending(sortDescending),
+      ],
+    );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsTasksTaskCommentsFormat
@@ -106,9 +108,11 @@ class NucleusOneAppTasks with NucleusOneAppProjectDependent {
     bool? deniedOnly,
     String? cursor,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
 
     if (activeOnly != null) {
       qp['activeOnly'] = activeOnly;
@@ -154,7 +158,7 @@ class NucleusOneAppTasks with NucleusOneAppProjectDependent {
   ///
   /// [task]: The Task to be updated.
   Future<void> update(Task task) async {
-    final qp = http.StandardQueryParams.get([]);
+    final qp = http.StandardQueryParams.get();
     qp['taskId'] = task.id;
 
     await http.executePutRequest(

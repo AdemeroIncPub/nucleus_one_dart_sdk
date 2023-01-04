@@ -65,7 +65,10 @@ class FolderHierarchyItemCollection extends EntityCollection<FolderHierarchyItem
 
   factory FolderHierarchyItemCollection.fromJson(List<dynamic> json) {
     return EntityCollection.fromJson(
-        json, FolderHierarchyItemCollection(), (x) => FolderHierarchyItem.fromJson(x));
+      json: json,
+      instance: FolderHierarchyItemCollection(),
+      entityFromJsonCallback: (x) => FolderHierarchyItem.fromJson(x),
+    );
   }
 }
 

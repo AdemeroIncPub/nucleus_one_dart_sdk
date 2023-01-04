@@ -9,7 +9,10 @@ class SubscriptionInvoiceCollection extends EntityCollection<SubscriptionInvoice
 
   factory SubscriptionInvoiceCollection.fromJson(List<dynamic> json) {
     return EntityCollection.fromJson(
-        json, SubscriptionInvoiceCollection(), (x) => SubscriptionInvoice.fromJson(x));
+      json: json,
+      instance: SubscriptionInvoiceCollection(),
+      entityFromJsonCallback: (x) => SubscriptionInvoice.fromJson(x),
+    );
   }
 }
 

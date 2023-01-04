@@ -115,9 +115,11 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     bool? getAll,
     bool? adminOnly,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
     if (projectAccessType != null) {
       qp['projectAccessType'] = projectAccessType;
     }

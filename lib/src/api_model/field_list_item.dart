@@ -9,7 +9,10 @@ class FieldListItemCollection extends EntityCollection<FieldListItem> {
 
   factory FieldListItemCollection.fromJson(List<dynamic> json) {
     return EntityCollection.fromJson(
-        json, FieldListItemCollection(), (x) => FieldListItem.fromJson(x));
+      json: json,
+      instance: FieldListItemCollection(),
+      entityFromJsonCallback: (x) => FieldListItem.fromJson(x),
+    );
   }
 }
 

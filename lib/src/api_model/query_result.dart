@@ -70,8 +70,10 @@ class QueryResult<T> {
   /// A necessary factory constructor for creating a new QueryResult instance
   /// from a map. Pass the map to the generated [_$QueryResultFromJson()] constructor.
   /// The constructor is named after the source class, in this case, QueryResult.
-  factory QueryResult.fromJson(Map<String, dynamic> json,
-      [Object Function(Map<String, dynamic>)? fromJsonFactoryOverride]) {
+  factory QueryResult.fromJson(
+    Map<String, dynamic> json, {
+    Object Function(Map<String, dynamic>)? fromJsonFactoryOverride,
+  }) {
     return _resultsFromJson<T, QueryResult<T>>(
         false, _$QueryResultFromJson, _fromJsonFactories, json, fromJsonFactoryOverride);
   }
@@ -107,8 +109,10 @@ class QueryResult2<T> extends QueryResult<T> {
   /// A necessary factory constructor for creating a new QueryResult2 instance
   /// from a map. Pass the map to the generated [_$QueryResult2FromJson()] constructor.
   /// The constructor is named after the source class, in this case, QueryResult2.
-  factory QueryResult2.fromJson(Map<String, dynamic> json,
-      [Object Function(Map<String, dynamic>)? fromJsonFactoryOverride]) {
+  factory QueryResult2.fromJson(
+    Map<String, dynamic> json, {
+    Object Function(Map<String, dynamic>)? fromJsonFactoryOverride,
+  }) {
     return _resultsFromJson<T, QueryResult2<T>>(
         true, _$QueryResult2FromJson, _fromJsonFactories, json, fromJsonFactoryOverride);
   }

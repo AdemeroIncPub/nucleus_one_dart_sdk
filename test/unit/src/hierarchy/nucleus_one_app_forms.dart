@@ -59,7 +59,7 @@ void main() {
 
       await performHttpTest<FormTemplate>(
         httpMethod: HttpMethods.GET,
-        httpCallCallback: () => forms.getFormTemplateById('123', '456'),
+        httpCallCallback: () => forms.getFormTemplateById(id: '123', uniqueId: '456'),
         responseBody: formTemplateJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [

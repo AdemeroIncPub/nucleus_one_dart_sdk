@@ -89,8 +89,11 @@ class DocumentSignatureSessionRecipientFormFieldCollection
   DocumentSignatureSessionRecipientFormFieldCollection() : super();
 
   factory DocumentSignatureSessionRecipientFormFieldCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(json, DocumentSignatureSessionRecipientFormFieldCollection(),
-        (x) => DocumentSignatureSessionRecipientFormField.fromJson(x));
+    return EntityCollection.fromJson(
+      json: json,
+      instance: DocumentSignatureSessionRecipientFormFieldCollection(),
+      entityFromJsonCallback: (x) => DocumentSignatureSessionRecipientFormField.fromJson(x),
+    );
   }
 }
 

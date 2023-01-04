@@ -35,7 +35,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// [singleUserPreferenceId] The id of the User Preference to be updated.
   Future<void> updateUserPreferenceByUserPreferenceId(
       UserPreference userPreference, String singleUserPreferenceId) async {
-    final qp = http.StandardQueryParams.get([]);
+    final qp = http.StandardQueryParams.get();
     qp['singleUserPreferenceId'] = singleUserPreferenceId;
 
     await http.executePutRequest(

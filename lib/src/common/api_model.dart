@@ -12,10 +12,11 @@ abstract class EntityCollection<T extends Entity> {
 
   @protected
   static TCollection
-      fromJson<TEntity extends Entity, TCollection extends EntityCollection<TEntity>>(
-          List<dynamic> json,
-          TCollection instance,
-          TEntity Function(Map<String, dynamic>) entityFromJsonCallback) {
+      fromJson<TEntity extends Entity, TCollection extends EntityCollection<TEntity>>({
+    required List<dynamic> json,
+    required TCollection instance,
+    required TEntity Function(Map<String, dynamic>) entityFromJsonCallback,
+  }) {
     return instance..items = json.map((m) => entityFromJsonCallback(m)).toList();
   }
 

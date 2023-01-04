@@ -1,7 +1,5 @@
 import 'dart:mirrors';
 
-import 'package:collection/collection.dart';
-
 String getSymbolName(Symbol? s) {
   if (s == null) {
     return '';

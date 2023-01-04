@@ -109,10 +109,12 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     bool sortDescending = true,
     String? cursor,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-      (sqp) => sqp.sortDescending(sortDescending),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+        (sqp) => sqp.sortDescending(sortDescending),
+      ],
+    );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
@@ -152,10 +154,12 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     bool sortDescending = true,
     String? cursor,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-      (sqp) => sqp.sortDescending(sortDescending),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+        (sqp) => sqp.sortDescending(sortDescending),
+      ],
+    );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizationProjectsDocumentsDocumentEventsFormat
@@ -266,8 +270,8 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     // This was intentionally not implemented, since the client doesn't currently use it either
     //required String uniqueId,
   }) async {
-    ensureArgumentIsNotEmpty('documentId', id);
-    ensureArgumentIsNotEmpty('documentName', documentName);
+    ensureArgumentIsNotEmpty(argumentName: 'documentId', argumentValue: id);
+    ensureArgumentIsNotEmpty(argumentName: 'documentName', argumentValue: documentName);
 
     final doc = api_mod.DocumentForClient()
       ..id = id

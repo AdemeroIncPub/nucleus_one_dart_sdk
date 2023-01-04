@@ -46,7 +46,10 @@ void main() {
                   .contains('factory constructor must be explicitly registered')),
             )));
 
-        final apiModelOrig = api_mod.QueryResult.fromJson(jsonDecode(queryResult2Json), (x) => []);
+        final apiModelOrig = api_mod.QueryResult.fromJson(
+          jsonDecode(queryResult2Json),
+          fromJsonFactoryOverride: (x) => [],
+        );
         performTests(apiModelOrig);
 
         await DefineN1AppInScope(getStandardN1App(), () {
@@ -68,7 +71,10 @@ void main() {
                   .contains('factory constructor must be explicitly registered')),
             )));
 
-        final apiModelOrig = api_mod.QueryResult2.fromJson(jsonDecode(queryResult2Json), (x) => []);
+        final apiModelOrig = api_mod.QueryResult2.fromJson(
+          jsonDecode(queryResult2Json),
+          fromJsonFactoryOverride: (x) => [],
+        );
         performTests(apiModelOrig);
 
         await DefineN1AppInScope(getStandardN1App(), () {

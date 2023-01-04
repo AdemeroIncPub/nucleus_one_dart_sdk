@@ -167,9 +167,11 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     String? parentId,
     String? cursor,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
     if (parentId != null) {
       qp['parentId'] = parentId;
     }
@@ -368,9 +370,11 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     String? documentGroupId,
     String? cursor,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
     if (showAll != null) {
       qp['showAll'] = showAll;
     }

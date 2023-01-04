@@ -44,7 +44,7 @@ void main() {
     await createStandardMockHttpClientScopeForAllRequests(
       additionalMockSetup: (client, requestLocal, response) {
         final n1App = getStandardN1App();
-        setAuthenticatedRequestHeaders(requestLocal, n1App);
+        setAuthenticatedRequestHeaders(request: requestLocal, app: n1App);
         headers = requestLocal.headers as MockHttpHeaders;
       },
       callback: () async {
@@ -62,7 +62,7 @@ void main() {
     await createStandardMockHttpClientScopeForAllRequests(
       additionalMockSetup: (client, requestLocal, response) {
         final n1App = getStandardN1App(apiKey: '123');
-        setAuthenticatedRequestHeaders(requestLocal, n1App);
+        setAuthenticatedRequestHeaders(request: requestLocal, app: n1App);
         headers = requestLocal.headers as MockHttpHeaders;
       },
       callback: () async {
@@ -353,12 +353,14 @@ void main() {
       var sqp = StandardQueryParams.get();
       expect(sqp.isEmpty, isTrue);
 
-      sqp = StandardQueryParams.get([]);
+      sqp = StandardQueryParams.get();
       expect(sqp.isEmpty, isTrue);
 
-      sqp = StandardQueryParams.get([
-        (sqp) => sqp.cursor('123'),
-      ]);
+      sqp = StandardQueryParams.get(
+        callbacks: [
+          (sqp) => sqp.cursor('123'),
+        ],
+      );
       expect(sqp.length, 1);
     });
 
@@ -366,15 +368,19 @@ void main() {
       void performTest<T>(
           String keyName, T value, void Function(StandardQueryParams, T?) sqpCallback) {
         // Test that a null value is correctly handled
-        var sqp = StandardQueryParams.get([
-          (sqp) => sqpCallback(sqp, null),
-        ]);
+        var sqp = StandardQueryParams.get(
+          callbacks: [
+            (sqp) => sqpCallback(sqp, null),
+          ],
+        );
         expect(sqp.isEmpty, isTrue);
 
         // Test that a value is correctly handled
-        sqp = StandardQueryParams.get([
-          (sqp) => sqpCallback(sqp, value),
-        ]);
+        sqp = StandardQueryParams.get(
+          callbacks: [
+            (sqp) => sqpCallback(sqp, value),
+          ],
+        );
         expect(sqp.length, 1);
         expect(sqp[keyName], value);
       }

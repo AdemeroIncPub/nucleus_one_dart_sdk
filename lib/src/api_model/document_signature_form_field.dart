@@ -8,8 +8,11 @@ class DocumentSignatureFormFieldCollection extends EntityCollection<DocumentSign
   DocumentSignatureFormFieldCollection() : super();
 
   factory DocumentSignatureFormFieldCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(json, DocumentSignatureFormFieldCollection(),
-        (x) => DocumentSignatureFormField.fromJson(x));
+    return EntityCollection.fromJson(
+      json: json,
+      instance: DocumentSignatureFormFieldCollection(),
+      entityFromJsonCallback: (x) => DocumentSignatureFormField.fromJson(x),
+    );
   }
 }
 

@@ -26,9 +26,11 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   Future<QueryResult<SupportUserCollection>> getSupportUsers({
     String? cursor,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.supportUsers,
@@ -56,9 +58,11 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   Future<QueryResult<SupportOrganizationCollection>> getSupportOrganizations({
     String? cursor,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.supportOrganizations,
@@ -95,9 +99,11 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     String? keywordFilter,
     bool? sortDescending,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
 
     qp['serviceNameFilter'] = serviceNameFilter;
     qp['levelFilter'] = levelFilter;

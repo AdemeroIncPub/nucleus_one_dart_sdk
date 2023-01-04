@@ -5,7 +5,6 @@ import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
 import 'common/get_it.dart';
 import 'common/model.dart';
@@ -118,7 +117,7 @@ class NucleusOneApp {
       return OrganizationForClient.fromApiModel(apiModel);
     });
     */
-    
+
     final orgs = await getOrganizations();
     return orgs.results.items.firstWhere(
       (x) => x.id == organizationId,
@@ -130,9 +129,11 @@ class NucleusOneApp {
   Future<QueryResult<OrganizationForClientCollection>> getOrganizations({
     String? cursor,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.apiPaths.organizations,
       this,

@@ -76,9 +76,11 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     String? processId,
     String? sortType,
   }) async {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
     qp['processElementID'] = processElementId;
     qp['sortDescending'] = sortDescending;
     qp['processID'] = processId;

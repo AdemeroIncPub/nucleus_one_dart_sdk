@@ -11,7 +11,10 @@ class ProjectPackageCollection extends EntityCollection<ProjectPackage> {
 
   factory ProjectPackageCollection.fromJson(List<dynamic> json) {
     return EntityCollection.fromJson(
-        json, ProjectPackageCollection(), (x) => ProjectPackage.fromJson(x));
+      json: json,
+      instance: ProjectPackageCollection(),
+      entityFromJsonCallback: (x) => ProjectPackage.fromJson(x),
+    );
   }
 }
 

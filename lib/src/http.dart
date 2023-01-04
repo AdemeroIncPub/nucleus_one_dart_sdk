@@ -44,7 +44,11 @@ void setRequestHeadersCommon(HttpClientRequest request) {
   // headers.set('Cookie', 'G_AUTHUSER_H=0');
 }
 
-void setAuthenticatedRequestHeaders(HttpClientRequest request, NucleusOneApp app) {
+@visibleForTesting
+void setAuthenticatedRequestHeaders({
+  required HttpClientRequest request,
+  required NucleusOneApp app,
+}) {
   setRequestHeadersCommon(request);
 
   request.headers.add('Authorization', 'Bearer ${app.options.apiKey ?? ''}');
@@ -118,7 +122,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
     }
 
     if (authenticated) {
-      setAuthenticatedRequestHeaders(clientReq, app);
+      setAuthenticatedRequestHeaders(request: clientReq, app: app);
     } else {
       setRequestHeadersCommon(clientReq);
     }
@@ -378,7 +382,9 @@ abstract class ApiRequestBodyObject {
 class StandardQueryParams {
   final _map = <String, dynamic>{};
 
-  static Map<String, dynamic> get([List<void Function(StandardQueryParams sqp)>? callbacks]) {
+  static Map<String, dynamic> get({
+    List<void Function(StandardQueryParams sqp)>? callbacks,
+  }) {
     final sqp = StandardQueryParams();
     if (callbacks != null) {
       for (var cb in callbacks) {

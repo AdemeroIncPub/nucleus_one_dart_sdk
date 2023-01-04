@@ -5,14 +5,14 @@ void main() {
   group('Validation tests', () {
     test('ensureArgumentIsNotEmpty method test', () {
       try {
-        validation.ensureArgumentIsNotEmpty('A', '');
+        validation.ensureArgumentIsNotEmpty(argumentName: 'A', argumentValue: '');
         fail('An error should have been thrown.');
       } on ArgumentError catch (e) {
         expect(e.name, 'A');
       }
 
       try {
-        validation.ensureArgumentIsNotEmpty('A', '1');
+        validation.ensureArgumentIsNotEmpty(argumentName: 'A', argumentValue: '1');
       } on ArgumentError {
         fail('ArgumentError should not have been thrown for non-empty value.');
       }

@@ -18,7 +18,11 @@ class _TestEntityCollection extends EntityCollection<_TestEntity> {
   _TestEntityCollection() : super();
 
   factory _TestEntityCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(json, _TestEntityCollection(), (x) => _TestEntity());
+    return EntityCollection.fromJson(
+      json: json,
+      instance: _TestEntityCollection(),
+      entityFromJsonCallback: (x) => _TestEntity(),
+    );
   }
 }
 

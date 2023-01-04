@@ -9,7 +9,10 @@ class DocumentSignatureFormCollection extends EntityCollection<DocumentSignature
 
   factory DocumentSignatureFormCollection.fromJson(List<dynamic> json) {
     return EntityCollection.fromJson(
-        json, DocumentSignatureFormCollection(), (x) => DocumentSignatureForm.fromJson(x));
+      json: json,
+      instance: DocumentSignatureFormCollection(),
+      entityFromJsonCallback: (x) => DocumentSignatureForm.fromJson(x),
+    );
   }
 }
 

@@ -106,9 +106,11 @@ abstract class EntityCollection<TResult extends NucleusOneAppDependent, TApiMode
 abstract class ListItems {
   static Map<String, dynamic> getListItemsQueryParams(
       String? cursor, String? parentValue, String? valueFilter) {
-    final qp = http.StandardQueryParams.get([
-      (sqp) => sqp.cursor(cursor),
-    ]);
+    final qp = http.StandardQueryParams.get(
+      callbacks: [
+        (sqp) => sqp.cursor(cursor),
+      ],
+    );
     if (parentValue != null) {
       qp['parentValue'] = parentValue;
     }
