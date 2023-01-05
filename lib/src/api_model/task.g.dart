@@ -67,9 +67,9 @@ Task _$TaskFromJson(Map<String, dynamic> json) => Task()
   ..processElementID = json['ProcessElementID'] as String?
   ..processElementName = json['ProcessElementName'] as String?
   ..processElementNameLower = json['ProcessElementNameLower'] as String?
-  ..reminder_7_Day = json['Reminder_7_Day'] as String?
-  ..reminder_3_Day = json['Reminder_3_Day'] as String?
-  ..reminder_1_Day = json['Reminder_1_Day'] as String?;
+  ..reminder7Day = json['Reminder_7_Day'] as String?
+  ..reminder3Day = json['Reminder_3_Day'] as String?
+  ..reminder1Day = json['Reminder_1_Day'] as String?;
 
 Map<String, dynamic> _$TaskToJson(Task instance) {
   final val = <String, dynamic>{};
@@ -118,8 +118,8 @@ Map<String, dynamic> _$TaskToJson(Task instance) {
   writeNotNull('ProcessElementID', instance.processElementID);
   writeNotNull('ProcessElementName', instance.processElementName);
   writeNotNull('ProcessElementNameLower', instance.processElementNameLower);
-  writeNotNull('Reminder_7_Day', instance.reminder_7_Day);
-  writeNotNull('Reminder_3_Day', instance.reminder_3_Day);
-  writeNotNull('Reminder_1_Day', instance.reminder_1_Day);
+  writeNotNull('Reminder_7_Day', instance.reminder7Day);
+  writeNotNull('Reminder_3_Day', instance.reminder3Day);
+  writeNotNull('Reminder_1_Day', instance.reminder1Day);
   return val;
 }

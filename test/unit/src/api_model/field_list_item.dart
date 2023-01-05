@@ -1,5 +1,5 @@
 const fieldListItemJson = '{"ID":"A","ParentValue":"B","Value":"C"}';
-const fieldListItemCollectionJson = '[' + fieldListItemJson + ']';
+const fieldListItemCollectionJson = '[$fieldListItemJson]';
 
 void main() {
   /*

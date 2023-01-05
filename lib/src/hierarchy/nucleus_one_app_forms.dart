@@ -34,7 +34,7 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsFormTemplatesFormat
+      http.ApiPaths.organizationsProjectsFormTemplatesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       project.app,
       query: qp,
@@ -42,7 +42,7 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     final apiModel =
         api_mod.QueryResult<api_mod.FormTemplateCollection>.fromJson(jsonDecode(responseBody));
 
-    return await DefineN1AppAndProjectInScope(project, () {
+    return await defineN1AppAndProjectInScope(project, () {
       return QueryResult(
         results: FormTemplateCollection(
             items:
@@ -66,12 +66,12 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     qp['uniqueId'] = uniqueId;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.formTemplatesPublicFormat.replaceFormTemplateIdPlaceholder(id),
+      http.ApiPaths.formTemplatesPublicFormat.replaceFormTemplateIdPlaceholder(id),
       project.app,
       query: qp,
     );
     final apiModel = api_mod.FormTemplate.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return FormTemplate.fromApiModel(apiModel);
     });
   }
@@ -87,13 +87,13 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     qp['tenantId'] = projectId;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.formTemplatesPublicFieldsFormat
+      http.ApiPaths.formTemplatesPublicFieldsFormat
           .replaceFormTemplateIdPlaceholder(formTemplateId),
       project.app,
       query: qp,
     );
     final apiModel = api_mod.FormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return FormTemplateFieldCollection.fromApiModel(apiModel);
     });
   }
@@ -122,14 +122,14 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     qp['tenantId'] = projectId;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.formTemplatesPublicFieldListItemsFormat
+      http.ApiPaths.formTemplatesPublicFieldListItemsFormat
           .replaceFormTemplateIdPlaceholder(formTemplateId)
           .replaceFormTemplateFieldIdPlaceholder(formTemplateFieldId),
       project.app,
       query: qp,
     );
     final apiModel = api_mod.FieldListItemCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return FieldListItemCollection.fromApiModel(apiModel);
     });
   }
@@ -164,7 +164,7 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
 
     await ListItems.addListItems(
       app: project.app,
-      apiRelativeUrlPath: http.apiPaths.formTemplatesPublicFieldListItemsFormat
+      apiRelativeUrlPath: http.ApiPaths.formTemplatesPublicFieldListItemsFormat
           .replaceFormTemplateIdPlaceholder(formTemplateId)
           .replaceFormTemplateFieldIdPlaceholder(formTemplateFieldId),
       items: items,
@@ -202,7 +202,7 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
 
     await ListItems.setListItems(
       app: project.app,
-      apiRelativeUrlPath: http.apiPaths.formTemplatesPublicFieldListItemsFormat
+      apiRelativeUrlPath: http.ApiPaths.formTemplatesPublicFieldListItemsFormat
           .replaceFormTemplateIdPlaceholder(formTemplateId)
           .replaceFormTemplateFieldIdPlaceholder(formTemplateFieldId),
       values: values,
@@ -226,7 +226,7 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     final packages = FormSubmissionPackageCollection(items: [package]);
 
     await http.executePostRequest(
-      http.apiPaths.formTemplatesPublicSubmissions.replaceFormTemplateIdPlaceholder(formTemplateId),
+      http.ApiPaths.formTemplatesPublicSubmissions.replaceFormTemplateIdPlaceholder(formTemplateId),
       app: project.app,
       body: jsonEncode(packages.toApiModel()),
     );

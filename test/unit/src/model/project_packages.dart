@@ -33,7 +33,7 @@ void main() {
           api_mod.ProjectPackageCollection.fromJson(jsonDecode(projectPackageCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final api_mod.ProjectPackageCollection apiModelCycled =
             ProjectPackageCollection.fromApiModel(apiModelOrig).toApiModel();
@@ -65,7 +65,7 @@ void main() {
       final apiModelOrig = api_mod.ProjectPackage.fromJson(jsonDecode(projectPackageJson));
       performTest(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = ProjectPackage.fromApiModel(apiModelOrig).toApiModel();
         performTest(apiModelCycled);

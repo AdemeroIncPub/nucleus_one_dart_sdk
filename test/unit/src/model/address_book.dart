@@ -29,7 +29,7 @@ void main() {
         expect(apiModelOrig.items.length, 1);
 
         final n1App = getStandardN1App();
-        await DefineN1AppInScope(n1App, () {
+        await defineN1AppInScope(n1App, () {
           // Convert it to a model class then back again
           final apiModelCycled = AddressBook.fromApiModel(apiModelOrig).toApiModel();
           expect(apiModelCycled.items.length, 1);
@@ -58,7 +58,7 @@ void main() {
         performTest(apiModelOrig);
 
         final n1App = getStandardN1App();
-        await DefineN1AppInScope(n1App, () {
+        await defineN1AppInScope(n1App, () {
           // Convert it to a model class then back again
           final apiModelCycled = AddressBookItem.fromApiModel(apiModelOrig).toApiModel();
           performTest(apiModelCycled);

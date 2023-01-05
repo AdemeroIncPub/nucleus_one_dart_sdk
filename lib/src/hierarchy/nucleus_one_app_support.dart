@@ -33,7 +33,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.supportUsers,
+      http.ApiPaths.supportUsers,
       app,
       query: qp,
     );
@@ -41,7 +41,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     final apiModel =
         api_mod.QueryResult<api_mod.SupportUserCollection>.fromJson(jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return QueryResult(
         results: SupportUserCollection(
             items:
@@ -65,7 +65,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.supportOrganizations,
+      http.ApiPaths.supportOrganizations,
       app,
       query: qp,
     );
@@ -73,7 +73,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     final apiModel = api_mod.QueryResult<api_mod.SupportOrganizationCollection>.fromJson(
         jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return QueryResult(
         results: SupportOrganizationCollection(
             items: apiModel.results!.supportOrganizations
@@ -115,7 +115,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     qp['sortDescending'] = sortDescending;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.supportErrorEvents,
+      http.ApiPaths.supportErrorEvents,
       app,
       query: qp,
     );
@@ -123,7 +123,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     final apiModel =
         api_mod.QueryResult<api_mod.SupportErrorEventCollection>.fromJson(jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return QueryResult(
         results: SupportErrorEventCollection(
             items: apiModel.results!.supportErrorEvents
@@ -138,7 +138,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   /// Gets the Admin Status of a support user.
   Future<void> getSupportAdminStatus() async {
     await http.executeGetRequest(
-      http.apiPaths.supportAdmin,
+      http.ApiPaths.supportAdmin,
       app,
     );
   }

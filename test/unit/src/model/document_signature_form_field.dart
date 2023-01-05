@@ -38,7 +38,7 @@ void main() {
           api_mod.DocumentSignatureFormField.fromJson(jsonDecode(documentSignatureFormFieldJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = DocumentSignatureFormField.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -104,7 +104,7 @@ void main() {
           jsonDecode(documentSignatureFormFieldCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             DocumentSignatureFormFieldCollection.fromApiModel(apiModelOrig).toApiModel();

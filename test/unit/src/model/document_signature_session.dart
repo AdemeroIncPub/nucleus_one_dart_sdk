@@ -59,7 +59,7 @@ void main() {
           api_mod.DocumentSignatureSession.fromJson(jsonDecode(documentSignatureSessionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = DocumentSignatureSession.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -117,7 +117,7 @@ void main() {
           jsonDecode(documentSignatureSessionRecipientJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             DocumentSignatureSessionRecipient.fromApiModel(apiModelOrig).toApiModel();
@@ -152,7 +152,7 @@ void main() {
           jsonDecode(documentSignatureSessionPackageJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             DocumentSignatureSessionPackage.fromApiModel(apiModelOrig).toApiModel();
@@ -183,7 +183,7 @@ void main() {
           jsonDecode(documentSignatureSessionPackageCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final api_mod.DocumentSignatureSessionPackageCollection apiModelCycled =
             DocumentSignatureSessionPackageCollection.fromApiModel(apiModelOrig).toApiModel();

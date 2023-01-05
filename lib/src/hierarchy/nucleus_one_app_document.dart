@@ -44,13 +44,13 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   /// Gets subscription to a document.
   Future<DocumentSubscriptionForClient> getSubscription() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentSubscriptionsFormat
+      http.ApiPaths.organizationsProjectsDocumentSubscriptionsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
     );
     final apiModel = api_mod.DocumentSubscriptionForClient.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentSubscriptionForClient.fromApiModel(apiModel);
     });
   }
@@ -58,13 +58,13 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   /// Gets the document package for the current document.
   Future<DocumentPackage> getDocumentPackage() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentPackagesFormat
+      http.ApiPaths.organizationsProjectsDocumentPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
     );
     final apiModel = api_mod.DocumentPackage.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentPackage.fromApiModel(apiModel);
     });
   }
@@ -117,7 +117,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
+      http.ApiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
@@ -125,7 +125,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     );
     final apiModel =
         api_mod.QueryResult2<api_mod.DocumentCommentCollection>.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(apiModel);
     });
   }
@@ -137,7 +137,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     required List<String> comments,
   }) async {
     await http.executePostRequest(
-      http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
+      http.ApiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       app: project.app,
@@ -162,7 +162,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationProjectsDocumentsDocumentEventsFormat
+      http.ApiPaths.organizationProjectsDocumentsDocumentEventsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
@@ -171,7 +171,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     final apiModel =
         api_mod.QueryResult2<api_mod.DocumentEventCollection>.fromJson(jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentEventCollectionQueryResult.fromApiModelDocumentEventCollection(apiModel);
     });
   }
@@ -190,14 +190,14 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     qp['pageIndex'] = pageIndex;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentContentPackagesFormat
+      http.ApiPaths.organizationsProjectsDocumentContentPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
       query: qp,
     );
     final apiModel = api_mod.DocumentContentPackage.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentContentPackage.fromApiModel(apiModel);
     });
   }
@@ -277,14 +277,14 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
       ..id = id
       ..name = documentName;
     final responseBody = await http.executePutRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsDocumentFormat
+      http.ApiPaths.organizationsProjectsDocumentsDocumentFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
       body: jsonEncode(doc),
     );
     final apiModel = api_mod.DocumentForClient.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentForClient.fromApiModel(apiModel);
     });
   }
@@ -292,7 +292,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   /// Gets the thumbnail URL for the current document.
   Future<String> getThumbnailUrl() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsThumbnailsFormat
+      http.ApiPaths.organizationsProjectsDocumentsThumbnailsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
@@ -304,13 +304,13 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   /// created.
   Future<DocumentSignatureForm> getOrCreateSignatureForm() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsDocumentSignatureFormsFormat
+      http.ApiPaths.organizationsProjectsDocumentsDocumentSignatureFormsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
     );
     final apiModel = api_mod.DocumentSignatureForm.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentSignatureForm.fromApiModel(apiModel);
     });
   }
@@ -322,14 +322,14 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     required String signatureFormId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
+      http.ApiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
       project.app,
     );
     final apiModel = api_mod.DocumentSignatureForm.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentSignatureForm.fromApiModel(apiModel);
     });
   }
@@ -342,7 +342,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     required DocumentSignatureForm signatureForm,
   }) async {
     await http.executePutRequest(
-      http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
+      http.ApiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureForm.id),
@@ -358,7 +358,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     required String signatureFormId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
+      http.ApiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
@@ -366,7 +366,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     );
     final apiModel =
         api_mod.DocumentSignatureFormFieldCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentSignatureFormFieldCollection.fromApiModel(apiModel);
     });
   }
@@ -388,7 +388,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     qp['clearExisting'] = clearExisting;
 
     final responseBody = await http.executePostRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
+      http.ApiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
@@ -398,7 +398,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     );
     final apiModel =
         api_mod.DocumentSignatureFormFieldCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentSignatureFormFieldCollection.fromApiModel(apiModel);
     });
   }
@@ -420,7 +420,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     qp['clearExisting'] = clearExisting;
 
     final responseBody = await http.executePutRequestWithTextResponse(
-      http.apiPaths
+      http.ApiPaths
           .organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
@@ -431,7 +431,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
       body: jsonEncode(signatureFormField.toApiModel()),
     );
     final apiModel = api_mod.DocumentSignatureFormField.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentSignatureFormField.fromApiModel(apiModel);
     });
   }
@@ -446,7 +446,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     required String signatureFormFieldId,
   }) async {
     await http.executeDeleteRequest(
-      http.apiPaths
+      http.ApiPaths
           .organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
@@ -463,7 +463,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     required String signatureFormId,
   }) async {
     await http.executeDeleteRequest(
-      http.apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
+      http.ApiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id)
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
@@ -474,13 +474,13 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   /// Gets a document's signature session packages.  If a session does not exist, one is created.
   Future<DocumentSignatureSessionPackage> getSignatureSessionPackage() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
+      http.ApiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
     );
     final apiModel = api_mod.DocumentSignatureSessionPackage.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentSignatureSessionPackage.fromApiModel(apiModel);
     });
   }
@@ -494,7 +494,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     required DocumentSignatureSessionPackageCollection packages,
   }) async {
     final responseBody = await http.executePutRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
+      http.ApiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceDocumentIdPlaceholder(id),
       project.app,
@@ -502,7 +502,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     );
     final apiModel =
         api_mod.DocumentSignatureSessionPackageCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentSignatureSessionPackageCollection.fromApiModel(apiModel);
     });
   }
@@ -522,7 +522,7 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
     assert(documentIds.isNotEmpty);
 
     await http.executePostRequest(
-      http.apiPaths.organizationsProjectsDocumentActionsRestoreFromRecycleBinFormat
+      http.ApiPaths.organizationsProjectsDocumentActionsRestoreFromRecycleBinFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode({'IDs': documentIds}),
@@ -536,7 +536,7 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
     assert(documentIds.isNotEmpty);
 
     await http.executePostRequest(
-      http.apiPaths.organizationsProjectsDocumentActionsSendToRecycleBinFormat
+      http.ApiPaths.organizationsProjectsDocumentActionsSendToRecycleBinFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode({'IDs': documentIds}),
@@ -580,7 +580,7 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
+      http.ApiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
           .replaceDocumentSignatureSessionIdPlaceholder(signatureSessionId)
           .replaceDocumentSignatureSessionRecipientIdPlaceholder(signatureSessionRecipientId),
       project.app,
@@ -588,7 +588,7 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
     );
     final apiModel =
         api_mod.DocumentSignatureSessionSigningRecipientPackage.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return DocumentSignatureSessionSigningRecipientPackage.fromApiModel(apiModel);
     });
   }
@@ -613,7 +613,7 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
     qp['uniqueId'] = signatureSessionRecipientUniqueId;
 
     await http.executePutRequest(
-      http.apiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
+      http.ApiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
           .replaceDocumentSignatureSessionIdPlaceholder(signatureSessionId)
           .replaceDocumentSignatureSessionRecipientIdPlaceholder(signatureSessionRecipientId),
       project.app,

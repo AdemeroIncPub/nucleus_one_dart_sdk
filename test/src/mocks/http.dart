@@ -281,16 +281,16 @@ HttpClientOperationResult _createMockHttpClientAllRequests2({
     }
 
     when(() => client.getUrl(any())).thenAnswer((Invocation invocation) {
-      return handleHttpUrlInvocation(invocation, HttpMethods.GET);
+      return handleHttpUrlInvocation(invocation, HttpMethods.get);
     });
     when(() => client.deleteUrl(any())).thenAnswer((Invocation invocation) {
-      return handleHttpUrlInvocation(invocation, HttpMethods.DELETE);
+      return handleHttpUrlInvocation(invocation, HttpMethods.delete);
     });
     when(() => client.postUrl(any())).thenAnswer((Invocation invocation) {
-      return handleHttpUrlInvocation(invocation, HttpMethods.POST);
+      return handleHttpUrlInvocation(invocation, HttpMethods.post);
     });
     when(() => client.putUrl(any())).thenAnswer((Invocation invocation) {
-      return handleHttpUrlInvocation(invocation, HttpMethods.PUT);
+      return handleHttpUrlInvocation(invocation, HttpMethods.put);
     });
   }
 
@@ -358,10 +358,10 @@ HttpClientOperationResult _createMockHttpClientAllRequests2({
 }
 
 abstract class HttpMethods {
-  static const String GET = 'GET';
-  static const String DELETE = 'DELETE';
-  static const String POST = 'POST';
-  static const String PUT = 'PUT';
+  static const String get = 'GET';
+  static const String delete = 'DELETE';
+  static const String post = 'POST';
+  static const String put = 'PUT';
 }
 
 class HttpOperation {

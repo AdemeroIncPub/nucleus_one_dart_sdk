@@ -54,7 +54,7 @@ void main() {
       final apiModelOrig = api_mod.Field.fromJson(jsonDecode(fieldJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = Field.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -84,7 +84,7 @@ void main() {
           api_mod.QueryResult<api_mod.FieldCollection>.fromJson(jsonDecode(fieldCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final api_mod.QueryResult<api_mod.FieldCollection> apiModelCycled =
             FieldCollectionQueryResult.fromApiModelFieldCollection(apiModelOrig)

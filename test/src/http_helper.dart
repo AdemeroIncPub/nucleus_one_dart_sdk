@@ -34,15 +34,13 @@ Future<void> performHttpTests<T>({
       expect(result.request.uri.path, httpOp.requestUrl.toString());
     }
     expect(result.request.uri.queryParameters.length, httpOp.requestQueryParams.length,
-        reason: 'Details:\r\n  Expected (in any order): ' +
-            httpOp.requestQueryParams.join(',') +
-            '\r\n  Actual: ' +
-            result.request.uri.queryParameters.entries.map((x) => x.key + '=' + x.value).join(','));
+        reason: 'Details:\r\n  Expected (in any order): ${httpOp.requestQueryParams.join(',')}\r\n' +
+            'Actual: ${result.request.uri.queryParameters.entries.map((x) => '${x.key}=${x.value}').join(',')}');
     expect(result.request.getBodyAsString(), httpOp.requestBody);
 
     final reqUriQuery = result.request.uri.query;
     for (var expectedQP in httpOp.requestQueryParams) {
-      expect(reqUriQuery, matches('\\b' + RegExp.escape(expectedQP) + '\\b'));
+      expect(reqUriQuery, matches('\\b${RegExp.escape(expectedQP)}\\b'));
     }
   }
 }

@@ -37,7 +37,7 @@ void main() {
           api_mod.OrganizationPermissions.fromJson(jsonDecode(organizationPermissionsJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = OrganizationPermissions.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);

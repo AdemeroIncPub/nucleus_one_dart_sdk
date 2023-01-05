@@ -25,12 +25,12 @@ void main() {
 
     test('getFormTemplates method tests', () async {
       var forms = getStandardN1Project().forms();
-      final expectedUrlPath = http.apiPaths.organizationsProjectsFormTemplatesFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsFormTemplatesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(forms.project);
 
       // Test with default parameters
       await performHttpTest<QueryResult<FormTemplateCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => forms.getFormTemplates(),
         responseBody: formTemplateCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -40,7 +40,7 @@ void main() {
       forms = getStandardN1Project().forms();
       // Test with cursor and optional arguments
       await performHttpTest<QueryResult<FormTemplateCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => forms.getFormTemplates(
           cursor: 'A',
         ),
@@ -55,10 +55,10 @@ void main() {
     test('getFormTemplateById method tests', () async {
       final forms = getStandardN1Project().forms();
       final expectedUrlPath =
-          http.apiPaths.formTemplatesPublicFormat.replaceFormTemplateIdPlaceholder('123');
+          http.ApiPaths.formTemplatesPublicFormat.replaceFormTemplateIdPlaceholder('123');
 
       await performHttpTest<FormTemplate>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => forms.getFormTemplateById(id: '123', uniqueId: '456'),
         responseBody: formTemplateJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -71,10 +71,10 @@ void main() {
     test('getFormTemplateFields method tests', () async {
       final forms = getStandardN1Project().forms();
       final expectedUrlPath =
-          http.apiPaths.formTemplatesPublicFieldsFormat.replaceFormTemplateIdPlaceholder('123');
+          http.ApiPaths.formTemplatesPublicFieldsFormat.replaceFormTemplateIdPlaceholder('123');
 
       await performHttpTest<FormTemplateFieldCollection>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => forms.getFormTemplateFields('123', '456'),
         responseBody: formTemplateFieldCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -86,13 +86,13 @@ void main() {
 
     test('getFormTemplateFieldListItems method tests', () async {
       var forms = getStandardN1Project().forms();
-      final expectedUrlPath = http.apiPaths.formTemplatesPublicFieldListItemsFormat
+      final expectedUrlPath = http.ApiPaths.formTemplatesPublicFieldListItemsFormat
           .replaceFormTemplateIdPlaceholder('123')
           .replaceFormTemplateFieldIdPlaceholder('234');
 
       // Test with default parameters
       await performHttpTest<FieldListItemCollection>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => forms.getFormTemplateFieldListItems('123', '234', '345'),
         responseBody: fieldListItemCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -104,7 +104,7 @@ void main() {
       forms = getStandardN1Project().forms();
       // Test with cursor and optional arguments
       await performHttpTest<FieldListItemCollection>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => forms.getFormTemplateFieldListItems(
           '123',
           '234',
@@ -147,15 +147,15 @@ void main() {
 
     test('addFormTemplateFieldListItems method tests', () async {
       var forms = getStandardN1Project().forms();
-      final expectedUrlPath = http.apiPaths.formTemplatesPublicFieldListItemsFormat
+      final expectedUrlPath = http.ApiPaths.formTemplatesPublicFieldListItemsFormat
           .replaceFormTemplateIdPlaceholder('123')
           .replaceFormTemplateFieldIdPlaceholder('234');
 
       for (var item in addAndSetErrorDataSet) {
         try {
-          await DefineN1AppInScopeAsync(forms.project.app, () async {
+          await defineN1AppInScopeAsync(forms.project.app, () async {
             return await performHttpTest(
-              httpMethod: HttpMethods.POST,
+              httpMethod: HttpMethods.post,
               httpCallCallback: () => forms.addFormTemplateFieldListItems(
                 formTemplateId: item['formTemplateId']!,
                 formTemplateFieldId: item['formTemplateFieldId']!,
@@ -174,13 +174,13 @@ void main() {
       }
 
       forms = getStandardN1Project().forms();
-      await DefineN1AppInScopeAsync(forms.project.app, () async {
+      await defineN1AppInScopeAsync(forms.project.app, () async {
         final newListItems = FieldListItemCollection(
           items: [FieldListItem.createNew(parentValue: 'LI_A', value: 'LI_B')],
         );
         // Test a successful operation
         return await performHttpTest(
-          httpMethod: HttpMethods.POST,
+          httpMethod: HttpMethods.post,
           httpCallCallback: () => forms.addFormTemplateFieldListItems(
             formTemplateId: '123',
             formTemplateFieldId: '234',
@@ -198,14 +198,14 @@ void main() {
     });
 
     test('setFormTemplateFieldListItems method tests', () async {
-      final expectedUrlPath = http.apiPaths.formTemplatesPublicFieldListItemsFormat
+      final expectedUrlPath = http.ApiPaths.formTemplatesPublicFieldListItemsFormat
           .replaceFormTemplateIdPlaceholder('123')
           .replaceFormTemplateFieldIdPlaceholder('234');
 
       for (var item in addAndSetErrorDataSet) {
         try {
           await performHttpTest(
-            httpMethod: HttpMethods.POST,
+            httpMethod: HttpMethods.post,
             httpCallCallback: () => getStandardN1Project().forms().setFormTemplateFieldListItems(
               formTemplateId: item['formTemplateId']!,
               formTemplateFieldId: item['formTemplateFieldId']!,
@@ -225,7 +225,7 @@ void main() {
       final forms = getStandardN1Project().forms();
       // Test a successful operation
       await performHttpTest(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => forms.setFormTemplateFieldListItems(
           formTemplateId: '123',
           formTemplateFieldId: '234',
@@ -245,16 +245,16 @@ void main() {
     test('submitForm method tests', () async {
       var forms = getStandardN1Project().forms();
       final expectedUrlPath =
-          http.apiPaths.formTemplatesPublicSubmissions.replaceFormTemplateIdPlaceholder('123');
+          http.ApiPaths.formTemplatesPublicSubmissions.replaceFormTemplateIdPlaceholder('123');
 
-      await DefineN1AppInScopeAsync(forms.project.app, () async {
+      await defineN1AppInScopeAsync(forms.project.app, () async {
         final apiModel =
             api_mod.FormSubmissionPackage.fromJson(jsonDecode(formSubmissionPackageJson));
         final package = FormSubmissionPackage.fromApiModel(apiModel);
 
         try {
           await performHttpTest(
-            httpMethod: HttpMethods.POST,
+            httpMethod: HttpMethods.post,
             httpCallCallback: () => forms.submitForm(formTemplateId: '', package: package),
             responseBody: '',
             expectedRequestUrlPath: '',
@@ -267,14 +267,14 @@ void main() {
       });
 
       forms = getStandardN1Project().forms();
-      await DefineN1AppInScopeAsync(forms.project.app, () async {
+      await defineN1AppInScopeAsync(forms.project.app, () async {
         final apiModel =
             api_mod.FormSubmissionPackage.fromJson(jsonDecode(formSubmissionPackageJson));
         final package = FormSubmissionPackage.fromApiModel(apiModel);
 
-        return await DefineN1AppInScopeAsync(forms.project.app, () async {
+        return await defineN1AppInScopeAsync(forms.project.app, () async {
           return await performHttpTest(
-            httpMethod: HttpMethods.POST,
+            httpMethod: HttpMethods.post,
             httpCallCallback: () => forms.submitForm(formTemplateId: '123', package: package),
             expectedRequestBody: formSubmissionPackageCollectionJson,
             responseBody: '',

@@ -36,7 +36,7 @@ void main() {
           api_mod.DocumentContentPackage.fromJson(jsonDecode(documentContentPackageJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = DocumentContentPackage.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);

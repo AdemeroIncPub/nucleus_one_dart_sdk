@@ -33,7 +33,7 @@ void main() {
           api_mod.UserOrganizationCollection.fromJson(jsonDecode(userOrganizationCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = UserOrganizationCollection.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -67,7 +67,7 @@ void main() {
       final apiModelOrig = api_mod.UserOrganization.fromJson(jsonDecode(userOrganizationJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = UserOrganization.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);

@@ -36,7 +36,7 @@ void main() {
           jsonDecode(organizationProjectCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             OrganizationProjectCollectionQueryResult.fromApiModelOrganizationProjectCollection(
@@ -83,7 +83,7 @@ void main() {
           api_mod.OrganizationProject.fromJson(jsonDecode(organizationProjectJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = OrganizationProject.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);

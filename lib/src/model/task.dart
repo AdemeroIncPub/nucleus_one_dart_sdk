@@ -67,9 +67,9 @@ class Task with NucleusOneAppDependent {
     required this.processElementID,
     required this.processElementName,
     required this.processElementNameLower,
-    required this.reminder_7_Day,
-    required this.reminder_3_Day,
-    required this.reminder_1_Day,
+    required this.reminder7Day,
+    required this.reminder3Day,
+    required this.reminder1Day,
   }) {
     this.app = app ?? getIt.get<NucleusOneApp>();
   }
@@ -119,9 +119,9 @@ class Task with NucleusOneAppDependent {
         processElementID: apiModel.processElementID!,
         processElementName: apiModel.processElementName!,
         processElementNameLower: apiModel.processElementNameLower!,
-        reminder_7_Day: apiModel.reminder_7_Day!,
-        reminder_3_Day: apiModel.reminder_3_Day!,
-        reminder_1_Day: apiModel.reminder_1_Day!);
+        reminder7Day: apiModel.reminder7Day!,
+        reminder3Day: apiModel.reminder3Day!,
+        reminder1Day: apiModel.reminder1Day!);
   }
 
   String id;
@@ -200,11 +200,11 @@ class Task with NucleusOneAppDependent {
 
   String processElementNameLower;
 
-  String reminder_7_Day;
+  String reminder7Day;
 
-  String reminder_3_Day;
+  String reminder3Day;
 
-  String reminder_1_Day;
+  String reminder1Day;
 
   api_mod.Task toApiModel() {
     return api_mod.Task()
@@ -246,8 +246,8 @@ class Task with NucleusOneAppDependent {
       ..processElementID = processElementID
       ..processElementName = processElementName
       ..processElementNameLower = processElementNameLower
-      ..reminder_7_Day = reminder_7_Day
-      ..reminder_3_Day = reminder_3_Day
-      ..reminder_1_Day = reminder_1_Day;
+      ..reminder7Day = reminder7Day
+      ..reminder3Day = reminder3Day
+      ..reminder1Day = reminder1Day;
   }
 }

@@ -42,7 +42,7 @@ void main() {
       final apiModelOrig = api_mod.UserPreference.fromJson(jsonDecode(userPreferenceJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = UserPreference.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -51,10 +51,10 @@ void main() {
 
     test('getById method tests', () async {
       final expectedUrlPath =
-          http.apiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', 'ABC');
+          http.ApiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', 'ABC');
       final n1App = getStandardN1App();
       await performHttpTest<UserPreference>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppUser(app: n1App).getPreferencesById('ABC'),
         responseBody: userPreferenceJson,
         expectedRequestUrlPath: expectedUrlPath,

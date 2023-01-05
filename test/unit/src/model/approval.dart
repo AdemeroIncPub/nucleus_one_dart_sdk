@@ -69,7 +69,7 @@ void main() {
       final apiModelOrig = api_mod.Approval.fromJson(jsonDecode(approvalJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = Approval.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -100,7 +100,7 @@ void main() {
       performTests(apiModelOrig);
 
       final n1App = getStandardN1App();
-      await DefineN1AppInScope(n1App, () {
+      await defineN1AppInScope(n1App, () {
         // Convert it to a model class then back again
         final api_mod.QueryResult<api_mod.ApprovalCollection> apiModelCycled =
             ApprovalCollectionQueryResult.fromApiModelApprovalCollection(apiModelOrig)

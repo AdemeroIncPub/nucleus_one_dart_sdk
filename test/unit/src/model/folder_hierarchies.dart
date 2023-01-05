@@ -36,7 +36,7 @@ void main() {
       final apiModelOrig = api_mod.FolderHierarchy.fromJson(jsonDecode(folderHierarchyJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = FolderHierarchy.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -66,7 +66,7 @@ void main() {
           jsonDecode(folderHierarchyCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppAndProjectInScope(getStandardN1Project(), () {
+      await defineN1AppAndProjectInScope(getStandardN1Project(), () {
         // Convert it to a model class then back again
         final api_mod.QueryResult<api_mod.FolderHierarchyCollection> apiModelCycled =
             FolderHierarchyCollectionQueryResult.fromApiModelFolderHierarchyCollection(apiModelOrig)
@@ -98,7 +98,7 @@ void main() {
           jsonDecode(folderHierarchyItemCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppAndProjectInScope(getStandardN1Project(), () {
+      await defineN1AppAndProjectInScope(getStandardN1Project(), () {
         // Convert it to a model class then back again
         final api_mod.FolderHierarchyItemCollection apiModelCycled =
             FolderHierarchyItemCollection.fromApiModel(apiModelOrig).toApiModel();

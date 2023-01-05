@@ -37,13 +37,13 @@ void main() {
 
     test('getComments method tests', () async {
       var document = getStandardN1Project().document('123');
-      final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
 
       // Test with default parameters
       await performHttpTest<QueryResult2<DocumentCommentCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getComments(),
         responseBody: documentCommentsJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -53,7 +53,7 @@ void main() {
       document = getStandardN1Project().document('123');
       // Test with custom sorting and optional arguments
       await performHttpTest<QueryResult2<DocumentCommentCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getComments(sortDescending: false, cursor: 'A'),
         responseBody: documentCommentsJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -63,12 +63,12 @@ void main() {
 
     test('postComments method tests', () async {
       var document = getStandardN1Project().document('123');
-      final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentsDocumentCommentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
       // Test with no comments
       await performHttpTest(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => document.postComments(
           comments: [],
         ),
@@ -81,7 +81,7 @@ void main() {
       document = getStandardN1Project().document('123');
       // Test with some comments
       await performHttpTest(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => document.postComments(
           comments: ['A', 'B'],
         ),
@@ -94,12 +94,12 @@ void main() {
 
     test('getEvents method tests', () async {
       var document = getStandardN1Project().document('123');
-      final expectedUrlPath = http.apiPaths.organizationProjectsDocumentsDocumentEventsFormat
+      final expectedUrlPath = http.ApiPaths.organizationProjectsDocumentsDocumentEventsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
       // Test with default parameters
       await performHttpTest(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getEvents(),
         responseBody: documentEventsJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -109,7 +109,7 @@ void main() {
       document = getStandardN1Project().document('123');
       // Test with custom sorting and optional arguments
       await performHttpTest(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getEvents(sortDescending: false, cursor: 'A'),
         responseBody: documentEventsJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -119,13 +119,13 @@ void main() {
 
     test('getDocumentContentPackage method tests', () async {
       final document = getStandardN1Project().document('123');
-      final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentContentPackagesFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentContentPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
 
       // Test with default parameters
       await performHttpTest(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getDocumentContentPackage(),
         responseBody: documentContentPackageJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -140,7 +140,7 @@ void main() {
 
       // Test with pageIndex parameter
       await performHttpTest(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getDocumentContentPackage(pageIndex: 1),
         responseBody: documentContentPackageJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -156,12 +156,12 @@ void main() {
 
     test('getDocumentPackage method tests', () async {
       final document = getStandardN1Project().document('ABC');
-      final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentPackagesFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('ABC');
       // Test with default parameters
       await performHttpTest<DocumentPackage>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getDocumentPackage(),
         responseBody: documentPackageJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -171,12 +171,12 @@ void main() {
 
     test('getThumbnailUrl method tests', () async {
       final document = getStandardN1Project().document('ABC');
-      final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentsThumbnailsFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentsThumbnailsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('ABC');
 
       await performHttpTest<String>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getThumbnailUrl(),
         responseBody: documentPackageJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -186,14 +186,14 @@ void main() {
 
     test('updateDocumentName method tests', () async {
       var document = getStandardN1Project().document('123');
-      var expectedUrlPath = http.apiPaths.organizationsProjectsDocumentsDocumentFormat
+      var expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentsDocumentFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
 
       try {
         document = getStandardN1Project().document('123');
         await performHttpTest(
-          httpMethod: HttpMethods.PUT,
+          httpMethod: HttpMethods.put,
           httpCallCallback: () => document.updateDocumentName(
             documentName: '',
           ),
@@ -207,11 +207,11 @@ void main() {
       }
 
       document = getStandardN1Project().document('234');
-      expectedUrlPath = http.apiPaths.organizationsProjectsDocumentsDocumentFormat
+      expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentsDocumentFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('234');
       await performHttpTest(
-        httpMethod: HttpMethods.PUT,
+        httpMethod: HttpMethods.put,
         httpCallCallback: () => document.updateDocumentName(
           documentName: '234',
         ),
@@ -225,12 +225,12 @@ void main() {
     test('getOrCreateSignatureForm method tests', () async {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
-          .apiPaths.organizationsProjectsDocumentsDocumentSignatureFormsFormat
+          .ApiPaths.organizationsProjectsDocumentsDocumentSignatureFormsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
 
       await performHttpTest(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getOrCreateSignatureForm(),
         responseBody: documentSignatureFormJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -241,13 +241,13 @@ void main() {
     test('getSignatureForm method tests', () async {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
-          .apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
+          .ApiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234');
 
       await performHttpTest(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getSignatureForm(
           signatureFormId: '234',
         ),
@@ -260,7 +260,7 @@ void main() {
     test('updateSignatureForm method tests', () async {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
-          .apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
+          .ApiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('A');
@@ -270,7 +270,7 @@ void main() {
       final signatureForm = DocumentSignatureForm.fromApiModel(apiModel, app: document.project.app);
 
       await performHttpTest(
-        httpMethod: HttpMethods.PUT,
+        httpMethod: HttpMethods.put,
         httpCallCallback: () => document.updateSignatureForm(
           signatureForm: signatureForm,
         ),
@@ -284,13 +284,13 @@ void main() {
     test('getSignatureFormFields method tests', () async {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
-          .apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
+          .ApiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234');
 
       await performHttpTest<DocumentSignatureFormFieldCollection>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getSignatureFormFields(
           signatureFormId: '234',
         ),
@@ -303,7 +303,7 @@ void main() {
     test('addSignatureFormFields method tests', () async {
       var document = getStandardN1Project().document('123');
       final expectedUrlPath = http
-          .apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
+          .ApiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234');
@@ -314,7 +314,7 @@ void main() {
 
       // Test with default parameters
       await performHttpTest<DocumentSignatureFormFieldCollection>(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => document.addSignatureFormFields(
           signatureFormId: '234',
           signatureFormFields: fields,
@@ -330,7 +330,7 @@ void main() {
       document = getStandardN1Project().document('123');
       // Test with optional parameters
       await performHttpTest<DocumentSignatureFormFieldCollection>(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => document.addSignatureFormFields(
           signatureFormId: '234',
           signatureFormFields: fields,
@@ -350,7 +350,7 @@ void main() {
       final apiModel =
           api_mod.DocumentSignatureFormField.fromJson(jsonDecode(documentSignatureFormFieldJson));
       final field = DocumentSignatureFormField.fromApiModel(apiModel, app: document.project.app);
-      final expectedUrlPath = http.apiPaths
+      final expectedUrlPath = http.ApiPaths
           .organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
@@ -359,7 +359,7 @@ void main() {
 
       // Test with default parameters
       await performHttpTest<DocumentSignatureFormField>(
-        httpMethod: HttpMethods.PUT,
+        httpMethod: HttpMethods.put,
         httpCallCallback: () => document.updateSignatureFormField(
           signatureFormId: '234',
           signatureFormField: field,
@@ -375,7 +375,7 @@ void main() {
       document = getStandardN1Project().document('123');
       // Test with optional parameters
       await performHttpTest<DocumentSignatureFormField>(
-        httpMethod: HttpMethods.PUT,
+        httpMethod: HttpMethods.put,
         httpCallCallback: () => document.updateSignatureFormField(
           signatureFormId: '234',
           signatureFormField: field,
@@ -392,7 +392,7 @@ void main() {
 
     test('deleteSignatureFormField method tests', () async {
       final document = getStandardN1Project().document('123');
-      final expectedUrlPath = http.apiPaths
+      final expectedUrlPath = http.ApiPaths
           .organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsdocumentSignatureFormFieldFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
@@ -400,7 +400,7 @@ void main() {
           .replaceDocumentSignatureFormFieldIdPlaceholder('345');
 
       await performHttpTest<void>(
-        httpMethod: HttpMethods.DELETE,
+        httpMethod: HttpMethods.delete,
         httpCallCallback: () => document.deleteSignatureFormField(
           signatureFormId: '234',
           signatureFormFieldId: '345',
@@ -415,13 +415,13 @@ void main() {
     test('deleteAllSignatureFormFields method tests', () async {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
-          .apiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
+          .ApiPaths.organizationsProjectsDocumentsSignatureFormsDocumentSignatureFormFieldsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234');
 
       await performHttpTest<void>(
-        httpMethod: HttpMethods.DELETE,
+        httpMethod: HttpMethods.delete,
         httpCallCallback: () => document.deleteAllSignatureFormFields(
           signatureFormId: '234',
         ),
@@ -435,12 +435,12 @@ void main() {
     test('getSignatureSessionPackage method tests', () async {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
-          .apiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
+          .ApiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
 
       await performHttpTest<DocumentSignatureSessionPackage>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getSignatureSessionPackage(),
         responseBody: documentSignatureSessionPackageJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -451,7 +451,7 @@ void main() {
     test('updateSignatureSessionPackages method tests', () async {
       final document = getStandardN1Project().document('123');
       final expectedUrlPath = http
-          .apiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
+          .ApiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
       final packagesApiModel = api_mod.DocumentSignatureSessionPackageCollection.fromJson(
@@ -460,7 +460,7 @@ void main() {
           app: document.project.app);
 
       await performHttpTest<DocumentSignatureSessionPackageCollection>(
-        httpMethod: HttpMethods.PUT,
+        httpMethod: HttpMethods.put,
         httpCallCallback: () => document.updateSignatureSessionPackages(
           packages: packages,
         ),
@@ -473,12 +473,12 @@ void main() {
 
     test('getSubscription method tests', () async {
       final document = getStandardN1Project().document('123');
-      final expectedUrlPath = http.apiPaths.organizationsProjectsDocumentSubscriptionsFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentSubscriptionsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
       // Test with default parameters
       await performHttpTest<DocumentSubscriptionForClient>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getSubscription(),
         responseBody: documentSubscriptionForClientJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -500,12 +500,12 @@ void main() {
       var project = getStandardN1Project();
       var documents = project.documents();
       final expectedUrlPath = http
-          .apiPaths.organizationsProjectsDocumentActionsRestoreFromRecycleBinFormat
+          .ApiPaths.organizationsProjectsDocumentActionsRestoreFromRecycleBinFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
       // Test with no document ids
       testAssertionErrorAsync(
           () async => await performHttpTest(
-                httpMethod: HttpMethods.POST,
+                httpMethod: HttpMethods.post,
                 httpCallCallback: () => documents.restoreFromRecycleBin([]),
                 responseBody: '',
                 expectedRequestUrlPath: expectedUrlPath,
@@ -518,7 +518,7 @@ void main() {
       documents = project.documents();
       // Test with document ids
       await performHttpTest(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => documents.restoreFromRecycleBin(['A', 'B']),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,
@@ -531,12 +531,12 @@ void main() {
       var project = getStandardN1Project();
       var documents = project.documents();
       final expectedUrlPath = http
-          .apiPaths.organizationsProjectsDocumentActionsSendToRecycleBinFormat
+          .ApiPaths.organizationsProjectsDocumentActionsSendToRecycleBinFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
       // Test with no document ids
       testAssertionErrorAsync(
           () async => await performHttpTest(
-                httpMethod: HttpMethods.POST,
+                httpMethod: HttpMethods.post,
                 httpCallCallback: () => documents.sendToRecycleBin([]),
                 responseBody: '',
                 expectedRequestUrlPath: expectedUrlPath,
@@ -549,7 +549,7 @@ void main() {
       documents = project.documents();
       // Test with some document ids
       await performHttpTest(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => documents.sendToRecycleBin(['A', 'B']),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,
@@ -561,13 +561,13 @@ void main() {
     test('getDocumentSignatureSessionSigningRecipientPackage method tests', () async {
       var project = getStandardN1Project();
       var documents = project.documents();
-      final expectedUrlPath = http.apiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
+      final expectedUrlPath = http.ApiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
           .replaceDocumentSignatureSessionIdPlaceholder('A')
           .replaceDocumentSignatureSessionRecipientIdPlaceholder('B');
 
       // Test with default parameters
       await performHttpTest<DocumentSignatureSessionSigningRecipientPackage>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => documents.getDocumentSignatureSessionSigningRecipientPackage(
           signatureSessionId: 'A',
           signatureSessionRecipientId: 'B',
@@ -584,7 +584,7 @@ void main() {
       documents = project.documents();
       // Test with optional parameters
       await performHttpTest<DocumentSignatureSessionSigningRecipientPackage>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => documents.getDocumentSignatureSessionSigningRecipientPackage(
           signatureSessionId: 'A',
           signatureSessionRecipientId: 'B',
@@ -607,7 +607,7 @@ void main() {
     test('signDocument method tests', () async {
       final project = getStandardN1Project();
       final documents = project.documents();
-      final expectedUrlPath = http.apiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
+      final expectedUrlPath = http.ApiPaths.documentSignatureSessionsSigningRecipientsFieldsFormat
           .replaceDocumentSignatureSessionIdPlaceholder('A')
           .replaceDocumentSignatureSessionRecipientIdPlaceholder('B');
       final packagesApiModel =
@@ -618,7 +618,7 @@ void main() {
           app: project.app);
 
       await performHttpTest<void>(
-        httpMethod: HttpMethods.PUT,
+        httpMethod: HttpMethods.put,
         httpCallCallback: () => documents.signDocument(
           signatureSessionId: 'A',
           signatureSessionRecipientId: 'B',

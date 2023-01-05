@@ -25,12 +25,12 @@ void main() {
 
     test('getOrganizationSubscriptionPlans method tests', () async {
       final subs = getStandardN1Org().subscriptions();
-      final expectedUrlPath = http.apiPaths.organizationsSubscriptionsPlansFormat
+      final expectedUrlPath = http.ApiPaths.organizationsSubscriptionsPlansFormat
           .replaceOrgIdPlaceholder(subs.organization.id);
 
       // Test with default parameters
       await performHttpTest<SubscriptionPlanCollection>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => subs.getOrganizationSubscriptionPlans(),
         responseBody: subscriptionPlanCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -40,7 +40,7 @@ void main() {
 
     test('updateOrganizationSubscription method tests', () async {
       final subs = getStandardN1Org().subscriptions();
-      final expectedUrlPath = http.apiPaths.organizationsSubscriptionsFormat
+      final expectedUrlPath = http.ApiPaths.organizationsSubscriptionsFormat
           .replaceOrgIdPlaceholder(subs.organization.id);
       final subscriptionDetails = SubscriptionDetails.fromApiModel(
         api_mod.SubscriptionDetails.fromJson(jsonDecode(subscriptionDetailsJson)),
@@ -49,7 +49,7 @@ void main() {
 
       // Test with default parameters
       await performHttpTest(
-        httpMethod: HttpMethods.PUT,
+        httpMethod: HttpMethods.put,
         httpCallCallback: () => subs.updateOrganizationSubscription(
           subscriptionDetails: subscriptionDetails,
         ),
@@ -62,12 +62,12 @@ void main() {
 
     test('getOrganizationSubscriptionInvoices method tests', () async {
       final subs = getStandardN1Org().subscriptions();
-      final expectedUrlPath = http.apiPaths.organizationsSubscriptionsInvoicesFormat
+      final expectedUrlPath = http.ApiPaths.organizationsSubscriptionsInvoicesFormat
           .replaceOrgIdPlaceholder(subs.organization.id);
 
       // Test with default parameters
       await performHttpTest<SubscriptionInvoiceCollection>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => subs.getOrganizationSubscriptionInvoices(),
         responseBody: subscriptionInvoiceCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,

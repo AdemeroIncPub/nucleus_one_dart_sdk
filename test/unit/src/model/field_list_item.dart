@@ -33,7 +33,7 @@ void main() {
       final apiModelOrig = api_mod.FieldListItem.fromJson(jsonDecode(fieldListItemJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = FieldListItem.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -63,7 +63,7 @@ void main() {
           api_mod.FieldListItemCollection.fromJson(jsonDecode(fieldListItemCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = FieldListItemCollection.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);

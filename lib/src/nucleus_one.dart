@@ -51,13 +51,13 @@ class NucleusOneOptions {
   final String apiBaseUrl;
   final String? apiKey;
 
-  static const String _DefaultApiBaseUrl = 'https://client-api.nucleus.one';
+  static const String _defaultApiBaseUrl = 'https://client-api.nucleus.one';
   static const uploadChunkSize = 1024 * 1024;
 
   NucleusOneOptions({
     String? apiBaseUrl,
     this.apiKey,
-  }) : apiBaseUrl = (apiBaseUrl == null) ? _DefaultApiBaseUrl : apiBaseUrl;
+  }) : apiBaseUrl = (apiBaseUrl == null) ? _defaultApiBaseUrl : apiBaseUrl;
 }
 
 abstract class NucleusOneAppDependent {
@@ -113,7 +113,7 @@ class NucleusOneApp {
       query: qp,
     );
     final apiModel = api_mod.OrganizationForClient.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(this, () {
+    return await defineN1AppInScope(this, () {
       return OrganizationForClient.fromApiModel(apiModel);
     });
     */
@@ -135,7 +135,7 @@ class NucleusOneApp {
       ],
     );
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizations,
+      http.ApiPaths.organizations,
       this,
       query: qp,
     );
@@ -143,7 +143,7 @@ class NucleusOneApp {
     final apiModel = api_mod.QueryResult<api_mod.OrganizationForClientCollection>.fromJson(
         jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(this, () {
+    return await defineN1AppInScope(this, () {
       return OrganizationForClientCollectionQueryResult.fromApiModelOrganizationForClientCollection(
           apiModel);
     });

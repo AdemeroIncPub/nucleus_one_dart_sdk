@@ -24,12 +24,12 @@ void main() {
     });
 
     test('getSupportUsers method tests', () async {
-      final expectedUrlPath = http.apiPaths.supportUsers;
+      final expectedUrlPath = http.ApiPaths.supportUsers;
       final n1App = getStandardN1App();
 
       // Test with default parameters
       await performHttpTest<QueryResult<SupportUserCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppSupport(app: n1App).getSupportUsers(),
         responseBody: api_mod.supportUserCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -38,12 +38,12 @@ void main() {
     });
 
     test('getSupportOrganizations method tests', () async {
-      final expectedUrlPath = http.apiPaths.supportOrganizations;
+      final expectedUrlPath = http.ApiPaths.supportOrganizations;
       final n1App = getStandardN1App();
 
       // Test with default parameters
       await performHttpTest<QueryResult<SupportOrganizationCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppSupport(app: n1App).getSupportOrganizations(),
         responseBody: api_mod.supportOrganizationCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -52,12 +52,12 @@ void main() {
     });
 
     test('getSupportErrorEvents method tests', () async {
-      final expectedUrlPath = http.apiPaths.supportErrorEvents;
+      final expectedUrlPath = http.ApiPaths.supportErrorEvents;
       final n1App = getStandardN1App();
 
       // Test with default parameters
       await performHttpTest<QueryResult<SupportErrorEventCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppSupport(app: n1App).getSupportErrorEvents(
           serviceNameFilter: 'A',
           levelFilter: 'B',
@@ -84,11 +84,11 @@ void main() {
     });
 
     test('getSupportAdminStatus method tests', () async {
-      final expectedUrlPath = http.apiPaths.supportAdmin;
+      final expectedUrlPath = http.ApiPaths.supportAdmin;
       final n1App = getStandardN1App();
 
       await performHttpTest<void>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppSupport(app: n1App).getSupportAdminStatus(),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,

@@ -34,7 +34,7 @@ void main() {
       final apiModelOrig = api_mod.UserProfile.fromJson(jsonDecode(userProfileJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = UserProfile.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);

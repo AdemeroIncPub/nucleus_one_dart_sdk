@@ -29,7 +29,7 @@ void main() {
         expect(
             '<organizationId>/<projectId>'
                 .replaceOrgIdAndProjectIdPlaceholders(project.organization.id, project.id),
-            project.organization.id + '/' + project.id);
+            '${project.organization.id}/${project.id}');
       });
 
       test('replaceOrgIdPlaceholder method tests', () {

@@ -53,7 +53,7 @@ void main() {
       performTests(apiModelOrig);
 
       final n1App = getStandardN1App();
-      await DefineN1AppInScope(n1App, () {
+      await defineN1AppInScope(n1App, () {
         // Convert it to a model class then back again
         final apiModelCycled = DocumentPackageField.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);

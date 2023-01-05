@@ -35,7 +35,7 @@ void main() {
           jsonDecode(documentSignatureSessionRecipientFormFieldCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             DocumentSignatureSessionRecipientFormFieldCollection.fromApiModel(apiModelOrig)
@@ -77,7 +77,7 @@ void main() {
           jsonDecode(documentSignatureSessionRecipientFormFieldJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             DocumentSignatureSessionRecipientFormField.fromApiModel(apiModelOrig).toApiModel();
@@ -116,7 +116,7 @@ void main() {
           jsonDecode(documentSignatureSessionFormFieldPackageJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             DocumentSignatureSessionFormFieldPackage.fromApiModel(apiModelOrig).toApiModel();
@@ -148,7 +148,7 @@ void main() {
           jsonDecode(documentSignatureSessionSigningRecipientJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             DocumentSignatureSessionSigningRecipient.fromApiModel(apiModelOrig).toApiModel();
@@ -183,7 +183,7 @@ void main() {
           jsonDecode(documentSignatureSessionSigningRecipientPackageJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             DocumentSignatureSessionSigningRecipientPackage.fromApiModel(apiModelOrig).toApiModel();

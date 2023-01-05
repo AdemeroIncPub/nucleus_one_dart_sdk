@@ -60,15 +60,15 @@ void main() {
         expect(apiModel.processElementID, 'X');
         expect(apiModel.processElementName, 'Y');
         expect(apiModel.processElementNameLower, 'Z');
-        expect(apiModel.reminder_7_Day, '0001-01-01T00:00:00Z');
-        expect(apiModel.reminder_3_Day, '0001-01-01T00:00:00Z');
-        expect(apiModel.reminder_1_Day, '0001-01-01T00:00:00Z');
+        expect(apiModel.reminder7Day, '0001-01-01T00:00:00Z');
+        expect(apiModel.reminder3Day, '0001-01-01T00:00:00Z');
+        expect(apiModel.reminder1Day, '0001-01-01T00:00:00Z');
       }
 
       final apiModelOrig = api_mod.Task.fromJson(jsonDecode(taskJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = Task.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -98,7 +98,7 @@ void main() {
           api_mod.QueryResult<api_mod.TaskCollection>.fromJson(jsonDecode(taskCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final api_mod.QueryResult<api_mod.TaskCollection> apiModelCycled =
             TaskCollectionQueryResult.fromApiModelTaskCollection(apiModelOrig)

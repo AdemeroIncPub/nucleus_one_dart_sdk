@@ -37,7 +37,7 @@ void main() {
           jsonDecode(taskCommentsJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final api_mod.QueryResult2<api_mod.TaskCommentCollection> apiModelCycled =
             TaskCommentCollectionQueryResult.fromApiModelTaskCommentCollection(apiModelOrig)

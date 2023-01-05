@@ -40,7 +40,7 @@ void main() {
       final apiModelOrig = api_mod.SupportUser.fromJson(jsonDecode(supportUserJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = SupportUser.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -70,7 +70,7 @@ void main() {
           jsonDecode(supportUserCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final api_mod.QueryResult<api_mod.SupportUserCollection> apiModelCycled =
             SupportUserCollectionQueryResult.fromApiModelSupportUserCollection(apiModelOrig)

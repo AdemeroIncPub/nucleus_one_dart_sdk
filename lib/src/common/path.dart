@@ -6,7 +6,7 @@ String combine(String a, String b) {
     return a + b.substring(1);
   }
   if (!(aSlash || bSlash)) {
-    return a + '/' + b;
+    return '$a/$b';
   }
   return a + b;
 }

@@ -38,7 +38,7 @@ void main() {
       final apiModelOrig = api_mod.SubscriptionPlan.fromJson(jsonDecode(subscriptionPlanJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = SubscriptionPlan.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -71,7 +71,7 @@ void main() {
           api_mod.SubscriptionPlanCollection.fromJson(jsonDecode(subscriptionPlanCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final api_mod.SubscriptionPlanCollection apiModelCycled =
             SubscriptionPlanCollection.fromApiModel(apiModelOrig).toApiModel();

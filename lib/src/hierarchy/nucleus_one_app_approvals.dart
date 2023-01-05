@@ -27,7 +27,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     final reqBody = {'IDs': ids};
 
     await http.executePostRequest(
-      http.apiPaths.organizationsProjectsApprovalActionsDeclineFormat
+      http.ApiPaths.organizationsProjectsApprovalActionsDeclineFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode(reqBody),
@@ -43,7 +43,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     final reqBody = {'IDs': ids};
 
     await http.executePostRequest(
-      http.apiPaths.organizationsProjectsApprovalActionsDenyFormat
+      http.ApiPaths.organizationsProjectsApprovalActionsDenyFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode(reqBody),
@@ -59,7 +59,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     final reqBody = {'IDs': ids};
 
     await http.executePostRequest(
-      http.apiPaths.organizationsProjectsApprovalActionsApproveFormat
+      http.ApiPaths.organizationsProjectsApprovalActionsApproveFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode(reqBody),
@@ -87,7 +87,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     qp['sortType'] = sortType;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsApprovalsFormat
+      http.ApiPaths.organizationsProjectsApprovalsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       project.app,
       query: qp,
@@ -96,7 +96,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     final apiModel =
         api_mod.QueryResult<api_mod.ApprovalCollection>.fromJson(jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(project.app, () {
+    return await defineN1AppInScope(project.app, () {
       return QueryResult(
         results: ApprovalCollection(
             items: apiModel.results!.approvals?.map((x) => Approval.fromApiModel(x)).toList()),

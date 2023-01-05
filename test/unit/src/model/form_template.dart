@@ -45,7 +45,7 @@ void main() {
       final apiModelOrig = api_mod.FormTemplate.fromJson(jsonDecode(formTemplateJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = FormTemplate.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -75,7 +75,7 @@ void main() {
           jsonDecode(formTemplateCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppAndProjectInScope(getStandardN1Project(), () {
+      await defineN1AppAndProjectInScope(getStandardN1Project(), () {
         // Convert it to a model class then back again
         final api_mod.QueryResult<api_mod.FormTemplateCollection> apiModelCycled =
             FormTemplateCollectionQueryResult.fromApiModelFormTemplateCollection(apiModelOrig)
@@ -107,7 +107,7 @@ void main() {
           api_mod.FormTemplateFieldCollection.fromJson(jsonDecode(formTemplateFieldCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = FormTemplateFieldCollection.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -169,7 +169,7 @@ void main() {
       final apiModelOrig = api_mod.FormTemplateField.fromJson(jsonDecode(formTemplateFieldJson));
       performFormTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = FormTemplateField.fromApiModel(apiModelOrig).toApiModel();
         performFormTests(apiModelCycled);
@@ -229,7 +229,7 @@ void main() {
           api_mod.FormSubmissionField.fromJson(jsonDecode(formSubmissionFieldJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = FormSubmissionField.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -294,7 +294,7 @@ void main() {
           jsonDecode(formSubmissionPackageCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             FormSubmissionPackageCollection.fromApiModel(apiModelOrig).toApiModel();
@@ -328,7 +328,7 @@ void main() {
           api_mod.FormSubmissionPackage.fromJson(jsonDecode(formSubmissionPackageJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = FormSubmissionPackage.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -358,7 +358,7 @@ void main() {
         expect(e.name, 'formTemplateID');
       }
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         final fsf = FormSubmissionField.fromApiModel(
             api_mod.FormSubmissionField.fromJson(jsonDecode(formSubmissionFieldJson)));
         final m = FormSubmissionPackage.createNew(

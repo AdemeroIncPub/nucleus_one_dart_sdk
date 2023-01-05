@@ -154,13 +154,13 @@ class Task extends Entity {
   String? processElementNameLower;
 
   @JsonKey(name: 'Reminder_7_Day')
-  String? reminder_7_Day;
+  String? reminder7Day;
 
   @JsonKey(name: 'Reminder_3_Day')
-  String? reminder_3_Day;
+  String? reminder3Day;
 
   @JsonKey(name: 'Reminder_1_Day')
-  String? reminder_1_Day;
+  String? reminder1Day;
 
   // coverage:ignore-start
   /// [toJson] is the convention for a class to declare support for serialization

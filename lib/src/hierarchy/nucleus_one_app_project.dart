@@ -133,7 +133,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   ///
   Future<int> getRecycleBinDocumentCount() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsCountsRecycleBinDocumentsFormat
+      http.ApiPaths.organizationsProjectsCountsRecycleBinDocumentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
     );
@@ -154,7 +154,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
       'ignoreRecycleBin': ignoreRecycleBin,
     };
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsCountsDocumentsFormat
+      http.ApiPaths.organizationsProjectsCountsDocumentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       query: qp,
@@ -177,7 +177,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentFoldersFormat
+      http.ApiPaths.organizationsProjectsDocumentFoldersFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       query: qp,
@@ -185,7 +185,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     final apiModel =
         api_mod.QueryResult<api_mod.DocumentFolderCollection>.fromJson(jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return DocumentFolderCollectionQueryResult.fromApiModelDocumentFolderCollection(apiModel);
     });
   }
@@ -198,7 +198,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     qp['documentFolderId'] = documentFolderId;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentFoldersDocumentFolderFormat
+      http.ApiPaths.organizationsProjectsDocumentFoldersDocumentFolderFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceDocumentFolderIdPlaceholder(documentFolderId),
       app,
@@ -206,7 +206,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     );
     final apiModel = api_mod.DocumentFolder.fromJson(jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return DocumentFolder.fromApiModel(apiModel);
     });
   }
@@ -215,7 +215,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   ///
   Future<int> getPageCount() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsCountsPagesFormat
+      http.ApiPaths.organizationsProjectsCountsPagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
     );
@@ -225,12 +225,12 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   /// Gets signature form templates.
   Future<SignatureFormTemplateCollection> getSignatureFormTemplates() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsSignatureFormTemplatesFormat
+      http.ApiPaths.organizationsProjectsSignatureFormTemplatesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
     );
     final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return SignatureFormTemplateCollection.fromApiModel(apiModel);
     });
   }
@@ -242,13 +242,13 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   Future<SignatureFormTemplateCollection> addSignatureFormTemplates(
       SignatureFormTemplateCollection templates) async {
     final responseBody = await http.executePostRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsSignatureFormTemplatesFormat
+      http.ApiPaths.organizationsProjectsSignatureFormTemplatesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       body: jsonEncode(templates.toApiModel()),
     );
     final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return SignatureFormTemplateCollection.fromApiModel(apiModel);
     });
   }
@@ -263,7 +263,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     required SignatureFormTemplate template,
   }) async {
     await http.executePutRequest(
-      http.apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
+      http.ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
       app,
@@ -278,7 +278,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     required String templateId,
   }) async {
     await http.executeDeleteRequest(
-      http.apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
+      http.ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
       app: app,
@@ -292,14 +292,14 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     required String templateId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
+      http.ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
       app,
     );
     final apiModel =
         api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return SignatureFormTemplateFieldCollection.fromApiModel(apiModel);
     });
   }
@@ -321,7 +321,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     qp['clearExisting'] = clearExisting;
 
     final responseBody = await http.executePostRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
+      http.ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
       app,
@@ -330,7 +330,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     );
     final apiModel =
         api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return SignatureFormTemplateFieldCollection.fromApiModel(apiModel);
     });
   }
@@ -353,13 +353,13 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat
+      http.ApiPaths.organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       query: qp,
     );
     final apiModel = api_mod.DocumentSignatureFormCollection.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return DocumentSignatureFormCollection.fromApiModel(apiModel);
     });
   }
@@ -386,7 +386,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentsFormat
+      http.ApiPaths.organizationsProjectsDocumentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       query: qp,
@@ -394,7 +394,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     final apiModel =
         api_mod.QueryResult<api_mod.DocumentCollection>.fromJson(jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return DocumentCollectionQueryResult.fromApiModelDocumentCollection(apiModel);
     });
   }
@@ -405,12 +405,12 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   /// you likely want to call `uploadDocument`, instead, which handles the entire process.
   Future<DocumentUpload> getDocumentUploadReservation() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentUploadsFormat
+      http.ApiPaths.organizationsProjectsDocumentUploadsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
     );
     final apiModel = api_mod.DocumentUpload.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return DocumentUpload.fromApiModel(apiModel);
     });
   }
@@ -433,8 +433,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
       final initialResp = await initialReq.close();
       if (initialResp.statusCode != 200) {
-        throw 'Error initializing upload to cloud storage.  HTTP ${initialResp.statusCode}: ' +
-            (await initialResp.readToEnd());
+        throw 'Error initializing upload to cloud storage.  HTTP ${initialResp.statusCode}: ${await initialResp.readToEnd()}';
       }
 
       final sessionUriString = initialResp.headers['location'];
@@ -470,8 +469,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
       // A 308 is desired after uploading a chunk
       if ((chunkResp.statusCode != 200) && (chunkResp.statusCode != 308)) {
         //throw await chunkResp.readToEnd();
-        throw 'Error uploading to cloud storage.  HTTP ${chunkResp.statusCode}: ' +
-            (await chunkResp.readToEnd());
+        throw 'Error uploading to cloud storage.  HTTP ${chunkResp.statusCode}: ${await chunkResp.readToEnd()}';
       }
 
       // Stop here if this is a 0-byte binary
@@ -515,7 +513,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     qp['captureOriginal'] = false;
 
     /*final responseBody = */ await http.executePutRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsDocumentUploadsFormat
+      http.ApiPaths.organizationsProjectsDocumentUploadsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app,
       query: qp,

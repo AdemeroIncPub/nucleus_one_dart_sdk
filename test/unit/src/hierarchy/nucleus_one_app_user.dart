@@ -36,11 +36,11 @@ void main() {
     });
 
     test('getOrganizations method tests', () async {
-      final expectedUrlPath = http.apiPaths.userOrganizations;
+      final expectedUrlPath = http.ApiPaths.userOrganizations;
       final n1App = getStandardN1App();
       // Test with default parameters
       await performHttpTest<UserOrganizationCollection>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppUser(app: n1App).getOrganizations(),
         responseBody: userOrganizationCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -50,11 +50,11 @@ void main() {
 
     test('getProjects method tests', () async {
       final expectedUrlPath =
-          http.apiPaths.userOrganizationsProjectsFormat.replaceOrgIdPlaceholder('123');
+          http.ApiPaths.userOrganizationsProjectsFormat.replaceOrgIdPlaceholder('123');
       final n1App = getStandardN1App();
       // Test with default parameters
       await performHttpTest<UserOrganizationProjectCollection>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppUser(app: n1App).getProjects(organizationId: '123'),
         responseBody: userOrganizationProjectCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -63,12 +63,12 @@ void main() {
     });
 
     test('updateUserPreference method tests', () async {
-      final expectedUrlPath = http.apiPaths.userPreferences;
+      final expectedUrlPath = http.ApiPaths.userPreferences;
       final n1App = getStandardN1App();
 
-      await DefineN1AppInScopeAsync(n1App, () async {
+      await defineN1AppInScopeAsync(n1App, () async {
         return await performHttpTest<void>(
-          httpMethod: HttpMethods.PUT,
+          httpMethod: HttpMethods.put,
           httpCallCallback: () =>
               NucleusOneAppUser(app: n1App).updateUserPreference(UserPreference.fromApiModel(_up)),
           expectedRequestBody: _expectedUserPrefJson,
@@ -81,12 +81,12 @@ void main() {
 
     test('updateUserPreferenceByUserPreferenceId method tests', () async {
       final expectedUrlPath =
-          http.apiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', 'A');
+          http.ApiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', 'A');
       final n1App = getStandardN1App();
 
-      await DefineN1AppInScopeAsync(n1App, () async {
+      await defineN1AppInScopeAsync(n1App, () async {
         return await performHttpTest<void>(
-          httpMethod: HttpMethods.PUT,
+          httpMethod: HttpMethods.put,
           httpCallCallback: () => NucleusOneAppUser(app: n1App)
               .updateUserPreferenceByUserPreferenceId(UserPreference.fromApiModel(_up), 'A'),
           expectedRequestBody: _expectedUserPrefJson,
@@ -100,11 +100,11 @@ void main() {
     });
 
     test('getPreferences method tests', () async {
-      final expectedUrlPath = http.apiPaths.userPreferences;
+      final expectedUrlPath = http.ApiPaths.userPreferences;
       final n1App = getStandardN1App();
       // Test with default parameters
       await performHttpTest<UserPreferences>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppUser(app: n1App).getPreferences(),
         responseBody: userPreferencesJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -113,11 +113,11 @@ void main() {
     });
 
     test('setSmsNumber method tests', () async {
-      final expectedUrlPath = http.apiPaths.userSmsNumbers;
+      final expectedUrlPath = http.ApiPaths.userSmsNumbers;
       final n1App = getStandardN1App();
 
       await performHttpTest<void>(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => NucleusOneAppUser(app: n1App).setSmsNumber('123'),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,
@@ -128,11 +128,11 @@ void main() {
 
     test('verifySmsNumber method tests', () async {
       final expectedUrlPath =
-          http.apiPaths.userSmsNumbersSmsChangeCodeFormat.replaceFirst('<smsChangeCode>', '123');
+          http.ApiPaths.userSmsNumbersSmsChangeCodeFormat.replaceFirst('<smsChangeCode>', '123');
       final n1App = getStandardN1App();
 
       await performHttpTest<void>(
-        httpMethod: HttpMethods.PUT,
+        httpMethod: HttpMethods.put,
         httpCallCallback: () => NucleusOneAppUser(app: n1App).verifySmsNumber('123'),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,
@@ -141,11 +141,11 @@ void main() {
     });
 
     test('deleteSmsNumber method tests', () async {
-      final expectedUrlPath = http.apiPaths.userSmsNumbers;
+      final expectedUrlPath = http.ApiPaths.userSmsNumbers;
       final n1App = getStandardN1App();
 
       await performHttpTest<void>(
-        httpMethod: HttpMethods.DELETE,
+        httpMethod: HttpMethods.delete,
         httpCallCallback: () => NucleusOneAppUser(app: n1App).deleteSmsNumber(),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,

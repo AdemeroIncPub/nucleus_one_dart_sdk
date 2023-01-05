@@ -45,7 +45,7 @@ void main() {
           api_mod.SubscriptionDetails.fromJson(jsonDecode(subscriptionDetailsJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = SubscriptionDetails.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);

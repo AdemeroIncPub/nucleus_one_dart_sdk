@@ -194,7 +194,7 @@ mixin FormTemplateFieldMixin {
       ..values = apiModel.values!;
   }
 
-  void FormTemplateFieldMixin_toApiModel(api_mod.FormTemplateFieldMixin apiModel) {
+  void _formTemplateFieldMixinToApiModel(api_mod.FormTemplateFieldMixin apiModel) {
     apiModel
       ..id = id
       ..formTemplateID = formTemplateID
@@ -247,7 +247,7 @@ class FormTemplateField with NucleusOneAppDependent, FormTemplateFieldMixin {
 
   api_mod.FormTemplateField toApiModel() {
     final apiModel = api_mod.FormTemplateField();
-    FormTemplateFieldMixin_toApiModel(apiModel);
+    _formTemplateFieldMixinToApiModel(apiModel);
     return apiModel;
   }
 }
@@ -374,7 +374,7 @@ class FormSubmissionField with NucleusOneAppDependent, FormTemplateFieldMixin {
 
   api_mod.FormSubmissionField toApiModel() {
     final apiModel = api_mod.FormSubmissionField()..formTemplateFieldID = formTemplateFieldID;
-    FormTemplateFieldMixin_toApiModel(apiModel);
+    _formTemplateFieldMixinToApiModel(apiModel);
     return apiModel;
   }
 

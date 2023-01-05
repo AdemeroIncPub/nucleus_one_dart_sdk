@@ -47,7 +47,7 @@ void main() {
       const baseUrl = 'https://abc.com';
       final n1App = getStandardN1App(baseUrl: baseUrl);
 
-      expect(n1App.getFullUrl('/test'), baseUrl + NucleusOneApp.apiBaseUrlPath + '/test');
+      expect(n1App.getFullUrl('/test'), '$baseUrl${NucleusOneApp.apiBaseUrlPath}/test');
     });
 
     test('user method tests', () {
@@ -70,10 +70,10 @@ void main() {
       // final org = getStandardN1Org();
       // final expectedUrlPath =
       //     http.apiPaths.organizationsOrganizationFormat.replaceOrgIdPlaceholder(org.id);
-      final expectedUrlPath = http.apiPaths.organizations;
+      final expectedUrlPath = http.ApiPaths.organizations;
 
       await performHttpTest<void>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => getStandardN1App().getOrganization(organizationId: 'A'),
         responseBody: organizationForClientCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -84,7 +84,7 @@ void main() {
       // untilthe proper implementation is in place in the N1 API.  See the getOrganization method
       // for details.
       final pt = performHttpTest<void>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => getStandardN1App().getOrganization(organizationId: '123'),
         responseBody: organizationForClientCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -100,11 +100,11 @@ void main() {
     });
 
     test('getOrganizations method tests', () async {
-      final expectedUrlPath = http.apiPaths.organizations;
+      final expectedUrlPath = http.ApiPaths.organizations;
 
       // Test with default parameters
       await performHttpTest<QueryResult<OrganizationForClientCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => getStandardN1App().getOrganizations(),
         responseBody: organizationForClientCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -113,7 +113,7 @@ void main() {
 
       // Test with cursor parameter
       await performHttpTest<QueryResult<OrganizationForClientCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => getStandardN1App().getOrganizations(cursor: 'A'),
         responseBody: organizationForClientCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,

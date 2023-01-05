@@ -49,12 +49,12 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
   /// Gets organization's tenants.
   Future<OrganizationPermissions> getPermissions() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', id),
+      http.ApiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', id),
       app,
     );
 
     final apiModel = api_mod.OrganizationPermissions.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return OrganizationPermissions.fromApiModel(apiModel);
     });
   }
@@ -66,11 +66,11 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     required String organizationId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsSubscriptionsFormat.replaceOrgIdPlaceholder(id),
+      http.ApiPaths.organizationsSubscriptionsFormat.replaceOrgIdPlaceholder(id),
       app,
     );
     final apiModel = api_mod.SubscriptionDetails.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return SubscriptionDetails.fromApiModel(apiModel);
     });
   }
@@ -84,13 +84,13 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     final qp = http.StandardQueryParams.get();
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsProjectFormat
+      http.ApiPaths.organizationsProjectsProjectFormat
           .replaceOrgIdAndProjectIdPlaceholders(id, projectId),
       app,
       query: qp,
     );
     final apiModel = api_mod.OrganizationProject.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return OrganizationProject.fromApiModel(apiModel);
     });
   }
@@ -134,14 +134,14 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsProjectsFormat.replaceOrgIdPlaceholder(id),
+      http.ApiPaths.organizationsProjectsFormat.replaceOrgIdPlaceholder(id),
       app,
       query: qp,
     );
     final apiModel = api_mod.QueryResult<api_mod.OrganizationProjectCollection>.fromJson(
         jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return QueryResult(
         results: OrganizationProjectCollection(
             items: apiModel.results!.projects!

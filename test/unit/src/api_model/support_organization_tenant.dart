@@ -1,7 +1,7 @@
 const supportOrganizationTenantJson =
     '{"ID": "A","CreatedOn": "0001-01-01T00:00:01Z","Name": "B","CreatingUserName": "C","CreatingUserEmail": "D","CrmAccountId": "E","OrganizationID": "F","OrganizationName": "G","OrganizationSubscriptionRequired": false,"OrganizationSubscriptionExpiration": "0001-01-01T00:00:01Z","SearchIndexID": "H","BucketName": "I","Disabled": false,"IsMarkedForPurge": false,"PurgeDate": "0001-01-01T00:00:01Z","DocumentCount": 0}';
 const supportOrganizationTenantCollectionJson =
-    '{"Tenants":[' + supportOrganizationTenantJson + '],"Cursor":"QueryResultA","PageSize":24}';
+    '{"Tenants":[$supportOrganizationTenantJson],"Cursor":"QueryResultA","PageSize":24}';
 
 void main() {
   /*

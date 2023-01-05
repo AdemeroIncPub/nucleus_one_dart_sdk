@@ -52,9 +52,9 @@ void main() {
         );
         performTests(apiModelOrig);
 
-        await DefineN1AppInScope(getStandardN1App(), () {
+        await defineN1AppInScope(getStandardN1App(), () {
           // Convert it to a model class then back again
-          final apiModelCycled = QueryResult_fromApiModel(apiModelOrig).toApiModel();
+          final apiModelCycled = _queryResultFromApiModel(apiModelOrig).toApiModel();
           performTests(apiModelCycled);
         });
       });
@@ -77,9 +77,9 @@ void main() {
         );
         performTests(apiModelOrig);
 
-        await DefineN1AppInScope(getStandardN1App(), () {
+        await defineN1AppInScope(getStandardN1App(), () {
           // Convert it to a model class then back again
-          final apiModelCycled = QueryResult2_fromApiModel(apiModelOrig).toApiModel();
+          final apiModelCycled = _queryResult2FromApiModel(apiModelOrig).toApiModel();
           performTests(apiModelCycled);
         });
       });
@@ -87,10 +87,7 @@ void main() {
   });
 }
 
-QueryResult QueryResult_fromApiModel(
-  api_mod.QueryResult apiModel, {
-  NucleusOneApp? app,
-}) {
+QueryResult _queryResultFromApiModel(api_mod.QueryResult apiModel) {
   return QueryResult(
     results: DummyCollection(items: []),
     cursor: apiModel.cursor!,
@@ -98,10 +95,7 @@ QueryResult QueryResult_fromApiModel(
   );
 }
 
-QueryResult2 QueryResult2_fromApiModel(
-  api_mod.QueryResult2 apiModel, {
-  NucleusOneApp? app,
-}) {
+QueryResult2 _queryResult2FromApiModel(api_mod.QueryResult2 apiModel) {
   return QueryResult2(
     results: DummyCollection(items: []),
     cursor: apiModel.cursor!,

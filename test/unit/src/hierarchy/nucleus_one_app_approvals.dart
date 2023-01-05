@@ -20,12 +20,12 @@ void main() {
 
     test('getApprovals method tests', () async {
       var project = getStandardN1Project();
-      final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalsFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsApprovalsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<QueryResult<ApprovalCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppApprovals(project: project).getApprovals(
           processElementId: 'A',
           sortDescending: false,
@@ -45,7 +45,7 @@ void main() {
       project = getStandardN1Project();
       // Test with cursor and optional arguments
       await performHttpTest<QueryResult<ApprovalCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppApprovals(project: project).getApprovals(
           processElementId: 'A',
           sortDescending: true,
@@ -65,12 +65,12 @@ void main() {
 
     test('approveDocument method tests', () async {
       final project = getStandardN1Project();
-      final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalActionsApproveFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsApprovalActionsApproveFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<void>(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => NucleusOneAppApprovals(project: project).approveDocument(
           ids: ['A', 'B'],
         ),
@@ -83,12 +83,12 @@ void main() {
 
     test('declineDocument method tests', () async {
       final project = getStandardN1Project();
-      final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalActionsDeclineFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsApprovalActionsDeclineFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<void>(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => NucleusOneAppApprovals(project: project).declineDocument(
           ids: ['A', 'B'],
         ),
@@ -101,12 +101,12 @@ void main() {
 
     test('denyDocument method tests', () async {
       final project = getStandardN1Project();
-      final expectedUrlPath = http.apiPaths.organizationsProjectsApprovalActionsDenyFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsApprovalActionsDenyFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<void>(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => NucleusOneAppApprovals(project: project).denyDocument(
           ids: ['A', 'B'],
         ),

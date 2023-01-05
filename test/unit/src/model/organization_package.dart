@@ -41,7 +41,7 @@ void main() {
           api_mod.OrganizationPackage.fromJson(jsonDecode(organizationPackageJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = OrganizationPackage.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
@@ -71,7 +71,7 @@ void main() {
           jsonDecode(organizationPackageCollectionJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final api_mod.QueryResult<api_mod.OrganizationPackageCollection> apiModelCycled =
             OrganizationPackageCollectionQueryResult.fromApiModelOrganizationPackageCollection(

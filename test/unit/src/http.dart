@@ -26,7 +26,7 @@ void main() {
         // This is an arbitrary http call to trigger HTTP request execution
         await HttpClient().getUrl(Uri.parse('https://google.com'));
       },
-      requestHttpMethod: HttpMethods.GET,
+      requestHttpMethod: HttpMethods.get,
       responseBody: '',
     );
 
@@ -51,7 +51,7 @@ void main() {
         // This is an arbitrary http call to trigger HTTP request execution
         await HttpClient().getUrl(Uri.parse('https://google.com'));
       },
-      requestHttpMethod: HttpMethods.GET,
+      requestHttpMethod: HttpMethods.get,
       responseBody: '',
     );
 
@@ -69,7 +69,7 @@ void main() {
         // This is an arbitrary http call to trigger HTTP request execution
         await HttpClient().getUrl(Uri.parse('https://google.com'));
       },
-      requestHttpMethod: HttpMethods.GET,
+      requestHttpMethod: HttpMethods.get,
       responseBody: '',
     );
 
@@ -134,7 +134,7 @@ void main() {
                 authenticated: reqAuthenticated,
               );
             },
-            requestHttpMethod: HttpMethods.GET,
+            requestHttpMethod: HttpMethods.get,
             responseBody: '123',
             responseHttpStatus: responseHttpStatus,
           );
@@ -170,19 +170,19 @@ void main() {
           callback: () async {
             await executeDeleteRequest('', app: null, query: {});
           },
-          requestHttpMethod: HttpMethods.DELETE,
+          requestHttpMethod: HttpMethods.delete,
           responseBody: '123',
         ),
         'instanceFactory != null',
       );
 
       testValidAssertionAsync(() async {
-        await DefineN1AppInScopeAsync(getStandardN1App(), () async {
+        await defineN1AppInScopeAsync(getStandardN1App(), () async {
           await createStandardMockHttpClientScopeForAllRequests(
             callback: () async {
               await executeDeleteRequest('', app: null, query: {});
             },
-            requestHttpMethod: HttpMethods.DELETE,
+            requestHttpMethod: HttpMethods.delete,
             responseBody: '123',
           );
         });
@@ -198,7 +198,7 @@ void main() {
             query: {},
           );
         },
-        requestHttpMethod: HttpMethods.DELETE,
+        requestHttpMethod: HttpMethods.delete,
         responseBody: '123',
       );
 
@@ -214,7 +214,7 @@ void main() {
             query: {},
           );
         },
-        requestHttpMethod: HttpMethods.POST,
+        requestHttpMethod: HttpMethods.post,
         responseBody: '123',
       );
 
@@ -231,7 +231,7 @@ void main() {
             query: {},
           );
         },
-        requestHttpMethod: HttpMethods.POST,
+        requestHttpMethod: HttpMethods.post,
         responseBody: '123',
       );
 
@@ -248,7 +248,7 @@ void main() {
             query: {},
           );
         },
-        requestHttpMethod: HttpMethods.PUT,
+        requestHttpMethod: HttpMethods.put,
         responseBody: '123',
       );
 
@@ -265,7 +265,7 @@ void main() {
             query: {},
           );
         },
-        requestHttpMethod: HttpMethods.PUT,
+        requestHttpMethod: HttpMethods.put,
         responseBody: '123',
       );
 

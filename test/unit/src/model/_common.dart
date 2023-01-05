@@ -29,7 +29,7 @@ void main() {
             if (!classExceptions.contains(className)) {
               foundEntityCollectionClasses = true;
               bool foundFromApiModelMethod = false;
-              final fullFactoryMethodName = className + '.fromApiModel';
+              final fullFactoryMethodName = '$className.fromApiModel';
 
               for (var m in dm.declarations.entries) {
                 if ((m.value is MethodMirror) && getSymbolName(m.key) == fullFactoryMethodName) {

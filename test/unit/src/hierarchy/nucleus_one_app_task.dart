@@ -28,16 +28,16 @@ void main() {
             r'"PrimaryDocument":{"ID":"J","OrganizationID":"N","ProjectID":"U","ProjectName":"V","ProjectAccessType":"T","DocumentID":"G","DocumentFolderID":"E","DocumentFolderPath":"F","AssignmentUserEmails":["B"],"GroupID":"I","CreatedOn":"0001-01-01T00:00:00Z","CreatedByUserEmail":"C","CreatedByUserName":"D","ModifiedOn":"0001-01-01T00:00:00Z","ModifiedByUserEmail":"K","ModifiedByUserName":"L","PurgeDate":"0001-01-01T00:00:00Z","Name":"M","Origin":"O","PageCount":1,"FileSize":1,"ThumbnailUrl":"W","IsSigned":false,"PreviewMetadata":[{"0":"00","1":"11","2":"22"}],"ApprovalID":"A","ApprovalCreatedOn":"0001-01-01T00:00:00Z","IsMarkedForPurge":false,"HasSinglePageImages":false,"SignatureSessionIsActive":false,"SignaturesCompletedOn":"0001-01-01T00:00:00Z","DocumentSubscriptionID":"H","DocumentSubscriptionCreatedOn":"0001-01-01T00:00:00Z","ProcessName":"S","ProcessElementName":"R","Revision":6,"PaperSize":"Q","PaperOrientation":"P","PaperMarginLeft":3.0,"PaperMarginRight":4.0,"PaperMarginTop":5.0,"PaperMarginBottom":2.0},' +
             r'"OtherDocuments":[{"ID":"J","OrganizationID":"N","ProjectID":"U","ProjectName":"V","ProjectAccessType":"T","DocumentID":"G","DocumentFolderID":"E","DocumentFolderPath":"F","AssignmentUserEmails":["B"],"GroupID":"I","CreatedOn":"0001-01-01T00:00:00Z","CreatedByUserEmail":"C","CreatedByUserName":"D","ModifiedOn":"0001-01-01T00:00:00Z","ModifiedByUserEmail":"K","ModifiedByUserName":"L","PurgeDate":"0001-01-01T00:00:00Z","Name":"M","Origin":"O","PageCount":1,"FileSize":1,"ThumbnailUrl":"W","IsSigned":false,"PreviewMetadata":[{"0":"00","1":"11","2":"22"}],"ApprovalID":"A","ApprovalCreatedOn":"0001-01-01T00:00:00Z","IsMarkedForPurge":false,"HasSinglePageImages":false,"SignatureSessionIsActive":false,"SignaturesCompletedOn":"0001-01-01T00:00:00Z","DocumentSubscriptionID":"H","DocumentSubscriptionCreatedOn":"0001-01-01T00:00:00Z","ProcessName":"S","ProcessElementName":"R","Revision":6,"PaperSize":"Q","PaperOrientation":"P","PaperMarginLeft":3.0,"PaperMarginRight":4.0,"PaperMarginTop":5.0,"PaperMarginBottom":2.0}],' +
             r'"ParentTaskID":"Q","ProcessID":"R","ProcessName":"S","ProcessNameLower":"T","ProcessElementID":"U","ProcessElementName":"V","ProcessElementNameLower":"W","Reminder_7_Day":"0001-01-01T00:00:00Z","Reminder_3_Day":"0001-01-01T00:00:00Z","Reminder_1_Day":"0001-01-01T00:00:00Z"}';
-    const expectedJsonCollection = '[' + expectedJson + ']';
+    const expectedJsonCollection = '[$expectedJson]';
 
     test('getTasks method tests', () async {
       final project = getStandardN1Project();
-      final expectedUrlPath = http.apiPaths.organizationsProjectsTasksFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsTasksFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
       await performHttpTest<QueryResult<TaskCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => project.tasks().get(),
         responseBody: taskCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -46,7 +46,7 @@ void main() {
 
       // Test with only cursor flag
       await performHttpTest<QueryResult<TaskCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => project.tasks().get(cursor: 'A'),
         responseBody: taskCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -55,7 +55,7 @@ void main() {
 
       // Test with only activeOnly flag
       await performHttpTest<QueryResult<TaskCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => project.tasks().get(activeOnly: true),
         responseBody: taskCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -64,7 +64,7 @@ void main() {
 
       // Test with only completedOnly flag
       await performHttpTest<QueryResult<TaskCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => project.tasks().get(completedOnly: true),
         responseBody: taskCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -73,7 +73,7 @@ void main() {
 
       // Test with only deniedOnly flag
       await performHttpTest<QueryResult<TaskCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => project.tasks().get(deniedOnly: true),
         responseBody: taskCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -83,13 +83,13 @@ void main() {
 
     test('getTasksByTaskId method tests', () async {
       final project = getStandardN1Project();
-      final expectedUrlPath = http.apiPaths.organizationsProjectsTasksTaskFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsTasksTaskFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder('123');
 
       // Test with default parameters
       await performHttpTest<Task>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => project.task('123').get(),
         responseBody: taskJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -104,7 +104,7 @@ void main() {
       // Test assertion error when no tasks are provided
       await testAssertionErrorAsync(
           () => performHttpTest(
-                httpMethod: HttpMethods.POST,
+                httpMethod: HttpMethods.post,
                 httpCallCallback: () => project.tasks().create(
                     TaskCollection.fromApiModel(api_mod.TaskCollection(), app: project.app)),
                 responseBody: '',
@@ -117,12 +117,12 @@ void main() {
       final ts = _getTaskCollection(project);
 
       await performHttpTest(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () =>
             project.tasks().create(TaskCollection.fromApiModel(ts, app: project.app)),
         expectedRequestBody: expectedJsonCollection,
         responseBody: expectedJsonCollection,
-        expectedRequestUrlPath: http.apiPaths.organizationsProjectsTasksFormat
+        expectedRequestUrlPath: http.ApiPaths.organizationsProjectsTasksFormat
             .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
         expectedRequestQueryParams: [],
       );
@@ -131,12 +131,12 @@ void main() {
     test('put method tests', () async {
       final project = getStandardN1Project();
       final ts = _getTaskCollection(project);
-      final expectedUrlPath = http.apiPaths.organizationsProjectsTasksTaskFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsTasksTaskFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder('A');
 
       await performHttpTest<void>(
-        httpMethod: HttpMethods.PUT,
+        httpMethod: HttpMethods.put,
         httpCallCallback: () =>
             project.tasks().update(Task.fromApiModel(ts.tasks![0], app: project.app)),
         expectedRequestBody: expectedJson,
@@ -150,12 +150,12 @@ void main() {
 
     test('getTaskComments method tests', () async {
       var project = getStandardN1Project();
-      final expectedUrlPath = http.apiPaths.organizationsProjectsTasksTaskCommentsFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsTasksTaskCommentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder('123');
       // Test with default parameters
       await performHttpTest<QueryResult2<TaskCommentCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => project.task('123').getComments(),
         responseBody: taskCommentsJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -165,7 +165,7 @@ void main() {
       project = getStandardN1Project();
       // Test with custom sorting and optional arguments
       await performHttpTest<QueryResult2<TaskCommentCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () =>
             project.task('123').getComments(sortDescending: false, cursor: 'QueryResultA'),
         responseBody: taskCommentsJson,
@@ -176,12 +176,12 @@ void main() {
 
     test('createTaskComments method tests', () async {
       var project = getStandardN1Project();
-      final expectedUrlPath = http.apiPaths.organizationsProjectsTasksTaskCommentsFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsTasksTaskCommentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder('123');
       // Test with no comments
       await performHttpTest(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => project.task('123').createComments(
           comments: [],
         ),
@@ -194,7 +194,7 @@ void main() {
       project = getStandardN1Project();
       // Test with some comments
       await performHttpTest(
-        httpMethod: HttpMethods.POST,
+        httpMethod: HttpMethods.post,
         httpCallCallback: () => project.task('123').createComments(
           comments: ['A', 'B'],
         ),
@@ -291,9 +291,9 @@ api_mod.TaskCollection _getTaskCollection(NucleusOneAppProject project) {
     ..processElementID = 'U'
     ..processElementName = 'V'
     ..processElementNameLower = 'W'
-    ..reminder_7_Day = '0001-01-01T00:00:00Z'
-    ..reminder_3_Day = '0001-01-01T00:00:00Z'
-    ..reminder_1_Day = '0001-01-01T00:00:00Z'
+    ..reminder7Day = '0001-01-01T00:00:00Z'
+    ..reminder3Day = '0001-01-01T00:00:00Z'
+    ..reminder1Day = '0001-01-01T00:00:00Z'
     ..organizationID = 'X'
     ..projectID = 'Y'
     ..projectName = 'Z'

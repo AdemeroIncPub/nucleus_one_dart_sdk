@@ -37,13 +37,13 @@ void main() {
 
     test('getPermissions method tests', () async {
       final expectedUrlPath =
-          http.apiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', 'orgId');
+          http.ApiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', 'orgId');
       var org = getStandardN1Org();
 
       org = getStandardN1Org();
       // Test with default parameters
       await performHttpTest<OrganizationPermissions>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => org.getPermissions(),
         responseBody: organizationPermissionsJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -53,12 +53,12 @@ void main() {
 
     test('getOrganizationSubscription method tests', () async {
       final expectedUrlPath =
-          http.apiPaths.organizationsSubscriptionsFormat.replaceOrgIdPlaceholder('orgId');
+          http.ApiPaths.organizationsSubscriptionsFormat.replaceOrgIdPlaceholder('orgId');
       final org = getStandardN1Org();
 
       // Test with default parameters
       await performHttpTest<SubscriptionDetails>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => org.getOrganizationSubscription(
           organizationId: '123',
         ),
@@ -70,12 +70,12 @@ void main() {
 
     test('getProject method tests', () async {
       final org = getStandardN1Org();
-      final expectedUrlPath = http.apiPaths.organizationsProjectsProjectFormat
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsProjectFormat
           .replaceOrgIdAndProjectIdPlaceholders(org.id, 'projId');
 
       // Test with default parameters
       await performHttpTest<OrganizationProject>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => org.getProject(
           projectId: 'projId',
         ),
@@ -97,11 +97,11 @@ void main() {
     test('getProjects method tests', () async {
       var org = getStandardN1Org();
       final expectedUrlPath =
-          http.apiPaths.organizationsProjectsFormat.replaceOrgIdPlaceholder('orgId');
+          http.ApiPaths.organizationsProjectsFormat.replaceOrgIdPlaceholder('orgId');
 
       // Test with default parameters
       await performHttpTest<QueryResult<OrganizationProjectCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => org.getProjects(),
         responseBody: organizationProjectCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
@@ -111,7 +111,7 @@ void main() {
       org = getStandardN1Org();
       // Test with custom sorting and optional arguments
       await performHttpTest<QueryResult<OrganizationProjectCollection>>(
-        httpMethod: HttpMethods.GET,
+        httpMethod: HttpMethods.get,
         httpCallCallback: () => org.getProjects(
           cursor: 'A',
           projectAccessType: 'B',

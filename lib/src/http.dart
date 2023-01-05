@@ -67,7 +67,7 @@ String getQueryParamsString(Map<String, dynamic> queryParams) {
       final qpKey = keys[i];
       final qp = qps[qpKey];
 
-      if (!(qp is String)) {
+      if (qp is! String) {
         if ((qp is bool) || (qp is int) || (qp is double)) {
           qps[qpKey] = qp.toString();
         } else {
@@ -101,7 +101,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
     httpClient = getStandardHttpClient();
 
     {
-      final qpAsString = ((qp == null) || qp.isEmpty) ? '' : '?' + getQueryParamsString(qp);
+      final qpAsString = ((qp == null) || qp.isEmpty) ? '' : '?${getQueryParamsString(qp)}';
       final fullUrl = app.getFullUrl(apiRelativeUrlPath) + qpAsString;
       final parsedUri = Uri.parse(fullUrl);
 
@@ -249,7 +249,7 @@ Future<void> executePutRequest(
 //   await response.pipe(fileStream);
 // }
 
-abstract class apiPaths {
+abstract class ApiPaths {
   static const documentSignatureSessionsSigningRecipientsFieldsFormat =
       '/documentSignatureSessions/<documentSignatureSessionId>/signingRecipients/<documentSignatureSessionRecipientId>/fields';
   static const formTemplatesPublicFormat = '/formTemplatesPublic/<formTemplateId>';

@@ -32,7 +32,7 @@ void main() {
       final apiModelOrig = api_mod.EmailLoginOptions.fromJson(jsonDecode(emailLoginOptionsJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = EmailLoginOptions.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);

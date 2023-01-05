@@ -24,7 +24,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// Updates a User Preference.
   Future<void> updateUserPreference(UserPreference userPreference) async {
     await http.executePutRequest(
-      http.apiPaths.userPreferences,
+      http.ApiPaths.userPreferences,
       app,
       body: jsonEncode(userPreference.toApiModel()),
     );
@@ -39,7 +39,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
     qp['singleUserPreferenceId'] = singleUserPreferenceId;
 
     await http.executePutRequest(
-      http.apiPaths.userPreferenceFormat
+      http.ApiPaths.userPreferenceFormat
           .replaceFirst('<singleUserPreferenceId>', singleUserPreferenceId),
       app,
       body: jsonEncode(userPreference.toApiModel()),
@@ -50,12 +50,12 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// Gets the current user's organizations.
   Future<UserOrganizationCollection> getOrganizations() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.userOrganizations,
+      http.ApiPaths.userOrganizations,
       app,
     );
     final apiModel = api_mod_uo.UserOrganizationCollection.fromJson(jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return UserOrganizationCollection.fromApiModel(apiModel);
     });
   }
@@ -67,13 +67,13 @@ class NucleusOneAppUser with NucleusOneAppDependent {
     required String organizationId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.userOrganizationsProjectsFormat.replaceOrgIdPlaceholder(organizationId),
+      http.ApiPaths.userOrganizationsProjectsFormat.replaceOrgIdPlaceholder(organizationId),
       app,
     );
     final apiModel =
         api_mod_uop.UserOrganizationProjectCollection.fromJson(jsonDecode(responseBody));
 
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return UserOrganizationProjectCollection.fromApiModel(apiModel);
     });
   }
@@ -81,11 +81,11 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// Gets the current user's preferences.
   Future<UserPreferences> getPreferences() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.userPreferences,
+      http.ApiPaths.userPreferences,
       app,
     );
     final apiModel = api_mod_ups.UserPreferences.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return UserPreferences.fromApiModel(apiModel);
     });
   }
@@ -95,11 +95,11 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// [id]: The id of the field.
   Future<UserPreference> getPreferencesById(String id) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', id),
+      http.ApiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', id),
       app,
     );
     final apiModel = api_mod_up.UserPreference.fromJson(jsonDecode(responseBody));
-    return await DefineN1AppInScope(app, () {
+    return await defineN1AppInScope(app, () {
       return UserPreference.fromApiModel(apiModel);
     });
   }
@@ -112,7 +112,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
       'SMSNumber': smsNumber,
     };
     await http.executePostRequest(
-      http.apiPaths.userSmsNumbers,
+      http.ApiPaths.userSmsNumbers,
       app: app,
       body: jsonEncode(reqBody),
     );
@@ -123,7 +123,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// [smsNumber] The verification code received via text message.
   Future<void> verifySmsNumber(String verificationCode) async {
     await http.executePutRequest(
-      http.apiPaths.userSmsNumbersSmsChangeCodeFormat
+      http.ApiPaths.userSmsNumbersSmsChangeCodeFormat
           .replaceFirst('<smsChangeCode>', verificationCode),
       app,
     );
@@ -132,7 +132,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// Deletes the current user's SMS number.
   Future<void> deleteSmsNumber() async {
     await http.executeDeleteRequest(
-      http.apiPaths.userSmsNumbers,
+      http.ApiPaths.userSmsNumbers,
       app: app,
     );
   }

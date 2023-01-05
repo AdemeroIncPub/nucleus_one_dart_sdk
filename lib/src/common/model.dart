@@ -168,7 +168,7 @@ abstract class ListItems {
       apiRelativeUrlPath,
       app: app,
       query: qp,
-      body: values.join('\n') + '\n',
+      body: '${values.join('\n')}\n',
     );
   }
 }

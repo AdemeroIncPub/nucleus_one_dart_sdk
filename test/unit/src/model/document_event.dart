@@ -37,7 +37,7 @@ void main() {
           jsonDecode(documentEventsJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled =
             DocumentEventCollectionQueryResult.fromApiModelDocumentEventCollection(apiModelOrig)
@@ -75,7 +75,7 @@ void main() {
       final apiModelOrig = api_mod.DocumentEvent.fromJson(jsonDecode(documentEventJson));
       performTests(apiModelOrig);
 
-      await DefineN1AppInScope(getStandardN1App(), () {
+      await defineN1AppInScope(getStandardN1App(), () {
         // Convert it to a model class then back again
         final apiModelCycled = DocumentEvent.fromApiModel(apiModelOrig).toApiModel();
         performTests(apiModelCycled);
