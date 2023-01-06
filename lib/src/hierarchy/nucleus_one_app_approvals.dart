@@ -11,20 +11,24 @@ import '../model/query_result.dart';
 import '../nucleus_one.dart';
 import 'nucleus_one_app_project.dart';
 
+/// Performs approval process operations for a project.
 class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
+  /// Creates an instance of the [NucleusOneAppApprovals] class.
+  ///
+  /// [project]: The project to perform approval process operations on.
   NucleusOneAppApprovals({
     NucleusOneAppProject? project,
   }) {
     this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
-  /// Declines a document.
+  /// Declines documents, by ID.
   ///
-  ///
-  Future<void> declineDocument({
-    List<String>? ids,
+  /// [documentIds]: A list of document IDs.
+  Future<void> declineDocuments({
+    List<String>? documentIds,
   }) async {
-    final reqBody = {'IDs': ids};
+    final reqBody = {'IDs': documentIds};
 
     await http.executePostRequest(
       http.ApiPaths.organizationsProjectsApprovalActionsDeclineFormat
@@ -34,13 +38,13 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     );
   }
 
-  /// Denies a document.
+  /// Denies documents, by ID.
   ///
-  ///
-  Future<void> denyDocument({
-    List<String>? ids,
+  /// [documentIds]: A list of document IDs.
+  Future<void> denyDocuments({
+    List<String>? documentIds,
   }) async {
-    final reqBody = {'IDs': ids};
+    final reqBody = {'IDs': documentIds};
 
     await http.executePostRequest(
       http.ApiPaths.organizationsProjectsApprovalActionsDenyFormat
@@ -50,13 +54,13 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     );
   }
 
-  /// Approves a document.
+  /// Approves documents, by ID.
   ///
-  ///
-  Future<void> approveDocument({
-    List<String>? ids,
+  /// [documentIds]: A list of document IDs.
+  Future<void> approveDocuments({
+    List<String>? documentIds,
   }) async {
-    final reqBody = {'IDs': ids};
+    final reqBody = {'IDs': documentIds};
 
     await http.executePostRequest(
       http.ApiPaths.organizationsProjectsApprovalActionsApproveFormat
@@ -66,14 +70,16 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     );
   }
 
-  /// Gets Approvals.
+  /// Gets approvals assigned to the current user, by page.
   ///
+  /// [processId]: The approval process ID.
   ///
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
+  ///
+  /// [sortType]: How sorting should be performed.
   Future<QueryResult<ApprovalCollection>> getApprovals({
-    String? processElementId,
-    bool? sortDescending,
-    String? cursor,
     String? processId,
+    String? cursor,
     String? sortType,
   }) async {
     final qp = http.StandardQueryParams.get(
@@ -81,8 +87,6 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
         (sqp) => sqp.cursor(cursor),
       ],
     );
-    qp['processElementID'] = processElementId;
-    qp['sortDescending'] = sortDescending;
     qp['processID'] = processId;
     qp['sortType'] = sortType;
 

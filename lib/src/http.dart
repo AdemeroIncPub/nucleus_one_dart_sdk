@@ -157,16 +157,6 @@ Future<String> executeGetRequestWithTextResponse(
   return respBody;
 }
 
-Future<HttpClientResponse> executeGetRequest(
-  String apiRelativeUrlPath,
-  NucleusOneApp app, {
-  Map<String, dynamic>? query,
-  String? body,
-  bool authenticated = true,
-}) async {
-  return await _executeGetRequestInternal(authenticated, app, apiRelativeUrlPath, query, body);
-}
-
 Future<HttpClientResponse> _executeGetRequestInternal(bool authenticated, NucleusOneApp app,
     String apiRelativeUrlPath, Map<String, dynamic>? query, String? body) async {
   return await _executeStandardHttpRequest(

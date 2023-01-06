@@ -14,7 +14,11 @@ import '../model/query_result.dart';
 import '../nucleus_one.dart';
 import 'nucleus_one_app_project.dart';
 
+/// Performs organization operations.
 class NucleusOneAppForms with NucleusOneAppProjectDependent {
+  /// Creates an instance of the [NucleusOneAppForms] class.
+  ///
+  /// [project]: The project to perform task operations on.
   NucleusOneAppForms({
     NucleusOneAppProject? project,
   }) {
@@ -23,7 +27,7 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
 
   /// Gets form templates, by page.
   ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   Future<QueryResult<FormTemplateCollection>> getFormTemplates({
     String? cursor,
   }) async {
@@ -53,20 +57,20 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Gets a form template by id.
+  /// Gets a form template, by ID.
   ///
-  /// [id]: The id of the form template.
+  /// [formTemplateById]: The form template's ID.
   ///
-  /// [uniqueId]: A unique id that identifies that you are permitted to access this resource.
+  /// [uniqueId]: A unique ID that identifies that you are permitted to access this resource.
   Future<FormTemplate> getFormTemplateById({
-    required String id,
+    required String formTemplateById,
     required String uniqueId,
   }) async {
     final qp = http.StandardQueryParams.get();
     qp['uniqueId'] = uniqueId;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.formTemplatesPublicFormat.replaceFormTemplateIdPlaceholder(id),
+      http.ApiPaths.formTemplatesPublicFormat.replaceFormTemplateIdPlaceholder(formTemplateById),
       project.app,
       query: qp,
     );
@@ -76,15 +80,12 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Gets a form template by id.
+  /// Gets a form template's fields by ID.
   ///
-  /// [formTemplateId]: The id of the form template.
-  ///
-  /// [projectId]: The id of the project to which this form template belongs.
-  Future<FormTemplateFieldCollection> getFormTemplateFields(
-      String formTemplateId, String projectId) async {
+  /// [formTemplateId]: The form template's ID.
+  Future<FormTemplateFieldCollection> getFormTemplateFields(String formTemplateId) async {
     final qp = http.StandardQueryParams.get();
-    qp['tenantId'] = projectId;
+    qp['tenantId'] = project.id;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.formTemplatesPublicFieldsFormat
@@ -100,26 +101,23 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
 
   /// Gets a form template field's list items.
   ///
-  /// [formTemplateId]: The id of the form template.
+  /// [formTemplateId]: The form template's ID.
   ///
-  /// [formTemplateFieldId]: The id of the form template field.
+  /// [formTemplateFieldId]: The form template's ID field.
   ///
-  /// [projectId]: The id of the project to which this form template belongs.
-  ///
-  /// [parentValue]: The value of parent field.
+  /// [parentValue]: The value of the parent field.
   ///
   /// [valueFilter]: Limits results to fields whose value contains this text.
-  Future<FieldListItemCollection> getFormTemplateFieldListItems(
-    String formTemplateId,
-    String formTemplateFieldId,
-    String projectId, {
+  Future<FieldListItemCollection> getFormTemplateFieldListItems({
+    required String formTemplateId,
+    required String formTemplateFieldId,
     String? parentValue,
     String? valueFilter,
     // At the time of writing this, cursor was not implemented in the API
     // String? cursor,
   }) async {
     final qp = ListItems.getListItemsQueryParams(null, parentValue, valueFilter);
-    qp['tenantId'] = projectId;
+    qp['tenantId'] = project.id;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.formTemplatesPublicFieldListItemsFormat
@@ -136,17 +134,14 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
 
   /// Adds list items to a form template field's selection list.
   ///
-  /// [formTemplateId]: The id of the form template.
+  /// [formTemplateId]: The form template's ID.
   ///
-  /// [formTemplateFieldId]: The id of the form template field.
+  /// [formTemplateFieldId]: The form template's ID field.
   ///
-  /// [projectId]: The id of the project to which this form template belongs.
-  ///
-  /// [items]: The list items to add or update.
+  /// [items]: The list items to add.
   Future<void> addFormTemplateFieldListItems({
     required String formTemplateId,
     required String formTemplateFieldId,
-    required String projectId,
     required FieldListItemCollection items,
   }) async {
     if (formTemplateId.isEmpty) {
@@ -155,12 +150,9 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     if (formTemplateFieldId.isEmpty) {
       throw ArgumentError.value(formTemplateFieldId, 'formTemplateFieldId', 'Cannot be blank.');
     }
-    if (projectId.isEmpty) {
-      throw ArgumentError.value(projectId, 'projectId', 'Cannot be blank.');
-    }
 
     final qp = http.StandardQueryParams.get();
-    qp['tenantId'] = projectId;
+    qp['tenantId'] = project.id;
 
     await ListItems.addListItems(
       app: project.app,
@@ -174,17 +166,14 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
 
   /// Sets or replaces a form template field's selection list items.
   ///
-  /// [formTemplateId]: The id of the form template.
+  /// [formTemplateId]: The form template's ID.
   ///
-  /// [formTemplateFieldId]: The id of the form template field.
+  /// [formTemplateFieldId]: The form template's ID field.
   ///
-  /// [projectId]: The id of the project to which this form template belongs.
-  ///
-  /// [listItems]: The list items to add or update.
+  /// [values]: The list items to update.
   Future<void> setFormTemplateFieldListItems({
     required String formTemplateId,
     required String formTemplateFieldId,
-    required String projectId,
     required List<String> values,
   }) async {
     if (formTemplateId.isEmpty) {
@@ -193,12 +182,9 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     if (formTemplateFieldId.isEmpty) {
       throw ArgumentError.value(formTemplateFieldId, 'formTemplateFieldId', 'Cannot be blank.');
     }
-    if (projectId.isEmpty) {
-      throw ArgumentError.value(projectId, 'projectId', 'Cannot be blank.');
-    }
 
     final qp = http.StandardQueryParams.get();
-    qp['tenantId'] = projectId;
+    qp['tenantId'] = project.id;
 
     await ListItems.setListItems(
       app: project.app,
@@ -210,12 +196,12 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     );
   }
 
-  /// Submits a form.
+  /// Submits a form package.
   ///
-  /// [formTemplateId]: The id of the form template.
+  /// [formTemplateId]: The form template's ID.
   ///
-  /// [package]: The form package to submit.
-  Future<void> submitForm({
+  /// [package]: The package to submit.
+  Future<void> submitFormPackage({
     required String formTemplateId,
     required FormSubmissionPackage package,
   }) async {

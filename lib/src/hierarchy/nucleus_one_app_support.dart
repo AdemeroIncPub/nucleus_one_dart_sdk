@@ -6,6 +6,7 @@ import '../api_model/support_error_event.dart' as api_mod;
 import '../api_model/support_organization.dart' as api_mod;
 import '../api_model/support_user.dart' as api_mod;
 import '../common/get_it.dart';
+import '../common/string.dart';
 import '../common/util.dart';
 import '../http.dart' as http;
 import '../model/support_error_event.dart';
@@ -13,17 +14,21 @@ import '../model/support_organization.dart';
 import '../model/support_user.dart';
 import '../nucleus_one.dart';
 
+/// Performs support operations.
 class NucleusOneAppSupport with NucleusOneAppDependent {
+  /// Creates an instance of the [NucleusOneAppSupport] class.
+  ///
+  /// [app]: The application to use when connecting to Nucleus One.
   NucleusOneAppSupport({
     NucleusOneApp? app,
   }) {
     this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
-  /// Gets Support Users.
-  ///
-  ///
-  Future<QueryResult<SupportUserCollection>> getSupportUsers({
+  /// Gets all users, by page.
+  /// 
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
+  Future<QueryResult<SupportUserCollection>> getUsers({
     String? cursor,
   }) async {
     final qp = http.StandardQueryParams.get(
@@ -52,10 +57,10 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     });
   }
 
-  /// Gets Support Organizations.
-  ///
-  ///
-  Future<QueryResult<SupportOrganizationCollection>> getSupportOrganizations({
+  /// Gets all organizations, by page.
+  /// 
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
+  Future<QueryResult<SupportOrganizationCollection>> getOrganizations({
     String? cursor,
   }) async {
     final qp = http.StandardQueryParams.get(
@@ -85,10 +90,26 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     });
   }
 
-  /// Gets Support Error Events.
-  ///
-  ///
-  Future<QueryResult<SupportErrorEventCollection>> getSupportErrorEvents({
+  /// Gets all error events, by page.
+  /// 
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
+  /// [serviceNameFilter]: 
+  /// 
+  /// [levelFilter]: 
+  /// 
+  /// [tenantIdFilter]: 
+  /// 
+  /// [tenantNameFilter]: 
+  /// 
+  /// [userEmailFilter]: 
+  /// 
+  /// [uniqueIdFilter]: 
+  /// 
+  /// [keywordFilter]: 
+  /// 
+  /// [sortDescending]: 
+  /// 
+  Future<QueryResult<SupportErrorEventCollection>> getErrorEvents({
     String? cursor,
     String? serviceNameFilter,
     String? levelFilter,
@@ -135,11 +156,13 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     });
   }
 
-  /// Gets the Admin Status of a support user.
-  Future<void> getSupportAdminStatus() async {
-    await http.executeGetRequest(
+  /// Gets the admin status of a support user.  If the current user is an admin, true is returned;
+  /// otherwise, false.
+  Future<bool> getAdminStatus() async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.supportAdmin,
       app,
     );
+    return responseBody.parseBool();
   }
 }

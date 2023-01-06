@@ -28,10 +28,18 @@ import 'nucleus_one_app_forms.dart';
 import 'nucleus_one_app_organization.dart';
 import 'nucleus_one_app_task.dart';
 
+/// Performs project operations.
 class NucleusOneAppProject with NucleusOneAppDependent {
+  /// The organization that this project belongs to.
   final NucleusOneAppOrganization organization;
+  /// This project's ID.
   final String id;
 
+  /// Creates an instance of the [NucleusOneAppProject] class.
+  ///
+  /// [organization]: The organization to perform task operations on.
+  ///
+  /// [id]: The project's ID.
   NucleusOneAppProject({
     required this.organization,
     required this.id,
@@ -43,36 +51,51 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     }
   }
 
-  /// Approvals
+  /// Gets a [NucleusOneAppApprovals] instance, which can be used to perform approval process
+  /// operations for this project.
   NucleusOneAppApprovals approvals() {
     return NucleusOneAppApprovals(
       project: this,
     );
   }
 
-  /// Folder Hierarchies
+  /// Gets a [FolderHierarchyCollection] instance, which can be used to configure new folder
+  /// hierarchies for this project.
+  /// 
+  /// Note that the data configured in this object is local, until it is explicitly sent to the
+  /// server.
   FolderHierarchyCollection folderHierarchies() {
     return FolderHierarchyCollection(project: this);
   }
 
-  /// Folder Hierarchy Items
+  /// Gets a [FolderHierarchyItemCollection] instance, which can be used to configure new folder
+  /// hierarchy items for this project.
+  /// 
+  /// Note that the data configured in this object is local, until it is explicitly sent to the
+  /// server.
   FolderHierarchyItemCollection folderHierarchyItems() {
     return FolderHierarchyItemCollection(project: this);
   }
 
-  /// FormTemplates
+  /// Gets a [FormTemplateCollection] instance, which can be used to configure new form templates
+  /// for this project.
+  /// 
+  /// Note that the data configured in this object is local, until it is explicitly sent to the
+  /// server.
   FormTemplateCollection formTemplates() {
     return FormTemplateCollection(project: this);
   }
 
-  /// Documents
+  /// Gets a [NucleusOneAppDocuments] instance, which can be used to perform document operations for
+  /// this project.
   NucleusOneAppDocuments documents() {
     return NucleusOneAppDocuments(
       project: this,
     );
   }
 
-  /// Document
+  /// Gets a [NucleusOneAppDocument] instance, which can be used to perform operations for a
+  /// specific document.
   NucleusOneAppDocument document(String id) {
     return NucleusOneAppDocument(
       project: this,
@@ -85,14 +108,12 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   /// [showAll]: Whether to get all documents recursively under this folder path, regardless of their
   /// depth within the heirarchy.
   ///
-  /// [documentFolderId]: The document's parent folder id.
+  /// [documentFolderId]: The document's parent folder ID.
   ///
-  /// [documentGroupId]: The document's group id.  This is only relevant when a document was created
+  /// [documentGroupId]: The document's group ID.  This is only relevant when a document was created
   /// via a form.
   ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
-  ///
-  /// [singleRecord]: Limits the results to a single document.
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   Future<QueryResult<DocumentCollection>> getDocuments({
     bool? showAll,
     String? documentFolderId,
@@ -107,30 +128,32 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     );
   }
 
-  /// Forms
+  /// Gets a [NucleusOneAppForms] instance, which can be used to perform form operations for this
+  /// project.
   NucleusOneAppForms forms() {
     return NucleusOneAppForms(
       project: this,
     );
   }
 
-  /// Task
+  /// Gets a [NucleusOneAppTasks] instance, which can be used to perform task operations for this
+  /// project.
   NucleusOneAppTasks tasks() {
     return NucleusOneAppTasks(
       project: this,
     );
   }
 
-  /// Task
+  /// Gets a [NucleusOneAppTask] instance, which can be used to perform operations for a specific
+  /// task.
   NucleusOneAppTask task(String id) {
     return NucleusOneAppTask(
       project: this,
-      id: id,
+      taskId: id,
     );
   }
 
   /// Gets the document count within the Recycle Bin.
-  ///
   Future<int> getRecycleBinDocumentCount() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsProjectsCountsRecycleBinDocumentsFormat
@@ -162,7 +185,12 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     return int.parse(responseBody);
   }
 
-  /// Gets folders for the current project.  Only one folder hierarchy level is returned per call.
+  /// Gets document folders for the current project.  Only one folder hierarchy level is returned
+  /// per call.
+  /// 
+  /// [parentId]: The ID of the parent folder in the hierarchy.
+  ///
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   Future<QueryResult<DocumentFolderCollection>> getDocumentFolders({
     String? parentId,
     String? cursor,
@@ -190,7 +218,9 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     });
   }
 
-  /// Gets a folder in the current project.
+  /// Gets a document folder in the current project.
+  /// 
+  /// [documentFolderId]: The ID of the document folder.
   Future<DocumentFolder> getDocumentFolder({
     required String documentFolderId,
   }) async {
@@ -211,8 +241,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     });
   }
 
-  /// Gets the page count.
-  ///
+  /// Gets the page count in this project.
   Future<int> getPageCount() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsProjectsCountsPagesFormat
@@ -222,7 +251,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     return int.parse(responseBody);
   }
 
-  /// Gets signature form templates.
+  /// Gets signature form templates in this project.
   Future<SignatureFormTemplateCollection> getSignatureFormTemplates() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsProjectsSignatureFormTemplatesFormat
@@ -235,10 +264,10 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     });
   }
 
-  /// Adds signature form templates.  A list of the same templates that were passed in are returned,
-  /// as they now exist on the server.
+  /// Adds signature form templates to this project.  A list of the same templates that were passed
+  /// in are returned, as they now exist on the server.
   ///
-  /// [templates] The signature form templates.
+  /// [templates]: The signature form templates to add.
   Future<SignatureFormTemplateCollection> addSignatureFormTemplates(
       SignatureFormTemplateCollection templates) async {
     final responseBody = await http.executePostRequestWithTextResponse(
@@ -253,9 +282,9 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     });
   }
 
-  /// Updates a signature form template.
+  /// Updates a signature form template in this project.
   ///
-  /// [templateId]: The signature form template id.
+  /// [templateId]: The signature form template ID.
   ///
   /// [template]: The signature form template.
   Future<void> updateSignatureFormTemplate({
@@ -271,9 +300,9 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     );
   }
 
-  /// Deletes a signature form template.
+  /// Deletes a signature form template in this project.
   ///
-  /// [templateId] The signature form template id.
+  /// [templateId]: The signature form template ID.
   Future<void> deleteSignatureFormTemplate({
     required String templateId,
   }) async {
@@ -285,9 +314,9 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     );
   }
 
-  /// Gets signature form templates.
+  /// Gets signature form templates in this project.
   ///
-  /// [templateId]: The signature form template id.
+  /// [templateId]: The signature form template ID.
   Future<SignatureFormTemplateFieldCollection> getSignatureFormTemplateFields({
     required String templateId,
   }) async {
@@ -304,10 +333,10 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     });
   }
 
-  /// Adds fields to a signature form template.  The field that were passed in are returned, as they
-  /// now exists on the server.
+  /// Adds fields to a signature form template in this project.  The field that were passed in are
+  /// returned, as they now exists on the server.
   ///
-  /// [templateId]: The signature form template id.
+  /// [templateId]: The signature form template ID.
   ///
   /// [fields]: The fields to add.
   ///
@@ -335,11 +364,11 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     });
   }
 
-  /// Gets a document signature forms.
+  /// Gets document signature forms in this project.
   ///
   /// [docNameStartsWith]: The value that the document name starts with.
   ///
-  /// [excludingId]: The id of a signature form to exclude from the results.
+  /// [excludingId]: The ID of a signature form to exclude from the results.
   Future<DocumentSignatureFormCollection> getSignatureForms({
     String? docNameStartsWith,
     String? excludingId,
@@ -364,6 +393,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     });
   }
 
+  /// Contains core logic for retrieving documents.
   Future<QueryResult<DocumentCollection>> _getDocumentsInternal({
     bool? showAll,
     String? documentFolderId,
@@ -399,10 +429,10 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     });
   }
 
-  /// Gets a Document Upload reservation.
+  /// Gets a Document Upload reservation for this project.
   ///
   /// Call this *only* if you want to handle the upload process of a document manually; otherwise,
-  /// you likely want to call `uploadDocument`, instead, which handles the entire process.
+  /// you likely want to call [uploadDocument], instead, which handles the entire process.
   Future<DocumentUpload> getDocumentUploadReservation() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsProjectsDocumentUploadsFormat
@@ -481,9 +511,9 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     }
   }
 
-  /// Uploads a new document.
+  /// Uploads a new document into this project.
   ///
-  /// [userEmail]: The email address of the user by whom the Document will be uploaded.
+  /// [userEmail]: The email address of the user by whom the document will be uploaded.
   ///
   /// [fileName]: The file name to use when uploading the file.
   ///

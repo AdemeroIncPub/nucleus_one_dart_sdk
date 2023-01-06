@@ -19,6 +19,20 @@ void main() {
     });
 
     group('CommonFormatting class tests', () {
+      test('parseBool method tests', () {
+        expect('aaaa'.parseBool(), false);
+        expect(''.parseBool(), false);
+        expect('FALSE'.parseBool(), false);
+        expect('False'.parseBool(), false);
+        expect('false'.parseBool(), false);
+        expect('true '.parseBool(), false);
+        expect(' true'.parseBool(), false);
+        expect('TRUE'.parseBool(), true);
+        expect('TrUe'.parseBool(), true);
+        expect('True'.parseBool(), true);
+        expect('true'.parseBool(), true);
+      });
+
       test('replaceOrgIdAndProjectIdPlaceholdersUsingProject method tests', () {
         final project = getStandardN1Project();
         expect('<projectId>'.replaceOrgIdAndProjectIdPlaceholdersUsingProject(project), project.id);

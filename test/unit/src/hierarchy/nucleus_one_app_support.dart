@@ -23,42 +23,42 @@ void main() {
       await NucleusOne.resetSdk();
     });
 
-    test('getSupportUsers method tests', () async {
+    test('getUsers method tests', () async {
       final expectedUrlPath = http.ApiPaths.supportUsers;
       final n1App = getStandardN1App();
 
       // Test with default parameters
       await performHttpTest<QueryResult<SupportUserCollection>>(
         httpMethod: HttpMethods.get,
-        httpCallCallback: () => NucleusOneAppSupport(app: n1App).getSupportUsers(),
+        httpCallCallback: () => NucleusOneAppSupport(app: n1App).getUsers(),
         responseBody: api_mod.supportUserCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
       );
     });
 
-    test('getSupportOrganizations method tests', () async {
+    test('getOrganizations method tests', () async {
       final expectedUrlPath = http.ApiPaths.supportOrganizations;
       final n1App = getStandardN1App();
 
       // Test with default parameters
       await performHttpTest<QueryResult<SupportOrganizationCollection>>(
         httpMethod: HttpMethods.get,
-        httpCallCallback: () => NucleusOneAppSupport(app: n1App).getSupportOrganizations(),
+        httpCallCallback: () => NucleusOneAppSupport(app: n1App).getOrganizations(),
         responseBody: api_mod.supportOrganizationCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
       );
     });
 
-    test('getSupportErrorEvents method tests', () async {
+    test('getErrorEvents method tests', () async {
       final expectedUrlPath = http.ApiPaths.supportErrorEvents;
       final n1App = getStandardN1App();
 
       // Test with default parameters
       await performHttpTest<QueryResult<SupportErrorEventCollection>>(
         httpMethod: HttpMethods.get,
-        httpCallCallback: () => NucleusOneAppSupport(app: n1App).getSupportErrorEvents(
+        httpCallCallback: () => NucleusOneAppSupport(app: n1App).getErrorEvents(
           serviceNameFilter: 'A',
           levelFilter: 'B',
           tenantIdFilter: 'C',
@@ -83,17 +83,28 @@ void main() {
       );
     });
 
-    test('getSupportAdminStatus method tests', () async {
+    test('getAdminStatus method tests', () async {
       final expectedUrlPath = http.ApiPaths.supportAdmin;
-      final n1App = getStandardN1App();
+      final tests = <String, bool>{
+        '': false,
+        'false': false,
+        'true': true,
+      };
 
-      await performHttpTest<void>(
-        httpMethod: HttpMethods.get,
-        httpCallCallback: () => NucleusOneAppSupport(app: n1App).getSupportAdminStatus(),
-        responseBody: '',
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
+      for (var test in tests.entries) {
+        final n1App = getStandardN1App();
+
+        await performHttpTest<bool>(
+          httpMethod: HttpMethods.get,
+          httpCallCallback: () => NucleusOneAppSupport(app: n1App).getAdminStatus(),
+          responseBody: test.key,
+          expectedRequestUrlPath: expectedUrlPath,
+          expectedRequestQueryParams: [],
+          additionalValidationsCallback: (result) {
+            expect(result, test.value);
+          },
+        );
+      }
     });
   });
 }

@@ -31,9 +31,16 @@ import '../model/query_result.dart';
 import '../nucleus_one.dart';
 import 'nucleus_one_app_project.dart';
 
+/// Performs operations on a specific document.
 class NucleusOneAppDocument with NucleusOneAppProjectDependent {
+  /// The document's ID.
   final String id;
 
+  /// Creates an instance of the [NucleusOneAppDocument] class.
+  ///
+  /// [project]: The project to perform task operations on.
+  ///
+  /// [id]: The document's ID.
   NucleusOneAppDocument({
     NucleusOneAppProject? project,
     required this.id,
@@ -41,7 +48,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
-  /// Gets subscription to a document.
+  /// Gets subscription information for the current document.
   Future<DocumentSubscriptionForClient> getSubscription() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsProjectsDocumentSubscriptionsFormat
@@ -69,7 +76,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
-  // /// Gets Document Subscriptions documents, by page.
+  // /// Gets document subscriptions documents, by page.
   // ///
   // /// [sortType]: Which field to sort on.
   // ///
@@ -77,7 +84,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   // ///
   // /// [offset]: The number of initial results to skip.
   // ///
-  // /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  // /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   // ///
   // /// [singleRecord]: Limits the results to a single document.
   // Future<QueryResult<DocumentForClientCollection>>
@@ -100,11 +107,11 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   //   );
   // }
 
-  /// Gets comments for this document, by page.
+  /// Gets comments for the current document, by page.
   ///
   /// [sortDescending]: Sort order.
   ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   Future<QueryResult2<DocumentCommentCollection>> getComments({
     bool sortDescending = true,
     String? cursor,
@@ -130,7 +137,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Posts comments for this document.
+  /// Posts comments on the current document.
   ///
   /// [comments]: The comments to post.
   Future<void> postComments({
@@ -145,11 +152,11 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     );
   }
 
-  /// Gets events for this document, by page.
+  /// Gets events for the current document, by page.
   ///
   /// [sortDescending]: Sort order.
   ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   Future<QueryResult2<DocumentEventCollection>> getEvents({
     bool sortDescending = true,
     String? cursor,
@@ -176,7 +183,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Gets this document's content package.
+  /// Gets this content package for the current document.
   ///
   /// [pageIndex]: The starting page of the document to return, if the document has multiple pages.
   Future<DocumentContentPackage> getDocumentContentPackage({
@@ -210,7 +217,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   // ///
   // /// [offset]: The number of initial results to skip.
   // ///
-  // /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  // /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   // ///
   // /// [singleRecord]: Limits the results to a single document.
   // Future<QueryResult<DocumentForClientCollection>> getRecycleBin({
@@ -240,7 +247,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   // ///
   // /// [offset]: The number of initial results to skip.
   // ///
-  // /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  // /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   // ///
   // /// [singleRecord]: Limits the results to a single document.
   // Future<QueryResult<DocumentForClientCollection>> getInbox({
@@ -262,7 +269,8 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   //   );
   // }
 
-  /// Updates a document's name.  The document is returned, as it now exists on the server.
+  /// Updates the current document's name.  The document is returned, as it now exists on the
+  /// server.
   ///
   /// [documentName]: The new document name.
   Future<DocumentForClient> updateDocumentName({
@@ -289,7 +297,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Gets the thumbnail URL for the current document.
+  /// Gets the thumbnail URL of the current document.
   Future<String> getThumbnailUrl() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsProjectsDocumentsThumbnailsFormat
@@ -300,7 +308,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     return responseBody;
   }
 
-  /// Gets a document's signature form.  If a signature form does not exist for the document, one is
+  /// Gets the current document's signature form.  If a signature form does not exist, one is
   /// created.
   Future<DocumentSignatureForm> getOrCreateSignatureForm() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
@@ -315,9 +323,9 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Gets a document's signature form.
+  /// Gets the current document's signature form.
   ///
-  /// [signatureFormId]: The signature form id.
+  /// [signatureFormId]: The signature form ID.
   Future<DocumentSignatureForm> getSignatureForm({
     required String signatureFormId,
   }) async {
@@ -334,7 +342,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Updates a document's signature form.
+  /// Updates the current document's signature form.
   ///
   /// [signatureForm]: The signature form to update.  Should be obtained by calling one of the "get"
   /// signature form methods.
@@ -351,9 +359,9 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     );
   }
 
-  /// Gets a document's signature form's fields.
+  /// Gets the current document's signature form's fields.
   ///
-  /// [signatureFormId]: The signature form id.
+  /// [signatureFormId]: The signature form ID.
   Future<DocumentSignatureFormFieldCollection> getSignatureFormFields({
     required String signatureFormId,
   }) async {
@@ -371,10 +379,10 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Adds fields to a document's signature form.  The field that were passed in are returned, as
-  /// they now exists on the server.
+  /// Adds fields to the current document's signature form.  The fields that were passed in are
+  /// returned, as they now exists on the server.
   ///
-  /// [signatureFormId]: The signature form id.
+  /// [signatureFormId]: The signature form ID.
   ///
   /// [signatureFormFields]: The fields to add.
   ///
@@ -403,10 +411,10 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Updates a field to a document's signature form.  The field that was passed in is returned, as
-  /// it now exists on the server.
+  /// Updates a field on the current document's signature form.  The field that was passed in is
+  /// returned, as it now exists on the server.
   ///
-  /// [signatureFormId]: The signature form id.
+  /// [signatureFormId]: The signature form ID.
   ///
   /// [signatureFormField]: The field to update.
   ///
@@ -436,9 +444,9 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Deletes a field from a document's signature form.
+  /// Deletes a field from the current document's signature form.
   ///
-  /// [signatureFormId]: The signature form id.
+  /// [signatureFormId]: The signature form ID.
   ///
   /// [signatureFormField]: The field to delete.
   Future<void> deleteSignatureFormField({
@@ -456,9 +464,9 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     );
   }
 
-  /// Deletes all fields from a document's signature form.
+  /// Deletes all fields from the current document's signature form.
   ///
-  /// [signatureFormId]: The signature form id.
+  /// [signatureFormId]: The signature form ID.
   Future<void> deleteAllSignatureFormFields({
     required String signatureFormId,
   }) async {
@@ -471,7 +479,8 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     );
   }
 
-  /// Gets a document's signature session packages.  If a session does not exist, one is created.
+  /// Gets the current document's signature session packages.  If a session does not exist, one is
+  /// created.
   Future<DocumentSignatureSessionPackage> getSignatureSessionPackage() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsProjectsDocumentsSignatureSessionPackagesFormat
@@ -485,8 +494,8 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Updates a document's signature session packages.  A list of the same packages that were passed
-  /// in are returned, as they now exist on the server.
+  /// Updates the current document's signature session packages.  A list of the same packages that
+  /// were passed in are returned, as they now exist on the server.
   ///
   /// [packages]: The signature session packages to update.  An instance of this should first be
   /// retrieved by calling the [getSignatureSessionPackage] method.
@@ -508,7 +517,11 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   }
 }
 
+/// Performs document operations.
 class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
+  /// Creates an instance of the [NucleusOneAppDocuments] class.
+  ///
+  /// [project]: The project to perform task operations on.
   NucleusOneAppDocuments({
     NucleusOneAppProject? project,
   }) {
@@ -517,7 +530,7 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
 
   /// Restores one or more documents from the Recycle Bin.
   ///
-  /// [documentIds]: The document ids to process.
+  /// [documentIds]: The document IDs to process.
   Future<void> restoreFromRecycleBin(List<String> documentIds) async {
     assert(documentIds.isNotEmpty);
 
@@ -531,7 +544,7 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
 
   /// Sends one or more documents to the Recycle Bin.
   ///
-  /// [documentIds]: The document ids to process.
+  /// [documentIds]: The document IDs to process.
   Future<void> sendToRecycleBin(List<String> documentIds) async {
     assert(documentIds.isNotEmpty);
 
@@ -545,11 +558,11 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
 
   /// Gets the signing package for a document's signature signing session.
   ///
-  /// [signatureSessionId]: The signature session id.
+  /// [signatureSessionId]: The signature session ID.
   ///
-  /// [signatureSessionRecipientId]: The recipient's id.
+  /// [signatureSessionRecipientId]: The recipient's ID.
   ///
-  /// [signatureSessionRecipientUniqueId]: The recipient's unique id.
+  /// [signatureSessionRecipientUniqueId]: The recipient's unique ID.
   ///
   /// [skipFormFieldPackage]: If true, the [formFieldPackage] property is not populated in the results.
   ///
@@ -595,11 +608,11 @@ class NucleusOneAppDocuments with NucleusOneAppProjectDependent {
 
   /// Signs a document that has an existing signature session.
   ///
-  /// [signatureSessionId]: The document's signature session id.
+  /// [signatureSessionId]: The document's signature session ID.
   ///
-  /// [signatureSessionRecipientId]: The recipient's id.
+  /// [signatureSessionRecipientId]: The recipient's ID.
   ///
-  /// [signatureSessionRecipientUniqueId]: The recipient's unique id.
+  /// [signatureSessionRecipientUniqueId]: The recipient's unique ID.
   ///
   /// [fields]: The field values to sign with.  The list of fields can be retrieved by first calling
   /// the [getDocumentSignatureSessionSigningRecipientPackage] method.

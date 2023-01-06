@@ -11,6 +11,11 @@ bool isNullOrEmpty(String? value) {
 }
 
 extension CommonFormatting on String {
+  /// If the [String]'s lower-case value equals "true", true is returned; otherwise, false.
+  bool parseBool() {
+    return toLowerCase() == 'true';
+  }
+
   String replaceOrgIdAndProjectIdPlaceholdersUsingProject(NucleusOneAppProject project) {
     return replaceOrgIdPlaceholder(project.organization.id).replaceProjectIdPlaceholder(project.id);
   }

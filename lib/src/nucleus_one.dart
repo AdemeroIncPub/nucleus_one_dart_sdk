@@ -47,6 +47,7 @@ abstract class NucleusOne {
   }
 }
 
+/// Options for configuring a connection to Nucleus One (e.g. base URL, API key).
 class NucleusOneOptions {
   final String apiBaseUrl;
   final String? apiKey;
@@ -54,32 +55,57 @@ class NucleusOneOptions {
   static const String _defaultApiBaseUrl = 'https://client-api.nucleus.one';
   static const uploadChunkSize = 1024 * 1024;
 
+  /// Creates an instance of the [NucleusOneOptions] class.
+  ///
+  /// [apiBaseUrl]: The base URL for the Nucleus One API.  Note that this is different from the
+  /// Nucleus One app URL.
+  ///
+  /// [apiKey]: The API key to use when connecting.  This can be created by visiting your User
+  /// Profile in Nucleus One then clicking "API Keys".
   NucleusOneOptions({
     String? apiBaseUrl,
     this.apiKey,
   }) : apiBaseUrl = (apiBaseUrl == null) ? _defaultApiBaseUrl : apiBaseUrl;
 }
 
+/// Classes deriving from this class require an instance of the [NucleusOneApp] class in order to
+/// function.
 abstract class NucleusOneAppDependent {
   NucleusOneApp? _app;
+
+  /// The Nucleus One application object.  This controls API configuration.  See the [NucleusOneApp]
+  /// class for details.
   NucleusOneApp get app => _app!;
+
+  /// Sets the Nucleus One application object.
   @protected
   set app(NucleusOneApp app) => _app = app;
 }
 
+/// Classes deriving from this class require an instance of the [NucleusOneAppProject] class in
+/// order to function.
 abstract class NucleusOneAppProjectDependent {
   NucleusOneAppProject? _project;
+
+  /// The Nucleus One project object.  This controls which project child methods use when calling
+  /// the API.  See the [NucleusOneAppProject] class for details.
   NucleusOneAppProject get project => _project!;
+
+  /// Sets the Nucleus One project.
   @protected
   set project(NucleusOneAppProject project) => _project = project;
 }
 
+/// The Nucleus One application.  This is a core class needed for most operations.
 class NucleusOneApp {
   @visibleForTesting
   static const String apiBaseUrlPath = '/api/v1';
   final NucleusOneOptions options;
   final String _baseUrlWithApi;
 
+  /// Creates an instance of the [NucleusOneApp] class.
+  ///
+  /// [options]: The options to use when connecting to Nucleus One.
   NucleusOneApp({
     required this.options,
   }) : _baseUrlWithApi = options.apiBaseUrl + apiBaseUrlPath;
@@ -89,7 +115,8 @@ class NucleusOneApp {
     return _baseUrlWithApi + apiRelativeUrlPath;
   }
 
-  /// Organization
+  /// Creates a [NucleusOneAppOrganization] object, which can be used to perform operations specific
+  /// to this organization.
   NucleusOneAppOrganization organization(String organizationId) {
     return NucleusOneAppOrganization(
       app: this,
@@ -149,7 +176,8 @@ class NucleusOneApp {
     });
   }
 
-  /// User
+  /// Creates a [NucleusOneAppUser] object, which can be used to perform operations specific to the
+  /// current user.
   NucleusOneAppUser user() {
     return NucleusOneAppUser(app: this);
   }

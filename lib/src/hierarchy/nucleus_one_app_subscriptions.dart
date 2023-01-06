@@ -11,8 +11,14 @@ import '../model/subscription_plan.dart';
 import '../nucleus_one.dart';
 import 'nucleus_one_app_organization.dart';
 
+/// Performs subscription operations for an organization.
 class NucleusOneAppSubscriptions with NucleusOneAppDependent {
+  /// The Nucleus One organization.
   final NucleusOneAppOrganization organization;
+
+  /// Creates an instance of the [NucleusOneAppSubscriptions] class.
+  ///
+  /// [organization]: The organization to perform task operations on.
   NucleusOneAppSubscriptions({
     required this.organization,
   }) {
@@ -34,7 +40,7 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
   /// Updates the organization's subscription information.
   ///
   /// [subscriptionDetails]: The subscription details.  Should be obtained by first calling
-  /// [getOrganizationSubscription].
+  /// [NucleusOneAppOrganization.getOrganizationSubscription].
   Future<void> updateOrganizationSubscription({
     required SubscriptionDetails subscriptionDetails,
   }) async {
@@ -46,8 +52,6 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
   }
 
   /// Gets an organization's subscription invoices.
-  ///
-  /// [organizationId]: The id of the organization.
   Future<SubscriptionInvoiceCollection> getOrganizationSubscriptionInvoices() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsSubscriptionsInvoicesFormat

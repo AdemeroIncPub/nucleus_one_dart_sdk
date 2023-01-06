@@ -16,10 +16,16 @@ import '../nucleus_one.dart';
 import 'nucleus_one_app_project.dart';
 import 'nucleus_one_app_subscriptions.dart';
 
+/// Performs organization operations.
 class NucleusOneAppOrganization with NucleusOneAppDependent {
   /// The organization ID.
   final String id;
 
+  /// Creates an instance of the [NucleusOneAppProject] class.
+  ///
+  /// [app]: The application to use when connecting to Nucleus One.
+  ///
+  /// [id]: The organization's ID.
   NucleusOneAppOrganization({
     NucleusOneApp? app,
     required this.id,
@@ -31,7 +37,8 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     }
   }
 
-  /// Project
+  /// Gets a [NucleusOneAppProject] instance, which can be used to perform project operations for
+  /// this organization.
   NucleusOneAppProject project(String projectId) {
     return NucleusOneAppProject(
       organization: this,
@@ -39,14 +46,15 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     );
   }
 
-  /// Subscriptions
+  /// Gets a [NucleusOneAppSubscriptions] instance, which can be used to perform subscription
+  /// operations for this organization.
   NucleusOneAppSubscriptions subscriptions() {
     return NucleusOneAppSubscriptions(
       organization: this,
     );
   }
 
-  /// Gets organization's tenants.
+  /// Gets all tenants of this organization.
   Future<OrganizationPermissions> getPermissions() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', id),
@@ -61,7 +69,7 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
 
   /// Gets an organization's subscription.
   ///
-  /// [organizationId]: The id of the organization.
+  /// [organizationId]: The organization's ID.
   Future<SubscriptionDetails> getOrganizationSubscription({
     required String organizationId,
   }) async {
@@ -75,7 +83,7 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     });
   }
 
-  /// Gets a project by ID.
+  /// Gets a project within this organization, by ID.
   ///
   /// [projectId]: The organization's project ID.
   Future<OrganizationProject> getProject({
@@ -97,7 +105,7 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
 
   /// Gets projects that the current user is a member of, by page.
   ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   ///
   /// [projectAccessType]: Can be any of the following values:
   /// - GlobalAssignments_MemberContentByDefault
@@ -107,7 +115,8 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
   ///
   /// [getAll]: Returns all projects in a single results, without using paging.
   ///
-  /// [adminOnly]:
+  /// [adminOnly]: If true, only projects that the current user is an administrator of will be
+  /// returned.
   Future<QueryResult<OrganizationProjectCollection>> getProjects({
     String? cursor,
     String? projectAccessType,

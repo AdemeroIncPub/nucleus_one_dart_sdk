@@ -12,25 +12,32 @@ import '../common/model.dart';
 import '../api_model/task_comment.dart' as api_mod;
 import '../model/task_comment.dart';
 
+/// Performs operations on a specific task.
 class NucleusOneAppTask with NucleusOneAppProjectDependent {
-  final String id;
+  /// The ID of the current task.
+  final String taskId;
 
+  /// Creates an instance of the [NucleusOneAppTask] class.
+  ///
+  /// [project]: The project to perform task operations on.
+  ///
+  /// [taskId]: The task's ID.
   NucleusOneAppTask({
     NucleusOneAppProject? project,
-    required this.id,
+    required this.taskId,
   }) {
     this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
-  /// Gets Tasks by id.
+  /// Gets tasks by ID.
   Future<Task> get() async {
     final qp = http.StandardQueryParams.get();
-    qp['taskId'] = id;
+    qp['taskId'] = taskId;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsProjectsTasksTaskFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
-          .replaceTaskIdPlaceholder(id),
+          .replaceTaskIdPlaceholder(taskId),
       project.app,
       query: qp,
     );
@@ -42,11 +49,11 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Gets comments for a task.
+  /// Gets comments for this task.
   ///
   /// [sortDescending]: Sort order.
   ///
-  /// [cursor]: The id of the cursor, from a previous query.  Used for paging results.
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   Future<QueryResult2<TaskCommentCollection>> getComments({
     bool sortDescending = true,
     String? cursor,
@@ -61,7 +68,7 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.organizationsProjectsTasksTaskCommentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
-          .replaceTaskIdPlaceholder(id),
+          .replaceTaskIdPlaceholder(taskId),
       project.app,
       query: qp,
     );
@@ -72,7 +79,7 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
     });
   }
 
-  /// Posts comments for a task.
+  /// Posts comments on the task.
   ///
   /// [comments]: The comments to post.
   Future<void> createComments({
@@ -81,21 +88,25 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
     await http.executePostRequest(
       http.ApiPaths.organizationsProjectsTasksTaskCommentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
-          .replaceTaskIdPlaceholder(id),
+          .replaceTaskIdPlaceholder(taskId),
       app: project.app,
       body: jsonEncode({'Comments': comments}),
     );
   }
 }
 
+/// Performs task operations for a project.
 class NucleusOneAppTasks with NucleusOneAppProjectDependent {
+  /// Creates an instance of the [NucleusOneAppTasks] class.
+  ///
+  /// [project]: The project to perform task operations on.
   NucleusOneAppTasks({
     NucleusOneAppProject? project,
   }) {
     this.project = project ?? getIt.get<NucleusOneAppProject>();
   }
 
-  /// Gets all Tasks in this project.
+  /// Gets all tasks in this project.
   ///
   /// [activeOnly]: Only return active tasks.
   ///
@@ -141,7 +152,9 @@ class NucleusOneAppTasks with NucleusOneAppProjectDependent {
     );
   }
 
-  /// Creates one or more Tasks.
+  /// Creates one or more tasks.
+  /// 
+  /// [tasks]:  The tasks to create.
   Future<void> create(TaskCollection tasks) async {
     assert(tasks.items.isNotEmpty);
 
@@ -154,9 +167,9 @@ class NucleusOneAppTasks with NucleusOneAppProjectDependent {
     );
   }
 
-  /// Updates a Task.
+  /// Updates a task.
   ///
-  /// [task]: The Task to be updated.
+  /// [task]: The task to be updated.
   Future<void> update(Task task) async {
     final qp = http.StandardQueryParams.get();
     qp['taskId'] = task.id;

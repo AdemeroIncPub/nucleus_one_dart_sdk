@@ -9,6 +9,7 @@ import 'model/address_book.dart' as mod;
 import 'model/user_profile.dart' as mod;
 import 'nucleus_one.dart';
 
+/// A Nucleus One user.  This class is used to perform operations specific to the current user.
 class User with NucleusOneAppDependent {
   User({
     NucleusOneApp? app,

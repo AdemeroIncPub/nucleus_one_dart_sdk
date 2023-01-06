@@ -27,18 +27,14 @@ void main() {
       await performHttpTest<QueryResult<ApprovalCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppApprovals(project: project).getApprovals(
-          processElementId: 'A',
-          sortDescending: false,
-          processId: 'B',
-          sortType: 'C',
+          processId: 'A',
+          sortType: 'B',
         ),
         responseBody: approvalCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [
-          'processElementID=A',
-          'sortDescending=false',
-          'processID=B',
-          'sortType=C',
+          'processID=A',
+          'sortType=B',
         ],
       );
 
@@ -47,23 +43,19 @@ void main() {
       await performHttpTest<QueryResult<ApprovalCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppApprovals(project: project).getApprovals(
-          processElementId: 'A',
-          sortDescending: true,
-          processId: 'B',
-          sortType: 'C',
+          processId: 'A',
+          sortType: 'B',
         ),
         responseBody: approvalCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [
-          'processElementID=A',
-          'sortDescending=true',
-          'processID=B',
-          'sortType=C',
+          'processID=A',
+          'sortType=B',
         ],
       );
     });
 
-    test('approveDocument method tests', () async {
+    test('approveDocuments method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.ApiPaths.organizationsProjectsApprovalActionsApproveFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
@@ -71,8 +63,8 @@ void main() {
       // Test with default parameters
       await performHttpTest<void>(
         httpMethod: HttpMethods.post,
-        httpCallCallback: () => NucleusOneAppApprovals(project: project).approveDocument(
-          ids: ['A', 'B'],
+        httpCallCallback: () => NucleusOneAppApprovals(project: project).approveDocuments(
+          documentIds: ['A', 'B'],
         ),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,
@@ -81,7 +73,7 @@ void main() {
       );
     });
 
-    test('declineDocument method tests', () async {
+    test('declineDocuments method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.ApiPaths.organizationsProjectsApprovalActionsDeclineFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
@@ -89,8 +81,8 @@ void main() {
       // Test with default parameters
       await performHttpTest<void>(
         httpMethod: HttpMethods.post,
-        httpCallCallback: () => NucleusOneAppApprovals(project: project).declineDocument(
-          ids: ['A', 'B'],
+        httpCallCallback: () => NucleusOneAppApprovals(project: project).declineDocuments(
+          documentIds: ['A', 'B'],
         ),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,
@@ -99,7 +91,7 @@ void main() {
       );
     });
 
-    test('denyDocument method tests', () async {
+    test('denyDocuments method tests', () async {
       final project = getStandardN1Project();
       final expectedUrlPath = http.ApiPaths.organizationsProjectsApprovalActionsDenyFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
@@ -107,8 +99,8 @@ void main() {
       // Test with default parameters
       await performHttpTest<void>(
         httpMethod: HttpMethods.post,
-        httpCallCallback: () => NucleusOneAppApprovals(project: project).denyDocument(
-          ids: ['A', 'B'],
+        httpCallCallback: () => NucleusOneAppApprovals(project: project).denyDocuments(
+          documentIds: ['A', 'B'],
         ),
         responseBody: '',
         expectedRequestUrlPath: expectedUrlPath,

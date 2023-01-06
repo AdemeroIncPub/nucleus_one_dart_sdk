@@ -37,7 +37,7 @@ NucleusOneAppProject getStandardN1Project([String id = 'projId']) {
 NucleusOneAppTask getStandardN1Task([String id = 'taskId']) {
   return NucleusOneAppTask(
     project: getStandardN1Project(),
-    id: id,
+    taskId: id,
   );
 }
 

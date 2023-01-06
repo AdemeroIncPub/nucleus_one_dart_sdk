@@ -14,14 +14,18 @@ import '../model/user_preferences.dart';
 import '../model/user_preference.dart';
 import '../nucleus_one.dart';
 
+/// Performs operations for the current user.
 class NucleusOneAppUser with NucleusOneAppDependent {
+  /// Creates an instance of the [NucleusOneAppUser] class.
+  ///
+  /// [app]: The application to use when connecting to Nucleus One.
   NucleusOneAppUser({
     NucleusOneApp? app,
   }) {
     this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
-  /// Updates a User Preference.
+  /// Updates a user's preference.
   Future<void> updateUserPreference(UserPreference userPreference) async {
     await http.executePutRequest(
       http.ApiPaths.userPreferences,
@@ -30,9 +34,9 @@ class NucleusOneAppUser with NucleusOneAppDependent {
     );
   }
 
-  /// Updates User Preferences by User Preference Id.
+  /// Updates a preference of the current user by its preference ID.
   ///
-  /// [singleUserPreferenceId] The id of the User Preference to be updated.
+  /// [singleUserPreferenceId]: The ID of the user preference to be updated.
   Future<void> updateUserPreferenceByUserPreferenceId(
       UserPreference userPreference, String singleUserPreferenceId) async {
     final qp = http.StandardQueryParams.get();
@@ -47,7 +51,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
     );
   }
 
-  /// Gets the current user's organizations.
+  /// Gets the organizations that the current user has access to.
   Future<UserOrganizationCollection> getOrganizations() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.userOrganizations,
@@ -62,7 +66,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
 
   /// Gets projects in which the current user has work assigned.
   ///
-  /// [organizationId]: The id of the organization.
+  /// [organizationId]: The ID of the organization.
   Future<UserOrganizationProjectCollection> getProjects({
     required String organizationId,
   }) async {
@@ -90,9 +94,9 @@ class NucleusOneAppUser with NucleusOneAppDependent {
     });
   }
 
-  /// Gets the current user's preference by its id.
+  /// Gets the current user's preference by its ID.
   ///
-  /// [id]: The id of the field.
+  /// [id]: The ID of the field.
   Future<UserPreference> getPreferencesById(String id) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       http.ApiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', id),
@@ -106,7 +110,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
 
   /// Sets the current user's SMS number.
   ///
-  /// [smsNumber] The SMS number, including the beginning "+" and country code.
+  /// [smsNumber]: The SMS number, including the beginning "+" and country code.
   Future<void> setSmsNumber(String smsNumber) async {
     final reqBody = {
       'SMSNumber': smsNumber,
@@ -120,7 +124,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
 
   /// Verifies the changing of the current user's SMS number.
   ///
-  /// [smsNumber] The verification code received via text message.
+  /// [smsNumber]: The verification code received via text message.
   Future<void> verifySmsNumber(String verificationCode) async {
     await http.executePutRequest(
       http.ApiPaths.userSmsNumbersSmsChangeCodeFormat
