@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-
 import 'get_it.dart';
+
+import '../hierarchy/nucleus_one_app_project.dart';
+import '../nucleus_one.dart';
 
 /// Defines a [NucleusOneApp] instance in a local scope, such that it may be retrieved using the
 /// following code.
@@ -60,6 +61,12 @@ Future<TRet> _defineObjectInScopeInternal<TSingleton extends Object, TRet>(
   }
 }
 
+/// Contains core logic for defining a [NucleusOneApp] instance in a local scope, such that it may
+/// be retrieved using the following code.
+///
+/// ```dart
+/// final app = getIt.get<TSingleton>();
+/// ```
 Future<TRet> _defineObjectInScopeAsyncInternal<TSingleton extends Object, TRet>(
   TSingleton value,
   Future<TRet> Function() action,

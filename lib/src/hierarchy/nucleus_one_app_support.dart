@@ -26,7 +26,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   }
 
   /// Gets all users, by page.
-  /// 
+  ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   Future<QueryResult<SupportUserCollection>> getUsers({
     String? cursor,
@@ -38,9 +38,9 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.supportUsers,
-      app,
-      query: qp,
+      apiRelativeUrlPath: http.ApiPaths.supportUsers,
+      app: app,
+      queryParams: qp,
     );
 
     final apiModel =
@@ -58,7 +58,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   }
 
   /// Gets all organizations, by page.
-  /// 
+  ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   Future<QueryResult<SupportOrganizationCollection>> getOrganizations({
     String? cursor,
@@ -70,9 +70,9 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.supportOrganizations,
-      app,
-      query: qp,
+      apiRelativeUrlPath: http.ApiPaths.supportOrganizations,
+      app: app,
+      queryParams: qp,
     );
 
     final apiModel = api_mod.QueryResult<api_mod.SupportOrganizationCollection>.fromJson(
@@ -91,24 +91,24 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   }
 
   /// Gets all error events, by page.
-  /// 
+  ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
-  /// [serviceNameFilter]: 
-  /// 
-  /// [levelFilter]: 
-  /// 
-  /// [tenantIdFilter]: 
-  /// 
-  /// [tenantNameFilter]: 
-  /// 
-  /// [userEmailFilter]: 
-  /// 
-  /// [uniqueIdFilter]: 
-  /// 
-  /// [keywordFilter]: 
-  /// 
-  /// [sortDescending]: 
-  /// 
+  /// [serviceNameFilter]:
+  ///
+  /// [levelFilter]:
+  ///
+  /// [tenantIdFilter]:
+  ///
+  /// [tenantNameFilter]:
+  ///
+  /// [userEmailFilter]:
+  ///
+  /// [uniqueIdFilter]:
+  ///
+  /// [keywordFilter]:
+  ///
+  /// [sortDescending]:
+  ///
   Future<QueryResult<SupportErrorEventCollection>> getErrorEvents({
     String? cursor,
     String? serviceNameFilter,
@@ -136,9 +136,9 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
     qp['sortDescending'] = sortDescending;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.supportErrorEvents,
-      app,
-      query: qp,
+      apiRelativeUrlPath: http.ApiPaths.supportErrorEvents,
+      app: app,
+      queryParams: qp,
     );
 
     final apiModel =
@@ -160,8 +160,8 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   /// otherwise, false.
   Future<bool> getAdminStatus() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.supportAdmin,
-      app,
+      apiRelativeUrlPath: http.ApiPaths.supportAdmin,
+      app: app,
     );
     return responseBody.parseBool();
   }

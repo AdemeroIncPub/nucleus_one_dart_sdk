@@ -48,6 +48,8 @@ abstract class NucleusOne {
 }
 
 /// Options for configuring a connection to Nucleus One (e.g. base URL, API key).
+/// 
+/// [app]: The application to use when connecting to Nucleus One.
 class NucleusOneOptions {
   final String apiBaseUrl;
   final String? apiKey;
@@ -135,9 +137,9 @@ class NucleusOneApp {
     final qp = http.StandardQueryParams.get();
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.apiPaths.organizationsOrganizationFormat.replaceOrgIdPlaceholder(organizationId),
+      apiRelativeUrlPath: apiRelativeUrlPath: http.apiPaths.organizationsOrganizationFormat.replaceOrgIdPlaceholder(organizationId),
       this,
-      query: qp,
+      queryParams: qpms: qp,
     );
     final apiModel = api_mod.OrganizationForClient.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(this, () {
@@ -148,7 +150,7 @@ class NucleusOneApp {
     final orgs = await getOrganizations();
     return orgs.results.items.firstWhere(
       (x) => x.id == organizationId,
-      orElse: () => throw NucleusOneHttpException(404),
+      orElse: () => throw NucleusOneHttpException(status: 404),
     );
   }
 
@@ -162,9 +164,9 @@ class NucleusOneApp {
       ],
     );
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizations,
-      this,
-      query: qp,
+      apiRelativeUrlPath: http.ApiPaths.organizations,
+      app: this,
+      queryParams: qp,
     );
 
     final apiModel = api_mod.QueryResult<api_mod.OrganizationForClientCollection>.fromJson(

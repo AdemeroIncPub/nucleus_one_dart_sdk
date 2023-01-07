@@ -32,6 +32,7 @@ import 'nucleus_one_app_task.dart';
 class NucleusOneAppProject with NucleusOneAppDependent {
   /// The organization that this project belongs to.
   final NucleusOneAppOrganization organization;
+
   /// This project's ID.
   final String id;
 
@@ -61,7 +62,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
   /// Gets a [FolderHierarchyCollection] instance, which can be used to configure new folder
   /// hierarchies for this project.
-  /// 
+  ///
   /// Note that the data configured in this object is local, until it is explicitly sent to the
   /// server.
   FolderHierarchyCollection folderHierarchies() {
@@ -70,7 +71,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
   /// Gets a [FolderHierarchyItemCollection] instance, which can be used to configure new folder
   /// hierarchy items for this project.
-  /// 
+  ///
   /// Note that the data configured in this object is local, until it is explicitly sent to the
   /// server.
   FolderHierarchyItemCollection folderHierarchyItems() {
@@ -79,7 +80,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
 
   /// Gets a [FormTemplateCollection] instance, which can be used to configure new form templates
   /// for this project.
-  /// 
+  ///
   /// Note that the data configured in this object is local, until it is explicitly sent to the
   /// server.
   FormTemplateCollection formTemplates() {
@@ -156,9 +157,9 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   /// Gets the document count within the Recycle Bin.
   Future<int> getRecycleBinDocumentCount() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsCountsRecycleBinDocumentsFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsCountsRecycleBinDocumentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
-      app,
+      app: app,
     );
     return int.parse(responseBody);
   }
@@ -177,17 +178,17 @@ class NucleusOneAppProject with NucleusOneAppDependent {
       'ignoreRecycleBin': ignoreRecycleBin,
     };
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsCountsDocumentsFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsCountsDocumentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
-      app,
-      query: qp,
+      app: app,
+      queryParams: qp,
     );
     return int.parse(responseBody);
   }
 
   /// Gets document folders for the current project.  Only one folder hierarchy level is returned
   /// per call.
-  /// 
+  ///
   /// [parentId]: The ID of the parent folder in the hierarchy.
   ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
@@ -205,10 +206,10 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsDocumentFoldersFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsDocumentFoldersFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
-      app,
-      query: qp,
+      app: app,
+      queryParams: qp,
     );
     final apiModel =
         api_mod.QueryResult<api_mod.DocumentFolderCollection>.fromJson(jsonDecode(responseBody));
@@ -219,7 +220,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   }
 
   /// Gets a document folder in the current project.
-  /// 
+  ///
   /// [documentFolderId]: The ID of the document folder.
   Future<DocumentFolder> getDocumentFolder({
     required String documentFolderId,
@@ -228,11 +229,11 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     qp['documentFolderId'] = documentFolderId;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsDocumentFoldersDocumentFolderFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsDocumentFoldersDocumentFolderFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceDocumentFolderIdPlaceholder(documentFolderId),
-      app,
-      query: qp,
+      app: app,
+      queryParams: qp,
     );
     final apiModel = api_mod.DocumentFolder.fromJson(jsonDecode(responseBody));
 
@@ -244,9 +245,9 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   /// Gets the page count in this project.
   Future<int> getPageCount() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsCountsPagesFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsCountsPagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
-      app,
+      app: app,
     );
     return int.parse(responseBody);
   }
@@ -254,9 +255,9 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   /// Gets signature form templates in this project.
   Future<SignatureFormTemplateCollection> getSignatureFormTemplates() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsSignatureFormTemplatesFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsSignatureFormTemplatesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
-      app,
+      app: app,
     );
     final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(app, () {
@@ -271,9 +272,9 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   Future<SignatureFormTemplateCollection> addSignatureFormTemplates(
       SignatureFormTemplateCollection templates) async {
     final responseBody = await http.executePostRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsSignatureFormTemplatesFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsSignatureFormTemplatesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
-      app,
+      app: app,
       body: jsonEncode(templates.toApiModel()),
     );
     final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
@@ -292,10 +293,11 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     required SignatureFormTemplate template,
   }) async {
     await http.executePutRequest(
-      http.ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
+      apiRelativeUrlPath: http
+          .ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
-      app,
+      app: app,
       body: jsonEncode(template.toApiModel()),
     );
   }
@@ -307,7 +309,8 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     required String templateId,
   }) async {
     await http.executeDeleteRequest(
-      http.ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
+      apiRelativeUrlPath: http
+          .ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
       app: app,
@@ -321,10 +324,11 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     required String templateId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
+      apiRelativeUrlPath: http
+          .ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
-      app,
+      app: app,
     );
     final apiModel =
         api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
@@ -350,11 +354,12 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     qp['clearExisting'] = clearExisting;
 
     final responseBody = await http.executePostRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
+      apiRelativeUrlPath: http
+          .ApiPaths.organizationsProjectsSignatureFormTemplatesSignatureFormTemplateFieldsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this)
           .replaceSignatureFormTemplateIdPlaceholder(templateId),
-      app,
-      query: qp,
+      app: app,
+      queryParams: qp,
       body: jsonEncode(fields.toApiModel()),
     );
     final apiModel =
@@ -382,10 +387,11 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat
+      apiRelativeUrlPath: http
+          .ApiPaths.organizationsProjectsDocumentsRecentDocumentSignatureFormsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
-      app,
-      query: qp,
+      app: app,
+      queryParams: qp,
     );
     final apiModel = api_mod.DocumentSignatureFormCollection.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(app, () {
@@ -416,10 +422,10 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsDocumentsFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsDocumentsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
-      app,
-      query: qp,
+      app: app,
+      queryParams: qp,
     );
     final apiModel =
         api_mod.QueryResult<api_mod.DocumentCollection>.fromJson(jsonDecode(responseBody));
@@ -435,9 +441,9 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   /// you likely want to call [uploadDocument], instead, which handles the entire process.
   Future<DocumentUpload> getDocumentUploadReservation() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsDocumentUploadsFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsDocumentUploadsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
-      app,
+      app: app,
     );
     final apiModel = api_mod.DocumentUpload.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(app, () {
@@ -543,10 +549,10 @@ class NucleusOneAppProject with NucleusOneAppDependent {
     qp['captureOriginal'] = false;
 
     /*final responseBody = */ await http.executePutRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsDocumentUploadsFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsDocumentUploadsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
-      app,
-      query: qp,
+      app: app,
+      queryParams: qp,
       body: jsonEncode([docUploadReservation.toApiModel()]),
     );
 

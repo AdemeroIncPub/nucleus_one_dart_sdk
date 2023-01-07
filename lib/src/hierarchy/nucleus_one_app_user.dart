@@ -28,8 +28,8 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// Updates a user's preference.
   Future<void> updateUserPreference(UserPreference userPreference) async {
     await http.executePutRequest(
-      http.ApiPaths.userPreferences,
-      app,
+      apiRelativeUrlPath: http.ApiPaths.userPreferences,
+      app: app,
       body: jsonEncode(userPreference.toApiModel()),
     );
   }
@@ -43,19 +43,19 @@ class NucleusOneAppUser with NucleusOneAppDependent {
     qp['singleUserPreferenceId'] = singleUserPreferenceId;
 
     await http.executePutRequest(
-      http.ApiPaths.userPreferenceFormat
+      apiRelativeUrlPath: http.ApiPaths.userPreferenceFormat
           .replaceFirst('<singleUserPreferenceId>', singleUserPreferenceId),
-      app,
+      app: app,
       body: jsonEncode(userPreference.toApiModel()),
-      query: qp,
+      queryParams: qp,
     );
   }
 
   /// Gets the organizations that the current user has access to.
   Future<UserOrganizationCollection> getOrganizations() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.userOrganizations,
-      app,
+      apiRelativeUrlPath: http.ApiPaths.userOrganizations,
+      app: app,
     );
     final apiModel = api_mod_uo.UserOrganizationCollection.fromJson(jsonDecode(responseBody));
 
@@ -71,8 +71,9 @@ class NucleusOneAppUser with NucleusOneAppDependent {
     required String organizationId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.userOrganizationsProjectsFormat.replaceOrgIdPlaceholder(organizationId),
-      app,
+      apiRelativeUrlPath:
+          http.ApiPaths.userOrganizationsProjectsFormat.replaceOrgIdPlaceholder(organizationId),
+      app: app,
     );
     final apiModel =
         api_mod_uop.UserOrganizationProjectCollection.fromJson(jsonDecode(responseBody));
@@ -85,8 +86,8 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// Gets the current user's preferences.
   Future<UserPreferences> getPreferences() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.userPreferences,
-      app,
+      apiRelativeUrlPath: http.ApiPaths.userPreferences,
+      app: app,
     );
     final apiModel = api_mod_ups.UserPreferences.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(app, () {
@@ -99,8 +100,9 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// [id]: The ID of the field.
   Future<UserPreference> getPreferencesById(String id) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', id),
-      app,
+      apiRelativeUrlPath:
+          http.ApiPaths.userPreferenceFormat.replaceFirst('<singleUserPreferenceId>', id),
+      app: app,
     );
     final apiModel = api_mod_up.UserPreference.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(app, () {
@@ -116,7 +118,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
       'SMSNumber': smsNumber,
     };
     await http.executePostRequest(
-      http.ApiPaths.userSmsNumbers,
+      apiRelativeUrlPath: http.ApiPaths.userSmsNumbers,
       app: app,
       body: jsonEncode(reqBody),
     );
@@ -127,16 +129,16 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   /// [smsNumber]: The verification code received via text message.
   Future<void> verifySmsNumber(String verificationCode) async {
     await http.executePutRequest(
-      http.ApiPaths.userSmsNumbersSmsChangeCodeFormat
+      apiRelativeUrlPath: http.ApiPaths.userSmsNumbersSmsChangeCodeFormat
           .replaceFirst('<smsChangeCode>', verificationCode),
-      app,
+      app: app,
     );
   }
 
   /// Deletes the current user's SMS number.
   Future<void> deleteSmsNumber() async {
     await http.executeDeleteRequest(
-      http.ApiPaths.userSmsNumbers,
+      apiRelativeUrlPath: http.ApiPaths.userSmsNumbers,
       app: app,
     );
   }

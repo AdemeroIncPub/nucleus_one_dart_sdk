@@ -28,8 +28,9 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
   /// Gets the organization's subscription plans.
   Future<SubscriptionPlanCollection> getOrganizationSubscriptionPlans() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsSubscriptionsPlansFormat.replaceOrgIdPlaceholder(organization.id),
-      app,
+      apiRelativeUrlPath: http.ApiPaths.organizationsSubscriptionsPlansFormat
+          .replaceOrgIdPlaceholder(organization.id),
+      app: app,
     );
     final apiModel = api_mod.SubscriptionPlanCollection.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(app, () {
@@ -45,8 +46,9 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
     required SubscriptionDetails subscriptionDetails,
   }) async {
     await http.executePutRequest(
-      http.ApiPaths.organizationsSubscriptionsFormat.replaceOrgIdPlaceholder(organization.id),
-      app,
+      apiRelativeUrlPath:
+          http.ApiPaths.organizationsSubscriptionsFormat.replaceOrgIdPlaceholder(organization.id),
+      app: app,
       body: jsonEncode(subscriptionDetails.toApiModel()),
     );
   }
@@ -54,9 +56,9 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
   /// Gets an organization's subscription invoices.
   Future<SubscriptionInvoiceCollection> getOrganizationSubscriptionInvoices() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsSubscriptionsInvoicesFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsSubscriptionsInvoicesFormat
           .replaceOrgIdPlaceholder(organization.id),
-      app,
+      app: app,
     );
     final apiModel = api_mod.SubscriptionInvoiceCollection.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(app, () {

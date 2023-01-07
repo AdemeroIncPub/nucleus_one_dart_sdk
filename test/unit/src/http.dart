@@ -78,6 +78,22 @@ void main() {
   });
 
   group('_executeStandardHttpRequest consumer methods Tests', () {
+    test('executeGetRequest method Tests', () async {
+      final opResult = await createStandardMockHttpClientScopeForAllRequests(
+        callback: () async {
+          await executeGetRequest(
+            apiRelativeUrlPath: '',
+            app: getStandardN1App(),
+            queryParams: {},
+          );
+        },
+        requestHttpMethod: HttpMethods.get,
+        responseBody: '123',
+      );
+
+      expect(opResult.request.method, 'GET');
+    });
+
     // The tests for this operation (GET) are more thorough than the other operations because they
     // are also testing different combination of the parameters for the _executeStandardHttpRequest
     // method, which only needs to be tested in one place; not for all operations.
@@ -127,9 +143,9 @@ void main() {
             callback: () async {
               final n1App = getStandardN1App();
               responseText = await executeGetRequestWithTextResponse(
-                '',
-                n1App,
-                query: reqQuery,
+                apiRelativeUrlPath: '',
+                app: n1App,
+                queryParams: reqQuery,
                 body: reqBody,
                 authenticated: reqAuthenticated,
               );
@@ -168,7 +184,7 @@ void main() {
       testAssertionErrorAsync(
         () async => await createStandardMockHttpClientScopeForAllRequests(
           callback: () async {
-            await executeDeleteRequest('', app: null, query: {});
+            await executeDeleteRequest(apiRelativeUrlPath: '', app: null, queryParams: {});
           },
           requestHttpMethod: HttpMethods.delete,
           responseBody: '123',
@@ -180,7 +196,7 @@ void main() {
         await defineN1AppInScopeAsync(getStandardN1App(), () async {
           await createStandardMockHttpClientScopeForAllRequests(
             callback: () async {
-              await executeDeleteRequest('', app: null, query: {});
+              await executeDeleteRequest(apiRelativeUrlPath: '', app: null, queryParams: {});
             },
             requestHttpMethod: HttpMethods.delete,
             responseBody: '123',
@@ -193,9 +209,9 @@ void main() {
       final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
           await executeDeleteRequest(
-            '',
+            apiRelativeUrlPath: '',
             app: getStandardN1App(),
-            query: {},
+            queryParams: {},
           );
         },
         requestHttpMethod: HttpMethods.delete,
@@ -209,9 +225,9 @@ void main() {
       final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
           await executePostRequest(
-            '',
+            apiRelativeUrlPath: '',
             app: getStandardN1App(),
-            query: {},
+            queryParams: {},
           );
         },
         requestHttpMethod: HttpMethods.post,
@@ -226,9 +242,9 @@ void main() {
       final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
           responseText = await executePostRequestWithTextResponse(
-            '',
-            getStandardN1App(),
-            query: {},
+            apiRelativeUrlPath: '',
+            app: getStandardN1App(),
+            queryParams: {},
           );
         },
         requestHttpMethod: HttpMethods.post,
@@ -243,9 +259,9 @@ void main() {
       final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
           await executePutRequest(
-            '',
-            getStandardN1App(),
-            query: {},
+            apiRelativeUrlPath: '',
+            app: getStandardN1App(),
+            queryParams: {},
           );
         },
         requestHttpMethod: HttpMethods.put,
@@ -260,9 +276,9 @@ void main() {
       final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
           responseText = await executePutRequestWithTextResponse(
-            '',
-            getStandardN1App(),
-            query: {},
+            apiRelativeUrlPath: '',
+            app: getStandardN1App(),
+            queryParams: {},
           );
         },
         requestHttpMethod: HttpMethods.put,
@@ -302,37 +318,13 @@ void main() {
     });
   });
 
-  group('ApiRequestBodyObject class Tests', () {
-    final json = '{"A":"1","B":2,"C":3.4}';
-    void validateMapContents(Map<String, dynamic> map) {
-      expect(map.length, 3);
-      expect(map['A'], '1');
-      expect(map['B'], 2);
-      expect(map['C'], 3.4);
-    }
-
-    test('populateFromJson method tests', () {
-      final arbo = _ApiRequestBodyObjectTest();
-      arbo.populateFromJsonPublic(json);
-      validateMapContents(arbo.mapPublic);
-    });
-
-    test('toJson method tests', () {
-      final arbo = _ApiRequestBodyObjectTest();
-      expect(arbo.toJson().length, 0);
-
-      arbo.populateFromJsonPublic(json);
-      validateMapContents(arbo.toJson());
-    });
-  });
-
   group('NucleusOneHttpException class tests', () {
     test('Constructor test', () {
-      var e = NucleusOneHttpException(200);
+      var e = NucleusOneHttpException(status: 200);
       expect(e.status, 200);
       expect(e.message, isNull);
 
-      e = NucleusOneHttpException(500, 'abc');
+      e = NucleusOneHttpException(status: 500, message: 'abc');
       expect(e.status, 500);
       expect(e.message, 'abc');
     });
@@ -391,9 +383,4 @@ void main() {
       performTest<String>('cursor', '123', (sqp, value) => sqp.cursor(value));
     });
   });
-}
-
-class _ApiRequestBodyObjectTest extends ApiRequestBodyObject {
-  Map<String, dynamic> get mapPublic => map;
-  void populateFromJsonPublic(String json) => populateFromJson(json);
 }

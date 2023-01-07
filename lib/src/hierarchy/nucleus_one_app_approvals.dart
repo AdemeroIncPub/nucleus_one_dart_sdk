@@ -31,7 +31,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     final reqBody = {'IDs': documentIds};
 
     await http.executePostRequest(
-      http.ApiPaths.organizationsProjectsApprovalActionsDeclineFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsApprovalActionsDeclineFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode(reqBody),
@@ -47,7 +47,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     final reqBody = {'IDs': documentIds};
 
     await http.executePostRequest(
-      http.ApiPaths.organizationsProjectsApprovalActionsDenyFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsApprovalActionsDenyFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode(reqBody),
@@ -63,7 +63,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     final reqBody = {'IDs': documentIds};
 
     await http.executePostRequest(
-      http.ApiPaths.organizationsProjectsApprovalActionsApproveFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsApprovalActionsApproveFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
       app: project.app,
       body: jsonEncode(reqBody),
@@ -91,10 +91,10 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
     qp['sortType'] = sortType;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsApprovalsFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsApprovalsFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
-      project.app,
-      query: qp,
+      app: project.app,
+      queryParams: qp,
     );
 
     final apiModel =

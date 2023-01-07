@@ -17,12 +17,18 @@ import 'nucleus_one.dart';
 //   return client;
 // }
 
+/// Gets a standard [HttpClient] instance.
 HttpClient getStandardHttpClient() {
   return HttpClient();
 }
 
+/// Implemented HTTP methods
 enum _HttpMethod { delete, get, post, put }
 
+/// Sets the standard HTTP headers applicable to all HTTP requests to the Nucleus One API.
+///
+/// [request]: The [HttpClientRequest] to configure.
+@visibleForTesting
 void setRequestHeadersCommon(HttpClientRequest request) {
   final headers = request.headers;
   // headers.clear();
@@ -44,6 +50,11 @@ void setRequestHeadersCommon(HttpClientRequest request) {
   // headers.set('Cookie', 'G_AUTHUSER_H=0');
 }
 
+/// Sets the standard HTTP headers applicable to all HTTP requests to the Nucleus One API.
+///
+/// [request]: The [HttpClientRequest] to configure.
+///
+/// [app]: The application to use when connecting to Nucleus One.
 @visibleForTesting
 void setAuthenticatedRequestHeaders({
   required HttpClientRequest request,
@@ -54,6 +65,9 @@ void setAuthenticatedRequestHeaders({
   request.headers.add('Authorization', 'Bearer ${app.options.apiKey ?? ''}');
 }
 
+/// Converts a map to a query string.
+///
+/// [queryParams]: The map to convert.
 @visibleForTesting
 String getQueryParamsString(Map<String, dynamic> queryParams) {
   Map<String, dynamic> stringifyQueryParamValuesRecursive(Map<String, dynamic> qps) {
@@ -83,14 +97,29 @@ String getQueryParamsString(Map<String, dynamic> queryParams) {
   return Uri(queryParameters: queryParams).query;
 }
 
-Future<HttpClientResponse> _executeStandardHttpRequest(
-  bool authenticated,
+/// Contains core logic for executing HTTP requests.
+///
+/// {@template http.standardHttpRequest.params}
+/// [authenticated]: Whether this request should include authentication information.
+///
+/// [app]: The application to use when connecting to Nucleus One.
+///
+/// [apiRelativeUrlPath]: The relative Nucleus One API path to use when call the API.
+///
+/// [queryParams]: The query string parameters to include in the URL.
+///
+/// [body]: The request body.
+/// {@endtemplate}
+///
+/// [method]: The HTTP method to use.
+Future<HttpClientResponse> _executeStandardHttpRequest({
+  required bool authenticated,
   NucleusOneApp? app,
-  String apiRelativeUrlPath,
-  Map<String, dynamic>? qp,
+  required String apiRelativeUrlPath,
+  Map<String, dynamic>? queryParams,
   String? body,
-  _HttpMethod method,
-) async {
+  required _HttpMethod method,
+}) async {
   app = app ?? getIt.get<NucleusOneApp>();
 
   HttpClientRequest clientReq;
@@ -101,7 +130,9 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
     httpClient = getStandardHttpClient();
 
     {
-      final qpAsString = ((qp == null) || qp.isEmpty) ? '' : '?${getQueryParamsString(qp)}';
+      final qpAsString = ((queryParams == null) || queryParams.isEmpty)
+          ? ''
+          : '?${getQueryParamsString(queryParams)}';
       final fullUrl = app.getFullUrl(apiRelativeUrlPath) + qpAsString;
       final parsedUri = Uri.parse(fullUrl);
 
@@ -144,82 +175,168 @@ Future<HttpClientResponse> _executeStandardHttpRequest(
   return resp;
 }
 
-Future<String> executeGetRequestWithTextResponse(
-  String apiRelativeUrlPath,
-  NucleusOneApp app, {
-  Map<String, dynamic>? query,
-  String? body,
+/// Execute an HTTP GET request, returning the response body.
+///
+/// {@macro http.standardHttpRequest.params}
+Future<String> executeGetRequestWithTextResponse({
   bool authenticated = true,
+  required NucleusOneApp app,
+  required String apiRelativeUrlPath,
+  Map<String, dynamic>? queryParams,
+  String? body,
 }) async {
-  final clientResponse =
-      await _executeGetRequestInternal(authenticated, app, apiRelativeUrlPath, query, body);
+  final clientResponse = await _executeGetRequestInternal(
+    authenticated: authenticated,
+    app: app,
+    apiRelativeUrlPath: apiRelativeUrlPath,
+    queryParams: queryParams,
+    body: body,
+  );
   final respBody = await clientResponse.readToEnd();
   return respBody;
 }
 
-Future<HttpClientResponse> _executeGetRequestInternal(bool authenticated, NucleusOneApp app,
-    String apiRelativeUrlPath, Map<String, dynamic>? query, String? body) async {
+/// Execute an HTTP GET request, returning the response object.
+///
+/// {@macro http.standardHttpRequest.params}
+Future<HttpClientResponse> executeGetRequest({
+  bool authenticated = true,
+  required NucleusOneApp app,
+  required String apiRelativeUrlPath,
+  Map<String, dynamic>? queryParams,
+  String? body,
+}) async {
+  return await _executeGetRequestInternal(
+    authenticated: authenticated,
+    app: app,
+    apiRelativeUrlPath: apiRelativeUrlPath,
+    queryParams: queryParams,
+    body: body,
+  );
+}
+
+/// Contains the core logic for executing an HTTP GET request, returning the response object.
+///
+/// {@macro http.standardHttpRequest.params}
+Future<HttpClientResponse> _executeGetRequestInternal({
+  required bool authenticated,
+  required NucleusOneApp app,
+  required String apiRelativeUrlPath,
+  Map<String, dynamic>? queryParams,
+  String? body,
+}) async {
   return await _executeStandardHttpRequest(
-      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.get);
+    authenticated: authenticated,
+    app: app,
+    apiRelativeUrlPath: apiRelativeUrlPath,
+    queryParams: queryParams,
+    body: body,
+    method: _HttpMethod.get,
+  );
 }
 
-Future<void> executeDeleteRequest(
-  String apiRelativeUrlPath, {
-  NucleusOneApp? app,
-  Map<String, dynamic>? query,
-  String? body,
+/// Execute an HTTP DELETE request.
+///
+/// {@macro http.standardHttpRequest.params}
+Future<void> executeDeleteRequest({
   bool authenticated = true,
+  NucleusOneApp? app,
+  required String apiRelativeUrlPath,
+  Map<String, dynamic>? queryParams,
+  String? body,
 }) async {
   await _executeStandardHttpRequest(
-      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.delete);
+    authenticated: authenticated,
+    app: app,
+    apiRelativeUrlPath: apiRelativeUrlPath,
+    queryParams: queryParams,
+    body: body,
+    method: _HttpMethod.delete,
+  );
 }
 
-Future<String> executePostRequestWithTextResponse(
-  String apiRelativeUrlPath,
-  NucleusOneApp app, {
-  Map<String, dynamic>? query,
-  String? body,
+/// Execute an HTTP POST request, returning the response body.
+///
+/// {@macro http.standardHttpRequest.params}
+Future<String> executePostRequestWithTextResponse({
   bool authenticated = true,
+  required NucleusOneApp app,
+  required String apiRelativeUrlPath,
+  Map<String, dynamic>? queryParams,
+  String? body,
 }) async {
   final clientResponse = await _executeStandardHttpRequest(
-      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.post);
+    authenticated: authenticated,
+    app: app,
+    apiRelativeUrlPath: apiRelativeUrlPath,
+    queryParams: queryParams,
+    body: body,
+    method: _HttpMethod.post,
+  );
   final respBody = await clientResponse.readToEnd();
   return respBody;
 }
 
-Future<void> executePostRequest(
-  String apiRelativeUrlPath, {
-  NucleusOneApp? app,
-  Map<String, dynamic>? query,
-  String? body,
+/// Execute an HTTP POST request.
+///
+/// {@macro http.standardHttpRequest.params}
+Future<void> executePostRequest({
   bool authenticated = true,
+  NucleusOneApp? app,
+  required String apiRelativeUrlPath,
+  Map<String, dynamic>? queryParams,
+  String? body,
 }) async {
   await _executeStandardHttpRequest(
-      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.post);
+    authenticated: authenticated,
+    app: app,
+    apiRelativeUrlPath: apiRelativeUrlPath,
+    queryParams: queryParams,
+    body: body,
+    method: _HttpMethod.post,
+  );
 }
 
-Future<String> executePutRequestWithTextResponse(
-  String apiRelativeUrlPath,
-  NucleusOneApp app, {
-  Map<String, dynamic>? query,
-  String? body,
+/// Execute an HTTP PUT request, returning the response body.
+///
+/// {@macro http.standardHttpRequest.params}
+Future<String> executePutRequestWithTextResponse({
   bool authenticated = true,
+  required NucleusOneApp app,
+  required String apiRelativeUrlPath,
+  Map<String, dynamic>? queryParams,
+  String? body,
 }) async {
   final clientResponse = await _executeStandardHttpRequest(
-      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.put);
+    authenticated: authenticated,
+    app: app,
+    apiRelativeUrlPath: apiRelativeUrlPath,
+    queryParams: queryParams,
+    body: body,
+    method: _HttpMethod.put,
+  );
   final respBody = await clientResponse.readToEnd();
   return respBody;
 }
 
-Future<void> executePutRequest(
-  String apiRelativeUrlPath,
-  NucleusOneApp app, {
-  Map<String, dynamic>? query,
-  String? body,
+/// Execute an HTTP PUT request.
+///
+/// {@macro http.standardHttpRequest.params}
+Future<void> executePutRequest({
   bool authenticated = true,
+  required NucleusOneApp app,
+  required String apiRelativeUrlPath,
+  Map<String, dynamic>? queryParams,
+  String? body,
 }) async {
   await _executeStandardHttpRequest(
-      authenticated, app, apiRelativeUrlPath, query, body, _HttpMethod.put);
+    authenticated: authenticated,
+    app: app,
+    apiRelativeUrlPath: apiRelativeUrlPath,
+    queryParams: queryParams,
+    body: body,
+    method: _HttpMethod.put,
+  );
 }
 
 // /// Downloads a file to disk.
@@ -231,7 +348,7 @@ Future<void> executePutRequest(
 //   String apiRelativeUrlPath,
 //   String destFilePath,
 //   NucleusOneApp app, {
-//   Map<String, dynamic>? query,
+//   Map<String, dynamic>? queryParams,
 // }) async {
 //   final response = await _executeGetRequestInternal(true, app, apiRelativeUrlPath, query, null);
 //   final fs = getIt.get<file.FileSystem>();
@@ -239,6 +356,7 @@ Future<void> executePutRequest(
 //   await response.pipe(fileStream);
 // }
 
+/// Contains relative URL paths for calling the Nucleus One API.
 abstract class ApiPaths {
   static const documentSignatureSessionsSigningRecipientsFieldsFormat =
       '/documentSignatureSessions/<documentSignatureSessionId>/signingRecipients/<documentSignatureSessionRecipientId>/fields';
@@ -351,27 +469,14 @@ abstract class ApiPaths {
   static const userSmsNumbersSmsChangeCodeFormat = '/user/smsNumbers/<smsChangeCode>';
 }
 
-abstract class ApiRequestBodyObject {
-  @protected
-  final map = <String, dynamic>{};
-
-  /// Intended for use by the [jsonEncode] method.
-  Map<String, dynamic> toJson() => map;
-
-  @protected
-  void populateFromJson(String json) {
-    final m = jsonDecode(json) as Map;
-    for (var kvp in m.entries) {
-      map[kvp.key as String] = kvp.value;
-    }
-  }
-}
-
 /// Provides support for adding common query string parameters.  Values are only included if they
 /// are not null.
 class StandardQueryParams {
   final _map = <String, dynamic>{};
 
+  /// Builds a map containing query string parameters.
+  ///
+  /// [callbacks]: A list of standard query parameters to include in the map.
   static Map<String, dynamic> get({
     List<void Function(StandardQueryParams sqp)>? callbacks,
   }) {
@@ -384,38 +489,64 @@ class StandardQueryParams {
     return sqp._map;
   }
 
-  void sortDescending(bool? sortDescending) {
-    if (sortDescending != null) {
-      _map['sortDescending'] = sortDescending;
+  /// Contains core logic for setting a map parameter's value.
+  ///
+  /// [name]: The parameter's name.
+  ///
+  /// [value]: The parameter's value.
+  void _setMapParam<T>(String name, T? value) {
+    if (value != null) {
+      _map[name] = value;
     }
   }
 
-  void sortType(String? sortType) {
-    if (sortType != null) {
-      _map['sortType'] = sortType;
-    }
-  }
+  /// If not null, includes the 'sortDescending' parameter in the map.
+  ///
+  /// [sortDescending]: Whether to sort in descending order.
+  void sortDescending(bool? sortDescending) => _setMapParam('sortDescending', sortDescending);
 
-  void offset(int? offset) {
-    if (offset != null) {
-      _map['offset'] = offset;
-    }
-  }
+  /// If not null, includes the 'sortType' parameter in the map.
+  ///
+  /// [sortType]: The type of sorting to apply.
+  void sortType(String? sortType) => _setMapParam('sortType', sortType);
 
-  void cursor(String? cursor) {
-    if (cursor != null) {
-      _map['cursor'] = cursor;
-    }
-  }
+  /// If not null, includes the 'offset' parameter in the map.
+  ///
+  /// [offset]: The offset at which to start the returned results.  Used for paging results.
+  void offset(int? offset) => _setMapParam('offset', offset);
+
+  /// If not null, includes the 'sortDescending' parameter in the map.
+  ///
+  /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
+  void cursor(String? cursor) => _setMapParam('cursor', cursor);
 }
 
+/// The exception thrown when an HTTP-related error occurs while calling the Nucleus One API.
 @immutable
 class NucleusOneHttpException implements Exception {
+  /// The error message.
   final String? message;
+
+  /// The HTTP status code.
   final int status;
 
-  NucleusOneHttpException(this.status, [this.message]);
+  /// Creates an instance of the [NucleusOneHttpException] class.
+  ///
+  /// [status]: The HTTP status code.
+  ///
+  /// [message]: The error message.
+  NucleusOneHttpException({
+    required this.status,
+    this.message,
+  });
 
+  /// Creates an instance of the [NucleusOneHttpException] class.  The [message] field's value is
+  /// set by decoding a JSON string and extracting its "message" field.  If an error occurs during
+  /// this process, [message] is set to the [json] parameter's value.
+  ///
+  /// [status]: The HTTP status code.
+  ///
+  /// [json]: The JSON string to extract "message" field from.
   factory NucleusOneHttpException.fromJsonSafe(int status, String json) {
     String? message;
     try {
@@ -425,6 +556,6 @@ class NucleusOneHttpException implements Exception {
       // then just set the "json" as the message
       message = json;
     }
-    return NucleusOneHttpException(status, message);
+    return NucleusOneHttpException(status: status, message: message);
   }
 }

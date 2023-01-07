@@ -57,8 +57,9 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
   /// Gets all tenants of this organization.
   Future<OrganizationPermissions> getPermissions() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', id),
-      app,
+      apiRelativeUrlPath:
+          http.ApiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', id),
+      app: app,
     );
 
     final apiModel = api_mod.OrganizationPermissions.fromJson(jsonDecode(responseBody));
@@ -74,8 +75,9 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     required String organizationId,
   }) async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsSubscriptionsFormat.replaceOrgIdPlaceholder(id),
-      app,
+      apiRelativeUrlPath:
+          http.ApiPaths.organizationsSubscriptionsFormat.replaceOrgIdPlaceholder(id),
+      app: app,
     );
     final apiModel = api_mod.SubscriptionDetails.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(app, () {
@@ -92,10 +94,10 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     final qp = http.StandardQueryParams.get();
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsProjectFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsProjectFormat
           .replaceOrgIdAndProjectIdPlaceholders(id, projectId),
-      app,
-      query: qp,
+      app: app,
+      queryParams: qp,
     );
     final apiModel = api_mod.OrganizationProject.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(app, () {
@@ -143,9 +145,9 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     }
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsFormat.replaceOrgIdPlaceholder(id),
-      app,
-      query: qp,
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsFormat.replaceOrgIdPlaceholder(id),
+      app: app,
+      queryParams: qp,
     );
     final apiModel = api_mod.QueryResult<api_mod.OrganizationProjectCollection>.fromJson(
         jsonDecode(responseBody));

@@ -38,10 +38,10 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     );
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.organizationsProjectsFormTemplatesFormat
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsFormTemplatesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project),
-      project.app,
-      query: qp,
+      app: project.app,
+      queryParams: qp,
     );
     final apiModel =
         api_mod.QueryResult<api_mod.FormTemplateCollection>.fromJson(jsonDecode(responseBody));
@@ -70,9 +70,10 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     qp['uniqueId'] = uniqueId;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.formTemplatesPublicFormat.replaceFormTemplateIdPlaceholder(formTemplateById),
-      project.app,
-      query: qp,
+      apiRelativeUrlPath: http.ApiPaths.formTemplatesPublicFormat
+          .replaceFormTemplateIdPlaceholder(formTemplateById),
+      app: project.app,
+      queryParams: qp,
     );
     final apiModel = api_mod.FormTemplate.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(project.app, () {
@@ -88,10 +89,10 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     qp['tenantId'] = project.id;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.formTemplatesPublicFieldsFormat
+      apiRelativeUrlPath: http.ApiPaths.formTemplatesPublicFieldsFormat
           .replaceFormTemplateIdPlaceholder(formTemplateId),
-      project.app,
-      query: qp,
+      app: project.app,
+      queryParams: qp,
     );
     final apiModel = api_mod.FormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(project.app, () {
@@ -116,15 +117,19 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     // At the time of writing this, cursor was not implemented in the API
     // String? cursor,
   }) async {
-    final qp = ListItems.getListItemsQueryParams(null, parentValue, valueFilter);
+    final qp = ListItems.getListItemsQueryParams(
+      cursor: null,
+      parentValue: parentValue,
+      valueFilter: valueFilter,
+    );
     qp['tenantId'] = project.id;
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      http.ApiPaths.formTemplatesPublicFieldListItemsFormat
+      apiRelativeUrlPath: http.ApiPaths.formTemplatesPublicFieldListItemsFormat
           .replaceFormTemplateIdPlaceholder(formTemplateId)
           .replaceFormTemplateFieldIdPlaceholder(formTemplateFieldId),
-      project.app,
-      query: qp,
+      app: project.app,
+      queryParams: qp,
     );
     final apiModel = api_mod.FieldListItemCollection.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(project.app, () {
@@ -212,7 +217,8 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
     final packages = FormSubmissionPackageCollection(items: [package]);
 
     await http.executePostRequest(
-      http.ApiPaths.formTemplatesPublicSubmissions.replaceFormTemplateIdPlaceholder(formTemplateId),
+      apiRelativeUrlPath: http.ApiPaths.formTemplatesPublicSubmissions
+          .replaceFormTemplateIdPlaceholder(formTemplateId),
       app: project.app,
       body: jsonEncode(packages.toApiModel()),
     );
