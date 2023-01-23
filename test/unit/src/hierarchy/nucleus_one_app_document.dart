@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/document_package.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form_field.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session.dart' as api_mod;
@@ -159,10 +160,39 @@ void main() {
       final expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('ABC');
+          // TODO: VERIFY RETURN VALUE
+          // TODO: VERIFY RETURN VALUE
+          // TODO: VERIFY RETURN VALUE
+          // TODO: VERIFY RETURN VALUE
+          // TODO: VERIFY RETURN VALUE
+          // TODO: VERIFY RETURN VALUE
       // Test with default parameters
       await performHttpTest<DocumentPackage>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getDocumentPackage(),
+        responseBody: documentPackageJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('updateDocumentPackage method tests', () async {
+      final document = getStandardN1Project().document('ABC');
+      final docPkg = DocumentPackage.fromApiModel(
+          api_mod.DocumentPackage.fromJson(jsonDecode(documentPackageJson)));
+      final expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentPackagesFormat
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
+          .replaceDocumentIdPlaceholder('ABC');
+          // TODO: VERIFY RETURN VALUE
+          // TODO: VERIFY RETURN VALUE
+          // TODO: VERIFY RETURN VALUE
+          // TODO: VERIFY RETURN VALUE
+          // TODO: VERIFY RETURN VALUE
+          // TODO: VERIFY RETURN VALUE
+      // Test with default parameters
+      await performHttpTest<DocumentPackage>(
+        httpMethod: HttpMethods.get,
+        httpCallCallback: () => document.updateDocumentPackage(docPkg),
         responseBody: documentPackageJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],

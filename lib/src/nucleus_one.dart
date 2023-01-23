@@ -48,7 +48,7 @@ abstract class NucleusOne {
 }
 
 /// Options for configuring a connection to Nucleus One (e.g. base URL, API key).
-/// 
+///
 /// [app]: The application to use when connecting to Nucleus One.
 class NucleusOneOptions {
   final String apiBaseUrl;
@@ -182,5 +182,34 @@ class NucleusOneApp {
   /// current user.
   NucleusOneAppUser user() {
     return NucleusOneAppUser(app: this);
+  }
+
+  /// Logs a message.
+  ///
+  /// [eventHeader]: An optional header for the message(s).
+  ///
+  /// [message]: The message to log.
+  ///
+  /// [message2]: Additional message information.
+  ///
+  /// [message3]: Additional message information.
+  Future<void> log({
+    String? eventHeader,
+    required String message,
+    String? message2,
+    String? message3,
+  }) async {
+    var bodyMap = <String, String>{
+      if (eventHeader != null) 'Header': eventHeader,
+      'Value1': message,
+      if (message2 != null) 'Value2': message2,
+      if (message3 != null) 'Value3': message3,
+    };
+
+    await http.executePostRequest(
+      apiRelativeUrlPath: http.ApiPaths.logs,
+      app: this,
+      body: jsonEncode(bodyMap),
+    );
   }
 }

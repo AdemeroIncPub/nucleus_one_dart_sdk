@@ -81,11 +81,12 @@ void main() {
     test('executeGetRequest method Tests', () async {
       final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
-          await executeGetRequest(
+          final resp = await executeGetRequest(
             apiRelativeUrlPath: '',
             app: getStandardN1App(),
             queryParams: {},
           );
+          expect(resp, isA<HttpClientResponse>());
         },
         requestHttpMethod: HttpMethods.get,
         responseBody: '123',
@@ -208,11 +209,12 @@ void main() {
     test('executeDeleteRequest method Tests', () async {
       final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
-          await executeDeleteRequest(
+          final resp = await executeDeleteRequest(
             apiRelativeUrlPath: '',
             app: getStandardN1App(),
             queryParams: {},
           );
+          expect(resp, isA<HttpClientResponse>());
         },
         requestHttpMethod: HttpMethods.delete,
         responseBody: '123',
@@ -224,11 +226,12 @@ void main() {
     test('executePostRequest method Tests', () async {
       final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
-          await executePostRequest(
+          final resp = await executePostRequest(
             apiRelativeUrlPath: '',
             app: getStandardN1App(),
             queryParams: {},
           );
+          expect(resp, isA<HttpClientResponse>());
         },
         requestHttpMethod: HttpMethods.post,
         responseBody: '123',
@@ -258,11 +261,12 @@ void main() {
     test('executePutRequest method Tests', () async {
       final opResult = await createStandardMockHttpClientScopeForAllRequests(
         callback: () async {
-          await executePutRequest(
+          final resp = await executePutRequest(
             apiRelativeUrlPath: '',
             app: getStandardN1App(),
             queryParams: {},
           );
+          expect(resp, isA<HttpClientResponse>());
         },
         requestHttpMethod: HttpMethods.put,
         responseBody: '123',

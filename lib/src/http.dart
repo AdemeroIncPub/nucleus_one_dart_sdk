@@ -238,14 +238,14 @@ Future<HttpClientResponse> _executeGetRequestInternal({
 /// Execute an HTTP DELETE request.
 ///
 /// {@macro http.standardHttpRequest.params}
-Future<void> executeDeleteRequest({
+Future<HttpClientResponse> executeDeleteRequest({
   bool authenticated = true,
   NucleusOneApp? app,
   required String apiRelativeUrlPath,
   Map<String, dynamic>? queryParams,
   String? body,
 }) async {
-  await _executeStandardHttpRequest(
+  return await _executeStandardHttpRequest(
     authenticated: authenticated,
     app: app,
     apiRelativeUrlPath: apiRelativeUrlPath,
@@ -280,14 +280,14 @@ Future<String> executePostRequestWithTextResponse({
 /// Execute an HTTP POST request.
 ///
 /// {@macro http.standardHttpRequest.params}
-Future<void> executePostRequest({
+Future<HttpClientResponse> executePostRequest({
   bool authenticated = true,
   NucleusOneApp? app,
   required String apiRelativeUrlPath,
   Map<String, dynamic>? queryParams,
   String? body,
 }) async {
-  await _executeStandardHttpRequest(
+  return await _executeStandardHttpRequest(
     authenticated: authenticated,
     app: app,
     apiRelativeUrlPath: apiRelativeUrlPath,
@@ -322,14 +322,14 @@ Future<String> executePutRequestWithTextResponse({
 /// Execute an HTTP PUT request.
 ///
 /// {@macro http.standardHttpRequest.params}
-Future<void> executePutRequest({
+Future<HttpClientResponse> executePutRequest({
   bool authenticated = true,
   required NucleusOneApp app,
   required String apiRelativeUrlPath,
   Map<String, dynamic>? queryParams,
   String? body,
 }) async {
-  await _executeStandardHttpRequest(
+  return await _executeStandardHttpRequest(
     authenticated: authenticated,
     app: app,
     apiRelativeUrlPath: apiRelativeUrlPath,
@@ -365,6 +365,7 @@ abstract class ApiPaths {
   static const formTemplatesPublicFieldListItemsFormat =
       '/formTemplatesPublic/<formTemplateId>/fields/<formTemplateFieldId>/listItems';
   static const formTemplatesPublicSubmissions = '/formTemplatesPublic/<formTemplateId>/submissions';
+  static const logs = '/logs';
   static const organizations = '/organizations';
   static const organizationsOrganizationFormat = '/organizations/<organizationId>';
   static const organizationsPermissionsFormat = '/organizations/<organizationId>/permissions';

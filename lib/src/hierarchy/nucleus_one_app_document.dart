@@ -76,6 +76,22 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     });
   }
 
+  /// Updates the document package for the current document.  The document package that was passed
+  /// in is returned, as it now exists on the server.
+  Future<DocumentPackage> updateDocumentPackage(DocumentPackage documentPackage) async {
+    final responseBody = await http.executePutRequestWithTextResponse(
+      apiRelativeUrlPath: http.ApiPaths.organizationsProjectsDocumentPackagesFormat
+          .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
+          .replaceDocumentIdPlaceholder(id),
+      app: project.app,
+      body: jsonEncode(documentPackage.toApiModel()),
+    );
+    final apiModel = api_mod.DocumentPackage.fromJson(jsonDecode(responseBody));
+    return await defineN1AppInScope(project.app, () {
+      return DocumentPackage.fromApiModel(apiModel);
+    });
+  }
+
   // /// Gets document subscriptions documents, by page.
   // ///
   // /// [sortType]: Which field to sort on.

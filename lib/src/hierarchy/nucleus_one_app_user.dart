@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart' show IterableExtension;
+
 import '../api_model/user_preferences.dart' as api_mod_ups;
 import '../api_model/user_preference.dart' as api_mod_up;
 import '../api_model/user_organization.dart' as api_mod_uo;
@@ -13,6 +15,7 @@ import '../model/user_organization_project.dart';
 import '../model/user_preferences.dart';
 import '../model/user_preference.dart';
 import '../nucleus_one.dart';
+import '../user.dart';
 
 /// Performs operations for the current user.
 class NucleusOneAppUser with NucleusOneAppDependent {
@@ -142,4 +145,82 @@ class NucleusOneAppUser with NucleusOneAppDependent {
       app: app,
     );
   }
+
+  /// Logs in to Nucleus One using Google Sign-In.  A result is returned, regardless of success.
+  ///
+  /// [oauthIdToken]: The OAuth2 ID token.
+  ///
+  /// [browserFingerprint]: The browser's fingerprint.  Used to identify this specific browser on
+  /// the current device.
+  Future<LoginResult> loginGoogle({
+    required String oauthIdToken,
+    required int browserFingerprint,
+  }) async {
+    final signInPackage = <String, Object>{
+      'BrowserFingerprint': browserFingerprint,
+      'UserProvider': 'google',
+      'OAuthIdToken': oauthIdToken,
+    };
+
+    return await _loginInternal(signInPackage);
+  }
+
+  /// Logs in to Nucleus One using an email and a one-time passcode.  A result is returned,
+  /// regardless of success.
+  ///
+  /// [email]: The user's email address.
+  ///
+  /// [oneTimePasscode]: The one-time passcode received on the user's external device.
+  ///
+  /// [browserFingerprint]: The browser's fingerprint.  Used to identify this specific browser on
+  /// the current device.
+  Future<LoginResult> loginEmailAndOTP({
+    required String email,
+    required String oneTimePasscode,
+    required int browserFingerprint,
+  }) async {
+    final signInPackage = {
+      'AuthType': 'email',
+      'BrowserFingerprint': browserFingerprint,
+      'Email': email,
+      'OTP': oneTimePasscode,
+      'UserProvider': 'email',
+    };
+
+    return await _loginInternal(signInPackage);
+  }
+
+  Future<LoginResult> _loginInternal(Map<String, Object> signInPackage) async {
+    final resp = await http.executePostRequest(
+      authenticated: false,
+      app: app,
+      apiRelativeUrlPath: http.ApiPaths.userLogin,
+      body: jsonEncode(signInPackage),
+    );
+
+    final ret = resp.cookies.firstWhereOrNull(
+      (element) => element.name == 'session_v1',
+    );
+
+    final sessionId = ret?.value;
+    final success = (sessionId != null) && sessionId.isNotEmpty;
+
+    return LoginResult(
+      success: success,
+      sessionId: success ? sessionId : null,
+      user: User(app: app),
+    );
+  }
+}
+
+class LoginResult {
+  final bool success;
+  final String? sessionId;
+  final User? user;
+
+  LoginResult({
+    required this.success,
+    this.sessionId,
+    this.user,
+  }) : assert((!success) || ((sessionId != null) && sessionId.isNotEmpty));
 }
