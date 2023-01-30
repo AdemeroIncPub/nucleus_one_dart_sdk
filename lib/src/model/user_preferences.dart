@@ -40,7 +40,8 @@ class UserPreferences with NucleusOneAppDependent {
       documentPropertiesOpen: apiModel.documentPropertiesOpen!,
       documentCommentsOpen: apiModel.documentCommentsOpen!,
       singlePagePreview: apiModel.singlePagePreview!,
-      selectedTwainDevice: SelectedTwainDevice.fromApiModel(apiModel.selectedTwainDevice!),
+      selectedTwainDevice:
+          SelectedTwainDevice.fromApiModel(apiModel.selectedTwainDevice!, app: app),
       disableTwainDeviceSoftware: apiModel.disableTwainDeviceSoftware!,
     );
   }

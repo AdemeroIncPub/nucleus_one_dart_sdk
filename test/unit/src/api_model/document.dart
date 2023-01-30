@@ -5,7 +5,7 @@ const documentJson =
         previewMetadataJson1 +
         r',' +
         previewMetadataJson2 +
-        r'],"ApprovalID":"","ApprovalCreatedOn":"0001-01-01T00:00:00Z","IsMarkedForPurge":false,"HasSinglePageImages":true,"SignatureSessionIsActive":false,"SignaturesCompletedOn":"0001-01-01T00:00:00Z","DocumentSubscriptionID":"","DocumentSubscriptionCreatedOn":"0001-01-01T00:00:00Z","ProcessName":"","ProcessElementName":"","Revision":0,"PaperSize":"","PaperOrientation":"","PaperMarginLeft":0,"PaperMarginRight":0,"PaperMarginTop":0,"PaperMarginBottom":0}';
+        r'],"ApprovalID":"","ApprovalCreatedOn":"0001-01-01T00:00:00Z","IsMarkedForPurge":false,"HasSinglePageImages":true,"SignatureSessionIsActive":false,"SignaturesCompletedOn":"0001-01-01T00:00:00Z","DocumentSubscriptionID":"","DocumentSubscriptionCreatedOn":"0001-01-01T00:00:00Z","ProcessName":"","ProcessElementName":"","Revision":0,"PaperSize":"","PaperOrientation":"","PaperMarginLeft":0.0,"PaperMarginRight":0.0,"PaperMarginTop":0.0,"PaperMarginBottom":0.0}';
 const documentCollectionJson =
     '{"Documents":[$documentJson],"Cursor":"QueryResultA","PageSize":24}';
 

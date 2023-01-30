@@ -51,8 +51,12 @@ class OrganizationProject with NucleusOneAppDependent {
     this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
-  factory OrganizationProject.fromApiModel(api_mod.OrganizationProject apiModel) {
+  factory OrganizationProject.fromApiModel(
+    api_mod.OrganizationProject apiModel, {
+    NucleusOneApp? app,
+  }) {
     return OrganizationProject(
+        app: app,
         id: apiModel.id!,
         organizationID: apiModel.organizationID!,
         accessType: apiModel.accessType!,

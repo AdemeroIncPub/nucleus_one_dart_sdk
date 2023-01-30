@@ -48,7 +48,7 @@ class OrganizationPackage with NucleusOneAppDependent {
   }) {
     return OrganizationPackage._(
       app: app,
-      organization: Organization.fromApiModel(apiModel.organization!),
+      organization: Organization.fromApiModel(apiModel.organization!, app: app),
       userID: apiModel.userID!,
       isMember: apiModel.isMember!,
       isExpiringSoon: apiModel.isExpiringSoon!,

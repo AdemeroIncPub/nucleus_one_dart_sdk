@@ -26,8 +26,12 @@ class ProjectMember with NucleusOneAppDependent {
     this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
-  factory ProjectMember.fromApiModel(api_mod.ProjectMember apiModel) {
+  factory ProjectMember.fromApiModel(
+    api_mod.ProjectMember apiModel, {
+    NucleusOneApp? app,
+  }) {
     return ProjectMember._(
+        app: app,
         id: apiModel.id!,
         createdOn: apiModel.createdOn!,
         organizationMemberID: apiModel.organizationMemberID!,
@@ -131,8 +135,12 @@ class Project with NucleusOneAppDependent {
     this.app = app ?? getIt.get<NucleusOneApp>();
   }
 
-  factory Project.fromApiModel(api_mod.Project apiModel) {
+  factory Project.fromApiModel(
+    api_mod.Project apiModel, {
+    NucleusOneApp? app,
+  }) {
     return Project._(
+        app: app,
         id: apiModel.id!,
         createdOn: apiModel.createdOn!,
         organizationID: apiModel.organizationID!,

@@ -160,12 +160,7 @@ void main() {
       final expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('ABC');
-          // TODO: VERIFY RETURN VALUE
-          // TODO: VERIFY RETURN VALUE
-          // TODO: VERIFY RETURN VALUE
-          // TODO: VERIFY RETURN VALUE
-          // TODO: VERIFY RETURN VALUE
-          // TODO: VERIFY RETURN VALUE
+
       // Test with default parameters
       await performHttpTest<DocumentPackage>(
         httpMethod: HttpMethods.get,
@@ -179,23 +174,21 @@ void main() {
     test('updateDocumentPackage method tests', () async {
       final document = getStandardN1Project().document('ABC');
       final docPkg = DocumentPackage.fromApiModel(
-          api_mod.DocumentPackage.fromJson(jsonDecode(documentPackageJson)));
+          api_mod.DocumentPackage.fromJson(jsonDecode(documentPackageJson)),
+          app: document.project.app);
+
       final expectedUrlPath = http.ApiPaths.organizationsProjectsDocumentPackagesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('ABC');
-          // TODO: VERIFY RETURN VALUE
-          // TODO: VERIFY RETURN VALUE
-          // TODO: VERIFY RETURN VALUE
-          // TODO: VERIFY RETURN VALUE
-          // TODO: VERIFY RETURN VALUE
-          // TODO: VERIFY RETURN VALUE
+
       // Test with default parameters
       await performHttpTest<DocumentPackage>(
-        httpMethod: HttpMethods.get,
+        httpMethod: HttpMethods.put,
         httpCallCallback: () => document.updateDocumentPackage(docPkg),
         responseBody: documentPackageJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
+        expectedRequestBody: documentPackageJson,
       );
     });
 

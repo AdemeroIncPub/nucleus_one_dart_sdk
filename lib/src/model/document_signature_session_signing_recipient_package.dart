@@ -23,10 +23,12 @@ class DocumentSignatureSessionSigningRecipientPackage with NucleusOneAppDependen
     return DocumentSignatureSessionSigningRecipientPackage._(
       app: app,
       requireAccessCode: apiModel.requireAccessCode!,
-      signingRecipient:
-          DocumentSignatureSessionSigningRecipient.fromApiModel(apiModel.signingRecipient!),
-      formFieldPackage:
-          DocumentSignatureSessionFormFieldPackage.fromApiModel(apiModel.formFieldPackage!),
+      signingRecipient: DocumentSignatureSessionSigningRecipient.fromApiModel(
+          apiModel.signingRecipient!,
+          app: app),
+      formFieldPackage: DocumentSignatureSessionFormFieldPackage.fromApiModel(
+          apiModel.formFieldPackage!,
+          app: app),
       serverDate: apiModel.serverDate!,
       contentPackage: DocumentContentPackage.fromApiModel(
         apiModel.contentPackage!,

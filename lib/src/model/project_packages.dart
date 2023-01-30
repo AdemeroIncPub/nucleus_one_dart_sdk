@@ -41,8 +41,8 @@ class ProjectPackage with NucleusOneAppDependent {
   }) {
     return ProjectPackage._(
       app: app,
-      tenant: Project.fromApiModel(apiModel.tenant!),
-      tenantMember: ProjectMember.fromApiModel(apiModel.tenantMember!),
+      tenant: Project.fromApiModel(apiModel.tenant!, app: app),
+      tenantMember: ProjectMember.fromApiModel(apiModel.tenantMember!, app: app),
       isAdmin: apiModel.isAdmin!,
     );
   }
