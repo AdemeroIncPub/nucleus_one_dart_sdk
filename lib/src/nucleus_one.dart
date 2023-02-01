@@ -5,13 +5,16 @@ import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:meta/meta.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
 import 'common/get_it.dart';
 import 'common/model.dart';
 import 'common/util.dart';
 import 'http.dart' as http;
 import 'api_model/organization_for_client.dart' as api_mod;
+import 'api_model/organization_membership_package.dart' as api_mod;
 import 'api_model/query_result.dart' as api_mod;
+import 'model/organization_membership_package.dart';
 
 /// The entry point for accessing Nucleus One.
 abstract class NucleusOne {
@@ -175,6 +178,33 @@ class NucleusOneApp {
     return await defineN1AppInScope(this, () {
       return OrganizationForClientCollectionQueryResult.fromApiModelOrganizationForClientCollection(
           apiModel);
+    });
+  }
+
+  /// Gets organization membership packages that the current user has access to.
+  ///
+  /// [organizationId]: An optional organization ID that the results should be limited to.
+  Future<QueryResult<OrganizationMembershipPackageCollection>> getOrganizationMembershipPackages({
+    String? organizationId,
+  }) async {
+    final url = (organizationId == null)
+        ? http.ApiPaths.organizationMembershipPackages
+        : http.ApiPaths.organizationMembershipPackagesFormat
+            .replaceOrgIdPlaceholder(organizationId);
+    final qp = http.StandardQueryParams.get();
+
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      apiRelativeUrlPath: url,
+      app: this,
+      queryParams: qp,
+    );
+
+    final apiModel = api_mod.QueryResult<api_mod.OrganizationMembershipPackageCollection>.fromJson(
+        jsonDecode(responseBody));
+
+    return await defineN1AppInScope(this, () {
+      return OrganizationMembershipPackageCollectionQueryResult
+          .fromApiModelOrganizationMembershipPackageCollection(apiModel);
     });
   }
 

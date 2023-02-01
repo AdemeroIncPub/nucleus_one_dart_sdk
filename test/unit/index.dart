@@ -25,6 +25,9 @@ import 'src/api_model/folder_hierarchies.dart' as api_mod__folder_hierarchies;
 import 'src/api_model/form_template.dart' as api_mod__form_template;
 import 'src/api_model/organization.dart' as api_mod__organization;
 import 'src/api_model/organization_for_client.dart' as api_mod__organization_for_client;
+import 'src/api_model/organization_member.dart' as api_mod__organization_member;
+import 'src/api_model/organization_membership_package.dart'
+    as api_mod__organization_membership_package;
 import 'src/api_model/organization_package.dart' as api_mod__organization_package;
 import 'src/api_model/organization_permissions.dart' as api_mod__organization_permissions;
 import 'src/api_model/organization_project.dart' as api_mod__organization_project;
@@ -89,6 +92,8 @@ import 'src/model/folder_hierarchies.dart' as mod__folder_hierarchies;
 import 'src/model/form_template.dart' as mod__form_template;
 import 'src/model/organization.dart' as mod__organization;
 import 'src/model/organization_for_client.dart' as mod__organization_for_client;
+import 'src/model/organization_member.dart' as mod__organization_member;
+import 'src/model/organization_membership_package.dart' as mod__organization_membership_package;
 import 'src/model/organization_package.dart' as mod__organization_package;
 import 'src/model/organization_permissions.dart' as mod__organization_permissions;
 import 'src/model/organization_project.dart' as mod__organization_project;
@@ -113,6 +118,7 @@ import 'src/model/user_profile.dart' as mod__user_profile;
 import 'src/model/user_organization.dart' as mod__user_organization;
 import 'src/model/user_organization_project.dart' as mod__user_organization_project;
 import 'src/nucleus_one.dart' as n1;
+import 'nucleus_one_dart_sdk.dart' as n1sdk;
 
 void main() {
   _apiModelTests();
@@ -121,6 +127,7 @@ void main() {
   _modelTests();
   http.main();
   n1.main();
+  n1sdk.main();
 }
 
 void _apiModelTests() {
@@ -150,6 +157,8 @@ void _apiModelTests() {
   api_mod__form_template.main();
   api_mod__organization.main();
   api_mod__organization_for_client.main();
+  api_mod__organization_member.main();
+  api_mod__organization_membership_package.main();
   api_mod__organization_package.main();
   api_mod__organization_permissions.main();
   api_mod__organization_project.main();
@@ -201,6 +210,8 @@ void _modelTests() {
   mod__form_template.main();
   mod__organization.main();
   mod__organization_for_client.main();
+  mod__organization_member.main();
+  mod__organization_membership_package.main();
   mod__organization_package.main();
   mod__organization_permissions.main();
   mod__organization_project.main();

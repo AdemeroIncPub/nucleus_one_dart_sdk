@@ -10,6 +10,7 @@ import '../api_model/field.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
 import '../api_model/organization_for_client.dart' as api_mod;
+import '../api_model/organization_membership_package.dart' as api_mod;
 import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/organization_project.dart' as api_mod;
 import '../api_model/support_error_event.dart' as api_mod;
@@ -56,6 +57,8 @@ class QueryResult<T> {
     api_mod.TaskCollection: (x) => api_mod.TaskCollection.fromJson(x),
     api_mod.OrganizationForClientCollection: (x) =>
         api_mod.OrganizationForClientCollection.fromJson(x),
+    api_mod.OrganizationMembershipPackageCollection: (x) =>
+        api_mod.OrganizationMembershipPackageCollection.fromJson(x),
     api_mod.OrganizationPackageCollection: (x) => api_mod.OrganizationPackageCollection.fromJson(x),
     api_mod.OrganizationProjectCollection: (x) => api_mod.OrganizationProjectCollection.fromJson(x),
     api_mod.SupportUserCollection: (x) => api_mod.SupportUserCollection.fromJson(x),

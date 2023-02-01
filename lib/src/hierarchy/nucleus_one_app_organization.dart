@@ -8,6 +8,7 @@ import '../common/get_it.dart';
 import '../common/string.dart';
 import '../common/util.dart';
 import '../http.dart' as http;
+import '../model/organization_membership_package.dart';
 import '../model/organization_permissions.dart';
 import '../model/organization_project.dart';
 import '../model/query_result.dart';
@@ -162,5 +163,10 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
         pageSize: apiModel.pageSize!,
       );
     });
+  }
+
+  /// Gets membership packages for this organization, which the current user has access to.
+  Future<QueryResult<OrganizationMembershipPackageCollection>> getMembershipPackages() async {
+    return app.getOrganizationMembershipPackages(organizationId: id);
   }
 }

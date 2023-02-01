@@ -2,6 +2,7 @@ import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
+import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
@@ -10,6 +11,7 @@ import '../../src/common.dart';
 import '../../src/mocks/http.dart';
 import '../../src/model_helper.dart';
 import 'api_model/organization_for_client.dart';
+import 'api_model/organization_membership_package.dart';
 
 void main() {
   group('NucleusOne class tests', () {
@@ -152,6 +154,34 @@ void main() {
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
         expectedRequestBody: '{"Header":"A","Value1":"B","Value2":"C","Value3":"D"}',
+      );
+    });
+
+    test('getOrganizationMembershipPackages method tests', () async {
+      String expectedUrlPath = http.ApiPaths.organizationMembershipPackages;
+
+      // Test with default parameters
+      await performHttpTest<QueryResult<OrganizationMembershipPackageCollection>>(
+        httpMethod: HttpMethods.get,
+        httpCallCallback: () => getStandardN1App().getOrganizationMembershipPackages(),
+        responseBody: organizationMembershipPackageCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+
+      const organizationId = 'orgId';
+      expectedUrlPath = http.ApiPaths.organizationMembershipPackagesFormat
+          .replaceOrgIdPlaceholder(organizationId);
+
+      // Test with an organization parameter
+      await performHttpTest<QueryResult<OrganizationMembershipPackageCollection>>(
+        httpMethod: HttpMethods.get,
+        httpCallCallback: () => getStandardN1App().getOrganizationMembershipPackages(
+          organizationId: organizationId,
+        ),
+        responseBody: organizationMembershipPackageCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
       );
     });
   });

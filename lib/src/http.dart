@@ -366,6 +366,9 @@ abstract class ApiPaths {
       '/formTemplatesPublic/<formTemplateId>/fields/<formTemplateFieldId>/listItems';
   static const formTemplatesPublicSubmissions = '/formTemplatesPublic/<formTemplateId>/submissions';
   static const logs = '/logs';
+  static const organizationMembershipPackages = '/organizationMembershipPackages';
+  static const organizationMembershipPackagesFormat =
+      '/organizationMembershipPackages/<organizationId>';
   static const organizations = '/organizations';
   static const organizationsOrganizationFormat = '/organizations/<organizationId>';
   static const organizationsPermissionsFormat = '/organizations/<organizationId>/permissions';

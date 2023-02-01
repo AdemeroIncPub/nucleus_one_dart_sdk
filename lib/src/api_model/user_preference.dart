@@ -42,7 +42,7 @@ class UserPreference extends Entity {
   @JsonKey(name: 'FloatValue')
   double? floatValue;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   String? mapValue;
 
   // coverage:ignore-start

@@ -6,6 +6,7 @@ import 'package:test/test.dart';
 import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
+import '../api_model/organization_membership_package.dart';
 import '../api_model/organization_permissions.dart';
 import '../api_model/organization_project.dart';
 import '../api_model/subscription_details.dart';
@@ -128,6 +129,21 @@ void main() {
           'getAll=true',
           'adminOnly=false',
         ],
+      );
+    });
+
+    test('getOrganizationMembershipPackages method tests', () async {
+      final org = getStandardN1Org();
+      final expectedUrlPath =
+          http.ApiPaths.organizationMembershipPackagesFormat.replaceOrgIdPlaceholder('orgId');
+
+      // Test with default parameters
+      await performHttpTest<QueryResult<OrganizationMembershipPackageCollection>>(
+        httpMethod: HttpMethods.get,
+        httpCallCallback: () => org.getMembershipPackages(),
+        responseBody: organizationMembershipPackageCollectionJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
       );
     });
   });

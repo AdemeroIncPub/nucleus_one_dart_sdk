@@ -18,6 +18,7 @@ import '../model/support_user.dart' as mod;
 import '../model/support_organization.dart' as mod;
 import '../model/support_error_event.dart' as mod;
 import '../model/organization_for_client.dart' as mod;
+import '../model/organization_membership_package.dart' as mod;
 import '../model/organization_package.dart' as mod;
 import '../model/organization_project.dart' as mod;
 import '../model/query_result.dart' as mod;
@@ -25,6 +26,7 @@ import '../model/user_organization_project.dart' as mod;
 import '../api_model/document.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_folder.dart' as api_mod;
+import '../api_model/organization_membership_package.dart' as api_mod;
 import '../api_model/organization_package.dart' as api_mod;
 import '../api_model/organization_project.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
@@ -488,6 +490,23 @@ abstract class OrganizationForClientCollectionQueryResult {
   }) {
     return mod.QueryResult(
       results: mod.OrganizationForClientCollection.fromApiModel(apiModel.results!, app: app),
+      cursor: apiModel.cursor!,
+      pageSize: apiModel.pageSize!,
+    );
+  }
+}
+
+/// Contains logic for working with [OrganizationMembershipPackageCollection] and [QueryResult] classes.
+abstract class OrganizationMembershipPackageCollectionQueryResult {
+  /// Creates a [OrganizationMembershipPackageCollection] instance from its respective [QueryResult2] instance.
+  static mod.QueryResult<mod.OrganizationMembershipPackageCollection>
+      fromApiModelOrganizationMembershipPackageCollection(
+    api_mod.QueryResult<api_mod.OrganizationMembershipPackageCollection> apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return mod.QueryResult(
+      results:
+          mod.OrganizationMembershipPackageCollection.fromApiModel(apiModel.results!, app: app),
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
