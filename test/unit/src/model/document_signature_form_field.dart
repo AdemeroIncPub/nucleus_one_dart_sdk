@@ -83,14 +83,6 @@ void main() {
   });
 
   group('DocumentSignatureFormFieldCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureFormFieldCollection), 1);
     });

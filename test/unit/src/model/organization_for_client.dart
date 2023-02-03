@@ -14,14 +14,6 @@ import '../api_model/organization_for_client.dart';
 
 void main() {
   group('OrganizationForClient class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.OrganizationForClient), 13);
     });
@@ -64,14 +56,6 @@ void main() {
   });
 
   group('OrganizationForClientCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.OrganizationForClientCollection), 1);
     });

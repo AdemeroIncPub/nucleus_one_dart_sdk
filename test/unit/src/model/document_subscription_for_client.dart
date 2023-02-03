@@ -13,14 +13,6 @@ import '../api_model/document_subscription_for_client.dart';
 
 void main() {
   group('DocumentSubscriptionForClient class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSubscriptionForClient), 16);
     });
@@ -60,14 +52,6 @@ void main() {
   });
 
   group('DocumentSubscriptionForClientCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSubscriptionForClientCollection), 1);
     });

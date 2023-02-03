@@ -11,14 +11,6 @@ import '../api_model/organization_permissions.dart';
 
 void main() {
   group('OrganizationPermissions class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.OrganizationPermissions), 6);
     });

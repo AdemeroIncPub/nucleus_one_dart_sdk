@@ -14,14 +14,6 @@ import '../api_model/form_template.dart';
 
 void main() {
   group('FormTemplate class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.FormTemplate), 12);
     });
@@ -54,14 +46,6 @@ void main() {
   });
 
   group('FormTemplateCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.FormTemplateCollection), 1);
     });
@@ -86,14 +70,6 @@ void main() {
   });
 
   group('FormTemplateFieldCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.FormTemplateFieldCollection), 1);
     });
@@ -121,14 +97,6 @@ void main() {
   });
 
   group('FormTemplateField class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Inherits from FormTemplateFieldMixin', () {
       expect(classIsSubtypeOf<FormTemplateField, FormTemplateFieldMixin>(), isTrue);
     });
@@ -178,14 +146,6 @@ void main() {
   });
 
   group('FormSubmissionField class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Inherits from FormTemplateFieldMixin', () {
       expect(classIsSubtypeOf<FormSubmissionField, FormTemplateFieldMixin>(), isTrue);
     });
@@ -273,14 +233,6 @@ void main() {
   });
 
   group('FormSubmissionPackageCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.FormSubmissionPackageCollection), 1);
     });
@@ -304,14 +256,6 @@ void main() {
   });
 
   group('FormSubmissionPackage class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.FormSubmissionPackage), 3);
     });

@@ -13,14 +13,6 @@ import '../api_model/document_signature_session_signing_recipient_package.dart';
 
 void main() {
   group('DocumentSignatureSessionRecipientFormFieldCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionRecipientFormFieldCollection),
           1);
@@ -46,14 +38,6 @@ void main() {
   });
 
   group('DocumentSignatureSessionRecipientFormField class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionRecipientFormField), 11);
     });
@@ -87,14 +71,6 @@ void main() {
   });
 
   group('DocumentSignatureSessionFormFieldPackage class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionFormFieldPackage), 7);
     });
@@ -126,14 +102,6 @@ void main() {
   });
 
   group('DocumentSignatureSessionSigningRecipient class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionSigningRecipient), 2);
     });
@@ -158,14 +126,6 @@ void main() {
   });
 
   group('DocumentSignatureSessionSigningRecipientPackage class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionSigningRecipientPackage), 5);
     });

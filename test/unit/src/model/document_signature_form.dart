@@ -11,14 +11,6 @@ import '../api_model/document_signature_form.dart';
 
 void main() {
   group('DocumentSignatureForm class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureForm), 13);
     });
@@ -53,14 +45,6 @@ void main() {
   });
 
   group('DocumentSignatureFormCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureFormCollection), 1);
     });

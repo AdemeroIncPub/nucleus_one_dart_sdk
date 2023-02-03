@@ -12,14 +12,6 @@ import '../api_model/document_signature_session.dart';
 
 void main() {
   group('DocumentSignatureSession class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureSession), 27);
     });
@@ -68,14 +60,6 @@ void main() {
   });
 
   group('DocumentSignatureSessionRecipient class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Serialization test', () async {
       Function deepEq = const DeepCollectionEquality().equals;
 
@@ -127,14 +111,6 @@ void main() {
   });
 
   group('DocumentSignatureSessionPackage class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionPackage), 4);
     });
@@ -162,14 +138,6 @@ void main() {
   });
 
   group('DocumentSignatureSessionPackageCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionPackageCollection), 1);
     });

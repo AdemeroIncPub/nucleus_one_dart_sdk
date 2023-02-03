@@ -13,14 +13,6 @@ import '../api_model/approval.dart';
 
 void main() {
   group('Approval class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.Approval), 36);
     });

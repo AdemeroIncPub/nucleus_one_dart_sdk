@@ -13,14 +13,6 @@ import '../api_model/field.dart';
 
 void main() {
   group('Field class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.Field), 22);
     });
@@ -63,14 +55,6 @@ void main() {
   });
 
   group('FieldCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.FieldCollection), 1);
     });

@@ -11,14 +11,6 @@ import '../api_model/user_preferences.dart';
 
 void main() {
   group('UserPreferences class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.UserPreferences), 13);
     });

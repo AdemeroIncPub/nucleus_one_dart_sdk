@@ -14,14 +14,6 @@ import '../api_model/organization_package.dart';
 
 void main() {
   group('OrganizationPackage class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.OrganizationPackage), 7);
     });
@@ -50,14 +42,6 @@ void main() {
   });
 
   group('OrganizationPackageCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.OrganizationPackageCollection), 1);
     });

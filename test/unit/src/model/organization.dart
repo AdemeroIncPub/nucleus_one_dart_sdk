@@ -12,14 +12,6 @@ import '../api_model/organization.dart';
 
 void main() {
   group('Organization class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.Organization), 23);
     });

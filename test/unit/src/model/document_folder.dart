@@ -13,14 +13,6 @@ import '../api_model/document_folder.dart';
 
 void main() {
   group('DocumentFolder class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentFolder), 22);
     });

@@ -12,14 +12,6 @@ import '../api_model/project_packages.dart';
 
 void main() {
   group('ProjectPackageCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.ProjectPackageCollection), 1);
     });
@@ -43,14 +35,6 @@ void main() {
   });
 
   group('ProjectPackage class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.ProjectPackage), 3);
     });

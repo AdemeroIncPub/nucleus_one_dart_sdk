@@ -11,14 +11,6 @@ import '../api_model/signature_form_template.dart';
 
 void main() {
   group('SignatureFormTemplate class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SignatureFormTemplate), 4);
     });
@@ -73,14 +65,6 @@ void main() {
   });
 
   group('SignatureFormTemplateCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SignatureFormTemplateCollection), 1);
     });
@@ -104,14 +88,6 @@ void main() {
   });
 
   group('SignatureFormTemplateField class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SignatureFormTemplateField), 10);
     });
@@ -185,14 +161,6 @@ void main() {
   });
 
   group('SignatureFormTemplateFieldCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SignatureFormTemplateFieldCollection), 1);
     });

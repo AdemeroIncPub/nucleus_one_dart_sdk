@@ -15,14 +15,6 @@ import '../api_model/organization_membership_package.dart';
 
 void main() {
   group('OrganizationMembershipPackage class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.OrganizationMembershipPackage), 8);
     });
@@ -53,14 +45,6 @@ void main() {
   });
 
   group('OrganizationMembershipPackageCollection class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.OrganizationMembershipPackageCollection), 1);
     });

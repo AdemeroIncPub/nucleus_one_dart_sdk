@@ -11,14 +11,6 @@ import '../api_model/document_upload.dart';
 
 void main() {
   group('DocumentUpload class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentUpload), 7);
     });

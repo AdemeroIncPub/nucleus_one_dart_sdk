@@ -13,14 +13,6 @@ import '../api_model/user_profile.dart';
 
 void main() {
   group('User class tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('getAddressBook method test', () async {
       await defineN1AppInScopeAsync(getStandardN1App(), () async {
         // Test with default parameters
