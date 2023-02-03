@@ -6,7 +6,6 @@ import 'package:nucleus_one_dart_sdk/src/api_model/task.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/util.dart';
-import 'package:nucleus_one_dart_sdk/src/model/task.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';

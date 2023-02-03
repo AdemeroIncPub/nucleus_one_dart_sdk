@@ -342,6 +342,11 @@ void main() {
       expect(e.status, 500);
       expect(e.message, 'xyz');
     });
+
+    test('toString method test', () {
+      final e = NucleusOneHttpException.fromJsonSafe(500, '{"message":"xyz"}');
+      expect(e.toString(), 'xyz');
+    });
   });
 
   group('StandardQueryParams class tests', () {

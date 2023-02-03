@@ -8,7 +8,7 @@ class SubscriptionInvoiceCollection extends EntityCollection<SubscriptionInvoice
   SubscriptionInvoiceCollection() : super();
 
   factory SubscriptionInvoiceCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(
+    return EntityCollection.fromJsonArray(
       json: json,
       instance: SubscriptionInvoiceCollection(),
       entityFromJsonCallback: (x) => SubscriptionInvoice.fromJson(x),

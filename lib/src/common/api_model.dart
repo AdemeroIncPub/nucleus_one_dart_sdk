@@ -27,7 +27,7 @@ abstract class EntityCollection<T extends Entity> {
   /// Creates an instance of the [EntityCollection<T>] class from JSON.
   @protected
   static TCollection
-      fromJson<TEntity extends Entity, TCollection extends EntityCollection<TEntity>>({
+      fromJsonArray<TEntity extends Entity, TCollection extends EntityCollection<TEntity>>({
     required List<dynamic> json,
     required TCollection instance,
     required TEntity Function(Map<String, dynamic>) entityFromJsonCallback,

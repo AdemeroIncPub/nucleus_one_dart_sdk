@@ -29,8 +29,8 @@ void main() {
         expect(apiModel.items.length, 1);
       }
 
-      final apiModelOrig =
-          api_mod.UserOrganizationCollection.fromJson(jsonDecode(userOrganizationCollectionJson));
+      final apiModelOrig = api_mod.UserOrganizationCollection.fromJsonArray(
+          jsonDecode(userOrganizationCollectionJson));
       performTests(apiModelOrig);
 
       await defineN1AppInScope(getStandardN1App(), () {

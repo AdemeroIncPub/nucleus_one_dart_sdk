@@ -6,6 +6,7 @@ import 'package:test/test.dart';
 import '../../../src/common.dart';
 import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
+import '../api_model/document_subscription_for_client.dart';
 import '../api_model/organization_membership_package.dart';
 import '../api_model/organization_permissions.dart';
 import '../api_model/organization_project.dart';
@@ -38,7 +39,7 @@ void main() {
 
     test('getPermissions method tests', () async {
       final expectedUrlPath =
-          http.ApiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', 'orgId');
+          http.ApiPaths.organizationsPermissionsFormat.replaceOrgIdPlaceholder('orgId');
       var org = getStandardN1Org();
 
       org = getStandardN1Org();
@@ -64,6 +65,21 @@ void main() {
           organizationId: '123',
         ),
         responseBody: subscriptionDetailsJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestQueryParams: [],
+      );
+    });
+
+    test('getDocumentSubscriptions method tests', () async {
+      final expectedUrlPath = http.ApiPaths.organizationsOrganizationDocumentSubscriptionsFormat
+          .replaceOrgIdPlaceholder('orgId');
+      final org = getStandardN1Org();
+
+      // Test with default parameters
+      await performHttpTest<QueryResult<DocumentSubscriptionForClientCollection>>(
+        httpMethod: HttpMethods.get,
+        httpCallCallback: () => org.getDocumentSubscriptions(),
+        responseBody: documentSubscriptionForClientCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
       );

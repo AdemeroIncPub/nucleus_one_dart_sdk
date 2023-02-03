@@ -1,7 +1,8 @@
 const organizationForClientJson =
-    '{"ID":"A","CreatedOn":"0001-01-01T00:00:00Z","Name":"B","CreatingUserID":"C","CreatingUserName":"D","CreatingUserEmail":"E","CrmAccountId":"F","SubscriptionRequired":true,"SubscriptionFreeUsers":0,"SubscriptionExpiration":"G","SearchIndexID":"H","BucketName":"I","Disabled":true,"IsMarkedForPurge":true,"PurgeDate":"J","UniqueNonReadOnlyOrganizationMembers":1,"UniqueReadOnlyOrganizationMembers":2,"UniqueFreeOrganizationMembers":3,"UniqueBillableOrganizationMembers":4}';
+    '{"ID":"A","CreatedOn":"0001-01-01T00:00:00Z","Name":"B","CreatedByUserID":"C","CreatedByUserName":"D","CreatedByUserEmail":"E","SubscriptionRequired":true,"SubscriptionFreeUsers":1,"SubscriptionExpiration":"H","UniqueNonReadOnlyOrganizationMembers":2,"UniqueReadOnlyOrganizationMembers":3,"UniqueFreeOrganizationMembers":4,"UniqueBillableOrganizationMembers":5}';
+const organizationForClientCollectionFromArrayJson = '[$organizationForClientJson]';
 const organizationForClientCollectionJson =
-    '{"Organizations":[$organizationForClientJson],"Cursor":"QueryResultA","PageSize":24}';
+    '{"Organizations":$organizationForClientCollectionFromArrayJson,"Cursor":"QueryResultA","PageSize":24}';
 
 void main() {
   /*

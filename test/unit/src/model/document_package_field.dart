@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_package_field.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/util.dart';
-import 'package:nucleus_one_dart_sdk/src/model/document_package_field.dart';
 
 import 'package:test/test.dart';
 

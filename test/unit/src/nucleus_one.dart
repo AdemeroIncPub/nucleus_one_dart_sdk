@@ -69,36 +69,17 @@ void main() {
     });
 
     test('getOrganization method tests', () async {
-      // final org = getStandardN1Org();
-      // final expectedUrlPath =
-      //     http.apiPaths.organizationsOrganizationFormat.replaceOrgIdPlaceholder(org.id);
-      final expectedUrlPath = http.ApiPaths.organizations;
+      final org = getStandardN1Org();
+      final expectedUrlPath =
+          http.ApiPaths.organizationsOrganizationFormat.replaceOrgIdPlaceholder(org.id);
 
       await performHttpTest<void>(
         httpMethod: HttpMethods.get,
-        httpCallCallback: () => getStandardN1App().getOrganization(organizationId: 'A'),
-        responseBody: organizationForClientCollectionJson,
+        httpCallCallback: () => getStandardN1App().getOrganization(organizationId: org.id),
+        responseBody: organizationForClientJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: [],
       );
-
-      // Test that an eror is thrown when the requested org is not found.  This is only necessary
-      // untilthe proper implementation is in place in the N1 API.  See the getOrganization method
-      // for details.
-      final pt = performHttpTest<void>(
-        httpMethod: HttpMethods.get,
-        httpCallCallback: () => getStandardN1App().getOrganization(organizationId: '123'),
-        responseBody: organizationForClientCollectionJson,
-        expectedRequestUrlPath: expectedUrlPath,
-        expectedRequestQueryParams: [],
-      );
-
-      expect(
-          () => pt,
-          throwsA(allOf(
-            TypeMatcher<NucleusOneHttpException>(),
-            predicate((NucleusOneHttpException e) => (e.status == 404)),
-          )));
     });
 
     test('getOrganizations method tests', () async {
@@ -122,6 +103,20 @@ void main() {
         expectedRequestQueryParams: [
           'cursor=A',
         ],
+      );
+    });
+
+    test('addOrganizations method tests', () async {
+      final expectedUrlPath = http.ApiPaths.organizations;
+
+      // Test with default parameters
+      await performHttpTest<OrganizationForClientCollection>(
+        httpMethod: HttpMethods.post,
+        httpCallCallback: () => getStandardN1App().addOrganizations(names: ['Test']),
+        responseBody: organizationForClientCollectionFromArrayJson,
+        expectedRequestUrlPath: expectedUrlPath,
+        expectedRequestBody: '[{"Name":"Test"}]',
+        expectedRequestQueryParams: [],
       );
     });
 

@@ -8,7 +8,7 @@ class SignatureFormTemplateCollection extends EntityCollection<SignatureFormTemp
   SignatureFormTemplateCollection() : super();
 
   factory SignatureFormTemplateCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(
+    return EntityCollection.fromJsonArray(
       json: json,
       instance: SignatureFormTemplateCollection(),
       entityFromJsonCallback: (x) => SignatureFormTemplate.fromJson(x),
@@ -54,7 +54,7 @@ class SignatureFormTemplateFieldCollection extends EntityCollection<SignatureFor
   SignatureFormTemplateFieldCollection() : super();
 
   factory SignatureFormTemplateFieldCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(
+    return EntityCollection.fromJsonArray(
       json: json,
       instance: SignatureFormTemplateFieldCollection(),
       entityFromJsonCallback: (x) => SignatureFormTemplateField.fromJson(x),

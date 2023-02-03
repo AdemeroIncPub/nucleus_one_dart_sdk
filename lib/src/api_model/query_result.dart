@@ -6,6 +6,7 @@ import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
 import '../api_model/document_folder.dart' as api_mod;
 import '../api_model/document_results.dart' as api_mod;
+import '../api_model/document_subscription_for_client.dart' as api_mod;
 import '../api_model/field.dart' as api_mod;
 import '../api_model/folder_hierarchies.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
@@ -50,6 +51,8 @@ class QueryResult<T> {
     api_mod.DocumentCollection: (x) => api_mod.DocumentCollection.fromJson(x),
     api_mod.DocumentFolderCollection: (x) => api_mod.DocumentFolderCollection.fromJson(x),
     api_mod.DocumentResultCollection: (x) => api_mod.DocumentResultCollection.fromJson(x),
+    api_mod.DocumentSubscriptionForClientCollection: (x) =>
+        api_mod.DocumentSubscriptionForClientCollection.fromJson(x),
     api_mod.FieldCollection: (x) => api_mod.FieldCollection.fromJson(x),
     api_mod.ApprovalCollection: (x) => api_mod.ApprovalCollection.fromJson(x),
     api_mod.FolderHierarchyCollection: (x) => api_mod.FolderHierarchyCollection.fromJson(x),

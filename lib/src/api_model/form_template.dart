@@ -89,7 +89,7 @@ class FormTemplateFieldCollection extends EntityCollection<FormTemplateField> {
   FormTemplateFieldCollection() : super();
 
   factory FormTemplateFieldCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(
+    return EntityCollection.fromJsonArray(
       json: json,
       instance: FormTemplateFieldCollection(),
       entityFromJsonCallback: (x) => FormTemplateField.fromJson(x),
@@ -201,7 +201,7 @@ class FormSubmissionPackageCollection extends EntityCollection<FormSubmissionPac
   FormSubmissionPackageCollection() : super();
 
   factory FormSubmissionPackageCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(
+    return EntityCollection.fromJsonArray(
       json: json,
       instance: FormSubmissionPackageCollection(),
       entityFromJsonCallback: (x) => FormSubmissionPackage.fromJson(x),

@@ -48,7 +48,7 @@ class UserOrganizationCollection extends EntityCollection<UserOrganization> {
 
   /// This JSON structure has an array at its root, which is not currently implicitly supported by json_serializable.
   /// https://github.com/google/json_serializable.dart/issues/648
-  factory UserOrganizationCollection.fromJson(List<dynamic> json) {
+  factory UserOrganizationCollection.fromJsonArray(List<dynamic> json) {
     return UserOrganizationCollection()
       ..items = json.map((m) => UserOrganization.fromJson(m)).toList();
   }

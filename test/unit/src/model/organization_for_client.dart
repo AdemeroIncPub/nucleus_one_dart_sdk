@@ -23,7 +23,7 @@ void main() {
     });
 
     test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.OrganizationForClient), 19);
+      expect(getClassPublicFieldCount(api_mod.OrganizationForClient), 13);
     });
 
     test('Serialization test', () async {
@@ -31,22 +31,16 @@ void main() {
         expect(apiModel.id, 'A');
         expect(apiModel.createdOn, '0001-01-01T00:00:00Z');
         expect(apiModel.name, 'B');
-        expect(apiModel.creatingUserID, 'C');
-        expect(apiModel.creatingUserName, 'D');
-        expect(apiModel.creatingUserEmail, 'E');
-        expect(apiModel.crmAccountId, 'F');
+        expect(apiModel.createdByUserID, 'C');
+        expect(apiModel.createdByUserName, 'D');
+        expect(apiModel.createdByUserEmail, 'E');
         expect(apiModel.subscriptionRequired, true);
-        expect(apiModel.subscriptionFreeUsers, 0);
-        expect(apiModel.subscriptionExpiration, 'G');
-        expect(apiModel.searchIndexID, 'H');
-        expect(apiModel.bucketName, 'I');
-        expect(apiModel.disabled, true);
-        expect(apiModel.isMarkedForPurge, true);
-        expect(apiModel.purgeDate, 'J');
-        expect(apiModel.uniqueNonReadOnlyOrganizationMembers, 1);
-        expect(apiModel.uniqueReadOnlyOrganizationMembers, 2);
-        expect(apiModel.uniqueFreeOrganizationMembers, 3);
-        expect(apiModel.uniqueBillableOrganizationMembers, 4);
+        expect(apiModel.subscriptionFreeUsers, 1);
+        expect(apiModel.subscriptionExpiration, 'H');
+        expect(apiModel.uniqueNonReadOnlyOrganizationMembers, 2);
+        expect(apiModel.uniqueReadOnlyOrganizationMembers, 3);
+        expect(apiModel.uniqueFreeOrganizationMembers, 4);
+        expect(apiModel.uniqueBillableOrganizationMembers, 5);
       }
 
       final apiModelOrig =

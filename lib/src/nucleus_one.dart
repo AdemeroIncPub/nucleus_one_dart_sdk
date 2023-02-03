@@ -14,7 +14,6 @@ import 'http.dart' as http;
 import 'api_model/organization_for_client.dart' as api_mod;
 import 'api_model/organization_membership_package.dart' as api_mod;
 import 'api_model/query_result.dart' as api_mod;
-import 'model/organization_membership_package.dart';
 
 /// The entry point for accessing Nucleus One.
 abstract class NucleusOne {
@@ -135,26 +134,18 @@ class NucleusOneApp {
   Future<OrganizationForClient> getOrganization({
     required String organizationId,
   }) async {
-    // This will be the correct implementation when the GET operation is implemented in the API
-    /*
     final qp = http.StandardQueryParams.get();
 
     final responseBody = await http.executeGetRequestWithTextResponse(
-      apiRelativeUrlPath: apiRelativeUrlPath: http.apiPaths.organizationsOrganizationFormat.replaceOrgIdPlaceholder(organizationId),
-      this,
-      queryParams: qpms: qp,
+      apiRelativeUrlPath:
+          http.ApiPaths.organizationsOrganizationFormat.replaceOrgIdPlaceholder(organizationId),
+      app: this,
+      queryParams: qp,
     );
     final apiModel = api_mod.OrganizationForClient.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(this, () {
       return OrganizationForClient.fromApiModel(apiModel);
     });
-    */
-
-    final orgs = await getOrganizations();
-    return orgs.results.items.firstWhere(
-      (x) => x.id == organizationId,
-      orElse: () => throw NucleusOneHttpException(status: 404),
-    );
   }
 
   /// Gets organizations that the current user is a member of, by page.
@@ -178,6 +169,27 @@ class NucleusOneApp {
     return await defineN1AppInScope(this, () {
       return OrganizationForClientCollectionQueryResult.fromApiModelOrganizationForClientCollection(
           apiModel);
+    });
+  }
+
+  /// Add one or more organizations.
+  ///
+  /// [names]: A list of organization names; one for each organization to add.
+  Future<OrganizationForClientCollection> addOrganizations({
+    required List<String> names,
+  }) async {
+    final orgNames = names.map((x) => <String, String>{'Name': x}).toList();
+    final responseBody = await http.executePostRequestWithTextResponse(
+      apiRelativeUrlPath: http.ApiPaths.organizations,
+      app: this,
+      body: jsonEncode(orgNames),
+    );
+
+    final apiModel =
+        api_mod.OrganizationForClientCollection.fromJsonArray(jsonDecode(responseBody));
+
+    return await defineN1AppInScope(this, () {
+      return OrganizationForClientCollection.fromApiModel(apiModel);
     });
   }
 

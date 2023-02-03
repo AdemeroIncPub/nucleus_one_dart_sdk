@@ -8,7 +8,7 @@ class FieldListItemCollection extends EntityCollection<FieldListItem> {
   FieldListItemCollection() : super();
 
   factory FieldListItemCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(
+    return EntityCollection.fromJsonArray(
       json: json,
       instance: FieldListItemCollection(),
       entityFromJsonCallback: (x) => FieldListItem.fromJson(x),

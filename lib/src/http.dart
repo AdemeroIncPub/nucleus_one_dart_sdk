@@ -124,32 +124,31 @@ Future<HttpClientResponse> _executeStandardHttpRequest({
 
   HttpClientRequest clientReq;
   HttpClient? httpClient;
-  late HttpClientResponse resp;
+  final HttpClientResponse resp;
 
   try {
     httpClient = getStandardHttpClient();
 
     {
-      final qpAsString = ((queryParams == null) || queryParams.isEmpty)
-          ? ''
-          : '?${getQueryParamsString(queryParams)}';
+      final qpAsString =
+          (queryParams?.isNotEmpty == true) ? '?${getQueryParamsString(queryParams!)}' : '';
       final fullUrl = app.getFullUrl(apiRelativeUrlPath) + qpAsString;
       final parsedUri = Uri.parse(fullUrl);
 
-      switch (method) {
-        case _HttpMethod.delete:
-          clientReq = await httpClient.deleteUrl(parsedUri);
-          break;
-        case _HttpMethod.get:
-          clientReq = await httpClient.getUrl(parsedUri);
-          break;
-        case _HttpMethod.post:
-          clientReq = await httpClient.postUrl(parsedUri);
-          break;
-        case _HttpMethod.put:
-          clientReq = await httpClient.putUrl(parsedUri);
-          break;
+      Future<HttpClientRequest> getHttpRequestHandler() async {
+        switch (method) {
+          case _HttpMethod.delete:
+            return httpClient!.deleteUrl(parsedUri);
+          case _HttpMethod.get:
+            return httpClient!.getUrl(parsedUri);
+          case _HttpMethod.post:
+            return httpClient!.postUrl(parsedUri);
+          case _HttpMethod.put:
+            return httpClient!.putUrl(parsedUri);
+        }
       }
+
+      clientReq = await getHttpRequestHandler();
     }
 
     if (authenticated) {
@@ -371,6 +370,8 @@ abstract class ApiPaths {
       '/organizationMembershipPackages/<organizationId>';
   static const organizations = '/organizations';
   static const organizationsOrganizationFormat = '/organizations/<organizationId>';
+  static const organizationsOrganizationDocumentSubscriptionsFormat =
+      '/organizations/<organizationId>/documentSubscriptions';
   static const organizationsPermissionsFormat = '/organizations/<organizationId>/permissions';
   static const organizationsProjectsApprovalActionsApproveFormat =
       '/organizations/<organizationId>/projects/<projectId>/approvalActions/approve';
@@ -561,5 +562,10 @@ class NucleusOneHttpException implements Exception {
       message = json;
     }
     return NucleusOneHttpException(status: status, message: message);
+  }
+
+  @override
+  String toString() {
+    return message ?? '';
   }
 }

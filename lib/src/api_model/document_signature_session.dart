@@ -219,7 +219,7 @@ class DocumentSignatureSessionPackageCollection
   DocumentSignatureSessionPackageCollection() : super();
 
   factory DocumentSignatureSessionPackageCollection.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(
+    return EntityCollection.fromJsonArray(
       json: json,
       instance: DocumentSignatureSessionPackageCollection(),
       entityFromJsonCallback: (x) => DocumentSignatureSessionPackage.fromJson(x),

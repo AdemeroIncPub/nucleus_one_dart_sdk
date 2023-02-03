@@ -8,7 +8,7 @@ class AddressBook extends EntityCollection<AddressBookItem> {
   AddressBook() : super();
 
   factory AddressBook.fromJson(List<dynamic> json) {
-    return EntityCollection.fromJson(
+    return EntityCollection.fromJsonArray(
       json: json,
       instance: AddressBook(),
       entityFromJsonCallback: (x) => AddressBookItem.fromJson(x),

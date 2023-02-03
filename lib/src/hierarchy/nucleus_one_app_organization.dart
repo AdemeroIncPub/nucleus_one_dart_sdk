@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../api_model/document_subscription_for_client.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/organization_permissions.dart' as api_mod;
 import '../api_model/organization_project.dart' as api_mod;
@@ -8,6 +9,7 @@ import '../common/get_it.dart';
 import '../common/string.dart';
 import '../common/util.dart';
 import '../http.dart' as http;
+import '../model/document_subscription_for_client.dart';
 import '../model/organization_membership_package.dart';
 import '../model/organization_permissions.dart';
 import '../model/organization_project.dart';
@@ -55,17 +57,39 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     );
   }
 
-  /// Gets all tenants of this organization.
+  /// Gets the current user's permissions within this organization.
   Future<OrganizationPermissions> getPermissions() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
-      apiRelativeUrlPath:
-          http.ApiPaths.organizationsPermissionsFormat.replaceFirst('<organizationId>', id),
+      apiRelativeUrlPath: http.ApiPaths.organizationsPermissionsFormat.replaceOrgIdPlaceholder(id),
       app: app,
     );
 
     final apiModel = api_mod.OrganizationPermissions.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(app, () {
       return OrganizationPermissions.fromApiModel(apiModel);
+    });
+  }
+
+  /// Gets the current user's document subscriptions within this organization.
+  Future<QueryResult<DocumentSubscriptionForClientCollection>> getDocumentSubscriptions() async {
+    final responseBody = await http.executeGetRequestWithTextResponse(
+      apiRelativeUrlPath: http.ApiPaths.organizationsOrganizationDocumentSubscriptionsFormat
+          .replaceOrgIdPlaceholder(id),
+      app: app,
+    );
+
+    final apiModel = api_mod.QueryResult<api_mod.DocumentSubscriptionForClientCollection>.fromJson(
+        jsonDecode(responseBody));
+
+    return await defineN1AppInScope(app, () {
+      return QueryResult(
+        results: DocumentSubscriptionForClientCollection(
+            items: apiModel.results!.documentSubscriptions
+                ?.map((x) => DocumentSubscriptionForClient.fromApiModel(x))
+                .toList()),
+        cursor: apiModel.cursor!,
+        pageSize: apiModel.pageSize!,
+      );
     });
   }
 

@@ -3,8 +3,6 @@ import 'package:nucleus_one_dart_sdk/src/api_model/task.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
-import 'package:nucleus_one_dart_sdk/src/model/task.dart';
-import 'package:nucleus_one_dart_sdk/src/model/task_comment.dart';
 import 'package:test/test.dart';
 import '../../../src/assertions.dart';
 import '../api_model/task.dart';

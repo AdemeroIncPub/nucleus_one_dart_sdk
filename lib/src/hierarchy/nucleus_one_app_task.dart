@@ -4,13 +4,11 @@ import '../api_model/query_result.dart' as api_mod;
 import '../common/get_it.dart';
 import '../common/string.dart';
 import '../common/util.dart';
-import '../model/task.dart';
 import '../http.dart' as http;
 import '../api_model/task.dart' as api_mod;
 import '../../nucleus_one_dart_sdk.dart';
 import '../common/model.dart';
 import '../api_model/task_comment.dart' as api_mod;
-import '../model/task_comment.dart';
 
 /// Performs operations on a specific task.
 class NucleusOneAppTask with NucleusOneAppProjectDependent {
