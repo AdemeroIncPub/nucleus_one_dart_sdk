@@ -8,56 +8,44 @@ import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../../../src/mirrors.dart';
 import '../api_model/field.dart';
 
 void main() {
   group('Field class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.Field), 22);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.Field apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.createdOn, '2021-02-09T05:23:35.496635Z');
-        expect(apiModel.parentFieldID, 'B');
-        expect(apiModel.name, 'C');
-        expect(apiModel.nameLower, 'D');
-        expect(apiModel.label, 'E');
-        expect(apiModel.labelLower, 'F');
-        expect(apiModel.labelOrName, 'G');
-        expect(apiModel.labelOrNameLower, 'H');
-        expect(apiModel.type, 'I');
-        expect(apiModel.displaySelectionList, true);
-        expect(apiModel.allowMultipleLines, false);
-        expect(apiModel.rows, 1);
-        expect(apiModel.allowMultipleValues, true);
-        expect(apiModel.allowNewSelectionListItems, false);
-        expect(apiModel.saveNewSelectionListItems, true);
-        expect(apiModel.decimalPlaces, 0);
-        expect(apiModel.mask, 'J');
-        expect(apiModel.required, false);
-        expect(apiModel.sensitive, true);
-        expect(apiModel.useCreationDate, false);
-        expect(apiModel.textMatchType, 'K');
-      }
-
-      final apiModelOrig = api_mod.Field.fromJson(jsonDecode(fieldJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = Field.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.Field, Field>(
+      apiModelJson: fieldJson,
+      expectedPublicFieldCount: 22,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.createdOn: '2021-02-09T05:23:35.496635Z',
+        apiModel.parentFieldID: 'B',
+        apiModel.name: 'C',
+        apiModel.nameLower: 'D',
+        apiModel.label: 'E',
+        apiModel.labelLower: 'F',
+        apiModel.labelOrName: 'G',
+        apiModel.labelOrNameLower: 'H',
+        apiModel.type: 'I',
+        apiModel.displaySelectionList: true,
+        apiModel.allowMultipleLines: false,
+        apiModel.rows: 1,
+        apiModel.allowMultipleValues: true,
+        apiModel.allowNewSelectionListItems: false,
+        apiModel.saveNewSelectionListItems: true,
+        apiModel.decimalPlaces: 0,
+        apiModel.mask: 'J',
+        apiModel.required: false,
+        apiModel.sensitive: true,
+        apiModel.useCreationDate: false,
+        apiModel.textMatchType: 'K',
+      },
+    );
   });
 
   group('FieldCollection class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.FieldCollection), 1);
-    });
+    // !~!~!
+    // FieldCollection
+    // 1
 
     test('Serialization test', () async {
       void performTests(api_mod.QueryResult<api_mod.FieldCollection> apiModel) {

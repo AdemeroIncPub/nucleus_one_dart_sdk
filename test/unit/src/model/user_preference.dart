@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/user_preference.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
-import '../../../src/mirrors.dart';
 import '../api_model/user_preference.dart';
 import '../../../src/common.dart';
 import '../../../src/model_helper.dart';
@@ -14,32 +10,21 @@ import '../../../src/mocks/http.dart';
 
 void main() {
   group('UserPreference class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.UserPreference), 9);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.UserPreference apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.userID, 'B');
-        expect(apiModel.userName, 'C');
-        expect(apiModel.userEmail, 'D');
-        expect(apiModel.stringValue, 'E');
-        expect(apiModel.boolValue, false);
-        expect(apiModel.intValue, 0);
-        expect(apiModel.floatValue, 0.1);
-        expect(apiModel.mapValue, '[{"0":"A","1":"B","2":"C"}]');
-      }
-
-      final apiModelOrig = api_mod.UserPreference.fromJson(jsonDecode(userPreferenceJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = UserPreference.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.UserPreference, UserPreference>(
+      apiModelJson: userPreferenceJson,
+      expectedPublicFieldCount: 9,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.userID: 'B',
+        apiModel.userName: 'C',
+        apiModel.userEmail: 'D',
+        apiModel.stringValue: 'E',
+        apiModel.boolValue: false,
+        apiModel.intValue: 0,
+        apiModel.floatValue: 0.1,
+        apiModel.mapValue: '[{"0":"A","1":"B","2":"C"}]',
+      },
+    );
 
     test('getById method tests', () async {
       final expectedUrlPath =

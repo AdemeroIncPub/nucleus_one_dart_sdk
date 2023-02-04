@@ -10,7 +10,6 @@ import 'src/api_model/document_folder.dart' as api_mod__document_folder;
 import 'src/api_model/document_for_client.dart' as api_mod__document_for_client;
 import 'src/api_model/document_package.dart' as api_mod__document_package;
 import 'src/api_model/document_package_field.dart' as api_mod__document_package_field;
-import 'src/api_model/document_results.dart' as api_mod__document_results;
 import 'src/api_model/document_signature_form.dart' as api_mod__document_signature_form;
 import 'src/api_model/document_signature_form_field.dart' as api_mod__document_signature_form_field;
 import 'src/api_model/document_signature_session.dart' as api_mod__document_signature_session;
@@ -143,7 +142,6 @@ void _apiModelTests() {
   api_mod__document_for_client.main();
   api_mod__document_package.main();
   api_mod__document_package_field.main();
-  api_mod__document_results.main();
   api_mod__document_signature_form.main();
   api_mod__document_signature_form_field.main();
   api_mod__document_signature_session.main();

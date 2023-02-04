@@ -13,62 +13,43 @@ import '../api_model/document_folder.dart';
 
 void main() {
   group('DocumentFolder class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.DocumentFolder), 22);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.DocumentFolder apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.uniqueID, 'B');
-        expect(apiModel.parentID, 'C');
-        expect(apiModel.ancestorIDs, isA<List<String>>());
-        expect(apiModel.ancestorIDs!.length, 1);
-        expect(apiModel.ancestorIDs![0], 'D');
-        expect(apiModel.organizationID, 'E');
-        expect(apiModel.projectID, 'F');
-        expect(apiModel.projectName, 'G');
-        expect(apiModel.projectAccessType, 'H');
-        expect(apiModel.createdOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.createdByUserEmail, 'I');
-        expect(apiModel.createdByUserName, 'J');
-        expect(apiModel.createdByUserID, 'K');
-        expect(apiModel.modifiedOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.modifiedByUserEmail, 'L');
-        expect(apiModel.modifiedByUserName, 'M');
-        expect(apiModel.modifiedByUserID, 'N');
-        expect(apiModel.name, 'O');
-        expect(apiModel.nameLower, 'P');
-        expect(apiModel.depth, 1);
-        expect(apiModel.ancestorAssignmentUserEmails, isA<List<String>>());
-        expect(apiModel.ancestorAssignmentUserEmails!.length, 1);
-        expect(apiModel.ancestorAssignmentUserEmails![0], 'Q');
-        expect(apiModel.assignmentUserEmails, isA<List<String>>());
-        expect(apiModel.assignmentUserEmails!.length, 1);
-        expect(apiModel.assignmentUserEmails![0], 'R');
-        expect(apiModel.hexColor, 'S');
-      }
-
-      final apiModelOrig = api_mod.DocumentFolder.fromJson(jsonDecode(documentFolderJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = DocumentFolder.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.DocumentFolder, DocumentFolder>(
+      apiModelJson: documentFolderJson,
+      expectedPublicFieldCount: 22,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.uniqueID: 'B',
+        apiModel.parentID: 'C',
+        apiModel.ancestorIDs: isA<List<String>>(),
+        apiModel.ancestorIDs!.length: 1,
+        apiModel.ancestorIDs![0]: 'D',
+        apiModel.organizationID: 'E',
+        apiModel.projectID: 'F',
+        apiModel.projectName: 'G',
+        apiModel.projectAccessType: 'H',
+        apiModel.createdOn: '0001-01-01T00:00:00Z',
+        apiModel.createdByUserEmail: 'I',
+        apiModel.createdByUserName: 'J',
+        apiModel.createdByUserID: 'K',
+        apiModel.modifiedOn: '0001-01-01T00:00:00Z',
+        apiModel.modifiedByUserEmail: 'L',
+        apiModel.modifiedByUserName: 'M',
+        apiModel.modifiedByUserID: 'N',
+        apiModel.name: 'O',
+        apiModel.nameLower: 'P',
+        apiModel.depth: 1,
+        apiModel.ancestorAssignmentUserEmails: isA<List<String>>(),
+        apiModel.ancestorAssignmentUserEmails!.length: 1,
+        apiModel.ancestorAssignmentUserEmails![0]: 'Q',
+        apiModel.assignmentUserEmails: isA<List<String>>(),
+        apiModel.assignmentUserEmails!.length: 1,
+        apiModel.assignmentUserEmails![0]: 'R',
+        apiModel.hexColor: 'S',
+      },
+    );
   });
 
-  group('DocumentFolderCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('DocumentFolderCollection class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentFolderCollection), 1);
     });

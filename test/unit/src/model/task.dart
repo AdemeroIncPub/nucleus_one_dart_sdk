@@ -13,77 +13,50 @@ import '../../../src/mirrors.dart';
 import '../api_model/task.dart';
 
 void main() {
-  group('Task tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.Task), 41);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.Task apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.createdOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.modifiedOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.createdByUserID, 'B');
-        expect(apiModel.createdByUserEmail, 'C');
-        expect(apiModel.createdByUserName, 'D');
-        expect(apiModel.completedOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.completedByUserID, 'E');
-        expect(apiModel.completedByUserEmail, 'F');
-        expect(apiModel.completedByUserName, 'G');
-        expect(apiModel.modifiedByUserID, 'H');
-        expect(apiModel.modifiedByUserEmail, 'I');
-        expect(apiModel.modifiedByUserName, 'J');
-        expect(apiModel.revision, 0);
-        expect(apiModel.result, 'K');
-        expect(apiModel.name, 'L');
-        expect(apiModel.nameLower, 'M');
-        expect(apiModel.description, 'N');
-        expect(apiModel.descriptionHtml, 'O');
-        expect(apiModel.descriptionRichTextJson, 'P');
-        expect(apiModel.dueOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.dueOnModifiedOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.primaryDocument, isA<api_mod.Document>());
-        expect(apiModel.otherDocuments, isA<List<api_mod.Document>>());
-        expect(apiModel.parentTaskID, 'T');
-        expect(apiModel.processID, 'U');
-        expect(apiModel.processName, 'V');
-        expect(apiModel.processNameLower, 'W');
-        expect(apiModel.processElementID, 'X');
-        expect(apiModel.processElementName, 'Y');
-        expect(apiModel.processElementNameLower, 'Z');
-        expect(apiModel.reminder7Day, '0001-01-01T00:00:00Z');
-        expect(apiModel.reminder3Day, '0001-01-01T00:00:00Z');
-        expect(apiModel.reminder1Day, '0001-01-01T00:00:00Z');
-      }
-
-      final apiModelOrig = api_mod.Task.fromJson(jsonDecode(taskJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = Task.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+  group('Task class tests', () {
+    performStandardModelTests<api_mod.Task, Task>(
+      apiModelJson: taskJson,
+      expectedPublicFieldCount: 41,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.createdOn: '0001-01-01T00:00:00Z',
+        apiModel.modifiedOn: '0001-01-01T00:00:00Z',
+        apiModel.createdByUserID: 'B',
+        apiModel.createdByUserEmail: 'C',
+        apiModel.createdByUserName: 'D',
+        apiModel.completedOn: '0001-01-01T00:00:00Z',
+        apiModel.completedByUserID: 'E',
+        apiModel.completedByUserEmail: 'F',
+        apiModel.completedByUserName: 'G',
+        apiModel.modifiedByUserID: 'H',
+        apiModel.modifiedByUserEmail: 'I',
+        apiModel.modifiedByUserName: 'J',
+        apiModel.revision: 0,
+        apiModel.result: 'K',
+        apiModel.name: 'L',
+        apiModel.nameLower: 'M',
+        apiModel.description: 'N',
+        apiModel.descriptionHtml: 'O',
+        apiModel.descriptionRichTextJson: 'P',
+        apiModel.dueOn: '0001-01-01T00:00:00Z',
+        apiModel.dueOnModifiedOn: '0001-01-01T00:00:00Z',
+        apiModel.primaryDocument: isA<api_mod.Document>(),
+        apiModel.otherDocuments: isA<List<api_mod.Document>>(),
+        apiModel.parentTaskID: 'T',
+        apiModel.processID: 'U',
+        apiModel.processName: 'V',
+        apiModel.processNameLower: 'W',
+        apiModel.processElementID: 'X',
+        apiModel.processElementName: 'Y',
+        apiModel.processElementNameLower: 'Z',
+        apiModel.reminder7Day: '0001-01-01T00:00:00Z',
+        apiModel.reminder3Day: '0001-01-01T00:00:00Z',
+        apiModel.reminder1Day: '0001-01-01T00:00:00Z',
+      },
+    );
   });
 
-  group('TaskCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('TaskCollection class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.TaskCollection), 1);
     });

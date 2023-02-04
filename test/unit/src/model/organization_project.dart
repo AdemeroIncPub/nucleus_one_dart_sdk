@@ -13,14 +13,6 @@ import '../api_model/organization_project.dart';
 
 void main() {
   group('OrganizationProjectCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.OrganizationProjectCollection), 1);
     });
@@ -48,14 +40,6 @@ void main() {
   });
 
   group('OrganizationProject tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.OrganizationProject), 15);
     });

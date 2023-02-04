@@ -10,15 +10,7 @@ import '../../../src/mirrors.dart';
 import '../api_model/subscription_invoice.dart';
 
 void main() {
-  group('SubscriptionInvoice tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('SubscriptionInvoice class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SubscriptionInvoice), 6);
     });
@@ -45,15 +37,7 @@ void main() {
     });
   });
 
-  group('SubscriptionInvoiceCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('SubscriptionInvoiceCollection class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SubscriptionInvoiceCollection), 1);
     });

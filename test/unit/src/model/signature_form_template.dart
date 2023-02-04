@@ -6,33 +6,20 @@ import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../../../src/mirrors.dart';
 import '../api_model/signature_form_template.dart';
 
 void main() {
   group('SignatureFormTemplate class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.SignatureFormTemplate), 4);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.SignatureFormTemplate apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.name, 'B');
-        expect(apiModel.nameLower, 'C');
-        expect(apiModel.createdOn, '2021-06-28T18:27:18.205858Z');
-      }
-
-      final apiModelOrig =
-          api_mod.SignatureFormTemplate.fromJson(jsonDecode(signatureFormTemplateJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = SignatureFormTemplate.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.SignatureFormTemplate, SignatureFormTemplate>(
+      apiModelJson: signatureFormTemplateJson,
+      expectedPublicFieldCount: 4,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.name: 'B',
+        apiModel.nameLower: 'C',
+        apiModel.createdOn: '2021-06-28T18:27:18.205858Z',
+      },
+    );
 
     test('createNew method test', () {
       for (var i = 0; i < 3; ++i) {
@@ -65,9 +52,9 @@ void main() {
   });
 
   group('SignatureFormTemplateCollection class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.SignatureFormTemplateCollection), 1);
-    });
+    // !~!~!
+    // SignatureFormTemplateCollection
+    // 1
 
     test('Serialization test', () async {
       void performTests(api_mod.SignatureFormTemplateCollection apiModel) {
@@ -88,34 +75,22 @@ void main() {
   });
 
   group('SignatureFormTemplateField class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.SignatureFormTemplateField), 10);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.SignatureFormTemplateField apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.createdOn, '2021-06-28T18:26:57.85540675Z');
-        expect(apiModel.type, 'B');
-        expect(apiModel.pageIndex, 0);
-        expect(apiModel.documentSignatureSessionRecipientID, 'C');
-        expect(apiModel.x, 1.23);
-        expect(apiModel.y, 4.56);
-        expect(apiModel.label, 'C');
-        expect(apiModel.widthPercent, 5.67);
-        expect(apiModel.sortRank, 6);
-      }
-
-      final apiModelOrig =
-          api_mod.SignatureFormTemplateField.fromJson(jsonDecode(signatureFormTemplateFieldJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = SignatureFormTemplateField.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.SignatureFormTemplateField, SignatureFormTemplateField>(
+      apiModelJson: signatureFormTemplateFieldJson,
+      expectedPublicFieldCount: 10,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.createdOn: '2021-06-28T18:26:57.85540675Z',
+        apiModel.type: 'B',
+        apiModel.pageIndex: 0,
+        apiModel.documentSignatureSessionRecipientID: 'C',
+        apiModel.x: 1.23,
+        apiModel.y: 4.56,
+        apiModel.label: 'C',
+        apiModel.widthPercent: 5.67,
+        apiModel.sortRank: 6,
+      },
+    );
 
     test('createNew method test', () {
       for (var i = 0; i < 3; ++i) {
@@ -161,9 +136,9 @@ void main() {
   });
 
   group('SignatureFormTemplateFieldCollection class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.SignatureFormTemplateFieldCollection), 1);
-    });
+    // !~!~!
+    // SignatureFormTemplateFieldCollection
+    // 1
 
     test('Serialization test', () async {
       void performTests(api_mod.SignatureFormTemplateFieldCollection apiModel) {

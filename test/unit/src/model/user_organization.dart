@@ -12,14 +12,6 @@ import '../api_model/user_organization.dart';
 
 void main() {
   group('UserOrganizationCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.UserOrganizationCollection), 1);
     });
@@ -42,36 +34,17 @@ void main() {
   });
 
   group('UserOrganization tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.UserOrganization), 6);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.UserOrganization apiModel) {
-        expect(apiModel.userEmail, 'A');
-        expect(apiModel.organizationID, 'B');
-        expect(apiModel.organizationName, 'C');
-        expect(apiModel.assignmentTypes, ['D']);
-        expect(apiModel.hasAssignment, true);
-        expect(apiModel.isOrganizationMember, false);
-      }
-
-      final apiModelOrig = api_mod.UserOrganization.fromJson(jsonDecode(userOrganizationJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = UserOrganization.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.UserOrganization, UserOrganization>(
+      apiModelJson: userOrganizationJson,
+      expectedPublicFieldCount: 6,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.userEmail: 'A',
+        apiModel.organizationID: 'B',
+        apiModel.organizationName: 'C',
+        apiModel.assignmentTypes: ['D'],
+        apiModel.hasAssignment: true,
+        apiModel.isOrganizationMember: false,
+      },
+    );
   });
 }

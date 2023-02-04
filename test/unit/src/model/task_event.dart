@@ -12,15 +12,7 @@ import '../../../src/mirrors.dart';
 import '../api_model/task_event.dart';
 
 void main() {
-  group('TaskEventCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('TaskEventCollection class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.TaskEventCollection), 1);
     });
@@ -47,41 +39,22 @@ void main() {
     });
   });
 
-  group('TaskEvent tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.TaskEvent), 10);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.TaskEvent apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.taskID, 'B');
-        expect(apiModel.createdOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.createdByUserID, 'C');
-        expect(apiModel.createdByUserName, 'D');
-        expect(apiModel.createdByUserEmail, 'E');
-        expect(apiModel.createdOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.type, 'Comment');
-        expect(apiModel.taskRevision, 0);
-        expect(apiModel.detailJson, 'F');
-      }
-
-      final apiModelOrig = api_mod.TaskEvent.fromJson(jsonDecode(taskEventJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = TaskEvent.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+  group('TaskEvent class tests', () {
+    performStandardModelTests<api_mod.TaskEvent, TaskEvent>(
+      apiModelJson: taskEventJson,
+      expectedPublicFieldCount: 10,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.taskID: 'B',
+        apiModel.createdOn: '0001-01-01T00:00:00Z',
+        apiModel.createdByUserID: 'C',
+        apiModel.createdByUserName: 'D',
+        apiModel.createdByUserEmail: 'E',
+        apiModel.createdOn: '0001-01-01T00:00:00Z',
+        apiModel.type: 'Comment',
+        apiModel.taskRevision: 0,
+        apiModel.detailJson: 'F',
+      },
+    );
   });
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/task_comment.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
@@ -12,15 +11,7 @@ import '../../../src/mirrors.dart';
 import '../api_model/task_comment.dart';
 
 void main() {
-  group('TaskCommentCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('TaskCommentCollection class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.TaskCommentCollection), 1);
     });

@@ -10,51 +10,24 @@ import '../../../src/mirrors.dart';
 import '../api_model/subscription_plan.dart';
 
 void main() {
-  group('SubscriptionPlan tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.SubscriptionPlan), 8);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.SubscriptionPlan apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.title, 'B');
-        expect(apiModel.currency, 'C');
-        expect(apiModel.interval, 'D');
-        expect(apiModel.savingsPercent, 'E');
-        expect(apiModel.tieredPricing, true);
-        expect(apiModel.amountPerUnit, 0);
-        expect(apiModel.active, false);
-      }
-
-      final apiModelOrig = api_mod.SubscriptionPlan.fromJson(jsonDecode(subscriptionPlanJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = SubscriptionPlan.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+  group('SubscriptionPlan class tests', () {
+    performStandardModelTests<api_mod.SubscriptionPlan, SubscriptionPlan>(
+      apiModelJson: subscriptionPlanJson,
+      expectedPublicFieldCount: 8,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.title: 'B',
+        apiModel.currency: 'C',
+        apiModel.interval: 'D',
+        apiModel.savingsPercent: 'E',
+        apiModel.tieredPricing: true,
+        apiModel.amountPerUnit: 0,
+        apiModel.active: false,
+      },
+    );
   });
 
-  group('SubscriptionPlanCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('SubscriptionPlanCollection class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SubscriptionPlanCollection), 4);
     });

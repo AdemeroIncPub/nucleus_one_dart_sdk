@@ -38,117 +38,68 @@ void main() {
   });
 
   group('DocumentSignatureSessionRecipientFormField class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionRecipientFormField), 11);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.DocumentSignatureSessionRecipientFormField apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.documentSignatureFormFieldID, 'B');
-        expect(apiModel.documentSignatureSessionRecipientID, 'C');
-        expect(apiModel.documentSignatureSessionRecipientRank, 0);
-        expect(apiModel.isComplete, true);
-        expect(apiModel.type, 'D');
-        expect(apiModel.pageIndex, 1);
-        expect(apiModel.x, 2.34);
-        expect(apiModel.y, 3.45);
-        expect(apiModel.value, 'E');
-        expect(apiModel.placementRank, 4);
-      }
-
-      final apiModelOrig = api_mod.DocumentSignatureSessionRecipientFormField.fromJson(
-          jsonDecode(documentSignatureSessionRecipientFormFieldJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled =
-            DocumentSignatureSessionRecipientFormField.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.DocumentSignatureSessionRecipientFormField,
+        DocumentSignatureSessionRecipientFormField>(
+      apiModelJson: documentSignatureSessionRecipientFormFieldJson,
+      expectedPublicFieldCount: 11,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.documentSignatureFormFieldID: 'B',
+        apiModel.documentSignatureSessionRecipientID: 'C',
+        apiModel.documentSignatureSessionRecipientRank: 0,
+        apiModel.isComplete: true,
+        apiModel.type: 'D',
+        apiModel.pageIndex: 1,
+        apiModel.x: 2.34,
+        apiModel.y: 3.45,
+        apiModel.value: 'E',
+        apiModel.placementRank: 4,
+      },
+    );
   });
 
   group('DocumentSignatureSessionFormFieldPackage class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionFormFieldPackage), 7);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.DocumentSignatureSessionFormFieldPackage apiModel) {
-        expect(apiModel.formDesignType, 'A');
-        expect(apiModel.quickDesignPlaceInitials, true);
-        expect(apiModel.quickDesignPlaceFullName, false);
-        expect(apiModel.quickDesignPlaceEmail, true);
-        expect(apiModel.quickDesignPlaceTitle, false);
-        expect(
-            apiModel.formFields, isA<List<api_mod.DocumentSignatureSessionRecipientFormField>>());
-        expect(apiModel.completedFormFields,
-            isA<List<api_mod.DocumentSignatureSessionRecipientFormField>>());
-      }
-
-      final apiModelOrig = api_mod.DocumentSignatureSessionFormFieldPackage.fromJson(
-          jsonDecode(documentSignatureSessionFormFieldPackageJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled =
-            DocumentSignatureSessionFormFieldPackage.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.DocumentSignatureSessionFormFieldPackage,
+        DocumentSignatureSessionFormFieldPackage>(
+      apiModelJson: documentSignatureSessionFormFieldPackageJson,
+      expectedPublicFieldCount: 7,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.formDesignType: 'A',
+        apiModel.quickDesignPlaceInitials: true,
+        apiModel.quickDesignPlaceFullName: false,
+        apiModel.quickDesignPlaceEmail: true,
+        apiModel.quickDesignPlaceTitle: false,
+        apiModel.formFields: isA<List<api_mod.DocumentSignatureSessionRecipientFormField>>(),
+        apiModel.completedFormFields:
+            isA<List<api_mod.DocumentSignatureSessionRecipientFormField>>(),
+      },
+    );
   });
 
   group('DocumentSignatureSessionSigningRecipient class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionSigningRecipient), 2);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.DocumentSignatureSessionSigningRecipient apiModel) {
-        expect(apiModel.email, 'A');
-        expect(apiModel.fullName, 'B');
-      }
-
-      final apiModelOrig = api_mod.DocumentSignatureSessionSigningRecipient.fromJson(
-          jsonDecode(documentSignatureSessionSigningRecipientJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled =
-            DocumentSignatureSessionSigningRecipient.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.DocumentSignatureSessionSigningRecipient,
+        DocumentSignatureSessionSigningRecipient>(
+      apiModelJson: documentSignatureSessionSigningRecipientJson,
+      expectedPublicFieldCount: 2,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.email: 'A',
+        apiModel.fullName: 'B',
+      },
+    );
   });
 
   group('DocumentSignatureSessionSigningRecipientPackage class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.DocumentSignatureSessionSigningRecipientPackage), 5);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.DocumentSignatureSessionSigningRecipientPackage apiModel) {
-        expect(apiModel.requireAccessCode, false);
-        expect(apiModel.signingRecipient, isA<api_mod.DocumentSignatureSessionSigningRecipient>());
-        expect(apiModel.formFieldPackage, isA<api_mod.DocumentSignatureSessionFormFieldPackage>());
-        expect(apiModel.serverDate, '2021-06-23T15:56:33.360404143Z');
-        expect(apiModel.contentPackage, isA<api_mod.DocumentContentPackage>());
-      }
-
-      final apiModelOrig = api_mod.DocumentSignatureSessionSigningRecipientPackage.fromJson(
-          jsonDecode(documentSignatureSessionSigningRecipientPackageJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled =
-            DocumentSignatureSessionSigningRecipientPackage.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.DocumentSignatureSessionSigningRecipientPackage,
+        DocumentSignatureSessionSigningRecipientPackage>(
+      apiModelJson: documentSignatureSessionSigningRecipientPackageJson,
+      expectedPublicFieldCount: 5,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.requireAccessCode: false,
+        apiModel.signingRecipient: isA<api_mod.DocumentSignatureSessionSigningRecipient>(),
+        apiModel.formFieldPackage: isA<api_mod.DocumentSignatureSessionFormFieldPackage>(),
+        apiModel.serverDate: '2021-06-23T15:56:33.360404143Z',
+        apiModel.contentPackage: isA<api_mod.DocumentContentPackage>(),
+      },
+    );
   });
 }

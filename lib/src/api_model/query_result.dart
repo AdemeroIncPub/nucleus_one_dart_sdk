@@ -1,26 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../api_model/approval.dart' as api_mod;
-import '../api_model/document.dart' as api_mod;
-import '../api_model/document_comment.dart' as api_mod;
-import '../api_model/document_event.dart' as api_mod;
-import '../api_model/document_folder.dart' as api_mod;
-import '../api_model/document_results.dart' as api_mod;
-import '../api_model/document_subscription_for_client.dart' as api_mod;
-import '../api_model/field.dart' as api_mod;
-import '../api_model/folder_hierarchies.dart' as api_mod;
-import '../api_model/form_template.dart' as api_mod;
-import '../api_model/organization_for_client.dart' as api_mod;
-import '../api_model/organization_membership_package.dart' as api_mod;
-import '../api_model/organization_package.dart' as api_mod;
-import '../api_model/organization_project.dart' as api_mod;
-import '../api_model/support_error_event.dart' as api_mod;
-import '../api_model/support_organization.dart' as api_mod;
-import '../api_model/support_user.dart' as api_mod;
-import '../api_model/user_organization_project.dart' as api_mod;
+import 'approval.dart' as api_mod;
+import 'document.dart' as api_mod;
+import 'document_comment.dart' as api_mod;
+import 'document_event.dart' as api_mod;
+import 'document_folder.dart' as api_mod;
+import 'document_subscription_for_client.dart' as api_mod;
+import 'field.dart' as api_mod;
+import 'folder_hierarchies.dart' as api_mod;
+import 'form_template.dart' as api_mod;
+import 'organization_for_client.dart' as api_mod;
+import 'organization_membership_package.dart' as api_mod;
+import 'organization_package.dart' as api_mod;
+import 'organization_project.dart' as api_mod;
+import 'support_error_event.dart' as api_mod;
+import 'support_organization.dart' as api_mod;
+import 'support_user.dart' as api_mod;
 import 'task.dart' as api_mod;
 import 'task_comment.dart' as api_mod;
 import 'task_event.dart' as api_mod;
+import 'user_organization_project.dart' as api_mod;
 
 part 'query_result.g.dart';
 
@@ -35,7 +34,7 @@ TQueryResult _resultsFromJson<T, TQueryResult extends QueryResult<T>>(
   if (fromJsonFactory == null) {
     final className = isQueryResult2 ? 'QueryResult2' : 'QueryResult';
     throw UnimplementedError(
-        'The $T.fromJson factory constructor must be explicitly registered in the $className class.');
+        'The $T.fromJson factory constructor must be explicitly registered in the API model $className class.');
   }
   return r..results = fromJsonFactory(json) as T;
 }
@@ -50,7 +49,6 @@ class QueryResult<T> {
     ...QueryResult2._fromJsonFactories, // Include factories from the QueryResult2 class
     api_mod.DocumentCollection: (x) => api_mod.DocumentCollection.fromJson(x),
     api_mod.DocumentFolderCollection: (x) => api_mod.DocumentFolderCollection.fromJson(x),
-    api_mod.DocumentResultCollection: (x) => api_mod.DocumentResultCollection.fromJson(x),
     api_mod.DocumentSubscriptionForClientCollection: (x) =>
         api_mod.DocumentSubscriptionForClientCollection.fromJson(x),
     api_mod.FieldCollection: (x) => api_mod.FieldCollection.fromJson(x),

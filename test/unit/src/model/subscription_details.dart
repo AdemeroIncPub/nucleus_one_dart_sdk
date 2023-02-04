@@ -10,15 +10,7 @@ import '../../../src/mirrors.dart';
 import '../api_model/subscription_details.dart';
 
 void main() {
-  group('SubscriptionDetails tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('SubscriptionDetails class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SubscriptionDetails), 14);
     });

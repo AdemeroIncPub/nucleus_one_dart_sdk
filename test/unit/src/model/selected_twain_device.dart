@@ -1,39 +1,23 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/selected_twain_device.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../../../src/mirrors.dart';
 import '../api_model/selected_twain_device.dart';
 
 void main() {
   group('SelectedTwainDevice class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.SelectedTwainDevice), 6);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.SelectedTwainDevice apiModel) {
-        expect(apiModel.deviceSourceName, 'A');
-        expect(apiModel.duplexType, 'B');
-        expect(apiModel.inputSource, 'C');
-        expect(apiModel.pixelType, 'D');
-        expect(apiModel.resolution, 'E');
-        expect(apiModel.size, 'F');
-      }
-
-      final apiModelOrig =
-          api_mod.SelectedTwainDevice.fromJson(jsonDecode(selectedTwainDeviceJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = SelectedTwainDevice.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.SelectedTwainDevice, SelectedTwainDevice>(
+      apiModelJson: selectedTwainDeviceJson,
+      expectedPublicFieldCount: 6,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.deviceSourceName: 'A',
+        apiModel.duplexType: 'B',
+        apiModel.inputSource: 'C',
+        apiModel.pixelType: 'D',
+        apiModel.resolution: 'E',
+        apiModel.size: 'F',
+      },
+    );
   });
 }

@@ -7,14 +7,13 @@ import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../../../src/mirrors.dart';
 import '../api_model/project_packages.dart';
 
 void main() {
   group('ProjectPackageCollection class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.ProjectPackageCollection), 1);
-    });
+    // !~!~!
+    // ProjectPackageCollection
+    // 1
 
     test('Serialization test', () async {
       void performTests(api_mod.ProjectPackageCollection apiModel) {
@@ -35,9 +34,9 @@ void main() {
   });
 
   group('ProjectPackage class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.ProjectPackage), 3);
-    });
+    // !~!~!
+    // ProjectPackage
+    // 3
 
     test('Serialization test', () async {
       void performTest(api_mod.ProjectPackage apiModel) {

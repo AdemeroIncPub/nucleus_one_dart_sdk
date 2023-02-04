@@ -11,14 +11,6 @@ import '../api_model/document_content_package.dart';
 
 void main() {
   group('DocumentContentPackage tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.DocumentContentPackage), 5);
     });

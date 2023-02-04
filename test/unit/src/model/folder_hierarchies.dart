@@ -13,46 +13,19 @@ import '../api_model/folder_hierarchies.dart';
 
 void main() {
   group('FolderHierarchy tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.FolderHierarchy), 4);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.FolderHierarchy apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.createdOn, '2019-08-27T15:21:24.267312Z');
-        expect(apiModel.name, 'B');
-        expect(apiModel.nameLower, 'C');
-      }
-
-      final apiModelOrig = api_mod.FolderHierarchy.fromJson(jsonDecode(folderHierarchyJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = FolderHierarchy.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.FolderHierarchy, FolderHierarchy>(
+      apiModelJson: folderHierarchyJson,
+      expectedPublicFieldCount: 4,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.createdOn: '2019-08-27T15:21:24.267312Z',
+        apiModel.name: 'B',
+        apiModel.nameLower: 'C',
+      },
+    );
   });
 
   group('FolderHierarchyCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.FolderHierarchyCollection), 1);
     });
@@ -77,14 +50,6 @@ void main() {
   });
 
   group('FolderHierarchyItemCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.FolderHierarchyItemCollection), 1);
     });

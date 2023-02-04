@@ -1,67 +1,45 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_for_client.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../../../src/mirrors.dart';
 import '../api_model/document_for_client.dart';
 
 void main() {
-  group('DocumentForClient tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.DocumentForClient), 25);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.DocumentForClient apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.documentID, 'B');
-        expect(apiModel.createdOn, '2021-01-06T17:37:32.327396Z');
-        expect(apiModel.purgeDate, '0001-01-31T00:00:00Z');
-        expect(apiModel.name, 'C');
-        expect(apiModel.pageCount, 21);
-        expect(apiModel.fileSize, 1234);
-        expect(apiModel.thumbnailUrl, 'D');
-        expect(apiModel.isSigned, false);
-        expect(apiModel.classificationID, 'E');
-        expect(apiModel.classificationName, 'F');
-        expect(apiModel.previewMetadata, isNotNull);
-        expect(apiModel.previewMetadata!.length, 1);
-        expect(apiModel.documentApprovalID, 'G');
-        expect(apiModel.documentApprovalCreatedOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.documentSubscriptionID, 'H');
-        expect(apiModel.documentSubscriptionCreatedOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.documentSignatureSessionRecipientID, 'I');
-        expect(apiModel.documentSignatureSessionID, 'J');
-        expect(apiModel.documentSignatureSessionRecipientEmail, 'K');
-        expect(apiModel.documentSignatureSessionRecipientFullName, 'L');
-        expect(apiModel.documentSignatureSessionRecipientRequestedOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.roleName, 'M');
-        expect(apiModel.processName, 'N');
-        expect(apiModel.processElementName, 'O');
-        expect(apiModel.score, 123);
-      }
-
-      final apiModelOrig = api_mod.DocumentForClient.fromJson(jsonDecode(documentForClientJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = DocumentForClient.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+  group('DocumentForClient class tests', () {
+    performStandardModelTests<api_mod.DocumentForClient, DocumentForClient>(
+      apiModelJson: documentForClientJson,
+      expectedPublicFieldCount: 25,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.documentID: 'B',
+        apiModel.createdOn: '2021-01-06T17:37:32.327396Z',
+        apiModel.purgeDate: '0001-01-31T00:00:00Z',
+        apiModel.name: 'C',
+        apiModel.pageCount: 21,
+        apiModel.fileSize: 1234,
+        apiModel.thumbnailUrl: 'D',
+        apiModel.isSigned: false,
+        apiModel.classificationID: 'E',
+        apiModel.classificationName: 'F',
+        apiModel.previewMetadata: isNotNull,
+        apiModel.previewMetadata!.length: 1,
+        apiModel.documentApprovalID: 'G',
+        apiModel.documentApprovalCreatedOn: '0001-01-01T00:00:00Z',
+        apiModel.documentSubscriptionID: 'H',
+        apiModel.documentSubscriptionCreatedOn: '0001-01-01T00:00:00Z',
+        apiModel.documentSignatureSessionRecipientID: 'I',
+        apiModel.documentSignatureSessionID: 'J',
+        apiModel.documentSignatureSessionRecipientEmail: 'K',
+        apiModel.documentSignatureSessionRecipientFullName: 'L',
+        apiModel.documentSignatureSessionRecipientRequestedOn: '0001-01-01T00:00:00Z',
+        apiModel.roleName: 'M',
+        apiModel.processName: 'N',
+        apiModel.processElementName: 'O',
+        apiModel.score: 123,
+      },
+    );
 
     test('toApiModel method tests', () async {
       await defineN1AppInScope(getStandardN1App(), () {

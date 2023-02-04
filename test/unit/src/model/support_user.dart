@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/support_user.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
@@ -13,50 +12,23 @@ import '../../../src/mirrors.dart';
 import '../api_model/support_user.dart';
 
 void main() {
-  group('SupportUser tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.SupportUser), 7);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.SupportUser apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.createdOn, '0001-01-01T00:00:01Z');
-        expect(apiModel.lastSignIn, '0001-01-01T00:00:01Z');
-        expect(apiModel.lastActivity, '0001-01-01T00:00:01Z');
-        expect(apiModel.email, 'B');
-        expect(apiModel.provider, 'C');
-        expect(apiModel.name, 'D');
-      }
-
-      final apiModelOrig = api_mod.SupportUser.fromJson(jsonDecode(supportUserJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = SupportUser.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+  group('SupportUser class tests', () {
+    performStandardModelTests<api_mod.SupportUser, SupportUser>(
+      apiModelJson: supportUserJson,
+      expectedPublicFieldCount: 7,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.createdOn: '0001-01-01T00:00:01Z',
+        apiModel.lastSignIn: '0001-01-01T00:00:01Z',
+        apiModel.lastActivity: '0001-01-01T00:00:01Z',
+        apiModel.email: 'B',
+        apiModel.provider: 'C',
+        apiModel.name: 'D',
+      },
+    );
   });
 
-  group('SupportUserCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('SupportUserCollection class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SupportUserCollection), 1);
     });

@@ -9,42 +9,29 @@ import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_subscriptions
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../../../src/mirrors.dart';
 import '../api_model/organization_for_client.dart';
 
 void main() {
   group('OrganizationForClient class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.OrganizationForClient), 13);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.OrganizationForClient apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.createdOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.name, 'B');
-        expect(apiModel.createdByUserID, 'C');
-        expect(apiModel.createdByUserName, 'D');
-        expect(apiModel.createdByUserEmail, 'E');
-        expect(apiModel.subscriptionRequired, true);
-        expect(apiModel.subscriptionFreeUsers, 1);
-        expect(apiModel.subscriptionExpiration, 'H');
-        expect(apiModel.uniqueNonReadOnlyOrganizationMembers, 2);
-        expect(apiModel.uniqueReadOnlyOrganizationMembers, 3);
-        expect(apiModel.uniqueFreeOrganizationMembers, 4);
-        expect(apiModel.uniqueBillableOrganizationMembers, 5);
-      }
-
-      final apiModelOrig =
-          api_mod.OrganizationForClient.fromJson(jsonDecode(organizationForClientJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = OrganizationForClient.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.OrganizationForClient, OrganizationForClient>(
+      apiModelJson: organizationForClientJson,
+      expectedPublicFieldCount: 13,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.createdOn: '0001-01-01T00:00:00Z',
+        apiModel.name: 'B',
+        apiModel.createdByUserID: 'C',
+        apiModel.createdByUserName: 'D',
+        apiModel.createdByUserEmail: 'E',
+        apiModel.subscriptionRequired: true,
+        apiModel.subscriptionFreeUsers: 1,
+        apiModel.subscriptionExpiration: 'H',
+        apiModel.uniqueNonReadOnlyOrganizationMembers: 2,
+        apiModel.uniqueReadOnlyOrganizationMembers: 3,
+        apiModel.uniqueFreeOrganizationMembers: 4,
+        apiModel.uniqueBillableOrganizationMembers: 5,
+      },
+    );
 
     test('subscriptions method tests', () {
       final org = getStandardN1Org();
@@ -56,9 +43,9 @@ void main() {
   });
 
   group('OrganizationForClientCollection class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.OrganizationForClientCollection), 1);
-    });
+    // !~!~!
+    // OrganizationForClientCollection
+    // 1
 
     test('Serialization test', () async {
       void performTests(api_mod.QueryResult<api_mod.OrganizationForClientCollection> apiModel) {

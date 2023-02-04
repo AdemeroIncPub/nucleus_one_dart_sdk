@@ -14,41 +14,30 @@ import '../api_model/form_template.dart';
 
 void main() {
   group('FormTemplate class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.FormTemplate), 12);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.FormTemplate apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.tenantID, 'B');
-        expect(apiModel.uniqueID, 'C');
-        expect(apiModel.createdOn, '2021-03-29T13:53:08.461698Z');
-        expect(apiModel.name, 'D');
-        expect(apiModel.nameLower, 'E');
-        expect(apiModel.pageCount, 1);
-        expect(apiModel.isPublic, false);
-        expect(apiModel.classificationID, 'F');
-        expect(apiModel.classificationName, 'G');
-        expect(apiModel.classificationNameLower, 'H');
-        expect(apiModel.aspect, 1.234);
-      }
-
-      final apiModelOrig = api_mod.FormTemplate.fromJson(jsonDecode(formTemplateJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = FormTemplate.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.FormTemplate, FormTemplate>(
+      apiModelJson: formTemplateJson,
+      expectedPublicFieldCount: 12,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.tenantID: 'B',
+        apiModel.uniqueID: 'C',
+        apiModel.createdOn: '2021-03-29T13:53:08.461698Z',
+        apiModel.name: 'D',
+        apiModel.nameLower: 'E',
+        apiModel.pageCount: 1,
+        apiModel.isPublic: false,
+        apiModel.classificationID: 'F',
+        apiModel.classificationName: 'G',
+        apiModel.classificationNameLower: 'H',
+        apiModel.aspect: 1.234,
+      },
+    );
   });
 
   group('FormTemplateCollection class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.FormTemplateCollection), 1);
-    });
+    // !~!~!
+    // FormTemplateCollection
+    // 1
 
     test('Serialization test', () async {
       void performTests(api_mod.QueryResult<api_mod.FormTemplateCollection> apiModel) {
@@ -70,9 +59,9 @@ void main() {
   });
 
   group('FormTemplateFieldCollection class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.FormTemplateFieldCollection), 1);
-    });
+    // !~!~!
+    // FormTemplateFieldCollection
+    // 1
 
     test('Serialization test', () async {
       void performTests(api_mod.FormTemplateFieldCollection apiModel) {
@@ -233,9 +222,9 @@ void main() {
   });
 
   group('FormSubmissionPackageCollection class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.FormSubmissionPackageCollection), 1);
-    });
+    // !~!~!
+    // FormSubmissionPackageCollection
+    // 1
 
     test('Serialization test', () async {
       void performTests(api_mod.FormSubmissionPackageCollection apiModel) {
@@ -256,28 +245,16 @@ void main() {
   });
 
   group('FormSubmissionPackage class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.FormSubmissionPackage), 3);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.FormSubmissionPackage apiModel) {
-        expect(apiModel.tenantID, 'A');
-        expect(apiModel.formTemplateID, 'B');
-        expect(apiModel.formSubmissionFields, isA<List<api_mod.FormSubmissionField>>());
-        expect(apiModel.formSubmissionFields!.length, 1);
-      }
-
-      final apiModelOrig =
-          api_mod.FormSubmissionPackage.fromJson(jsonDecode(formSubmissionPackageJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = FormSubmissionPackage.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.FormSubmissionPackage, FormSubmissionPackage>(
+      apiModelJson: formSubmissionPackageJson,
+      expectedPublicFieldCount: 3,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.tenantID: 'A',
+        apiModel.formTemplateID: 'B',
+        apiModel.formSubmissionFields: isA<List<api_mod.FormSubmissionField>>(),
+        apiModel.formSubmissionFields!.length: 1,
+      },
+    );
 
     test('createNew method test', () async {
       try {

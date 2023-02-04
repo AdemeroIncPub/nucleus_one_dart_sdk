@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/support_organization.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/model.dart';
@@ -13,15 +12,7 @@ import '../../../src/mirrors.dart';
 import '../api_model/support_organization.dart';
 
 void main() {
-  group('SupportOrganization tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('SupportOrganization class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SupportOrganization), 10);
     });
@@ -51,15 +42,7 @@ void main() {
       });
     });
   });
-  group('SupportOrganizationCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
+  group('SupportOrganizationCollection class tests', () {
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.SupportOrganizationCollection), 1);
     });

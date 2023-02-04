@@ -11,45 +11,18 @@ import '../api_model/field_list_item.dart';
 
 void main() {
   group('FieldListItem tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.FieldListItem), 3);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.FieldListItem apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.parentValue, 'B');
-        expect(apiModel.value, 'C');
-      }
-
-      final apiModelOrig = api_mod.FieldListItem.fromJson(jsonDecode(fieldListItemJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = FieldListItem.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.FieldListItem, FieldListItem>(
+      apiModelJson: fieldListItemJson,
+      expectedPublicFieldCount: 3,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.parentValue: 'B',
+        apiModel.value: 'C',
+      },
+    );
   });
 
   group('FieldListItemCollection tests', () {
-    setUp(() async {
-      await NucleusOne.initializeSdk();
-    });
-
-    tearDown(() async {
-      await NucleusOne.resetSdk();
-    });
-
     test('Expected class field count test', () {
       expect(getClassPublicFieldCount(api_mod.FieldListItemCollection), 1);
     });

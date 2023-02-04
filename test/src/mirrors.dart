@@ -27,14 +27,7 @@ bool classIsSubtypeOf<TClass, TMixin>() {
 
 int getClassPublicFieldCount(Type classType) {
   int count = 0;
-  final classMirror = reflectClass(classType);
-
-  final iterableList = [
-    classMirror.mixin.declarations.values,
-  ];
-  if (classMirror.superclass != null) {
-    iterableList.add(classMirror.superclass!.mixin.declarations.values);
-  }
+  final iterableList = _iterateAllDeclarations(classType);
 
   for (var iterable in iterableList) {
     for (var d in iterable) {
@@ -44,4 +37,17 @@ int getClassPublicFieldCount(Type classType) {
     }
   }
   return count;
+}
+
+List<Iterable<DeclarationMirror>> _iterateAllDeclarations(Type classType) {
+  ClassMirror? classMirror = reflectClass(classType);
+
+  final iterableList = [
+    classMirror.mixin.declarations.values,
+  ];
+  while (classMirror!.superclass != null) {
+    iterableList.add(classMirror.superclass!.mixin.declarations.values);
+    classMirror = classMirror.superclass;
+  }
+  return iterableList;
 }
