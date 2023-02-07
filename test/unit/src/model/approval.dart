@@ -8,7 +8,7 @@ import '../api_model/approval.dart';
 
 void main() {
   group('Approval class tests', () {
-    performStandardModelTests<api_mod.Approval, Approval>(
+    performStandardModelTests<Approval, api_mod.Approval>(
       apiModelJson: approvalJson,
       expectedPublicFieldCount: 36,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

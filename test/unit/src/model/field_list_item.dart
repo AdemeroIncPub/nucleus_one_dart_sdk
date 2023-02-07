@@ -7,7 +7,7 @@ import '../api_model/field_list_item.dart';
 
 void main() {
   group('FieldListItem tests', () {
-    performStandardModelTests<api_mod.FieldListItem, FieldListItem>(
+    performStandardModelTests<FieldListItem, api_mod.FieldListItem>(
       apiModelJson: fieldListItemJson,
       expectedPublicFieldCount: 3,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -19,7 +19,7 @@ void main() {
   });
 
   group('FieldListItemCollection class tests', () {
-    performStandardModelTests<api_mod.FieldListItemCollection, FieldListItemCollection>(
+    performStandardModelTests<FieldListItemCollection, api_mod.FieldListItemCollection>(
       apiModelJson: fieldListItemCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

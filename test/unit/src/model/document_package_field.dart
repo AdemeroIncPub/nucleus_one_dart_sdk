@@ -8,7 +8,7 @@ import '../api_model/document_package_field.dart';
 
 void main() {
   group('DocumentPackageField class tests', () {
-    performStandardModelTests<api_mod.DocumentPackageField, DocumentPackageField>(
+    performStandardModelTests<DocumentPackageField, api_mod.DocumentPackageField>(
       apiModelJson: documentPackageFieldJson,
       expectedPublicFieldCount: 19,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

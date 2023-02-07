@@ -7,7 +7,7 @@ import '../api_model/signature_form_template.dart';
 
 void main() {
   group('SignatureFormTemplate class tests', () {
-    performStandardModelTests<api_mod.SignatureFormTemplate, SignatureFormTemplate>(
+    performStandardModelTests<SignatureFormTemplate, api_mod.SignatureFormTemplate>(
       apiModelJson: signatureFormTemplateJson,
       expectedPublicFieldCount: 4,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -49,8 +49,8 @@ void main() {
   });
 
   group('SignatureFormTemplateCollection class tests', () {
-    performStandardModelTests<api_mod.SignatureFormTemplateCollection,
-        SignatureFormTemplateCollection>(
+    performStandardModelTests<SignatureFormTemplateCollection,
+        api_mod.SignatureFormTemplateCollection>(
       apiModelJson: signatureFormTemplateCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -60,7 +60,7 @@ void main() {
   });
 
   group('SignatureFormTemplateField class tests', () {
-    performStandardModelTests<api_mod.SignatureFormTemplateField, SignatureFormTemplateField>(
+    performStandardModelTests<SignatureFormTemplateField, api_mod.SignatureFormTemplateField>(
       apiModelJson: signatureFormTemplateFieldJson,
       expectedPublicFieldCount: 10,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -121,8 +121,8 @@ void main() {
   });
 
   group('SignatureFormTemplateFieldCollection class tests', () {
-    performStandardModelTests<api_mod.SignatureFormTemplateFieldCollection,
-        SignatureFormTemplateFieldCollection>(
+    performStandardModelTests<SignatureFormTemplateFieldCollection,
+        api_mod.SignatureFormTemplateFieldCollection>(
       apiModelJson: signatureFormTemplateFieldCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

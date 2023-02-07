@@ -8,7 +8,7 @@ import '../api_model/user_organization.dart';
 
 void main() {
   group('UserOrganization tests', () {
-    performStandardModelTests<api_mod.UserOrganization, UserOrganization>(
+    performStandardModelTests<UserOrganization, api_mod.UserOrganization>(
       apiModelJson: userOrganizationJson,
       expectedPublicFieldCount: 6,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -23,7 +23,7 @@ void main() {
   });
 
   group('UserOrganizationCollection class tests', () {
-    performStandardModelTests<api_mod.UserOrganizationCollection, UserOrganizationCollection>(
+    performStandardModelTests<UserOrganizationCollection, api_mod.UserOrganizationCollection>(
       apiModelJson: userOrganizationCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

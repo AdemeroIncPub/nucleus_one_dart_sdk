@@ -18,7 +18,7 @@ void main() {
   });
 
   group('DocumentEvent tests', () {
-    performStandardModelTests<api_mod.DocumentEvent, DocumentEvent>(
+    performStandardModelTests<DocumentEvent, api_mod.DocumentEvent>(
       apiModelJson: documentEventJson,
       expectedPublicFieldCount: 8,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

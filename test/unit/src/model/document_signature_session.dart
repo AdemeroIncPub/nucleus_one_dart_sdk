@@ -8,7 +8,7 @@ import '../api_model/document_signature_session.dart';
 
 void main() {
   group('DocumentSignatureSession class tests', () {
-    performStandardModelTests<api_mod.DocumentSignatureSession, DocumentSignatureSession>(
+    performStandardModelTests<DocumentSignatureSession, api_mod.DocumentSignatureSession>(
       apiModelJson: documentSignatureSessionJson,
       expectedPublicFieldCount: 27,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -46,8 +46,8 @@ void main() {
   group('DocumentSignatureSessionRecipient class tests', () {
     Function deepEq = const DeepCollectionEquality().equals;
 
-    performStandardModelTests<api_mod.DocumentSignatureSessionRecipient,
-        DocumentSignatureSessionRecipient>(
+    performStandardModelTests<DocumentSignatureSessionRecipient,
+        api_mod.DocumentSignatureSessionRecipient>(
       apiModelJson: documentSignatureSessionRecipientJson,
       expectedPublicFieldCount: 29,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -87,8 +87,8 @@ void main() {
   });
 
   group('DocumentSignatureSessionPackage class tests', () {
-    performStandardModelTests<api_mod.DocumentSignatureSessionPackage,
-        DocumentSignatureSessionPackage>(
+    performStandardModelTests<DocumentSignatureSessionPackage,
+        api_mod.DocumentSignatureSessionPackage>(
       apiModelJson: documentSignatureSessionPackageJson,
       expectedPublicFieldCount: 4,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -102,8 +102,8 @@ void main() {
   });
 
   group('DocumentSignatureSessionPackageCollection class tests', () {
-    performStandardModelTests<api_mod.DocumentSignatureSessionPackageCollection,
-        DocumentSignatureSessionPackageCollection>(
+    performStandardModelTests<DocumentSignatureSessionPackageCollection,
+        api_mod.DocumentSignatureSessionPackageCollection>(
       apiModelJson: documentSignatureSessionPackageCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

@@ -7,7 +7,7 @@ import '../api_model/user_profile.dart';
 
 void main() {
   group('UserProfile tests', () {
-    performStandardModelTests<api_mod.UserProfile, UserProfile>(
+    performStandardModelTests<UserProfile, api_mod.UserProfile>(
       apiModelJson: userProfileJson,
       expectedPublicFieldCount: 4,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

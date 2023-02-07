@@ -7,7 +7,7 @@ import '../api_model/subscription_details.dart';
 
 void main() {
   group('SubscriptionDetails class tests', () {
-    performStandardModelTests<api_mod.SubscriptionDetails, SubscriptionDetails>(
+    performStandardModelTests<SubscriptionDetails, api_mod.SubscriptionDetails>(
       apiModelJson: subscriptionDetailsJson,
       expectedPublicFieldCount: 14,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

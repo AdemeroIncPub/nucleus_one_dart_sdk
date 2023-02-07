@@ -9,8 +9,8 @@ import '../api_model/document_signature_session_signing_recipient_package.dart';
 
 void main() {
   group('DocumentSignatureSessionRecipientFormFieldCollection class tests', () {
-    performStandardModelTests<api_mod.DocumentSignatureSessionRecipientFormFieldCollection,
-        DocumentSignatureSessionRecipientFormFieldCollection>(
+    performStandardModelTests<DocumentSignatureSessionRecipientFormFieldCollection,
+        api_mod.DocumentSignatureSessionRecipientFormFieldCollection>(
       apiModelJson: documentSignatureSessionRecipientFormFieldCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -20,8 +20,8 @@ void main() {
   });
 
   group('DocumentSignatureSessionRecipientFormField class tests', () {
-    performStandardModelTests<api_mod.DocumentSignatureSessionRecipientFormField,
-        DocumentSignatureSessionRecipientFormField>(
+    performStandardModelTests<DocumentSignatureSessionRecipientFormField,
+        api_mod.DocumentSignatureSessionRecipientFormField>(
       apiModelJson: documentSignatureSessionRecipientFormFieldJson,
       expectedPublicFieldCount: 11,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -41,8 +41,8 @@ void main() {
   });
 
   group('DocumentSignatureSessionFormFieldPackage class tests', () {
-    performStandardModelTests<api_mod.DocumentSignatureSessionFormFieldPackage,
-        DocumentSignatureSessionFormFieldPackage>(
+    performStandardModelTests<DocumentSignatureSessionFormFieldPackage,
+        api_mod.DocumentSignatureSessionFormFieldPackage>(
       apiModelJson: documentSignatureSessionFormFieldPackageJson,
       expectedPublicFieldCount: 7,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -59,8 +59,8 @@ void main() {
   });
 
   group('DocumentSignatureSessionSigningRecipient class tests', () {
-    performStandardModelTests<api_mod.DocumentSignatureSessionSigningRecipient,
-        DocumentSignatureSessionSigningRecipient>(
+    performStandardModelTests<DocumentSignatureSessionSigningRecipient,
+        api_mod.DocumentSignatureSessionSigningRecipient>(
       apiModelJson: documentSignatureSessionSigningRecipientJson,
       expectedPublicFieldCount: 2,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -71,8 +71,8 @@ void main() {
   });
 
   group('DocumentSignatureSessionSigningRecipientPackage class tests', () {
-    performStandardModelTests<api_mod.DocumentSignatureSessionSigningRecipientPackage,
-        DocumentSignatureSessionSigningRecipientPackage>(
+    performStandardModelTests<DocumentSignatureSessionSigningRecipientPackage,
+        api_mod.DocumentSignatureSessionSigningRecipientPackage>(
       apiModelJson: documentSignatureSessionSigningRecipientPackageJson,
       expectedPublicFieldCount: 5,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

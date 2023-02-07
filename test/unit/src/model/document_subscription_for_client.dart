@@ -10,7 +10,7 @@ import '../api_model/document_subscription_for_client.dart';
 
 void main() {
   group('DocumentSubscriptionForClient class tests', () {
-    performStandardModelTests<api_mod.DocumentSubscriptionForClient, DocumentSubscriptionForClient>(
+    performStandardModelTests<DocumentSubscriptionForClient, api_mod.DocumentSubscriptionForClient>(
       apiModelJson: documentSubscriptionForClientJson,
       expectedPublicFieldCount: 16,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

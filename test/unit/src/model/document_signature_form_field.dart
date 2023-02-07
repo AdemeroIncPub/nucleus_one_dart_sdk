@@ -7,7 +7,7 @@ import '../api_model/document_signature_form_field.dart';
 
 void main() {
   group('DocumentSignatureFormField tests', () {
-    performStandardModelTests<api_mod.DocumentSignatureFormField, DocumentSignatureFormField>(
+    performStandardModelTests<DocumentSignatureFormField, api_mod.DocumentSignatureFormField>(
       apiModelJson: documentSignatureFormFieldJson,
       expectedPublicFieldCount: 7,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -59,8 +59,8 @@ void main() {
   });
 
   group('DocumentSignatureFormFieldCollection class tests', () {
-    performStandardModelTests<api_mod.DocumentSignatureFormFieldCollection,
-        DocumentSignatureFormFieldCollection>(
+    performStandardModelTests<DocumentSignatureFormFieldCollection,
+        api_mod.DocumentSignatureFormFieldCollection>(
       apiModelJson: documentSignatureFormFieldCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

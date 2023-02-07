@@ -7,7 +7,7 @@ import '../api_model/user_preferences.dart';
 
 void main() {
   group('UserPreferences class tests', () {
-    performStandardModelTests<api_mod.UserPreferences, UserPreferences>(
+    performStandardModelTests<UserPreferences, api_mod.UserPreferences>(
       apiModelJson: userPreferencesJson,
       expectedPublicFieldCount: 13,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

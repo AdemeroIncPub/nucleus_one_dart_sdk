@@ -7,7 +7,7 @@ import '../api_model/organization_permissions.dart';
 
 void main() {
   group('OrganizationPermissions class tests', () {
-    performStandardModelTests<api_mod.OrganizationPermissions, OrganizationPermissions>(
+    performStandardModelTests<OrganizationPermissions, api_mod.OrganizationPermissions>(
       apiModelJson: organizationPermissionsJson,
       expectedPublicFieldCount: 6,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

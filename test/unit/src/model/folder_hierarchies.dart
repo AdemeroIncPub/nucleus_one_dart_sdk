@@ -8,7 +8,7 @@ import '../api_model/folder_hierarchies.dart';
 
 void main() {
   group('FolderHierarchy tests', () {
-    performStandardModelTests<api_mod.FolderHierarchy, FolderHierarchy>(
+    performStandardModelTests<FolderHierarchy, api_mod.FolderHierarchy>(
       apiModelJson: folderHierarchyJson,
       expectedPublicFieldCount: 4,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -32,7 +32,7 @@ void main() {
   });
 
   group('FolderHierarchyItemCollection class tests', () {
-    performStandardModelTests<api_mod.FolderHierarchyItemCollection, FolderHierarchyItemCollection>(
+    performStandardModelTests<FolderHierarchyItemCollection, api_mod.FolderHierarchyItemCollection>(
       requiresAppAndProjectInScope: true,
       apiModelJson: folderHierarchyItemCollectionJson,
       expectedPublicFieldCount: 1,

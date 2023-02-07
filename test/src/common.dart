@@ -68,7 +68,7 @@ void performStandardQueryResultModelTests<
   required String apiModelJson,
 }) {
   // QueryResult (and QueryResult2) classes should always have 1 field; the "result" field.
-  performStandardModelTests<TApiModel, TModel>(
+  performStandardModelTests<TModel, TApiModel>(
     requiresAppAndProjectInScope: requiresAppAndProjectInScope,
     expectedPublicFieldCount: 1,
     fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{},
@@ -77,7 +77,7 @@ void performStandardQueryResultModelTests<
 
   final isQueryResult2 = (TColModel == QueryResult2<TModel, TApiModel>);
 
-  performStandardModelTests<TColApiModel, TColModel>(
+  performStandardModelTests<TColModel, TColApiModel>(
     requiresAppAndProjectInScope: requiresAppAndProjectInScope,
     apiModelJson: apiModelJson,
     expectedPublicFieldCount: isQueryResult2 ? 4 : 3,
@@ -112,7 +112,7 @@ void testObjectFieldValues<T>({
 /// - Serialization
 ///   - From JSON
 ///   - API-Model -> Model -> API Model
-void performStandardModelTests<TApiModel, TModel>({
+void performStandardModelTests<TModel, TApiModel>({
   bool requiresAppAndProjectInScope = false,
   required int expectedPublicFieldCount,
   required Map<dynamic, dynamic> Function(TApiModel apiModel) fieldsAndExpectedValues,

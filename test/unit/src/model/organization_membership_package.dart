@@ -10,7 +10,7 @@ import '../api_model/organization_membership_package.dart';
 
 void main() {
   group('OrganizationMembershipPackage class tests', () {
-    performStandardModelTests<api_mod.OrganizationMembershipPackage, OrganizationMembershipPackage>(
+    performStandardModelTests<OrganizationMembershipPackage, api_mod.OrganizationMembershipPackage>(
       apiModelJson: organizationMembershipPackageJson,
       expectedPublicFieldCount: 8,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

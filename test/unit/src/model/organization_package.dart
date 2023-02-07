@@ -9,7 +9,7 @@ import '../api_model/organization_package.dart';
 
 void main() {
   group('OrganizationPackage class tests', () {
-    performStandardModelTests<api_mod.OrganizationPackage, OrganizationPackage>(
+    performStandardModelTests<OrganizationPackage, api_mod.OrganizationPackage>(
       apiModelJson: organizationPackageJson,
       expectedPublicFieldCount: 7,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

@@ -7,7 +7,7 @@ import '../api_model/document_upload.dart';
 
 void main() {
   group('DocumentUpload class tests', () {
-    performStandardModelTests<api_mod.DocumentUpload, DocumentUpload>(
+    performStandardModelTests<DocumentUpload, api_mod.DocumentUpload>(
       apiModelJson: documentUploadJson,
       expectedPublicFieldCount: 7,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

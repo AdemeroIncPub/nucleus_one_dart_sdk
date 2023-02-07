@@ -9,7 +9,7 @@ import '../api_model/support_user.dart';
 
 void main() {
   group('SupportUser class tests', () {
-    performStandardModelTests<api_mod.SupportUser, SupportUser>(
+    performStandardModelTests<SupportUser, api_mod.SupportUser>(
       apiModelJson: supportUserJson,
       expectedPublicFieldCount: 7,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

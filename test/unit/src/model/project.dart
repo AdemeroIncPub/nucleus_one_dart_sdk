@@ -7,7 +7,7 @@ import '../api_model/project.dart';
 
 void main() {
   group('Project class tests', () {
-    performStandardModelTests<api_mod.Project, Project>(
+    performStandardModelTests<Project, api_mod.Project>(
       apiModelJson: projectJson,
       expectedPublicFieldCount: 21,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -62,7 +62,7 @@ void main() {
   });
 
   group('ProjectMember class tests', () {
-    performStandardModelTests<api_mod.ProjectMember, ProjectMember>(
+    performStandardModelTests<ProjectMember, api_mod.ProjectMember>(
       apiModelJson: projectMemberJson,
       expectedPublicFieldCount: 17,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

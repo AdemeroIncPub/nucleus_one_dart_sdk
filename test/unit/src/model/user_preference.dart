@@ -10,7 +10,7 @@ import '../../../src/mocks/http.dart';
 
 void main() {
   group('UserPreference class tests', () {
-    performStandardModelTests<api_mod.UserPreference, UserPreference>(
+    performStandardModelTests<UserPreference, api_mod.UserPreference>(
       apiModelJson: userPreferenceJson,
       expectedPublicFieldCount: 9,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

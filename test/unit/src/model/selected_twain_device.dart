@@ -7,7 +7,7 @@ import '../api_model/selected_twain_device.dart';
 
 void main() {
   group('SelectedTwainDevice class tests', () {
-    performStandardModelTests<api_mod.SelectedTwainDevice, SelectedTwainDevice>(
+    performStandardModelTests<SelectedTwainDevice, api_mod.SelectedTwainDevice>(
       apiModelJson: selectedTwainDeviceJson,
       expectedPublicFieldCount: 6,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

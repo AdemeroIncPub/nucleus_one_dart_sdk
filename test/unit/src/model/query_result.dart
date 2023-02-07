@@ -12,14 +12,14 @@ import '../../../src/common.dart';
 import '../api_model/query_result.dart';
 
 void main() {
-  group('QueryResult & QueryResult2 Tests', () {
+  group('QueryResult & QueryResult2 class tests', () {
     void performTests<
         TModel extends EntityCollection<NucleusOneAppDependent, dynamic>,
         TApiModel,
         TColModel extends QueryResult<TModel, TApiModel>,
         TColApiModel extends api_mod.QueryResult<TApiModel>>() {
       final isQueryResult2 = (TColApiModel == api_mod.QueryResult2<TApiModel>);
-      performStandardModelTests<TColApiModel, TColModel>(
+      performStandardModelTests<TColModel, TColApiModel>(
         apiModelJson: queryResult2Json,
         expectedPublicFieldCount: isQueryResult2 ? 4 : 3,
         fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

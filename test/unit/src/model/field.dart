@@ -8,7 +8,7 @@ import '../api_model/field.dart';
 
 void main() {
   group('Field class tests', () {
-    performStandardModelTests<api_mod.Field, Field>(
+    performStandardModelTests<Field, api_mod.Field>(
       apiModelJson: fieldJson,
       expectedPublicFieldCount: 22,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

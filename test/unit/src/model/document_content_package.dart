@@ -7,7 +7,7 @@ import '../api_model/document_content_package.dart';
 
 void main() {
   group('DocumentContentPackage tests', () {
-    performStandardModelTests<api_mod.DocumentContentPackage, DocumentContentPackage>(
+    performStandardModelTests<DocumentContentPackage, api_mod.DocumentContentPackage>(
       apiModelJson: documentContentPackageJson,
       expectedPublicFieldCount: 5,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

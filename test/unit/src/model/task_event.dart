@@ -8,7 +8,7 @@ import '../api_model/task_event.dart';
 
 void main() {
   group('TaskEvent class tests', () {
-    performStandardModelTests<api_mod.TaskEvent, TaskEvent>(
+    performStandardModelTests<TaskEvent, api_mod.TaskEvent>(
       apiModelJson: taskEventJson,
       expectedPublicFieldCount: 10,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

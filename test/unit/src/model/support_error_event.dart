@@ -9,7 +9,7 @@ import '../api_model/support_error_event.dart';
 
 void main() {
   group('SupportErrorEvent class tests', () {
-    performStandardModelTests<api_mod.SupportErrorEvent, SupportErrorEvent>(
+    performStandardModelTests<SupportErrorEvent, api_mod.SupportErrorEvent>(
       apiModelJson: supportErrorEventJson,
       expectedPublicFieldCount: 17,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

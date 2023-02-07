@@ -13,7 +13,7 @@ import '../api_model/form_template.dart';
 
 void main() {
   group('FormTemplate class tests', () {
-    performStandardModelTests<api_mod.FormTemplate, FormTemplate>(
+    performStandardModelTests<FormTemplate, api_mod.FormTemplate>(
       apiModelJson: formTemplateJson,
       expectedPublicFieldCount: 12,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -45,7 +45,7 @@ void main() {
   });
 
   group('FormTemplateFieldCollection class tests', () {
-    performStandardModelTests<api_mod.FormTemplateFieldCollection, FormTemplateFieldCollection>(
+    performStandardModelTests<FormTemplateFieldCollection, api_mod.FormTemplateFieldCollection>(
       apiModelJson: formTemplateFieldCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -95,7 +95,7 @@ void main() {
       expect(classIsSubtypeOf<FormTemplateField, FormTemplateFieldMixin>(), isTrue);
     });
 
-    performStandardModelTests<api_mod.FormTemplateField, FormTemplateField>(
+    performStandardModelTests<FormTemplateField, api_mod.FormTemplateField>(
       apiModelJson: formTemplateFieldJson,
       expectedPublicFieldCount: 25,
       fieldsAndExpectedValues: formTemplateFieldFieldsAndExpectedValues,
@@ -107,7 +107,7 @@ void main() {
       expect(classIsSubtypeOf<FormSubmissionField, FormTemplateFieldMixin>(), isTrue);
     });
 
-    performStandardModelTests<api_mod.FormSubmissionField, FormSubmissionField>(
+    performStandardModelTests<FormSubmissionField, api_mod.FormSubmissionField>(
       apiModelJson: formSubmissionFieldJson,
       expectedPublicFieldCount: 26,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -157,8 +157,8 @@ void main() {
   });
 
   group('FormSubmissionPackageCollection class tests', () {
-    performStandardModelTests<api_mod.FormSubmissionPackageCollection,
-        FormSubmissionPackageCollection>(
+    performStandardModelTests<FormSubmissionPackageCollection,
+        api_mod.FormSubmissionPackageCollection>(
       apiModelJson: formSubmissionPackageCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -168,7 +168,7 @@ void main() {
   });
 
   group('FormSubmissionPackage class tests', () {
-    performStandardModelTests<api_mod.FormSubmissionPackage, FormSubmissionPackage>(
+    performStandardModelTests<FormSubmissionPackage, api_mod.FormSubmissionPackage>(
       apiModelJson: formSubmissionPackageJson,
       expectedPublicFieldCount: 3,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

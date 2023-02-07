@@ -7,7 +7,7 @@ import '../api_model/subscription_plan.dart';
 
 void main() {
   group('SubscriptionPlan class tests', () {
-    performStandardModelTests<api_mod.SubscriptionPlan, SubscriptionPlan>(
+    performStandardModelTests<SubscriptionPlan, api_mod.SubscriptionPlan>(
       apiModelJson: subscriptionPlanJson,
       expectedPublicFieldCount: 8,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -24,7 +24,7 @@ void main() {
   });
 
   group('SubscriptionPlanCollection class tests', () {
-    performStandardModelTests<api_mod.SubscriptionPlanCollection, SubscriptionPlanCollection>(
+    performStandardModelTests<SubscriptionPlanCollection, api_mod.SubscriptionPlanCollection>(
       apiModelJson: subscriptionPlanCollectionJson,
       expectedPublicFieldCount: 4,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

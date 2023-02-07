@@ -7,7 +7,7 @@ import '../api_model/email_login_options.dart';
 
 void main() {
   group('EmailLoginOptions tests', () {
-    performStandardModelTests<api_mod.EmailLoginOptions, EmailLoginOptions>(
+    performStandardModelTests<EmailLoginOptions, api_mod.EmailLoginOptions>(
       apiModelJson: emailLoginOptionsJson,
       expectedPublicFieldCount: 2,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

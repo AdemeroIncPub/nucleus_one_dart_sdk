@@ -9,7 +9,7 @@ import '../api_model/task.dart';
 
 void main() {
   group('Task class tests', () {
-    performStandardModelTests<api_mod.Task, Task>(
+    performStandardModelTests<Task, api_mod.Task>(
       apiModelJson: taskJson,
       expectedPublicFieldCount: 41,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

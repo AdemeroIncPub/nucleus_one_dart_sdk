@@ -8,7 +8,7 @@ import '../api_model/project_packages.dart';
 
 void main() {
   group('ProjectPackageCollection class tests', () {
-    performStandardModelTests<api_mod.ProjectPackageCollection, ProjectPackageCollection>(
+    performStandardModelTests<ProjectPackageCollection, api_mod.ProjectPackageCollection>(
       apiModelJson: projectPackageCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -18,7 +18,7 @@ void main() {
   });
 
   group('ProjectPackage class tests', () {
-    performStandardModelTests<api_mod.ProjectPackage, ProjectPackage>(
+    performStandardModelTests<ProjectPackage, api_mod.ProjectPackage>(
       apiModelJson: projectPackageJson,
       expectedPublicFieldCount: 3,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

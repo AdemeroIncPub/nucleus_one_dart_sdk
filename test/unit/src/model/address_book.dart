@@ -8,7 +8,7 @@ import '../api_model/address_book.dart';
 void main() {
   group('AddressBook & AddressBookItem Tests', () {
     group('AddressBook class tests', () {
-      performStandardModelTests<api_mod.AddressBook, AddressBook>(
+      performStandardModelTests<AddressBook, api_mod.AddressBook>(
         apiModelJson: addressBookJson,
         expectedPublicFieldCount: 1,
         fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -18,7 +18,7 @@ void main() {
     });
 
     group('AddressBookItem class tests', () {
-      performStandardModelTests<api_mod.AddressBookItem, AddressBookItem>(
+      performStandardModelTests<AddressBookItem, api_mod.AddressBookItem>(
         apiModelJson: addressBookItemJson,
         expectedPublicFieldCount: 8,
         fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

@@ -7,7 +7,7 @@ import '../api_model/subscription_invoice.dart';
 
 void main() {
   group('SubscriptionInvoice class tests', () {
-    performStandardModelTests<api_mod.SubscriptionInvoice, SubscriptionInvoice>(
+    performStandardModelTests<SubscriptionInvoice, api_mod.SubscriptionInvoice>(
       apiModelJson: subscriptionInvoiceJson,
       expectedPublicFieldCount: 6,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
@@ -22,7 +22,7 @@ void main() {
   });
 
   group('SubscriptionInvoiceCollection class tests', () {
-    performStandardModelTests<api_mod.SubscriptionInvoiceCollection, SubscriptionInvoiceCollection>(
+    performStandardModelTests<SubscriptionInvoiceCollection, api_mod.SubscriptionInvoiceCollection>(
       apiModelJson: subscriptionInvoiceCollectionJson,
       expectedPublicFieldCount: 1,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{

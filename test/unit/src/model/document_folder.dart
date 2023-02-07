@@ -8,7 +8,7 @@ import '../api_model/document_folder.dart';
 
 void main() {
   group('DocumentFolder class tests', () {
-    performStandardModelTests<api_mod.DocumentFolder, DocumentFolder>(
+    performStandardModelTests<DocumentFolder, api_mod.DocumentFolder>(
       apiModelJson: documentFolderJson,
       expectedPublicFieldCount: 22,
       fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
