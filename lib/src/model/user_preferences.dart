@@ -1,9 +1,10 @@
 import '../api_model/user_preferences.dart' as api_mod;
 import '../common/get_it.dart';
+import '../common/model.dart';
 import 'selected_twain_device.dart';
 import '../nucleus_one.dart';
 
-class UserPreferences with NucleusOneAppDependent {
+class UserPreferences extends Entity with NucleusOneAppDependent {
   UserPreferences._({
     NucleusOneApp? app,
     required this.userID,
@@ -72,6 +73,7 @@ class UserPreferences with NucleusOneAppDependent {
 
   bool disableTwainDeviceSoftware;
 
+  @override
   api_mod.UserPreferences toApiModel() {
     return api_mod.UserPreferences()
       ..userID = userID

@@ -1,5 +1,6 @@
 import '../api_model/document_package.dart' as api_mod;
 import '../common/get_it.dart';
+import '../common/model.dart';
 import '../nucleus_one.dart';
 import 'approval.dart';
 import 'document.dart';
@@ -7,7 +8,7 @@ import 'document_package_field.dart';
 import 'document_subscription_for_client.dart';
 import 'project.dart';
 
-class DocumentPackage with NucleusOneAppDependent {
+class DocumentPackage extends Entity with NucleusOneAppDependent {
   DocumentPackage._({
     NucleusOneApp? app,
     required this.projectMember,
@@ -50,6 +51,7 @@ class DocumentPackage with NucleusOneAppDependent {
 
   List<DocumentPackageField> fields;
 
+  @override
   api_mod.DocumentPackage toApiModel() {
     return api_mod.DocumentPackage()
       ..projectMember = projectMember.toApiModel()

@@ -25,24 +25,29 @@ import 'task_comment.dart' as mod;
 import 'task_event.dart' as mod;
 import 'user_organization_project.dart' as mod;
 
-TQueryResult _resultsFromApiModel<T extends EntityCollection, TQueryResult extends QueryResult<T>>(
+TQueryResult _resultsFromApiModel<TModel extends EntityCollection, TApiModel,
+    TQueryResult extends QueryResult<TModel, TApiModel>>(
   bool isQueryResult2,
-  dynamic Function(dynamic apiModel) qrFromApiModelHandler,
-  Map<Type, Object Function(Map<String, dynamic>)> fromApiModelFactories,
-  dynamic apiModel,
+  TQueryResult Function(dynamic apiModel, Object Function(dynamic) fromApiModel)
+      qrFromApiModelHandler,
+  Map<Type, Object Function(dynamic apiModel)> fromApiModelFactories,
+  api_mod.QueryResult apiModel,
 ) {
-  final r = qrFromApiModelHandler(apiModel);
-  final fromApiModel = fromApiModelFactories[T];
+  final fromApiModel = fromApiModelFactories[TModel];
   if (fromApiModel == null) {
     final className = isQueryResult2 ? 'QueryResult2' : 'QueryResult';
     throw UnimplementedError(
-        'The $T.fromApiModel factory constructor must be explicitly registered in the model $className class.');
+        'The $TModel.fromApiModel factory constructor must be explicitly registered in the model $className class.');
   }
-  return r..results = fromApiModel(apiModel) as T;
+
+  final r = qrFromApiModelHandler(apiModel, fromApiModel);
+  return r;
 }
 
-class QueryResult<T extends EntityCollection> with NucleusOneAppDependent {
-  static final _fromApiModelFactories = <Type, Object Function(dynamic json)>{
+class QueryResult<TModel extends EntityCollection, TApiModel>
+    with NucleusOneAppDependent
+    implements IToApiModel {
+  static final _fromApiModelFactories = <Type, Object Function(dynamic apiModel)>{
     ...QueryResult2._fromApiModelFactories, // Include factories from the QueryResult2 class
     mod.DocumentCollection: (x) => mod.DocumentCollection.fromApiModel(x),
     mod.DocumentFolderCollection: (x) => mod.DocumentFolderCollection.fromApiModel(x),
@@ -78,37 +83,44 @@ class QueryResult<T extends EntityCollection> with NucleusOneAppDependent {
   /// A necessary factory constructor for creating a new QueryResult instance
   /// from a map. Pass the map to the generated [_$QueryResultFromJson()] constructor.
   /// The constructor is named after the source class, in this case, QueryResult.
-  factory QueryResult.fromApiModel(dynamic apiModel) {
-    return _resultsFromApiModel<T, QueryResult<T>>(
+  factory QueryResult.fromApiModel(
+      api_mod.QueryResult/*<api_mod.EntityCollection<api_mod.Entity>>*/ apiModel) {
+    return _resultsFromApiModel<TModel, TApiModel, QueryResult<TModel, TApiModel>>(
         false, _fromApiModel, _fromApiModelFactories, apiModel);
   }
 
-  static QueryResult _fromApiModel(dynamic apiModel) {
-    return QueryResult(
-      results: apiModel.results!,
+  static QueryResult<TModel, TApiModel> _fromApiModel<TModel extends EntityCollection, TApiModel,
+      TQueryResult extends QueryResult<TModel, TApiModel>>(
+    dynamic apiModel,
+    Object Function(dynamic) fromApiModel,
+  ) {
+    return QueryResult<TModel, TApiModel>(
+      results: fromApiModel(apiModel.results) as TModel,
       cursor: apiModel.cursor!,
       pageSize: apiModel.pageSize!,
     );
   }
 
-  T results;
+  final TModel results;
 
-  String cursor;
+  final String cursor;
 
-  int pageSize;
+  final int pageSize;
 
+  @override
   @visibleForTesting
   @protected
-  api_mod.QueryResult<TApiModel> toApiModel<TApiModel>() {
+  api_mod.QueryResult<TApiModel> toApiModel() {
     return api_mod.QueryResult<TApiModel>()
-      ..results = results.toApiModel() as TApiModel
+      ..results = results.toApiModel()
       ..cursor = cursor
       ..pageSize = pageSize;
   }
 }
 
-class QueryResult2<T extends EntityCollection> extends QueryResult<T> {
-  static final _fromApiModelFactories = <Type, Object Function(dynamic json)>{
+class QueryResult2<TModel extends EntityCollection, TApiModel>
+    extends QueryResult<TModel, TApiModel> {
+  static final _fromApiModelFactories = <Type, Object Function(dynamic apiModel)>{
     mod.DocumentCommentCollection: (x) => mod.DocumentCommentCollection.fromApiModel(x),
     mod.DocumentEventCollection: (x) => mod.DocumentEventCollection.fromApiModel(x),
     mod.TaskCommentCollection: (x) => mod.TaskCommentCollection.fromApiModel(x),
@@ -118,7 +130,7 @@ class QueryResult2<T extends EntityCollection> extends QueryResult<T> {
   @protected
   QueryResult2({
     NucleusOneApp? app,
-    required T results,
+    required TModel results,
     required String cursor,
     required this.reverseCursor,
     required int pageSize,
@@ -129,17 +141,19 @@ class QueryResult2<T extends EntityCollection> extends QueryResult<T> {
           pageSize: pageSize,
         );
 
-  /// A necessary factory constructor for creating a new QueryResult instance
-  /// from a map. Pass the map to the generated [_$QueryResultFromJson()] constructor.
-  /// The constructor is named after the source class, in this case, QueryResult.
-  factory QueryResult2.fromApiModel(dynamic apiModel) {
-    return _resultsFromApiModel<T, QueryResult2<T>>(
+  /// A necessary factory constructor for creating a new QueryResult2 instance from a map.
+  factory QueryResult2.fromApiModel(api_mod.QueryResult2 apiModel) {
+    return _resultsFromApiModel<TModel, TApiModel, QueryResult2<TModel, TApiModel>>(
         true, _fromApiModel, _fromApiModelFactories, apiModel);
   }
 
-  static QueryResult2 _fromApiModel(dynamic apiModel) {
-    return QueryResult2(
-      results: apiModel.results!,
+  static QueryResult2<TModel, TApiModel> _fromApiModel<TModel extends EntityCollection, TApiModel,
+      TQueryResult extends QueryResult<TModel, TApiModel>>(
+    dynamic apiModel,
+    Object Function(dynamic) fromApiModel,
+  ) {
+    return QueryResult2<TModel, TApiModel>(
+      results: fromApiModel(apiModel.results) as TModel,
       cursor: apiModel.cursor!,
       reverseCursor: apiModel.reverseCursor!,
       pageSize: apiModel.pageSize!,
@@ -150,9 +164,9 @@ class QueryResult2<T extends EntityCollection> extends QueryResult<T> {
 
   @visibleForTesting
   @override
-  api_mod.QueryResult2<TApiModel> toApiModel<TApiModel>() {
+  api_mod.QueryResult2<TApiModel> toApiModel() {
     return api_mod.QueryResult2<TApiModel>()
-      ..results = results.toApiModel() as TApiModel
+      ..results = results.toApiModel()
       ..cursor = cursor
       ..reverseCursor = reverseCursor
       ..pageSize = pageSize;

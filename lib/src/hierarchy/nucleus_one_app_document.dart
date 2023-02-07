@@ -12,7 +12,6 @@ import '../api_model/document_signature_session_signing_recipient_package.dart' 
 import '../api_model/document_subscription_for_client.dart' as api_mod;
 import '../api_model/document_comment.dart' as api_mod;
 import '../common/get_it.dart';
-import '../common/model.dart';
 import '../common/string.dart';
 import '../common/util.dart';
 import '../common/validation.dart';
@@ -103,7 +102,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   // /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   // ///
   // /// [singleRecord]: Limits the results to a single document.
-  // Future<QueryResult<DocumentForClientCollection>>
+  // Future<QueryResult<DocumentForClientCollection, api_mod.DocumentForClientCollection>>
   //     getDocumentSubscriptions({
   //   String sortType = 'CreatedOn',
   //   bool sortDescending = true,
@@ -128,7 +127,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   /// [sortDescending]: Sort order.
   ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
-  Future<QueryResult2<DocumentCommentCollection>> getComments({
+  Future<QueryResult2<DocumentCommentCollection, api_mod.DocumentCommentCollection>> getComments({
     bool sortDescending = true,
     String? cursor,
   }) async {
@@ -149,7 +148,8 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
     final apiModel =
         api_mod.QueryResult2<api_mod.DocumentCommentCollection>.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(project.app, () {
-      return DocumentCommentCollectionQueryResult.fromApiModelDocumentCommentCollection(apiModel);
+      return QueryResult2<DocumentCommentCollection,
+          api_mod.DocumentCommentCollection>.fromApiModel(apiModel);
     });
   }
 
@@ -173,7 +173,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   /// [sortDescending]: Sort order.
   ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
-  Future<QueryResult2<DocumentEventCollection>> getEvents({
+  Future<QueryResult2<DocumentEventCollection, api_mod.DocumentEventCollection>> getEvents({
     bool sortDescending = true,
     String? cursor,
   }) async {
@@ -195,7 +195,8 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
         api_mod.QueryResult2<api_mod.DocumentEventCollection>.fromJson(jsonDecode(responseBody));
 
     return await defineN1AppInScope(project.app, () {
-      return DocumentEventCollectionQueryResult.fromApiModelDocumentEventCollection(apiModel);
+      return QueryResult2<DocumentEventCollection, api_mod.DocumentEventCollection>.fromApiModel(
+          apiModel);
     });
   }
 
@@ -236,7 +237,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   // /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   // ///
   // /// [singleRecord]: Limits the results to a single document.
-  // Future<QueryResult<DocumentForClientCollection>> getRecycleBin({
+  // Future<QueryResult<DocumentForClientCollection, api_mod.DocumentForClientCollection>> getRecycleBin({
   //   String sortType = 'CreatedOn',
   //   bool sortDescending = true,
   //   int? offset,
@@ -266,7 +267,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
   // /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   // ///
   // /// [singleRecord]: Limits the results to a single document.
-  // Future<QueryResult<DocumentForClientCollection>> getInbox({
+  // Future<QueryResult<DocumentForClientCollection, api_mod.DocumentForClientCollection>> getInbox({
   //   String sortType = 'CreatedOn',
   //   bool sortDescending = true,
   //   int? offset,
@@ -391,8 +392,9 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
           .replaceDocumentSignatureFormIdPlaceholder(signatureFormId),
       app: project.app,
     );
+
     final apiModel =
-        api_mod.DocumentSignatureFormFieldCollection.fromJson(jsonDecode(responseBody));
+        api_mod.DocumentSignatureFormFieldCollection.fromJson(jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(project.app, () {
       return DocumentSignatureFormFieldCollection.fromApiModel(apiModel);
     });
@@ -425,7 +427,7 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
       body: jsonEncode(signatureFormFields.toApiModel()),
     );
     final apiModel =
-        api_mod.DocumentSignatureFormFieldCollection.fromJson(jsonDecode(responseBody));
+        api_mod.DocumentSignatureFormFieldCollection.fromJson(jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(project.app, () {
       return DocumentSignatureFormFieldCollection.fromApiModel(apiModel);
     });
@@ -530,8 +532,8 @@ class NucleusOneAppDocument with NucleusOneAppProjectDependent {
       app: project.app,
       body: jsonEncode(packages.toApiModel()),
     );
-    final apiModel =
-        api_mod.DocumentSignatureSessionPackageCollection.fromJson(jsonDecode(responseBody));
+    final apiModel = api_mod.DocumentSignatureSessionPackageCollection.fromJson(
+        jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(project.app, () {
       return DocumentSignatureSessionPackageCollection.fromApiModel(apiModel);
     });

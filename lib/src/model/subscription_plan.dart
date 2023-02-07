@@ -43,7 +43,7 @@ class SubscriptionPlanCollection
   }
 }
 
-class SubscriptionPlan with NucleusOneAppDependent {
+class SubscriptionPlan extends Entity with NucleusOneAppDependent {
   SubscriptionPlan._({
     NucleusOneApp? app,
     required this.id,
@@ -91,6 +91,7 @@ class SubscriptionPlan with NucleusOneAppDependent {
 
   bool active;
 
+  @override
   api_mod.SubscriptionPlan toApiModel() {
     return api_mod.SubscriptionPlan()
       ..id = id

@@ -8,7 +8,6 @@ import '../api_model/document_signature_form.dart' as api_mod;
 import '../api_model/document_upload.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/signature_form_template.dart' as api_mod;
-import '../common/model.dart';
 import '../common/util.dart';
 import '../http.dart' as http;
 import '../common/string.dart';
@@ -115,7 +114,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   /// via a form.
   ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
-  Future<QueryResult<DocumentCollection>> getDocuments({
+  Future<QueryResult<DocumentCollection, api_mod.DocumentCollection>> getDocuments({
     bool? showAll,
     String? documentFolderId,
     String? documentGroupId,
@@ -192,7 +191,8 @@ class NucleusOneAppProject with NucleusOneAppDependent {
   /// [parentId]: The ID of the parent folder in the hierarchy.
   ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
-  Future<QueryResult<DocumentFolderCollection>> getDocumentFolders({
+  Future<QueryResult<DocumentFolderCollection, api_mod.DocumentFolderCollection>>
+      getDocumentFolders({
     String? parentId,
     String? cursor,
   }) async {
@@ -215,7 +215,8 @@ class NucleusOneAppProject with NucleusOneAppDependent {
         api_mod.QueryResult<api_mod.DocumentFolderCollection>.fromJson(jsonDecode(responseBody));
 
     return await defineN1AppInScope(app, () {
-      return DocumentFolderCollectionQueryResult.fromApiModelDocumentFolderCollection(apiModel);
+      return QueryResult<DocumentFolderCollection, api_mod.DocumentFolderCollection>.fromApiModel(
+          apiModel);
     });
   }
 
@@ -259,7 +260,8 @@ class NucleusOneAppProject with NucleusOneAppDependent {
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(this),
       app: app,
     );
-    final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
+    final apiModel =
+        api_mod.SignatureFormTemplateCollection.fromJson(jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(app, () {
       return SignatureFormTemplateCollection.fromApiModel(apiModel);
     });
@@ -277,7 +279,8 @@ class NucleusOneAppProject with NucleusOneAppDependent {
       app: app,
       body: jsonEncode(templates.toApiModel()),
     );
-    final apiModel = api_mod.SignatureFormTemplateCollection.fromJson(jsonDecode(responseBody));
+    final apiModel =
+        api_mod.SignatureFormTemplateCollection.fromJson(jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(app, () {
       return SignatureFormTemplateCollection.fromApiModel(apiModel);
     });
@@ -331,7 +334,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
       app: app,
     );
     final apiModel =
-        api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
+        api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(app, () {
       return SignatureFormTemplateFieldCollection.fromApiModel(apiModel);
     });
@@ -363,7 +366,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
       body: jsonEncode(fields.toApiModel()),
     );
     final apiModel =
-        api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
+        api_mod.SignatureFormTemplateFieldCollection.fromJson(jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(app, () {
       return SignatureFormTemplateFieldCollection.fromApiModel(apiModel);
     });
@@ -393,14 +396,15 @@ class NucleusOneAppProject with NucleusOneAppDependent {
       app: app,
       queryParams: qp,
     );
-    final apiModel = api_mod.DocumentSignatureFormCollection.fromJson(jsonDecode(responseBody));
+    final apiModel =
+        api_mod.DocumentSignatureFormCollection.fromJson(jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(app, () {
       return DocumentSignatureFormCollection.fromApiModel(apiModel);
     });
   }
 
   /// Contains core logic for retrieving documents.
-  Future<QueryResult<DocumentCollection>> _getDocumentsInternal({
+  Future<QueryResult<DocumentCollection, api_mod.DocumentCollection>> _getDocumentsInternal({
     bool? showAll,
     String? documentFolderId,
     String? documentGroupId,
@@ -431,7 +435,7 @@ class NucleusOneAppProject with NucleusOneAppDependent {
         api_mod.QueryResult<api_mod.DocumentCollection>.fromJson(jsonDecode(responseBody));
 
     return await defineN1AppInScope(app, () {
-      return DocumentCollectionQueryResult.fromApiModelDocumentCollection(apiModel);
+      return QueryResult<DocumentCollection, api_mod.DocumentCollection>.fromApiModel(apiModel);
     });
   }
 

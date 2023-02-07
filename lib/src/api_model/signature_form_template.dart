@@ -7,7 +7,7 @@ part 'signature_form_template.g.dart';
 class SignatureFormTemplateCollection extends EntityCollection<SignatureFormTemplate> {
   SignatureFormTemplateCollection() : super();
 
-  factory SignatureFormTemplateCollection.fromJson(List<dynamic> json) {
+  factory SignatureFormTemplateCollection.fromJson(List<Map<String, dynamic>> json) {
     return EntityCollection.fromJsonArray(
       json: json,
       instance: SignatureFormTemplateCollection(),
@@ -53,7 +53,7 @@ class SignatureFormTemplate extends Entity {
 class SignatureFormTemplateFieldCollection extends EntityCollection<SignatureFormTemplateField> {
   SignatureFormTemplateFieldCollection() : super();
 
-  factory SignatureFormTemplateFieldCollection.fromJson(List<dynamic> json) {
+  factory SignatureFormTemplateFieldCollection.fromJson(List<Map<String, dynamic>> json) {
     return EntityCollection.fromJsonArray(
       json: json,
       instance: SignatureFormTemplateFieldCollection(),

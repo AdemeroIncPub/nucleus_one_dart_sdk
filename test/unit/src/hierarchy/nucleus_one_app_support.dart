@@ -1,4 +1,7 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/support_error_event.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/support_organization.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/support_user.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_support.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:nucleus_one_dart_sdk/src/model/support_user.dart';
@@ -28,7 +31,7 @@ void main() {
       final n1App = getStandardN1App();
 
       // Test with default parameters
-      await performHttpTest<QueryResult<SupportUserCollection>>(
+      await performHttpTest<QueryResult<SupportUserCollection, api_mod.SupportUserCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppSupport(app: n1App).getUsers(),
         responseBody: api_mod.supportUserCollectionJson,
@@ -42,7 +45,8 @@ void main() {
       final n1App = getStandardN1App();
 
       // Test with default parameters
-      await performHttpTest<QueryResult<SupportOrganizationCollection>>(
+      await performHttpTest<
+          QueryResult<SupportOrganizationCollection, api_mod.SupportOrganizationCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppSupport(app: n1App).getOrganizations(),
         responseBody: api_mod.supportOrganizationCollectionJson,
@@ -56,7 +60,8 @@ void main() {
       final n1App = getStandardN1App();
 
       // Test with default parameters
-      await performHttpTest<QueryResult<SupportErrorEventCollection>>(
+      await performHttpTest<
+          QueryResult<SupportErrorEventCollection, api_mod.SupportErrorEventCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppSupport(app: n1App).getErrorEvents(
           serviceNameFilter: 'A',

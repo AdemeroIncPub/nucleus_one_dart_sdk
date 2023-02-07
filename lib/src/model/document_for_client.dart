@@ -36,7 +36,7 @@ class DocumentForClientCollection extends EntityCollection<DocumentForClient, vo
 
 }
 
-class DocumentForClient with NucleusOneAppDependent {
+class DocumentForClient extends Entity with NucleusOneAppDependent {
   DocumentForClient._({
     NucleusOneApp? app,
     required this.id,
@@ -154,6 +154,7 @@ class DocumentForClient with NucleusOneAppDependent {
 
   int? score;
 
+  @override
   api_mod.DocumentForClient toApiModel() {
     return api_mod.DocumentForClient()
       ..id = id

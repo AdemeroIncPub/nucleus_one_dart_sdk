@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/project.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
@@ -10,44 +7,33 @@ import '../api_model/project.dart';
 
 void main() {
   group('Project class tests', () {
-    // !~!~!
-    // Project
-    // 21
-
-    test('Serialization test', () async {
-      void performTest(api_mod.Project apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.createdOn, '2019-08-27T15:21:23.90425Z');
-        expect(apiModel.organizationID, 'B');
-        expect(apiModel.organizationName, 'C');
-        expect(apiModel.organizationNameLower, 'D');
-        expect(apiModel.organizationSubscriptionRequired, true);
-        expect(apiModel.organizationSubscriptionFreeUsers, 0);
-        expect(apiModel.organizationSubscriptionExpiration, '2021-06-24T01:01:56Z');
-        expect(apiModel.bucketName, 'E');
-        expect(apiModel.name, 'F');
-        expect(apiModel.nameLower, 'G');
-        expect(apiModel.creatingUserID, 'H');
-        expect(apiModel.creatingUserName, 'I');
-        expect(apiModel.creatingUserEmail, 'J');
-        expect(apiModel.crmAccountId, 'K');
-        expect(apiModel.disabled, false);
-        expect(apiModel.isMarkedForPurge, true);
-        expect(apiModel.purgeMarkedOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.purgeMarkedByUserID, 'L');
-        expect(apiModel.purgeMarkedByUserName, 'M');
-        expect(apiModel.purgeMarkedByUserEmail, 'N');
-      }
-
-      final apiModelOrig = api_mod.Project.fromJson(jsonDecode(projectJson));
-      performTest(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = Project.fromApiModel(apiModelOrig).toApiModel();
-        performTest(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.Project, Project>(
+      apiModelJson: projectJson,
+      expectedPublicFieldCount: 21,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.createdOn: '2019-08-27T15:21:23.90425Z',
+        apiModel.organizationID: 'B',
+        apiModel.organizationName: 'C',
+        apiModel.organizationNameLower: 'D',
+        apiModel.organizationSubscriptionRequired: true,
+        apiModel.organizationSubscriptionFreeUsers: 0,
+        apiModel.organizationSubscriptionExpiration: '2021-06-24T01:01:56Z',
+        apiModel.bucketName: 'E',
+        apiModel.name: 'F',
+        apiModel.nameLower: 'G',
+        apiModel.creatingUserID: 'H',
+        apiModel.creatingUserName: 'I',
+        apiModel.creatingUserEmail: 'J',
+        apiModel.crmAccountId: 'K',
+        apiModel.disabled: false,
+        apiModel.isMarkedForPurge: true,
+        apiModel.purgeMarkedOn: '0001-01-01T00:00:00Z',
+        apiModel.purgeMarkedByUserID: 'L',
+        apiModel.purgeMarkedByUserName: 'M',
+        apiModel.purgeMarkedByUserEmail: 'N',
+      },
+    );
 
     test('document method tests', () {
       final project = getStandardN1Project();
@@ -76,39 +62,28 @@ void main() {
   });
 
   group('ProjectMember class tests', () {
-    // !~!~!
-    // ProjectMember
-    // 17
-
-    test('Serialization test', () async {
-      void performTest(api_mod.ProjectMember apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.createdOn, '0001-01-01T00:00:00Z');
-        expect(apiModel.organizationMemberID, 'B');
-        expect(apiModel.organizationMemberIsAdmin, true);
-        expect(apiModel.organizationID, 'C');
-        expect(apiModel.organizationName, 'D');
-        expect(apiModel.projectID, 'E');
-        expect(apiModel.projectName, 'F');
-        expect(apiModel.projectIsDisabled, false);
-        expect(apiModel.projectAccessType, 'G');
-        expect(apiModel.userID, 'H');
-        expect(apiModel.userName, 'I');
-        expect(apiModel.userNameLower, 'J');
-        expect(apiModel.userEmail, 'K');
-        expect(apiModel.disabled, false);
-        expect(apiModel.isReadOnly, false);
-        expect(apiModel.isAdmin, true);
-      }
-
-      final apiModelOrig = api_mod.ProjectMember.fromJson(jsonDecode(projectMemberJson));
-      performTest(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = ProjectMember.fromApiModel(apiModelOrig).toApiModel();
-        performTest(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.ProjectMember, ProjectMember>(
+      apiModelJson: projectMemberJson,
+      expectedPublicFieldCount: 17,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.id: 'A',
+        apiModel.createdOn: '0001-01-01T00:00:00Z',
+        apiModel.organizationMemberID: 'B',
+        apiModel.organizationMemberIsAdmin: true,
+        apiModel.organizationID: 'C',
+        apiModel.organizationName: 'D',
+        apiModel.projectID: 'E',
+        apiModel.projectName: 'F',
+        apiModel.projectIsDisabled: false,
+        apiModel.projectAccessType: 'G',
+        apiModel.userID: 'H',
+        apiModel.userName: 'I',
+        apiModel.userNameLower: 'J',
+        apiModel.userEmail: 'K',
+        apiModel.disabled: false,
+        apiModel.isReadOnly: false,
+        apiModel.isAdmin: true,
+      },
+    );
   });
 }

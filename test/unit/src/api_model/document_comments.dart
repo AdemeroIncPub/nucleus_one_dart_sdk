@@ -1,8 +1,7 @@
 import 'document_event.dart';
 
-const documentCommentsJson = r'{"DocumentEvents":[' +
-    documentEventJson +
-    r'],"Cursor":"QueryResultA","ReverseCursor":"QueryResultB","PageSize":24}';
+const documentCommentCollectionJson =
+    '{"DocumentEvents":[$documentEventJson],"Cursor":"QueryResultA","ReverseCursor":"QueryResultB","PageSize":24}';
 
 void main() {
   /*

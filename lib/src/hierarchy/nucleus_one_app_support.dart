@@ -28,7 +28,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   /// Gets all users, by page.
   ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
-  Future<QueryResult<SupportUserCollection>> getUsers({
+  Future<QueryResult<SupportUserCollection, api_mod.SupportUserCollection>> getUsers({
     String? cursor,
   }) async {
     final qp = http.StandardQueryParams.get(
@@ -60,7 +60,8 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   /// Gets all organizations, by page.
   ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
-  Future<QueryResult<SupportOrganizationCollection>> getOrganizations({
+  Future<QueryResult<SupportOrganizationCollection, api_mod.SupportOrganizationCollection>>
+      getOrganizations({
     String? cursor,
   }) async {
     final qp = http.StandardQueryParams.get(
@@ -109,7 +110,8 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   ///
   /// [sortDescending]:
   ///
-  Future<QueryResult<SupportErrorEventCollection>> getErrorEvents({
+  Future<QueryResult<SupportErrorEventCollection, api_mod.SupportErrorEventCollection>>
+      getErrorEvents({
     String? cursor,
     String? serviceNameFilter,
     String? levelFilter,

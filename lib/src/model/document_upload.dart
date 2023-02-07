@@ -1,8 +1,9 @@
 import '../api_model/document_upload.dart' as api_mod;
 import '../common/get_it.dart';
+import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class DocumentUpload with NucleusOneAppDependent {
+class DocumentUpload extends Entity with NucleusOneAppDependent {
   DocumentUpload._({
     NucleusOneApp? app,
     required this.signedUrl,
@@ -46,6 +47,7 @@ class DocumentUpload with NucleusOneAppDependent {
 
   Map<String, List<String>>? fieldIDsAndValues;
 
+  @override
   api_mod.DocumentUpload toApiModel() {
     return api_mod.DocumentUpload()
       ..signedUrl = signedUrl

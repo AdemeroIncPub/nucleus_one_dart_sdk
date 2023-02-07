@@ -60,7 +60,8 @@ class NucleusOneAppUser with NucleusOneAppDependent {
       apiRelativeUrlPath: http.ApiPaths.userOrganizations,
       app: app,
     );
-    final apiModel = api_mod_uo.UserOrganizationCollection.fromJsonArray(jsonDecode(responseBody));
+    final apiModel =
+        api_mod_uo.UserOrganizationCollection.fromJson(jsonDecodeListOfMap(responseBody));
 
     return await defineN1AppInScope(app, () {
       return UserOrganizationCollection.fromApiModel(apiModel);

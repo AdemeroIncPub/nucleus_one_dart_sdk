@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/document_comment.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_package.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form_field.dart' as api_mod;
@@ -8,6 +9,7 @@ import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session.da
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session_signing_recipient_package.dart'
     as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
@@ -43,20 +45,22 @@ void main() {
           .replaceDocumentIdPlaceholder('123');
 
       // Test with default parameters
-      await performHttpTest<QueryResult2<DocumentCommentCollection>>(
+      await performHttpTest<
+          QueryResult2<DocumentCommentCollection, api_mod.DocumentCommentCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getComments(),
-        responseBody: documentCommentsJson,
+        responseBody: documentCommentCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: ['sortDescending=true'],
       );
 
       document = getStandardN1Project().document('123');
       // Test with custom sorting and optional arguments
-      await performHttpTest<QueryResult2<DocumentCommentCollection>>(
+      await performHttpTest<
+          QueryResult2<DocumentCommentCollection, api_mod.DocumentCommentCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getComments(sortDescending: false, cursor: 'A'),
-        responseBody: documentCommentsJson,
+        responseBody: documentCommentCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: ['sortDescending=false', 'cursor=A'],
       );
@@ -102,7 +106,7 @@ void main() {
       await performHttpTest(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getEvents(),
-        responseBody: documentEventsJson,
+        responseBody: documentEventCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: ['sortDescending=true'],
       );
@@ -112,7 +116,7 @@ void main() {
       await performHttpTest(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => document.getEvents(sortDescending: false, cursor: 'A'),
-        responseBody: documentEventsJson,
+        responseBody: documentEventCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: ['sortDescending=false', 'cursor=A'],
       );
@@ -331,7 +335,7 @@ void main() {
           .replaceDocumentIdPlaceholder('123')
           .replaceDocumentSignatureFormIdPlaceholder('234');
       final apiModel = api_mod.DocumentSignatureFormFieldCollection.fromJson(
-          jsonDecode(documentSignatureFormFieldCollectionJson));
+          jsonDecodeListOfMap(documentSignatureFormFieldCollectionJson));
       final fields =
           DocumentSignatureFormFieldCollection.fromApiModel(apiModel, app: document.project.app);
 
@@ -478,7 +482,7 @@ void main() {
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(document.project)
           .replaceDocumentIdPlaceholder('123');
       final packagesApiModel = api_mod.DocumentSignatureSessionPackageCollection.fromJson(
-          jsonDecode(documentSignatureSessionPackageCollectionJson));
+          jsonDecodeListOfMap(documentSignatureSessionPackageCollectionJson));
       final packages = DocumentSignatureSessionPackageCollection.fromApiModel(packagesApiModel,
           app: document.project.app);
 
@@ -635,7 +639,7 @@ void main() {
           .replaceDocumentSignatureSessionRecipientIdPlaceholder('B');
       final packagesApiModel =
           api_mod.DocumentSignatureSessionRecipientFormFieldCollection.fromJson(
-              jsonDecode(documentSignatureSessionRecipientFormFieldCollectionJson));
+              jsonDecodeListOfMap(documentSignatureSessionRecipientFormFieldCollectionJson));
       final fields = DocumentSignatureSessionRecipientFormFieldCollection.fromApiModel(
           packagesApiModel,
           app: project.app);

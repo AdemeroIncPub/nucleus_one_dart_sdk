@@ -1,6 +1,8 @@
 import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/organization_for_client.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/organization_membership_package.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/get_it.dart';
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
@@ -86,7 +88,8 @@ void main() {
       final expectedUrlPath = http.ApiPaths.organizations;
 
       // Test with default parameters
-      await performHttpTest<QueryResult<OrganizationForClientCollection>>(
+      await performHttpTest<
+          QueryResult<OrganizationForClientCollection, api_mod.OrganizationForClientCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => getStandardN1App().getOrganizations(),
         responseBody: organizationForClientCollectionJson,
@@ -95,7 +98,8 @@ void main() {
       );
 
       // Test with cursor parameter
-      await performHttpTest<QueryResult<OrganizationForClientCollection>>(
+      await performHttpTest<
+          QueryResult<OrganizationForClientCollection, api_mod.OrganizationForClientCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => getStandardN1App().getOrganizations(cursor: 'A'),
         responseBody: organizationForClientCollectionJson,
@@ -156,7 +160,9 @@ void main() {
       String expectedUrlPath = http.ApiPaths.organizationMembershipPackages;
 
       // Test with default parameters
-      await performHttpTest<QueryResult<OrganizationMembershipPackageCollection>>(
+      await performHttpTest<
+          QueryResult<OrganizationMembershipPackageCollection,
+              api_mod.OrganizationMembershipPackageCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => getStandardN1App().getOrganizationMembershipPackages(),
         responseBody: organizationMembershipPackageCollectionJson,
@@ -169,7 +175,9 @@ void main() {
           .replaceOrgIdPlaceholder(organizationId);
 
       // Test with an organization parameter
-      await performHttpTest<QueryResult<OrganizationMembershipPackageCollection>>(
+      await performHttpTest<
+          QueryResult<OrganizationMembershipPackageCollection,
+              api_mod.OrganizationMembershipPackageCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => getStandardN1App().getOrganizationMembershipPackages(
           organizationId: organizationId,

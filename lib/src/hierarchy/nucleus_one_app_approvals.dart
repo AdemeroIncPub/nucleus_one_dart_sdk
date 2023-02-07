@@ -77,7 +77,7 @@ class NucleusOneAppApprovals with NucleusOneAppProjectDependent {
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
   ///
   /// [sortType]: How sorting should be performed.
-  Future<QueryResult<ApprovalCollection>> getApprovals({
+  Future<QueryResult<ApprovalCollection, api_mod.ApprovalCollection>> getApprovals({
     String? processId,
     String? cursor,
     String? sortType,

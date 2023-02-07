@@ -1,4 +1,8 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/document_subscription_for_client.dart'
+    as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/organization_membership_package.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/organization_project.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
@@ -76,7 +80,9 @@ void main() {
       final org = getStandardN1Org();
 
       // Test with default parameters
-      await performHttpTest<QueryResult<DocumentSubscriptionForClientCollection>>(
+      await performHttpTest<
+          QueryResult<DocumentSubscriptionForClientCollection,
+              api_mod.DocumentSubscriptionForClientCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => org.getDocumentSubscriptions(),
         responseBody: documentSubscriptionForClientCollectionJson,
@@ -117,7 +123,8 @@ void main() {
           http.ApiPaths.organizationsProjectsFormat.replaceOrgIdPlaceholder('orgId');
 
       // Test with default parameters
-      await performHttpTest<QueryResult<OrganizationProjectCollection>>(
+      await performHttpTest<
+          QueryResult<OrganizationProjectCollection, api_mod.OrganizationProjectCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => org.getProjects(),
         responseBody: organizationProjectCollectionJson,
@@ -127,7 +134,8 @@ void main() {
 
       org = getStandardN1Org();
       // Test with custom sorting and optional arguments
-      await performHttpTest<QueryResult<OrganizationProjectCollection>>(
+      await performHttpTest<
+          QueryResult<OrganizationProjectCollection, api_mod.OrganizationProjectCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => org.getProjects(
           cursor: 'A',
@@ -154,7 +162,9 @@ void main() {
           http.ApiPaths.organizationMembershipPackagesFormat.replaceOrgIdPlaceholder('orgId');
 
       // Test with default parameters
-      await performHttpTest<QueryResult<OrganizationMembershipPackageCollection>>(
+      await performHttpTest<
+          QueryResult<OrganizationMembershipPackageCollection,
+              api_mod.OrganizationMembershipPackageCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => org.getMembershipPackages(),
         responseBody: organizationMembershipPackageCollectionJson,

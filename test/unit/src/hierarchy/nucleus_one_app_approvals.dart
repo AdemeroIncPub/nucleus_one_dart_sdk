@@ -1,4 +1,5 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/approval.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
@@ -24,7 +25,7 @@ void main() {
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
-      await performHttpTest<QueryResult<ApprovalCollection>>(
+      await performHttpTest<QueryResult<ApprovalCollection, api_mod.ApprovalCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppApprovals(project: project).getApprovals(
           processId: 'A',
@@ -40,7 +41,7 @@ void main() {
 
       project = getStandardN1Project();
       // Test with cursor and optional arguments
-      await performHttpTest<QueryResult<ApprovalCollection>>(
+      await performHttpTest<QueryResult<ApprovalCollection, api_mod.ApprovalCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => NucleusOneAppApprovals(project: project).getApprovals(
           processId: 'A',

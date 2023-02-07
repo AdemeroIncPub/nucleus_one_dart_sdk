@@ -1,6 +1,7 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/api_model/task.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/task.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/task_comment.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
@@ -34,7 +35,7 @@ void main() {
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
-      await performHttpTest<QueryResult<TaskCollection>>(
+      await performHttpTest<QueryResult<TaskCollection, api_mod.TaskCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => project.tasks().get(),
         responseBody: taskCollectionJson,
@@ -43,7 +44,7 @@ void main() {
       );
 
       // Test with only cursor flag
-      await performHttpTest<QueryResult<TaskCollection>>(
+      await performHttpTest<QueryResult<TaskCollection, api_mod.TaskCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => project.tasks().get(cursor: 'A'),
         responseBody: taskCollectionJson,
@@ -52,7 +53,7 @@ void main() {
       );
 
       // Test with only activeOnly flag
-      await performHttpTest<QueryResult<TaskCollection>>(
+      await performHttpTest<QueryResult<TaskCollection, api_mod.TaskCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => project.tasks().get(activeOnly: true),
         responseBody: taskCollectionJson,
@@ -61,7 +62,7 @@ void main() {
       );
 
       // Test with only completedOnly flag
-      await performHttpTest<QueryResult<TaskCollection>>(
+      await performHttpTest<QueryResult<TaskCollection, api_mod.TaskCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => project.tasks().get(completedOnly: true),
         responseBody: taskCollectionJson,
@@ -70,7 +71,7 @@ void main() {
       );
 
       // Test with only deniedOnly flag
-      await performHttpTest<QueryResult<TaskCollection>>(
+      await performHttpTest<QueryResult<TaskCollection, api_mod.TaskCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => project.tasks().get(deniedOnly: true),
         responseBody: taskCollectionJson,
@@ -152,21 +153,21 @@ void main() {
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceTaskIdPlaceholder('123');
       // Test with default parameters
-      await performHttpTest<QueryResult2<TaskCommentCollection>>(
+      await performHttpTest<QueryResult2<TaskCommentCollection, api_mod.TaskCommentCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => project.task('123').getComments(),
-        responseBody: taskCommentsJson,
+        responseBody: taskCommentCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: ['sortDescending=true'],
       );
 
       project = getStandardN1Project();
       // Test with custom sorting and optional arguments
-      await performHttpTest<QueryResult2<TaskCommentCollection>>(
+      await performHttpTest<QueryResult2<TaskCommentCollection, api_mod.TaskCommentCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () =>
             project.task('123').getComments(sortDescending: false, cursor: 'QueryResultA'),
-        responseBody: taskCommentsJson,
+        responseBody: taskCommentCollectionJson,
         expectedRequestUrlPath: expectedUrlPath,
         expectedRequestQueryParams: ['sortDescending=false', 'cursor=QueryResultA'],
       );

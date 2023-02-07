@@ -28,7 +28,7 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
   /// Gets form templates, by page.
   ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
-  Future<QueryResult<FormTemplateCollection>> getFormTemplates({
+  Future<QueryResult<FormTemplateCollection, api_mod.FormTemplateCollection>> getFormTemplates({
     String? cursor,
   }) async {
     final qp = http.StandardQueryParams.get(
@@ -94,7 +94,8 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
       app: project.app,
       queryParams: qp,
     );
-    final apiModel = api_mod.FormTemplateFieldCollection.fromJson(jsonDecode(responseBody));
+    final apiModel =
+        api_mod.FormTemplateFieldCollection.fromJson(jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(project.app, () {
       return FormTemplateFieldCollection.fromApiModel(apiModel);
     });
@@ -131,7 +132,7 @@ class NucleusOneAppForms with NucleusOneAppProjectDependent {
       app: project.app,
       queryParams: qp,
     );
-    final apiModel = api_mod.FieldListItemCollection.fromJson(jsonDecode(responseBody));
+    final apiModel = api_mod.FieldListItemCollection.fromJson(jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(project.app, () {
       return FieldListItemCollection.fromApiModel(apiModel);
     });

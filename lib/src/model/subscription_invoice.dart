@@ -25,7 +25,7 @@ class SubscriptionInvoiceCollection
   }
 }
 
-class SubscriptionInvoice with NucleusOneAppDependent {
+class SubscriptionInvoice extends Entity with NucleusOneAppDependent {
   SubscriptionInvoice._({
     NucleusOneApp? app,
     required this.id,
@@ -65,6 +65,7 @@ class SubscriptionInvoice with NucleusOneAppDependent {
 
   String pdfUrl;
 
+  @override
   api_mod.SubscriptionInvoice toApiModel() {
     return api_mod.SubscriptionInvoice()
       ..id = id

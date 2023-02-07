@@ -7,7 +7,7 @@ part 'subscription_invoice.g.dart';
 class SubscriptionInvoiceCollection extends EntityCollection<SubscriptionInvoice> {
   SubscriptionInvoiceCollection() : super();
 
-  factory SubscriptionInvoiceCollection.fromJson(List<dynamic> json) {
+  factory SubscriptionInvoiceCollection.fromJson(List<Map<String, dynamic>> json) {
     return EntityCollection.fromJsonArray(
       json: json,
       instance: SubscriptionInvoiceCollection(),

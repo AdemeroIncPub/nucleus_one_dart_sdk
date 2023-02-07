@@ -28,7 +28,7 @@ class SignatureFormTemplateCollection
   }
 }
 
-class SignatureFormTemplate with NucleusOneAppDependent {
+class SignatureFormTemplate extends Entity with NucleusOneAppDependent {
   SignatureFormTemplate._({
     NucleusOneApp? app,
     required this.id,
@@ -79,6 +79,7 @@ class SignatureFormTemplate with NucleusOneAppDependent {
 
   String createdOn;
 
+  @override
   api_mod.SignatureFormTemplate toApiModel() {
     return api_mod.SignatureFormTemplate()
       ..id = id
@@ -113,7 +114,7 @@ class SignatureFormTemplateFieldCollection extends EntityCollection<SignatureFor
   }
 }
 
-class SignatureFormTemplateField with NucleusOneAppDependent {
+class SignatureFormTemplateField extends Entity with NucleusOneAppDependent {
   SignatureFormTemplateField._({
     NucleusOneApp? app,
     required this.id,
@@ -201,6 +202,7 @@ class SignatureFormTemplateField with NucleusOneAppDependent {
 
   int? sortRank;
 
+  @override
   api_mod.SignatureFormTemplateField toApiModel() {
     return api_mod.SignatureFormTemplateField()
       ..id = id

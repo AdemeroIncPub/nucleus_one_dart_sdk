@@ -5,7 +5,7 @@ import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class DocumentFolder with NucleusOneAppDependent {
+class DocumentFolder extends Entity with NucleusOneAppDependent {
   @visibleForTesting
   DocumentFolder({
     NucleusOneApp? app,
@@ -110,6 +110,7 @@ class DocumentFolder with NucleusOneAppDependent {
 
   String hexColor;
 
+  @override
   api_mod.DocumentFolder toApiModel() {
     return api_mod.DocumentFolder()
       ..id = id

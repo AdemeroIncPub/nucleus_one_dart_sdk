@@ -4,25 +4,16 @@ import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../../../src/mirrors.dart';
 import '../api_model/document_event.dart';
 
 void main() {
-  group('DocumentEventCollection tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.DocumentEventCollection), 1);
-    });
-
-    performStandardModelTests<api_mod.QueryResult2<api_mod.DocumentEventCollection>,
-        QueryResult2<DocumentEventCollection>>(
-      apiModelJson: documentEventsJson,
-      expectedPublicFieldCount: 4,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.results!.documentEvents!.length: 1,
-        apiModel.cursor: 'QueryResultA',
-        apiModel.reverseCursor: 'QueryResultB',
-        apiModel.pageSize: 24,
-      },
+  group('DocumentEventCollection class tests', () {
+    performStandardQueryResultModelTests<
+        DocumentEventCollection,
+        api_mod.DocumentEventCollection,
+        QueryResult2<DocumentEventCollection, api_mod.DocumentEventCollection>,
+        api_mod.QueryResult2<api_mod.DocumentEventCollection>>(
+      apiModelJson: documentEventCollectionJson,
     );
   });
 

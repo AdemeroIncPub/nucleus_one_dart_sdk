@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../api_model/document_subscription_for_client.dart' as api_mod;
+import '../api_model/organization_membership_package.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/organization_permissions.dart' as api_mod;
 import '../api_model/organization_project.dart' as api_mod;
@@ -71,7 +72,9 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
   }
 
   /// Gets the current user's document subscriptions within this organization.
-  Future<QueryResult<DocumentSubscriptionForClientCollection>> getDocumentSubscriptions() async {
+  Future<
+      QueryResult<DocumentSubscriptionForClientCollection,
+          api_mod.DocumentSubscriptionForClientCollection>> getDocumentSubscriptions() async {
     final responseBody = await http.executeGetRequestWithTextResponse(
       apiRelativeUrlPath: http.ApiPaths.organizationsOrganizationDocumentSubscriptionsFormat
           .replaceOrgIdPlaceholder(id),
@@ -144,7 +147,8 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
   ///
   /// [adminOnly]: If true, only projects that the current user is an administrator of will be
   /// returned.
-  Future<QueryResult<OrganizationProjectCollection>> getProjects({
+  Future<QueryResult<OrganizationProjectCollection, api_mod.OrganizationProjectCollection>>
+      getProjects({
     String? cursor,
     String? projectAccessType,
     String? nameFilter,
@@ -190,7 +194,9 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
   }
 
   /// Gets membership packages for this organization, which the current user has access to.
-  Future<QueryResult<OrganizationMembershipPackageCollection>> getMembershipPackages() async {
+  Future<
+      QueryResult<OrganizationMembershipPackageCollection,
+          api_mod.OrganizationMembershipPackageCollection>> getMembershipPackages() async {
     return app.getOrganizationMembershipPackages(organizationId: id);
   }
 }

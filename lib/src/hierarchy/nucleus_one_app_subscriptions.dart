@@ -60,7 +60,8 @@ class NucleusOneAppSubscriptions with NucleusOneAppDependent {
           .replaceOrgIdPlaceholder(organization.id),
       app: app,
     );
-    final apiModel = api_mod.SubscriptionInvoiceCollection.fromJson(jsonDecode(responseBody));
+    final apiModel =
+        api_mod.SubscriptionInvoiceCollection.fromJson(jsonDecodeListOfMap(responseBody));
     return await defineN1AppInScope(app, () {
       return SubscriptionInvoiceCollection.fromApiModel(apiModel);
     });

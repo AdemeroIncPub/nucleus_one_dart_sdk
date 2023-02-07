@@ -1,15 +1,10 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
-import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../../../src/mirrors.dart';
 import '../api_model/document.dart';
 
 void main() {
@@ -64,29 +59,13 @@ void main() {
     );
   });
 
-  group('DocumentCollection tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.DocumentCollection), 1);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.QueryResult<api_mod.DocumentCollection> apiModel) {
-        expect(apiModel.results!.documents!.length, 1);
-        expect(apiModel.cursor, 'QueryResultA');
-        expect(apiModel.pageSize, 24);
-      }
-
-      final apiModelOrig = api_mod.QueryResult<api_mod.DocumentCollection>.fromJson(
-          jsonDecode(documentCollectionJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled =
-            DocumentCollectionQueryResult.fromApiModelDocumentCollection(apiModelOrig)
-                .toApiModel<api_mod.DocumentCollection>();
-        performTests(apiModelCycled);
-      });
-    });
+  group('DocumentCollection class tests', () {
+    performStandardQueryResultModelTests<
+        DocumentCollection,
+        api_mod.DocumentCollection,
+        QueryResult<DocumentCollection, api_mod.DocumentCollection>,
+        api_mod.QueryResult<api_mod.DocumentCollection>>(
+      apiModelJson: documentCollectionJson,
+    );
   });
 }

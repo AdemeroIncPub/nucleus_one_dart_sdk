@@ -3,8 +3,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/document_folder.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/signature_form_template.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
 import 'package:test/test.dart';
 
@@ -69,7 +72,8 @@ void main() {
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
 
       // Test with default parameters
-      await performHttpTest<QueryResult<DocumentFolderCollection>>(
+      await performHttpTest<
+          QueryResult<DocumentFolderCollection, api_mod.DocumentFolderCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => project.getDocumentFolders(),
         responseBody: documentFolderCollectionJson,
@@ -79,7 +83,8 @@ void main() {
 
       project = getStandardN1Project();
       // Test with cursor and optional arguments
-      await performHttpTest<QueryResult<DocumentFolderCollection>>(
+      await performHttpTest<
+          QueryResult<DocumentFolderCollection, api_mod.DocumentFolderCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => project.getDocumentFolders(
           parentId: 'B',
@@ -146,7 +151,7 @@ void main() {
     test('getDocuments method test', () async {
       var project = getStandardN1Project();
       // Test with default parameters
-      await performHttpTest<QueryResult<DocumentCollection>>(
+      await performHttpTest<QueryResult<DocumentCollection, api_mod.DocumentCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => project.getDocuments(),
         responseBody: documentCollectionJson,
@@ -157,7 +162,7 @@ void main() {
 
       project = getStandardN1Project();
       // Test with optional arguments
-      await performHttpTest<QueryResult<DocumentCollection>>(
+      await performHttpTest<QueryResult<DocumentCollection, api_mod.DocumentCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => project.getDocuments(
           showAll: true,
@@ -197,7 +202,7 @@ void main() {
       final expectedUrlPath = http.ApiPaths.organizationsProjectsSignatureFormTemplatesFormat
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project);
       final packagesApiModel = api_mod.SignatureFormTemplateCollection.fromJson(
-          jsonDecode(signatureFormTemplateCollectionJson));
+          jsonDecodeListOfMap(signatureFormTemplateCollectionJson));
       final templates =
           SignatureFormTemplateCollection.fromApiModel(packagesApiModel, app: project.app);
 
@@ -273,7 +278,7 @@ void main() {
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(project)
           .replaceSignatureFormTemplateIdPlaceholder('123');
       final apiModel = api_mod.SignatureFormTemplateFieldCollection.fromJson(
-          jsonDecode(signatureFormTemplateFieldCollectionJson));
+          jsonDecodeListOfMap(signatureFormTemplateFieldCollectionJson));
       final fields = SignatureFormTemplateFieldCollection.fromApiModel(apiModel, app: project.app);
 
       // Test with default parameters

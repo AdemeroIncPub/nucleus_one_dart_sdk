@@ -9,7 +9,7 @@ part 'project_packages.g.dart';
 class ProjectPackageCollection extends EntityCollection<ProjectPackage> {
   ProjectPackageCollection() : super();
 
-  factory ProjectPackageCollection.fromJson(List<dynamic> json) {
+  factory ProjectPackageCollection.fromJson(List<Map<String, dynamic>> json) {
     return EntityCollection.fromJsonArray(
       json: json,
       instance: ProjectPackageCollection(),

@@ -1,8 +1,9 @@
 import '../api_model/address_book.dart' as api_model;
 import '../common/get_it.dart';
+import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class AddressBook with NucleusOneAppDependent {
+class AddressBook extends Entity with NucleusOneAppDependent {
   AddressBook._({
     NucleusOneApp? app,
     required this.items,
@@ -22,12 +23,13 @@ class AddressBook with NucleusOneAppDependent {
 
   List<AddressBookItem> items;
 
+  @override
   api_model.AddressBook toApiModel() {
     return api_model.AddressBook()..items = items.map((x) => x.toApiModel()).toList();
   }
 }
 
-class AddressBookItem with NucleusOneAppDependent {
+class AddressBookItem extends Entity with NucleusOneAppDependent {
   AddressBookItem._({
     NucleusOneApp? app,
     required this.emailLower,
@@ -75,6 +77,7 @@ class AddressBookItem with NucleusOneAppDependent {
 
   String formTemplateFieldID;
 
+  @override
   api_model.AddressBookItem toApiModel() {
     return api_model.AddressBookItem()
       ..emailLower = emailLower

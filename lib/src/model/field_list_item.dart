@@ -24,7 +24,7 @@ class FieldListItemCollection
   }
 }
 
-class FieldListItem with NucleusOneAppDependent {
+class FieldListItem extends Entity with NucleusOneAppDependent {
   FieldListItem._({
     NucleusOneApp? app,
     required this.id,
@@ -59,6 +59,7 @@ class FieldListItem with NucleusOneAppDependent {
 
   String value;
 
+  @override
   api_mod.FieldListItem toApiModel() {
     return api_mod.FieldListItem()
       ..id = id

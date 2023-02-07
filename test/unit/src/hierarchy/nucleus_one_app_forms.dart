@@ -29,7 +29,7 @@ void main() {
           .replaceOrgIdAndProjectIdPlaceholdersUsingProject(forms.project);
 
       // Test with default parameters
-      await performHttpTest<QueryResult<FormTemplateCollection>>(
+      await performHttpTest<QueryResult<FormTemplateCollection, api_mod.FormTemplateCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => forms.getFormTemplates(),
         responseBody: formTemplateCollectionJson,
@@ -39,7 +39,7 @@ void main() {
 
       forms = getStandardN1Project().forms();
       // Test with cursor and optional arguments
-      await performHttpTest<QueryResult<FormTemplateCollection>>(
+      await performHttpTest<QueryResult<FormTemplateCollection, api_mod.FormTemplateCollection>>(
         httpMethod: HttpMethods.get,
         httpCallCallback: () => forms.getFormTemplates(
           cursor: 'A',

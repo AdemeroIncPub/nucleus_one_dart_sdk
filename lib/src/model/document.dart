@@ -3,7 +3,7 @@ import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class Document with NucleusOneAppDependent {
+class Document extends Entity with NucleusOneAppDependent {
   Document._({
     NucleusOneApp? app,
     required this.id,
@@ -183,6 +183,7 @@ class Document with NucleusOneAppDependent {
 
   double paperMarginBottom;
 
+  @override
   api_mod.Document toApiModel() {
     return api_mod.Document()
       ..id = id

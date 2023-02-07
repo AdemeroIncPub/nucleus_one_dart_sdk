@@ -5,7 +5,7 @@ import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class UserOrganizationProject with NucleusOneAppDependent {
+class UserOrganizationProject extends Entity with NucleusOneAppDependent {
   @visibleForTesting
   UserOrganizationProject({
     NucleusOneApp? app,
@@ -58,6 +58,7 @@ class UserOrganizationProject with NucleusOneAppDependent {
 
   bool hasAssignment;
 
+  @override
   api_mod.UserOrganizationProject toApiModel() {
     return api_mod.UserOrganizationProject()
       ..userEmail = userEmail

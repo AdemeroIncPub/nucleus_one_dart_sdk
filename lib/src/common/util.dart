@@ -91,3 +91,7 @@ extension StreamHandling on Stream<List<int>> {
     return st.bind(this).join();
   }
 }
+
+List<Map<String, dynamic>> jsonDecodeListOfMap(String json) {
+  return List<Map<String, dynamic>>.from(jsonDecode(json));
+}

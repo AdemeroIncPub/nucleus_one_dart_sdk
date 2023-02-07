@@ -19,7 +19,7 @@ class DocumentSubscriptionForClient extends Entity {
   // /// A necessary factory constructor for creating a new DocumentSubscriptionForClient instance
   // /// from a map. Pass the map to the generated [_$DocumentSubscriptionForClientFromJson()] constructor.
   // /// The constructor is named after the source class, in this case, DocumentSubscriptionForClient.
-  // factory DocumentSubscriptionForClient.fromJson(List<dynamic> json) {
+  // factory DocumentSubscriptionForClient.fromJson(List<Map<String, dynamic>> json) {
   //   return _$DocumentSubscriptionForClientFromJson(json)
   //     ..mapValue = JsonEncoder().convert(json['MapValue']);
   // }
@@ -88,7 +88,7 @@ class DocumentSubscriptionForClient extends Entity {
 
 //   /// This JSON structure has an array at its root, which is not currently implicitly supported by json_serializable.
 //   /// https://github.com/google/json_serializable.dart/issues/648
-//   factory DocumentSubscriptionForClientCollection.fromJsonArray(List<dynamic> json) {
+//   factory DocumentSubscriptionForClientCollection.fromJson(List<Map<String, dynamic>> json) {
 //     return DocumentSubscriptionForClientCollection()
 //       ..items = json.map((m) => DocumentSubscriptionForClient.fromJson(m)).toList();
 //   }

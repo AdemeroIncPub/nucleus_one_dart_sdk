@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_subscription_for_client.dart'
     as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/util.dart';
+import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 
 import 'package:test/test.dart';
 
@@ -38,25 +36,13 @@ void main() {
   });
 
   group('DocumentSubscriptionForClientCollection class tests', () {
-    // !~!~!
-    // DocumentSubscriptionForClientCollection
-    // 1
-
-    test('Serialization test', () async {
-      void performTests(api_mod.DocumentSubscriptionForClientCollection apiModel) {
-        expect(apiModel.documentSubscriptions!.length, 1);
-      }
-
-      final apiModelOrig = api_mod.DocumentSubscriptionForClientCollection.fromJson(
-          jsonDecode(documentSubscriptionForClientCollectionJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled =
-            DocumentSubscriptionForClientCollection.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardQueryResultModelTests<
+        DocumentSubscriptionForClientCollection,
+        api_mod.DocumentSubscriptionForClientCollection,
+        QueryResult<DocumentSubscriptionForClientCollection,
+            api_mod.DocumentSubscriptionForClientCollection>,
+        api_mod.QueryResult<api_mod.DocumentSubscriptionForClientCollection>>(
+      apiModelJson: documentSubscriptionForClientCollectionJson,
+    );
   });
 }

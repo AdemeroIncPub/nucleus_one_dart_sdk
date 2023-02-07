@@ -1,14 +1,9 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/approval.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
-import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../../../src/mirrors.dart';
 import '../api_model/approval.dart';
 
 void main() {
@@ -59,27 +54,12 @@ void main() {
   });
 
   group('ApprovalCollection class tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.ApprovalCollection), 1);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.QueryResult<api_mod.ApprovalCollection> apiModel) {
-        expect(apiModel.results!.approvals!.length, 1);
-      }
-
-      final apiModelOrig = api_mod.QueryResult<api_mod.ApprovalCollection>.fromJson(
-          jsonDecode(approvalCollectionJson));
-      performTests(apiModelOrig);
-
-      final n1App = getStandardN1App();
-      await defineN1AppInScope(n1App, () {
-        // Convert it to a model class then back again
-        final api_mod.QueryResult<api_mod.ApprovalCollection> apiModelCycled =
-            ApprovalCollectionQueryResult.fromApiModelApprovalCollection(apiModelOrig)
-                .toApiModel<api_mod.ApprovalCollection>();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardQueryResultModelTests<
+        ApprovalCollection,
+        api_mod.ApprovalCollection,
+        QueryResult<ApprovalCollection, api_mod.ApprovalCollection>,
+        api_mod.QueryResult<api_mod.ApprovalCollection>>(
+      apiModelJson: approvalCollectionJson,
+    );
   });
 }

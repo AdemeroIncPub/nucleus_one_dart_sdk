@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:nucleus_one_dart_sdk/src/common/util.dart';
+
 import 'api_model/address_book.dart' as api_mod;
 import 'api_model/user_profile.dart' as api_mod;
 import 'common/get_it.dart';
@@ -42,7 +44,7 @@ class User with NucleusOneAppDependent {
       queryParams: qp,
     );
 
-    final apiModel = api_mod.AddressBook.fromJson(jsonDecode(responseBody));
+    final apiModel = api_mod.AddressBook.fromJson(jsonDecodeListOfMap(responseBody));
     return mod.AddressBook.fromApiModel(
       apiModel,
       app: app,

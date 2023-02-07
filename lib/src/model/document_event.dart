@@ -25,7 +25,7 @@ class DocumentEventCollection
   }
 }
 
-class DocumentEvent with NucleusOneAppDependent {
+class DocumentEvent extends Entity with NucleusOneAppDependent {
   DocumentEvent._({
     NucleusOneApp? app,
     required this.id,
@@ -73,6 +73,7 @@ class DocumentEvent with NucleusOneAppDependent {
 
   String detailJson;
 
+  @override
   api_mod.DocumentEvent toApiModel() {
     return api_mod.DocumentEvent()
       ..id = id

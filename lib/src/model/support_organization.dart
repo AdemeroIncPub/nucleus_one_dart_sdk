@@ -27,7 +27,7 @@ class SupportOrganizationCollection
   }
 }
 
-class SupportOrganization with NucleusOneAppDependent {
+class SupportOrganization extends Entity with NucleusOneAppDependent {
   SupportOrganization._({
     NucleusOneApp? app,
     required this.id,
@@ -83,6 +83,7 @@ class SupportOrganization with NucleusOneAppDependent {
 
   int uniqueReadOnlyTenantMembers;
 
+  @override
   api_mod.SupportOrganization toApiModel() {
     return api_mod.SupportOrganization()
       ..id = id

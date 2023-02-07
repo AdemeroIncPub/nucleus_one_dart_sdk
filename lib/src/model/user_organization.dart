@@ -5,7 +5,7 @@ import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class UserOrganization with NucleusOneAppDependent {
+class UserOrganization extends Entity with NucleusOneAppDependent {
   @visibleForTesting
   UserOrganization({
     NucleusOneApp? app,
@@ -46,6 +46,7 @@ class UserOrganization with NucleusOneAppDependent {
 
   bool isOrganizationMember;
 
+  @override
   api_mod.UserOrganization toApiModel() {
     return api_mod.UserOrganization()
       ..userEmail = userEmail

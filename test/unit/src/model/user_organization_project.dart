@@ -1,70 +1,37 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/user_organization_project.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
-import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../../../src/mirrors.dart';
 import '../api_model/user_organization_project.dart';
 
 void main() {
-  group('UserOrganizationProjectCollection tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.UserOrganizationProjectCollection), 1);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.QueryResult<api_mod.UserOrganizationProjectCollection> apiModel) {
-        expect(apiModel.results!.userOrganizationProjects!.length, 1);
-        expect(apiModel.cursor, 'QueryResultA');
-        expect(apiModel.pageSize, 24);
-      }
-
-      final apiModelOrig = api_mod.QueryResult<api_mod.UserOrganizationProjectCollection>.fromJson(
-          jsonDecode(userOrganizationProjectCollectionJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = UserOrganizationProjectCollectionQueryResult
-                .fromApiModelUserOrganizationProjectCollection(apiModelOrig)
-            .toApiModel<api_mod.UserOrganizationProjectCollection>();
-        performTests(apiModelCycled);
-      });
-    });
+  group('UserOrganizationProject tests', () {
+    performStandardModelTests<api_mod.UserOrganizationProject, UserOrganizationProject>(
+      apiModelJson: userOrganizationProjectJson,
+      expectedPublicFieldCount: 9,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.userEmail: 'A',
+        apiModel.organizationID: 'B',
+        apiModel.organizationName: 'C',
+        apiModel.projectID: 'D',
+        apiModel.projectName: 'E',
+        apiModel.projectAccessType: 'F',
+        apiModel.projectIsDisabled: false,
+        apiModel.assignmentTypes: ['G'],
+        apiModel.hasAssignment: false,
+      },
+    );
   });
 
-  group('UserOrganizationProject tests', () {
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.UserOrganizationProject), 9);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.UserOrganizationProject apiModel) {
-        expect(apiModel.userEmail, 'A');
-        expect(apiModel.organizationID, 'B');
-        expect(apiModel.organizationName, 'C');
-        expect(apiModel.projectID, 'D');
-        expect(apiModel.projectName, 'E');
-        expect(apiModel.projectAccessType, 'F');
-        expect(apiModel.projectIsDisabled, false);
-        expect(apiModel.assignmentTypes, ['G']);
-        expect(apiModel.hasAssignment, false);
-      }
-
-      final apiModelOrig =
-          api_mod.UserOrganizationProject.fromJson(jsonDecode(userOrganizationProjectJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = UserOrganizationProject.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+  group('UserOrganizationProjectCollection class tests', () {
+    performStandardQueryResultModelTests<
+        UserOrganizationProjectCollection,
+        api_mod.UserOrganizationProjectCollection,
+        QueryResult<UserOrganizationProjectCollection, api_mod.UserOrganizationProjectCollection>,
+        api_mod.QueryResult<api_mod.UserOrganizationProjectCollection>>(
+      apiModelJson: userOrganizationProjectCollectionJson,
+    );
   });
 }

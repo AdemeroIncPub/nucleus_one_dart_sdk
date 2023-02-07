@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:collection/collection.dart';
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
@@ -49,9 +46,6 @@ void main() {
   group('DocumentSignatureSessionRecipient class tests', () {
     Function deepEq = const DeepCollectionEquality().equals;
 
-    // !~!~!
-    // DocumentSignatureSession
-    // 27
     performStandardModelTests<api_mod.DocumentSignatureSessionRecipient,
         DocumentSignatureSessionRecipient>(
       apiModelJson: documentSignatureSessionRecipientJson,
@@ -108,25 +102,13 @@ void main() {
   });
 
   group('DocumentSignatureSessionPackageCollection class tests', () {
-    // !~!~!
-    // DocumentSignatureSessionPackageCollection
-    // 1
-
-    test('Serialization test', () async {
-      void performTests(api_mod.DocumentSignatureSessionPackageCollection apiModel) {
-        expect(apiModel.items.length, 1);
-      }
-
-      final apiModelOrig = api_mod.DocumentSignatureSessionPackageCollection.fromJson(
-          jsonDecode(documentSignatureSessionPackageCollectionJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final api_mod.DocumentSignatureSessionPackageCollection apiModelCycled =
-            DocumentSignatureSessionPackageCollection.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.DocumentSignatureSessionPackageCollection,
+        DocumentSignatureSessionPackageCollection>(
+      apiModelJson: documentSignatureSessionPackageCollectionJson,
+      expectedPublicFieldCount: 1,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.items.length: 1,
+      },
+    );
   });
 }

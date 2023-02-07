@@ -18,7 +18,7 @@ class OrganizationProjectCollection
   }) {
     return OrganizationProjectCollection(
         app: app,
-        items: apiModel.projects!.map((x) => OrganizationProject.fromApiModel(x)).toList());
+        items: apiModel.projects?.map((x) => OrganizationProject.fromApiModel(x)).toList());
   }
 
   @override
@@ -28,7 +28,7 @@ class OrganizationProjectCollection
   }
 }
 
-class OrganizationProject with NucleusOneAppDependent {
+class OrganizationProject extends Entity with NucleusOneAppDependent {
   @visibleForTesting
   OrganizationProject({
     NucleusOneApp? app,
@@ -104,6 +104,7 @@ class OrganizationProject with NucleusOneAppDependent {
 
   String purgeMarkedByUserEmail;
 
+  @override
   api_mod.OrganizationProject toApiModel() {
     return api_mod.OrganizationProject()
       ..id = id

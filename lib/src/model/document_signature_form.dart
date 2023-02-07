@@ -23,7 +23,7 @@ class DocumentSignatureFormCollection
   }
 }
 
-class DocumentSignatureForm with NucleusOneAppDependent {
+class DocumentSignatureForm extends Entity with NucleusOneAppDependent {
   DocumentSignatureForm._({
     NucleusOneApp? app,
     required this.id,
@@ -91,6 +91,7 @@ class DocumentSignatureForm with NucleusOneAppDependent {
 
   int lastViewedPageIndex;
 
+  @override
   api_mod.DocumentSignatureForm toApiModel() {
     return api_mod.DocumentSignatureForm()
       ..id = id

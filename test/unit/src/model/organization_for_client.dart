@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/organization_for_client.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
-import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/hierarchy/nucleus_one_app_subscriptions.dart';
 import 'package:test/test.dart';
 
@@ -43,27 +39,12 @@ void main() {
   });
 
   group('OrganizationForClientCollection class tests', () {
-    // !~!~!
-    // OrganizationForClientCollection
-    // 1
-
-    test('Serialization test', () async {
-      void performTests(api_mod.QueryResult<api_mod.OrganizationForClientCollection> apiModel) {
-        expect(apiModel.results!.organizations!.length, 1);
-      }
-
-      final apiModelOrig = api_mod.QueryResult<api_mod.OrganizationForClientCollection>.fromJson(
-          jsonDecode(organizationForClientCollectionJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final api_mod.QueryResult<api_mod.OrganizationForClientCollection> apiModelCycled =
-            OrganizationForClientCollectionQueryResult.fromApiModelOrganizationForClientCollection(
-                    apiModelOrig)
-                .toApiModel<api_mod.OrganizationForClientCollection>();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardQueryResultModelTests<
+        OrganizationForClientCollection,
+        api_mod.OrganizationForClientCollection,
+        QueryResult<OrganizationForClientCollection, api_mod.OrganizationForClientCollection>,
+        api_mod.QueryResult<api_mod.OrganizationForClientCollection>>(
+      apiModelJson: organizationForClientCollectionJson,
+    );
   });
 }

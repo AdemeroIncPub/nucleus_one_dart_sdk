@@ -7,7 +7,6 @@ import '../common/util.dart';
 import '../http.dart' as http;
 import '../api_model/task.dart' as api_mod;
 import '../../nucleus_one_dart_sdk.dart';
-import '../common/model.dart';
 import '../api_model/task_comment.dart' as api_mod;
 
 /// Performs operations on a specific task.
@@ -52,7 +51,7 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
   /// [sortDescending]: Sort order.
   ///
   /// [cursor]: The ID of the cursor, from a previous query.  Used for paging results.
-  Future<QueryResult2<TaskCommentCollection>> getComments({
+  Future<QueryResult2<TaskCommentCollection, api_mod.TaskCommentCollection>> getComments({
     bool sortDescending = true,
     String? cursor,
   }) async {
@@ -73,7 +72,8 @@ class NucleusOneAppTask with NucleusOneAppProjectDependent {
     final apiModel =
         api_mod.QueryResult2<api_mod.TaskCommentCollection>.fromJson(jsonDecode(responseBody));
     return await defineN1AppInScope(project.app, () {
-      return TaskCommentCollectionQueryResult.fromApiModelTaskCommentCollection(apiModel);
+      return QueryResult2<TaskCommentCollection, api_mod.TaskCommentCollection>.fromApiModel(
+          apiModel);
     });
   }
 
@@ -111,7 +111,7 @@ class NucleusOneAppTasks with NucleusOneAppProjectDependent {
   /// [completedOnly]: Only return completed tasks.
   ///
   /// [deniedOnly]: Only return denied tasks.
-  Future<QueryResult<TaskCollection>> get({
+  Future<QueryResult<TaskCollection, api_mod.TaskCollection>> get({
     bool? activeOnly,
     bool? completedOnly,
     bool? deniedOnly,

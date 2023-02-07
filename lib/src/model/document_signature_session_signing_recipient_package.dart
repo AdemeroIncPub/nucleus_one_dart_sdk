@@ -4,7 +4,7 @@ import '../common/model.dart';
 import '../nucleus_one.dart';
 import 'document_content_package.dart';
 
-class DocumentSignatureSessionSigningRecipientPackage with NucleusOneAppDependent {
+class DocumentSignatureSessionSigningRecipientPackage extends Entity with NucleusOneAppDependent {
   DocumentSignatureSessionSigningRecipientPackage._({
     NucleusOneApp? app,
     required this.requireAccessCode,
@@ -46,6 +46,7 @@ class DocumentSignatureSessionSigningRecipientPackage with NucleusOneAppDependen
 
   DocumentContentPackage contentPackage;
 
+  @override
   api_mod.DocumentSignatureSessionSigningRecipientPackage toApiModel() {
     return api_mod.DocumentSignatureSessionSigningRecipientPackage()
       ..requireAccessCode = requireAccessCode
@@ -56,7 +57,7 @@ class DocumentSignatureSessionSigningRecipientPackage with NucleusOneAppDependen
   }
 }
 
-class DocumentSignatureSessionFormFieldPackage with NucleusOneAppDependent {
+class DocumentSignatureSessionFormFieldPackage extends Entity with NucleusOneAppDependent {
   DocumentSignatureSessionFormFieldPackage._({
     NucleusOneApp? app,
     required this.formDesignType,
@@ -104,6 +105,7 @@ class DocumentSignatureSessionFormFieldPackage with NucleusOneAppDependent {
 
   List<DocumentSignatureSessionRecipientFormField> completedFormFields;
 
+  @override
   api_mod.DocumentSignatureSessionFormFieldPackage toApiModel() {
     return api_mod.DocumentSignatureSessionFormFieldPackage()
       ..formDesignType = formDesignType
@@ -142,7 +144,7 @@ class DocumentSignatureSessionRecipientFormFieldCollection extends EntityCollect
   }
 }
 
-class DocumentSignatureSessionRecipientFormField with NucleusOneAppDependent {
+class DocumentSignatureSessionRecipientFormField extends Entity with NucleusOneAppDependent {
   DocumentSignatureSessionRecipientFormField._({
     NucleusOneApp? app,
     required this.id,
@@ -202,6 +204,7 @@ class DocumentSignatureSessionRecipientFormField with NucleusOneAppDependent {
 
   int placementRank;
 
+  @override
   api_mod.DocumentSignatureSessionRecipientFormField toApiModel() {
     return api_mod.DocumentSignatureSessionRecipientFormField()
       ..id = id
@@ -218,7 +221,7 @@ class DocumentSignatureSessionRecipientFormField with NucleusOneAppDependent {
   }
 }
 
-class DocumentSignatureSessionSigningRecipient with NucleusOneAppDependent {
+class DocumentSignatureSessionSigningRecipient extends Entity with NucleusOneAppDependent {
   DocumentSignatureSessionSigningRecipient._({
     NucleusOneApp? app,
     required this.email,
@@ -242,6 +245,7 @@ class DocumentSignatureSessionSigningRecipient with NucleusOneAppDependent {
 
   String fullName;
 
+  @override
   api_mod.DocumentSignatureSessionSigningRecipient toApiModel() {
     return api_mod.DocumentSignatureSessionSigningRecipient()
       ..email = email

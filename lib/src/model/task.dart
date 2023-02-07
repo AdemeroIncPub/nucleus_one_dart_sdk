@@ -26,7 +26,7 @@ class TaskCollection extends EntityCollection<Task, api_mod.TaskCollection> {
   }
 }
 
-class Task with NucleusOneAppDependent {
+class Task extends Entity with NucleusOneAppDependent {
   Task._({
     NucleusOneApp? app,
     required this.id,
@@ -206,6 +206,7 @@ class Task with NucleusOneAppDependent {
 
   String reminder1Day;
 
+  @override
   api_mod.Task toApiModel() {
     return api_mod.Task()
       ..id = id

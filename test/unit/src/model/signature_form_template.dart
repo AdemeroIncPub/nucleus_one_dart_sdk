@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/signature_form_template.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
@@ -52,26 +49,14 @@ void main() {
   });
 
   group('SignatureFormTemplateCollection class tests', () {
-    // !~!~!
-    // SignatureFormTemplateCollection
-    // 1
-
-    test('Serialization test', () async {
-      void performTests(api_mod.SignatureFormTemplateCollection apiModel) {
-        expect(apiModel.items.length, 1);
-      }
-
-      final apiModelOrig = api_mod.SignatureFormTemplateCollection.fromJson(
-          jsonDecode(signatureFormTemplateCollectionJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final api_mod.SignatureFormTemplateCollection apiModelCycled =
-            SignatureFormTemplateCollection.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.SignatureFormTemplateCollection,
+        SignatureFormTemplateCollection>(
+      apiModelJson: signatureFormTemplateCollectionJson,
+      expectedPublicFieldCount: 1,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.items.length: 1,
+      },
+    );
   });
 
   group('SignatureFormTemplateField class tests', () {
@@ -136,25 +121,13 @@ void main() {
   });
 
   group('SignatureFormTemplateFieldCollection class tests', () {
-    // !~!~!
-    // SignatureFormTemplateFieldCollection
-    // 1
-
-    test('Serialization test', () async {
-      void performTests(api_mod.SignatureFormTemplateFieldCollection apiModel) {
-        expect(apiModel.items.length, 1);
-      }
-
-      final apiModelOrig = api_mod.SignatureFormTemplateFieldCollection.fromJson(
-          jsonDecode(signatureFormTemplateFieldCollectionJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final api_mod.SignatureFormTemplateFieldCollection apiModelCycled =
-            SignatureFormTemplateFieldCollection.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.SignatureFormTemplateFieldCollection,
+        SignatureFormTemplateFieldCollection>(
+      apiModelJson: signatureFormTemplateFieldCollectionJson,
+      expectedPublicFieldCount: 1,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.items.length: 1,
+      },
+    );
   });
 }

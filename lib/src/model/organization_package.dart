@@ -28,7 +28,7 @@ class OrganizationPackageCollection
   }
 }
 
-class OrganizationPackage with NucleusOneAppDependent {
+class OrganizationPackage extends Entity with NucleusOneAppDependent {
   OrganizationPackage._({
     NucleusOneApp? app,
     required this.organization,
@@ -72,6 +72,7 @@ class OrganizationPackage with NucleusOneAppDependent {
 
   bool isExpired;
 
+  @override
   api_mod.OrganizationPackage toApiModel() {
     return api_mod.OrganizationPackage()
       ..organization = organization.toApiModel()

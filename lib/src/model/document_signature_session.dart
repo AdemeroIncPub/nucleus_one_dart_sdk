@@ -3,7 +3,7 @@ import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class DocumentSignatureSession with NucleusOneAppDependent {
+class DocumentSignatureSession extends Entity with NucleusOneAppDependent {
   DocumentSignatureSession._({
     NucleusOneApp? app,
     required this.id,
@@ -127,6 +127,7 @@ class DocumentSignatureSession with NucleusOneAppDependent {
 
   bool quickDesignPlaceTitle;
 
+  @override
   api_mod.DocumentSignatureSession toApiModel() {
     return api_mod.DocumentSignatureSession()
       ..id = id
@@ -159,7 +160,7 @@ class DocumentSignatureSession with NucleusOneAppDependent {
   }
 }
 
-class DocumentSignatureSessionRecipient with NucleusOneAppDependent {
+class DocumentSignatureSessionRecipient extends Entity with NucleusOneAppDependent {
   DocumentSignatureSessionRecipient._({
     NucleusOneApp? app,
     required this.id,
@@ -293,6 +294,7 @@ class DocumentSignatureSessionRecipient with NucleusOneAppDependent {
 
   String ipAddress;
 
+  @override
   api_mod.DocumentSignatureSessionRecipient toApiModel() {
     return api_mod.DocumentSignatureSessionRecipient()
       ..id = id
@@ -352,7 +354,7 @@ class DocumentSignatureSessionPackageCollection extends EntityCollection<
   }
 }
 
-class DocumentSignatureSessionPackage with NucleusOneAppDependent {
+class DocumentSignatureSessionPackage extends Entity with NucleusOneAppDependent {
   DocumentSignatureSessionPackage._({
     NucleusOneApp? app,
     required this.session,
@@ -386,6 +388,7 @@ class DocumentSignatureSessionPackage with NucleusOneAppDependent {
 
   bool resetSession;
 
+  @override
   api_mod.DocumentSignatureSessionPackage toApiModel() {
     return api_mod.DocumentSignatureSessionPackage()
       ..session = session.toApiModel()

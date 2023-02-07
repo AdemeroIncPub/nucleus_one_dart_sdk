@@ -34,7 +34,7 @@ class FolderHierarchyCollection
   }
 }
 
-class FolderHierarchy with NucleusOneAppDependent {
+class FolderHierarchy extends Entity with NucleusOneAppDependent {
   FolderHierarchy._({
     NucleusOneApp? app,
     required this.id,
@@ -66,6 +66,7 @@ class FolderHierarchy with NucleusOneAppDependent {
 
   String nameLower;
 
+  @override
   api_mod.FolderHierarchy toApiModel() {
     return api_mod.FolderHierarchy()
       ..id = id
@@ -104,7 +105,7 @@ class FolderHierarchyItemCollection
   }
 }
 
-class FolderHierarchyItem with NucleusOneAppDependent {
+class FolderHierarchyItem extends Entity with NucleusOneAppDependent {
   FolderHierarchyItem._({
     NucleusOneApp? app,
     required this.id,
@@ -156,6 +157,7 @@ class FolderHierarchyItem with NucleusOneAppDependent {
 
   String fieldValueType;
 
+  @override
   api_mod.FolderHierarchyItem toApiModel() {
     return api_mod.FolderHierarchyItem()
       ..id = id

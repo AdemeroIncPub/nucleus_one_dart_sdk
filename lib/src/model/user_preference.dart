@@ -1,8 +1,9 @@
 import '../api_model/user_preference.dart' as api_mod;
 import '../common/get_it.dart';
+import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class UserPreference with NucleusOneAppDependent {
+class UserPreference extends Entity with NucleusOneAppDependent {
   UserPreference._({
     NucleusOneApp? app,
     required this.id,
@@ -54,6 +55,7 @@ class UserPreference with NucleusOneAppDependent {
 
   String mapValue;
 
+  @override
   api_mod.UserPreference toApiModel() {
     return api_mod.UserPreference()
       ..id = id

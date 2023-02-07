@@ -8,7 +8,6 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
 import 'common/get_it.dart';
-import 'common/model.dart';
 import 'common/util.dart';
 import 'http.dart' as http;
 import 'api_model/organization_for_client.dart' as api_mod;
@@ -149,7 +148,8 @@ class NucleusOneApp {
   }
 
   /// Gets organizations that the current user is a member of, by page.
-  Future<QueryResult<OrganizationForClientCollection>> getOrganizations({
+  Future<QueryResult<OrganizationForClientCollection, api_mod.OrganizationForClientCollection>>
+      getOrganizations({
     String? cursor,
   }) async {
     final qp = http.StandardQueryParams.get(
@@ -167,8 +167,8 @@ class NucleusOneApp {
         jsonDecode(responseBody));
 
     return await defineN1AppInScope(this, () {
-      return OrganizationForClientCollectionQueryResult.fromApiModelOrganizationForClientCollection(
-          apiModel);
+      return QueryResult<OrganizationForClientCollection,
+          api_mod.OrganizationForClientCollection>.fromApiModel(apiModel);
     });
   }
 
@@ -186,7 +186,7 @@ class NucleusOneApp {
     );
 
     final apiModel =
-        api_mod.OrganizationForClientCollection.fromJsonArray(jsonDecode(responseBody));
+        api_mod.OrganizationForClientCollection.fromJsonArray(jsonDecodeListOfMap(responseBody));
 
     return await defineN1AppInScope(this, () {
       return OrganizationForClientCollection.fromApiModel(apiModel);
@@ -196,7 +196,9 @@ class NucleusOneApp {
   /// Gets organization membership packages that the current user has access to.
   ///
   /// [organizationId]: An optional organization ID that the results should be limited to.
-  Future<QueryResult<OrganizationMembershipPackageCollection>> getOrganizationMembershipPackages({
+  Future<
+      QueryResult<OrganizationMembershipPackageCollection,
+          api_mod.OrganizationMembershipPackageCollection>> getOrganizationMembershipPackages({
     String? organizationId,
   }) async {
     final url = (organizationId == null)
@@ -215,8 +217,8 @@ class NucleusOneApp {
         jsonDecode(responseBody));
 
     return await defineN1AppInScope(this, () {
-      return OrganizationMembershipPackageCollectionQueryResult
-          .fromApiModelOrganizationMembershipPackageCollection(apiModel);
+      return QueryResult<OrganizationMembershipPackageCollection,
+          api_mod.OrganizationMembershipPackageCollection>.fromApiModel(apiModel);
     });
   }
 

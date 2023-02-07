@@ -23,7 +23,7 @@ class TaskEventCollection extends EntityCollection<TaskEvent, api_mod.TaskEventC
   }
 }
 
-class TaskEvent with NucleusOneAppDependent {
+class TaskEvent extends Entity with NucleusOneAppDependent {
   TaskEvent._({
     NucleusOneApp? app,
     required this.id,
@@ -79,6 +79,7 @@ class TaskEvent with NucleusOneAppDependent {
 
   String detailJson;
 
+  @override
   api_mod.TaskEvent toApiModel() {
     return api_mod.TaskEvent()
       ..id = id

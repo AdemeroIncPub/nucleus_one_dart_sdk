@@ -25,7 +25,7 @@ class SupportErrorEventCollection
   }
 }
 
-class SupportErrorEvent with NucleusOneAppDependent {
+class SupportErrorEvent extends Entity with NucleusOneAppDependent {
   SupportErrorEvent._({
     NucleusOneApp? app,
     required this.id,
@@ -109,6 +109,7 @@ class SupportErrorEvent with NucleusOneAppDependent {
 
   List<String> wordsLower;
 
+  @override
   api_mod.SupportErrorEvent toApiModel() {
     return api_mod.SupportErrorEvent()
       ..id = id

@@ -1,8 +1,9 @@
 import '../api_model/selected_twain_device.dart' as api_mod;
 import '../common/get_it.dart';
+import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class SelectedTwainDevice with NucleusOneAppDependent {
+class SelectedTwainDevice extends Entity with NucleusOneAppDependent {
   SelectedTwainDevice._({
     NucleusOneApp? app,
     required this.deviceSourceName,
@@ -42,6 +43,7 @@ class SelectedTwainDevice with NucleusOneAppDependent {
 
   String size;
 
+  @override
   api_mod.SelectedTwainDevice toApiModel() {
     return api_mod.SelectedTwainDevice()
       ..deviceSourceName = deviceSourceName

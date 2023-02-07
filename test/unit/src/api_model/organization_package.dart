@@ -3,7 +3,7 @@ import 'organization.dart';
 const organizationPackageJson =
     '{"Organization":$organizationJson,"UserID":"A","IsMember":true,"IsExpiringSoon":false,"Expiration":"0001-01-01T00:00:00Z","FreeUsers":0,"IsExpired":true}';
 const organizationPackageCollectionJson =
-    '{"OrganizationPackagesForCurrentUser":[$organizationPackageJson],"Cursor":"QueryResultA","PageSize":0}';
+    '{"OrganizationPackagesForCurrentUser":[$organizationPackageJson],"Cursor":"QueryResultA","PageSize":24}';
 
 void main() {
   /*

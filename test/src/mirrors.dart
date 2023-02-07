@@ -14,16 +14,19 @@ bool classIsSubtypeOf<TClass, TMixin>() {
   return c.isSubtypeOf(m);
 }
 
-// int getClassFieldCount(Type classType) {
-//   int count = 0;
-//   final classMirror = reflectClass(classType);
-//   for (var v in classMirror.declarations.values) {
-//     if (v is VariableMirror) {
-//       ++count;
-//     }
-//   }
-//   return count;
-// }
+List<VariableMirror> getClassPublicFields(Type classType) {
+  final iterableList = _iterateAllDeclarations(classType);
+  final ret = <VariableMirror>[];
+
+  for (var iterable in iterableList) {
+    for (var d in iterable) {
+      if ((d is VariableMirror) && !d.isPrivate) {
+        ret.add(d);
+      }
+    }
+  }
+  return ret;
+}
 
 int getClassPublicFieldCount(Type classType) {
   int count = 0;

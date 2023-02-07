@@ -1,8 +1,9 @@
 import '../api_model/document_package_field.dart' as api_mod;
 import '../common/get_it.dart';
+import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class DocumentPackageField with NucleusOneAppDependent {
+class DocumentPackageField extends Entity with NucleusOneAppDependent {
   DocumentPackageField._(
       {NucleusOneApp? app,
       required this.fieldID,
@@ -93,6 +94,7 @@ class DocumentPackageField with NucleusOneAppDependent {
 
   String textMatchType;
 
+  @override
   api_mod.DocumentPackageField toApiModel() {
     return api_mod.DocumentPackageField()
       ..fieldID = fieldID

@@ -23,7 +23,7 @@ class ApprovalCollection extends EntityCollection<Approval, api_mod.ApprovalColl
   }
 }
 
-class Approval with NucleusOneAppDependent {
+class Approval extends Entity with NucleusOneAppDependent {
   Approval._({
     NucleusOneApp? app,
     required this.id,
@@ -184,6 +184,7 @@ class Approval with NucleusOneAppDependent {
 
   String thumbnailUrl;
 
+  @override
   api_mod.Approval toApiModel() {
     return api_mod.Approval()
       ..id = id

@@ -24,7 +24,7 @@ class SupportUserCollection extends EntityCollection<SupportUser, api_mod.Suppor
   }
 }
 
-class SupportUser with NucleusOneAppDependent {
+class SupportUser extends Entity with NucleusOneAppDependent {
   SupportUser._({
     NucleusOneApp? app,
     required this.id,
@@ -68,6 +68,7 @@ class SupportUser with NucleusOneAppDependent {
 
   String name;
 
+  @override
   api_mod.SupportUser toApiModel() {
     return api_mod.SupportUser()
       ..id = id

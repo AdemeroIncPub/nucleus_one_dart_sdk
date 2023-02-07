@@ -4,7 +4,6 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/field.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/form_template.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/common/model.dart';
 import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:test/test.dart';
 
@@ -35,49 +34,24 @@ void main() {
   });
 
   group('FormTemplateCollection class tests', () {
-    // !~!~!
-    // FormTemplateCollection
-    // 1
-
-    test('Serialization test', () async {
-      void performTests(api_mod.QueryResult<api_mod.FormTemplateCollection> apiModel) {
-        expect(apiModel.results!.formTemplates!.length, 1);
-      }
-
-      final apiModelOrig = api_mod.QueryResult<api_mod.FormTemplateCollection>.fromJson(
-          jsonDecode(formTemplateCollectionJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppAndProjectInScope(getStandardN1Project(), () {
-        // Convert it to a model class then back again
-        final api_mod.QueryResult<api_mod.FormTemplateCollection> apiModelCycled =
-            FormTemplateCollectionQueryResult.fromApiModelFormTemplateCollection(apiModelOrig)
-                .toApiModel<api_mod.FormTemplateCollection>();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardQueryResultModelTests<
+        FormTemplateCollection,
+        api_mod.FormTemplateCollection,
+        QueryResult<FormTemplateCollection, api_mod.FormTemplateCollection>,
+        api_mod.QueryResult<api_mod.FormTemplateCollection>>(
+      requiresAppAndProjectInScope: true,
+      apiModelJson: formTemplateCollectionJson,
+    );
   });
 
   group('FormTemplateFieldCollection class tests', () {
-    // !~!~!
-    // FormTemplateFieldCollection
-    // 1
-
-    test('Serialization test', () async {
-      void performTests(api_mod.FormTemplateFieldCollection apiModel) {
-        expect(apiModel.items.length, 1);
-      }
-
-      final apiModelOrig =
-          api_mod.FormTemplateFieldCollection.fromJson(jsonDecode(formTemplateFieldCollectionJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = FormTemplateFieldCollection.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.FormTemplateFieldCollection, FormTemplateFieldCollection>(
+      apiModelJson: formTemplateFieldCollectionJson,
+      expectedPublicFieldCount: 1,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.items.length: 1,
+      },
+    );
   });
 
   group('FormTemplateFieldMixin mixin tests', () {
@@ -85,53 +59,47 @@ void main() {
     // since that class is simply the "instantiable" extension of this mixin
   });
 
+  Map<dynamic, dynamic> formTemplateFieldFieldsAndExpectedValues(dynamic object) {
+    final isApiModel = (object is api_mod.FormTemplateField);
+    return <dynamic, dynamic>{
+      object.id: 'A',
+      object.formTemplateID: 'B',
+      object.formTemplateName: 'C',
+      object.formTemplateNameLower: 'D',
+      object.tenantID: 'E',
+      object.uniqueID: 'F',
+      object.createdOn: '2020-09-23T04:58:06.215898Z',
+      object.type: 'G',
+      object.fieldID: 'H',
+      object.field: isApiModel ? isA<api_mod.Field>() : isA<Field>(),
+      object.pageIndex: 1,
+      object.x: 2.00,
+      object.y: 3.0,
+      object.width: 4.0,
+      object.fontSize: 5,
+      object.useColumnLayout: true,
+      object.assetBucketName: 'I',
+      object.assetObjectName: 'J',
+      object.assetContentType: 'K',
+      object.assetSignedUrl: 'L',
+      object.defaultValue: 'M',
+      object.defaultValues: 'N',
+      object.possibleValues: ['Yes', 'No'],
+      object.value: 'O',
+      object.values: 'P',
+    };
+  }
+
   group('FormTemplateField class tests', () {
     test('Inherits from FormTemplateFieldMixin', () {
       expect(classIsSubtypeOf<FormTemplateField, FormTemplateFieldMixin>(), isTrue);
     });
 
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.FormTemplateField), 25);
-    });
-
-    test('Serialization test', () async {
-      void performFormTests(api_mod.FormTemplateField apiModel) {
-        expect(apiModel.id, 'A');
-        expect(apiModel.formTemplateID, 'B');
-        expect(apiModel.formTemplateName, 'C');
-        expect(apiModel.formTemplateNameLower, 'D');
-        expect(apiModel.tenantID, 'E');
-        expect(apiModel.uniqueID, 'F');
-        expect(apiModel.createdOn, '2020-09-23T04:58:06.215898Z');
-        expect(apiModel.type, 'G');
-        expect(apiModel.fieldID, 'H');
-        expect(apiModel.field, isA<api_mod.Field>());
-        expect(apiModel.pageIndex, 1);
-        expect(apiModel.x, 2.00);
-        expect(apiModel.y, 3.0);
-        expect(apiModel.width, 4.0);
-        expect(apiModel.fontSize, 5);
-        expect(apiModel.useColumnLayout, true);
-        expect(apiModel.assetBucketName, 'I');
-        expect(apiModel.assetObjectName, 'J');
-        expect(apiModel.assetContentType, 'K');
-        expect(apiModel.assetSignedUrl, 'L');
-        expect(apiModel.defaultValue, 'M');
-        expect(apiModel.defaultValues, 'N');
-        expect(apiModel.possibleValues, ['Yes', 'No']);
-        expect(apiModel.value, 'O');
-        expect(apiModel.values, 'P');
-      }
-
-      final apiModelOrig = api_mod.FormTemplateField.fromJson(jsonDecode(formTemplateFieldJson));
-      performFormTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = FormTemplateField.fromApiModel(apiModelOrig).toApiModel();
-        performFormTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.FormTemplateField, FormTemplateField>(
+      apiModelJson: formTemplateFieldJson,
+      expectedPublicFieldCount: 25,
+      fieldsAndExpectedValues: formTemplateFieldFieldsAndExpectedValues,
+    );
   });
 
   group('FormSubmissionField class tests', () {
@@ -139,109 +107,64 @@ void main() {
       expect(classIsSubtypeOf<FormSubmissionField, FormTemplateFieldMixin>(), isTrue);
     });
 
-    test('Expected class field count test', () {
-      expect(getClassPublicFieldCount(api_mod.FormSubmissionField), 26);
-    });
-
-    test('Serialization test', () async {
-      void performTests(api_mod.FormSubmissionField apiModel) {
-        expect(apiModel.formTemplateFieldID, 'A');
-        expect(apiModel.id, 'B');
-        expect(apiModel.formTemplateID, 'C');
-        expect(apiModel.formTemplateName, 'D');
-        expect(apiModel.formTemplateNameLower, 'E');
-        expect(apiModel.tenantID, 'F');
-        expect(apiModel.uniqueID, 'G');
-        expect(apiModel.createdOn, 'H');
-        expect(apiModel.type, 'I');
-        expect(apiModel.fieldID, 'J');
-        expect(apiModel.field, isA<api_mod.Field>());
-        expect(apiModel.pageIndex, 0);
-        expect(apiModel.x, 1.2);
-        expect(apiModel.y, 2.3);
-        expect(apiModel.width, 3.4);
-        expect(apiModel.fontSize, 4);
-        expect(apiModel.useColumnLayout, true);
-        expect(apiModel.assetBucketName, 'K');
-        expect(apiModel.assetObjectName, 'L');
-        expect(apiModel.assetContentType, 'M');
-        expect(apiModel.assetSignedUrl, 'N');
-        expect(apiModel.defaultValue, 'O');
-        expect(apiModel.defaultValues, 'P');
-        expect(apiModel.possibleValues!.length, 1);
-        expect(apiModel.possibleValues![0], 'Q');
-        expect(apiModel.value, 'R');
-        expect(apiModel.values, 'S');
-      }
-
-      final apiModelOrig =
-          api_mod.FormSubmissionField.fromJson(jsonDecode(formSubmissionFieldJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled = FormSubmissionField.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.FormSubmissionField, FormSubmissionField>(
+      apiModelJson: formSubmissionFieldJson,
+      expectedPublicFieldCount: 26,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.formTemplateFieldID: 'A',
+        apiModel.id: 'B',
+        apiModel.formTemplateID: 'C',
+        apiModel.formTemplateName: 'D',
+        apiModel.formTemplateNameLower: 'E',
+        apiModel.tenantID: 'F',
+        apiModel.uniqueID: 'G',
+        apiModel.createdOn: 'H',
+        apiModel.type: 'I',
+        apiModel.fieldID: 'J',
+        apiModel.field: isA<api_mod.Field>(),
+        apiModel.pageIndex: 0,
+        apiModel.x: 1.2,
+        apiModel.y: 2.3,
+        apiModel.width: 3.4,
+        apiModel.fontSize: 4,
+        apiModel.useColumnLayout: true,
+        apiModel.assetBucketName: 'K',
+        apiModel.assetObjectName: 'L',
+        apiModel.assetContentType: 'M',
+        apiModel.assetSignedUrl: 'N',
+        apiModel.defaultValue: 'O',
+        apiModel.defaultValues: 'P',
+        apiModel.possibleValues!.length: 1,
+        apiModel.possibleValues![0]: 'Q',
+        apiModel.value: 'R',
+        apiModel.values: 'S',
+      },
+    );
 
     test('FormSubmissionField.fromFormTemplateField factory constructor test', () {
       final n1App = getStandardN1App();
-      final ftf = FormTemplateField.fromApiModel(
+      final apiModelFtf = FormTemplateField.fromApiModel(
         api_mod.FormTemplateField.fromJson(jsonDecode(formTemplateFieldJson)),
         app: n1App,
       );
-      final fsf = FormSubmissionField.fromFormTemplateField(ftf, app: n1App);
+      final fsf = FormSubmissionField.fromFormTemplateField(apiModelFtf);
 
-      expect(fsf.id, 'A');
-      expect(fsf.formTemplateID, 'B');
-      expect(fsf.formTemplateName, 'C');
-      expect(fsf.formTemplateNameLower, 'D');
-      expect(fsf.tenantID, 'E');
-      expect(fsf.uniqueID, 'F');
-      expect(fsf.createdOn, '2020-09-23T04:58:06.215898Z');
-      expect(fsf.type, 'G');
-      expect(fsf.fieldID, 'H');
-      expect(fsf.field, isA<Field>());
-      expect(fsf.pageIndex, 1);
-      expect(fsf.x, 2.00);
-      expect(fsf.y, 3.0);
-      expect(fsf.width, 4.0);
-      expect(fsf.fontSize, 5);
-      expect(fsf.useColumnLayout, true);
-      expect(fsf.assetBucketName, 'I');
-      expect(fsf.assetObjectName, 'J');
-      expect(fsf.assetContentType, 'K');
-      expect(fsf.assetSignedUrl, 'L');
-      expect(fsf.defaultValue, 'M');
-      expect(fsf.defaultValues, 'N');
-      expect(fsf.possibleValues, ['Yes', 'No']);
-      expect(fsf.value, 'O');
-      expect(fsf.values, 'P');
+      testObjectFieldValues(
+        object: fsf,
+        fieldsAndExpectedValues: formTemplateFieldFieldsAndExpectedValues,
+      );
     });
   });
 
   group('FormSubmissionPackageCollection class tests', () {
-    // !~!~!
-    // FormSubmissionPackageCollection
-    // 1
-
-    test('Serialization test', () async {
-      void performTests(api_mod.FormSubmissionPackageCollection apiModel) {
-        expect(apiModel.items.length, 1);
-      }
-
-      final apiModelOrig = api_mod.FormSubmissionPackageCollection.fromJson(
-          jsonDecode(formSubmissionPackageCollectionJson));
-      performTests(apiModelOrig);
-
-      await defineN1AppInScope(getStandardN1App(), () {
-        // Convert it to a model class then back again
-        final apiModelCycled =
-            FormSubmissionPackageCollection.fromApiModel(apiModelOrig).toApiModel();
-        performTests(apiModelCycled);
-      });
-    });
+    performStandardModelTests<api_mod.FormSubmissionPackageCollection,
+        FormSubmissionPackageCollection>(
+      apiModelJson: formSubmissionPackageCollectionJson,
+      expectedPublicFieldCount: 1,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.items.length: 1,
+      },
+    );
   });
 
   group('FormSubmissionPackage class tests', () {

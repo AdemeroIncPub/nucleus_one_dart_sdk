@@ -29,7 +29,7 @@ class DocumentSignatureFormFieldCollection extends EntityCollection<DocumentSign
   }
 }
 
-class DocumentSignatureFormField with NucleusOneAppDependent {
+class DocumentSignatureFormField extends Entity with NucleusOneAppDependent {
   DocumentSignatureFormField._({
     NucleusOneApp? app,
     required this.id,
@@ -99,6 +99,7 @@ class DocumentSignatureFormField with NucleusOneAppDependent {
 
   double y;
 
+  @override
   api_mod.DocumentSignatureFormField toApiModel() {
     return api_mod.DocumentSignatureFormField()
       ..id = id

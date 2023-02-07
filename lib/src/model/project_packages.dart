@@ -25,7 +25,7 @@ class ProjectPackageCollection
   }
 }
 
-class ProjectPackage with NucleusOneAppDependent {
+class ProjectPackage extends Entity with NucleusOneAppDependent {
   ProjectPackage._({
     NucleusOneApp? app,
     required this.tenant,
@@ -53,6 +53,7 @@ class ProjectPackage with NucleusOneAppDependent {
 
   bool isAdmin;
 
+  @override
   api_mod.ProjectPackage toApiModel() {
     return api_mod.ProjectPackage()
       ..tenant = tenant.toApiModel()
