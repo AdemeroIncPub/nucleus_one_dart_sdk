@@ -8,36 +8,10 @@ import '../../../src/mirrors.dart';
 import '../api_model/form_template_field.dart';
 
 void main() {
-  Map<dynamic, dynamic> formTemplateFieldFieldsAndExpectedValues(dynamic object) {
-    final isApiModel = (object is api_mod.FormTemplateField);
-    return <dynamic, dynamic>{
-      object.id: 'A',
-      object.formTemplateID: 'B',
-      object.formTemplateName: 'C',
-      object.formTemplateNameLower: 'D',
-      object.tenantID: 'E',
-      object.uniqueID: 'F',
-      object.createdOn: '2020-09-23T04:58:06.215898Z',
-      object.type: 'G',
-      object.fieldID: 'H',
-      object.field: isApiModel ? isA<api_mod.Field>() : isA<Field>(),
-      object.pageIndex: 1,
-      object.x: 2.00,
-      object.y: 3.0,
-      object.width: 4.0,
-      object.fontSize: 5,
-      object.useColumnLayout: true,
-      object.assetBucketName: 'I',
-      object.assetObjectName: 'J',
-      object.assetContentType: 'K',
-      object.assetSignedUrl: 'L',
-      object.defaultValue: 'M',
-      object.defaultValues: 'N',
-      object.possibleValues: ['Yes', 'No'],
-      object.value: 'O',
-      object.values: 'P',
-    };
-  }
+  group('FormTemplateFieldMixin mixin tests', () {
+    // The tests for this mixin are effectively conducted in the FormTemplateField class tests,
+    // since that class is simply the "instantiable" extension of this mixin
+  });
 
   group('FormTemplateField class tests', () {
     test('Inherits from FormTemplateFieldMixin', () {
@@ -60,9 +34,35 @@ void main() {
       },
     );
   });
+}
 
-  group('FormTemplateFieldMixin mixin tests', () {
-    // The tests for this mixin are effectively conducted in the FormTemplateField class tests,
-    // since that class is simply the "instantiable" extension of this mixin
-  });
+Map<dynamic, dynamic> formTemplateFieldFieldsAndExpectedValues(dynamic object) {
+  final isApiModel = (object is api_mod.FormTemplateField);
+  return <dynamic, dynamic>{
+    object.id: 'A',
+    object.formTemplateID: 'B',
+    object.formTemplateName: 'C',
+    object.formTemplateNameLower: 'D',
+    object.tenantID: 'E',
+    object.uniqueID: 'F',
+    object.createdOn: '2020-09-23T04:58:06.215898Z',
+    object.type: 'G',
+    object.fieldID: 'H',
+    object.field: isApiModel ? isA<api_mod.Field>() : isA<Field>(),
+    object.pageIndex: 1,
+    object.x: 2.00,
+    object.y: 3.0,
+    object.width: 4.0,
+    object.fontSize: 5,
+    object.useColumnLayout: true,
+    object.assetBucketName: 'I',
+    object.assetObjectName: 'J',
+    object.assetContentType: 'K',
+    object.assetSignedUrl: 'L',
+    object.defaultValue: 'M',
+    object.defaultValues: 'N',
+    object.possibleValues: ['Yes', 'No'],
+    object.value: 'O',
+    object.values: 'P',
+  };
 }

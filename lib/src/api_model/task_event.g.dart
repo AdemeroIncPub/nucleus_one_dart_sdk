@@ -6,25 +6,6 @@ part of 'task_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TaskEventCollection _$TaskEventCollectionFromJson(Map<String, dynamic> json) =>
-    TaskEventCollection()
-      ..taskEvents = (json['TaskEvents'] as List<dynamic>?)
-          ?.map((e) => TaskEvent.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$TaskEventCollectionToJson(TaskEventCollection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('TaskEvents', instance.taskEvents);
-  return val;
-}
-
 TaskEvent _$TaskEventFromJson(Map<String, dynamic> json) => TaskEvent()
   ..id = json['ID'] as String?
   ..taskID = json['TaskID'] as String?
@@ -56,5 +37,24 @@ Map<String, dynamic> _$TaskEventToJson(TaskEvent instance) {
   writeNotNull('Type', instance.type);
   writeNotNull('TaskRevision', instance.taskRevision);
   writeNotNull('DetailJson', instance.detailJson);
+  return val;
+}
+
+TaskEventCollection _$TaskEventCollectionFromJson(Map<String, dynamic> json) =>
+    TaskEventCollection()
+      ..taskEvents = (json['TaskEvents'] as List<dynamic>?)
+          ?.map((e) => TaskEvent.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$TaskEventCollectionToJson(TaskEventCollection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TaskEvents', instance.taskEvents);
   return val;
 }

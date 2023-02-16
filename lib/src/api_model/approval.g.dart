@@ -6,24 +6,6 @@ part of 'approval.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ApprovalCollection _$ApprovalCollectionFromJson(Map<String, dynamic> json) => ApprovalCollection()
-  ..approvals = (json['Approvals'] as List<dynamic>?)
-      ?.map((e) => Approval.fromJson(e as Map<String, dynamic>))
-      .toList();
-
-Map<String, dynamic> _$ApprovalCollectionToJson(ApprovalCollection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Approvals', instance.approvals);
-  return val;
-}
-
 Approval _$ApprovalFromJson(Map<String, dynamic> json) => Approval()
   ..id = json['ID'] as String?
   ..createdOn = json['CreatedOn'] as String?
@@ -111,5 +93,23 @@ Map<String, dynamic> _$ApprovalToJson(Approval instance) {
   writeNotNull('DocumentIsSigned', instance.documentIsSigned);
   writeNotNull('TaskDueOn', instance.taskDueOn);
   writeNotNull('ThumbnailUrl', instance.thumbnailUrl);
+  return val;
+}
+
+ApprovalCollection _$ApprovalCollectionFromJson(Map<String, dynamic> json) => ApprovalCollection()
+  ..approvals = (json['Approvals'] as List<dynamic>?)
+      ?.map((e) => Approval.fromJson(e as Map<String, dynamic>))
+      .toList();
+
+Map<String, dynamic> _$ApprovalCollectionToJson(ApprovalCollection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Approvals', instance.approvals);
   return val;
 }

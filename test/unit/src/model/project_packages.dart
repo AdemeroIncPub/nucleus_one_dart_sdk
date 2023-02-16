@@ -7,16 +7,6 @@ import '../../../src/common.dart';
 import '../api_model/project_packages.dart';
 
 void main() {
-  group('ProjectPackageCollection class tests', () {
-    performStandardModelTests<ProjectPackageCollection, api_mod.ProjectPackageCollection>(
-      apiModelJson: projectPackageCollectionJson,
-      expectedPublicFieldCount: 1,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.items.length: 1,
-      },
-    );
-  });
-
   group('ProjectPackage class tests', () {
     performStandardModelTests<ProjectPackage, api_mod.ProjectPackage>(
       apiModelJson: projectPackageJson,
@@ -25,6 +15,16 @@ void main() {
         apiModel.tenant: isA<api_mod.Project>(),
         apiModel.tenantMember: isA<api_mod.ProjectMember>(),
         apiModel.isAdmin: isTrue,
+      },
+    );
+  });
+
+  group('ProjectPackageCollection class tests', () {
+    performStandardModelTests<ProjectPackageCollection, api_mod.ProjectPackageCollection>(
+      apiModelJson: projectPackageCollectionJson,
+      expectedPublicFieldCount: 1,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.items.length: 1,
       },
     );
   });

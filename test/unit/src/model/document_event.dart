@@ -7,17 +7,7 @@ import '../../../src/common.dart';
 import '../api_model/document_event.dart';
 
 void main() {
-  group('DocumentEventCollection class tests', () {
-    performStandardQueryResultModelTests<
-        DocumentEventCollection,
-        api_mod.DocumentEventCollection,
-        QueryResult2<DocumentEventCollection, api_mod.DocumentEventCollection>,
-        api_mod.QueryResult2<api_mod.DocumentEventCollection>>(
-      apiModelJson: documentEventCollectionJson,
-    );
-  });
-
-  group('DocumentEvent tests', () {
+  group('DocumentEvent class tests', () {
     performStandardModelTests<DocumentEvent, api_mod.DocumentEvent>(
       apiModelJson: documentEventJson,
       expectedPublicFieldCount: 8,
@@ -31,6 +21,16 @@ void main() {
         apiModel.type: 'Comment',
         apiModel.detailJson: 'F',
       },
+    );
+  });
+
+  group('DocumentEventCollection class tests', () {
+    performStandardQueryResultModelTests<
+        DocumentEventCollection,
+        api_mod.DocumentEventCollection,
+        QueryResult2<DocumentEventCollection, api_mod.DocumentEventCollection>,
+        api_mod.QueryResult2<api_mod.DocumentEventCollection>>(
+      apiModelJson: documentEventCollectionJson,
     );
   });
 }

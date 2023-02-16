@@ -6,25 +6,6 @@ part of 'support_error_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SupportErrorEventCollection _$SupportErrorEventCollectionFromJson(Map<String, dynamic> json) =>
-    SupportErrorEventCollection()
-      ..supportErrorEvents = (json['ErrorEvents'] as List<dynamic>?)
-          ?.map((e) => SupportErrorEvent.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$SupportErrorEventCollectionToJson(SupportErrorEventCollection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ErrorEvents', instance.supportErrorEvents);
-  return val;
-}
-
 SupportErrorEvent _$SupportErrorEventFromJson(Map<String, dynamic> json) => SupportErrorEvent()
   ..id = json['ID'] as String?
   ..createdOn = json['CreatedOn'] as String?
@@ -70,5 +51,24 @@ Map<String, dynamic> _$SupportErrorEventToJson(SupportErrorEvent instance) {
   writeNotNull('HttpStatus', instance.httpStatus);
   writeNotNull('OtherValues', instance.otherValues);
   writeNotNull('WordsLower', instance.wordsLower);
+  return val;
+}
+
+SupportErrorEventCollection _$SupportErrorEventCollectionFromJson(Map<String, dynamic> json) =>
+    SupportErrorEventCollection()
+      ..supportErrorEvents = (json['ErrorEvents'] as List<dynamic>?)
+          ?.map((e) => SupportErrorEvent.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$SupportErrorEventCollectionToJson(SupportErrorEventCollection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ErrorEvents', instance.supportErrorEvents);
   return val;
 }

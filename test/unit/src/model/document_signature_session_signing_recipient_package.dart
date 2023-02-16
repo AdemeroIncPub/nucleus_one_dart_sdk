@@ -8,17 +8,6 @@ import '../../../src/common.dart';
 import '../api_model/document_signature_session_signing_recipient_package.dart';
 
 void main() {
-  group('DocumentSignatureSessionRecipientFormFieldCollection class tests', () {
-    performStandardModelTests<DocumentSignatureSessionRecipientFormFieldCollection,
-        api_mod.DocumentSignatureSessionRecipientFormFieldCollection>(
-      apiModelJson: documentSignatureSessionRecipientFormFieldCollectionJson,
-      expectedPublicFieldCount: 1,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.items.length: 1,
-      },
-    );
-  });
-
   group('DocumentSignatureSessionRecipientFormField class tests', () {
     performStandardModelTests<DocumentSignatureSessionRecipientFormField,
         api_mod.DocumentSignatureSessionRecipientFormField>(
@@ -36,6 +25,17 @@ void main() {
         apiModel.y: 3.45,
         apiModel.value: 'E',
         apiModel.placementRank: 4,
+      },
+    );
+  });
+
+  group('DocumentSignatureSessionRecipientFormFieldCollection class tests', () {
+    performStandardModelTests<DocumentSignatureSessionRecipientFormFieldCollection,
+        api_mod.DocumentSignatureSessionRecipientFormFieldCollection>(
+      apiModelJson: documentSignatureSessionRecipientFormFieldCollectionJson,
+      expectedPublicFieldCount: 1,
+      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
+        apiModel.items.length: 1,
       },
     );
   });

@@ -6,25 +6,6 @@ part of 'support_user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SupportUserCollection _$SupportUserCollectionFromJson(Map<String, dynamic> json) =>
-    SupportUserCollection()
-      ..supportUsers = (json['Users'] as List<dynamic>?)
-          ?.map((e) => SupportUser.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$SupportUserCollectionToJson(SupportUserCollection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Users', instance.supportUsers);
-  return val;
-}
-
 SupportUser _$SupportUserFromJson(Map<String, dynamic> json) => SupportUser()
   ..id = json['ID'] as String?
   ..createdOn = json['CreatedOn'] as String?
@@ -50,5 +31,24 @@ Map<String, dynamic> _$SupportUserToJson(SupportUser instance) {
   writeNotNull('Email', instance.email);
   writeNotNull('Provider', instance.provider);
   writeNotNull('Name', instance.name);
+  return val;
+}
+
+SupportUserCollection _$SupportUserCollectionFromJson(Map<String, dynamic> json) =>
+    SupportUserCollection()
+      ..supportUsers = (json['Users'] as List<dynamic>?)
+          ?.map((e) => SupportUser.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$SupportUserCollectionToJson(SupportUserCollection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Users', instance.supportUsers);
   return val;
 }
