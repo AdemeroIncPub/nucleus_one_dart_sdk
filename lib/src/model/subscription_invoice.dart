@@ -4,27 +4,6 @@ import '../common/model.dart';
 import '../api_model/subscription_invoice.dart' as api_mod;
 import '../nucleus_one.dart';
 
-class SubscriptionInvoiceCollection
-    extends EntityCollection<SubscriptionInvoice, api_mod.SubscriptionInvoiceCollection> {
-  SubscriptionInvoiceCollection({
-    NucleusOneApp? app,
-    List<SubscriptionInvoice>? items,
-  }) : super(app: app, items: items);
-
-  factory SubscriptionInvoiceCollection.fromApiModel(
-      api_mod.SubscriptionInvoiceCollection apiModel) {
-    return SubscriptionInvoiceCollection(
-      items: apiModel.items.map((x) => SubscriptionInvoice.fromApiModel(x)).toList(),
-    );
-  }
-
-  @override
-  api_mod.SubscriptionInvoiceCollection toApiModel() {
-    return api_mod.SubscriptionInvoiceCollection()
-      ..items = items.map((x) => x.toApiModel()).toList();
-  }
-}
-
 class SubscriptionInvoice extends Entity with NucleusOneAppDependent {
   SubscriptionInvoice._({
     NucleusOneApp? app,
@@ -74,5 +53,26 @@ class SubscriptionInvoice extends Entity with NucleusOneAppDependent {
       ..isUpcoming = isUpcoming
       ..status = status
       ..pdfUrl = pdfUrl;
+  }
+}
+
+class SubscriptionInvoiceCollection
+    extends EntityCollection<SubscriptionInvoice, api_mod.SubscriptionInvoiceCollection> {
+  SubscriptionInvoiceCollection({
+    NucleusOneApp? app,
+    List<SubscriptionInvoice>? items,
+  }) : super(app: app, items: items);
+
+  factory SubscriptionInvoiceCollection.fromApiModel(
+      api_mod.SubscriptionInvoiceCollection apiModel) {
+    return SubscriptionInvoiceCollection(
+      items: apiModel.items.map((x) => SubscriptionInvoice.fromApiModel(x)).toList(),
+    );
+  }
+
+  @override
+  api_mod.SubscriptionInvoiceCollection toApiModel() {
+    return api_mod.SubscriptionInvoiceCollection()
+      ..items = items.map((x) => x.toApiModel()).toList();
   }
 }

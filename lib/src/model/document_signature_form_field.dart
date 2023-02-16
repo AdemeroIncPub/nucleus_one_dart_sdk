@@ -4,31 +4,6 @@ import '../common/model.dart';
 import '../common/string.dart';
 import '../nucleus_one.dart';
 
-class DocumentSignatureFormFieldCollection extends EntityCollection<DocumentSignatureFormField,
-    api_mod.DocumentSignatureFormFieldCollection> {
-  DocumentSignatureFormFieldCollection({
-    NucleusOneApp? app,
-    List<DocumentSignatureFormField>? items,
-  }) : super(app: app, items: items);
-
-  factory DocumentSignatureFormFieldCollection.fromApiModel(
-    api_mod.DocumentSignatureFormFieldCollection apiModel, {
-    NucleusOneApp? app,
-  }) {
-    return DocumentSignatureFormFieldCollection(
-      app: app,
-      items:
-          apiModel.items.map((x) => DocumentSignatureFormField.fromApiModel(x, app: app)).toList(),
-    );
-  }
-
-  @override
-  api_mod.DocumentSignatureFormFieldCollection toApiModel() {
-    return api_mod.DocumentSignatureFormFieldCollection()
-      ..items = items.map((x) => x.toApiModel()).toList();
-  }
-}
-
 class DocumentSignatureFormField extends Entity with NucleusOneAppDependent {
   DocumentSignatureFormField._({
     NucleusOneApp? app,
@@ -109,5 +84,30 @@ class DocumentSignatureFormField extends Entity with NucleusOneAppDependent {
       ..documentSignatureSessionRecipientID = documentSignatureSessionRecipientID
       ..x = x
       ..y = y;
+  }
+}
+
+class DocumentSignatureFormFieldCollection extends EntityCollection<DocumentSignatureFormField,
+    api_mod.DocumentSignatureFormFieldCollection> {
+  DocumentSignatureFormFieldCollection({
+    NucleusOneApp? app,
+    List<DocumentSignatureFormField>? items,
+  }) : super(app: app, items: items);
+
+  factory DocumentSignatureFormFieldCollection.fromApiModel(
+    api_mod.DocumentSignatureFormFieldCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return DocumentSignatureFormFieldCollection(
+      app: app,
+      items:
+          apiModel.items.map((x) => DocumentSignatureFormField.fromApiModel(x, app: app)).toList(),
+    );
+  }
+
+  @override
+  api_mod.DocumentSignatureFormFieldCollection toApiModel() {
+    return api_mod.DocumentSignatureFormFieldCollection()
+      ..items = items.map((x) => x.toApiModel()).toList();
   }
 }

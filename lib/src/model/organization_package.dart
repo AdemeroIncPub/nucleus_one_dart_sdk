@@ -1,32 +1,8 @@
-import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/organization_package.dart' as api_mod;
 import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
-
-class OrganizationPackageCollection
-    extends EntityCollection<OrganizationPackage, api_mod.OrganizationPackageCollection> {
-  OrganizationPackageCollection({
-    NucleusOneApp? app,
-    List<OrganizationPackage>? items,
-  }) : super(app: app, items: items);
-
-  factory OrganizationPackageCollection.fromApiModel(
-    api_mod.OrganizationPackageCollection apiModel, {
-    NucleusOneApp? app,
-  }) {
-    return OrganizationPackageCollection(
-        items: apiModel.organizationPackages
-            ?.map((x) => OrganizationPackage.fromApiModel(x, app: app))
-            .toList());
-  }
-
-  @override
-  api_mod.OrganizationPackageCollection toApiModel() {
-    return api_mod.OrganizationPackageCollection()
-      ..organizationPackages = items.map((x) => x.toApiModel()).toList();
-  }
-}
+import 'organization.dart';
 
 class OrganizationPackage extends Entity with NucleusOneAppDependent {
   OrganizationPackage._({
@@ -82,5 +58,29 @@ class OrganizationPackage extends Entity with NucleusOneAppDependent {
       ..expiration = expiration
       ..freeUsers = freeUsers
       ..isExpired = isExpired;
+  }
+}
+
+class OrganizationPackageCollection
+    extends EntityCollection<OrganizationPackage, api_mod.OrganizationPackageCollection> {
+  OrganizationPackageCollection({
+    NucleusOneApp? app,
+    List<OrganizationPackage>? items,
+  }) : super(app: app, items: items);
+
+  factory OrganizationPackageCollection.fromApiModel(
+    api_mod.OrganizationPackageCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return OrganizationPackageCollection(
+        items: apiModel.organizationPackages
+            ?.map((x) => OrganizationPackage.fromApiModel(x, app: app))
+            .toList());
+  }
+
+  @override
+  api_mod.OrganizationPackageCollection toApiModel() {
+    return api_mod.OrganizationPackageCollection()
+      ..organizationPackages = items.map((x) => x.toApiModel()).toList();
   }
 }

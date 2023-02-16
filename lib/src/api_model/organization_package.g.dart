@@ -6,25 +6,6 @@ part of 'organization_package.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrganizationPackageCollection _$OrganizationPackageCollectionFromJson(Map<String, dynamic> json) =>
-    OrganizationPackageCollection()
-      ..organizationPackages = (json['OrganizationPackagesForCurrentUser'] as List<dynamic>?)
-          ?.map((e) => OrganizationPackage.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$OrganizationPackageCollectionToJson(OrganizationPackageCollection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('OrganizationPackagesForCurrentUser', instance.organizationPackages);
-  return val;
-}
-
 OrganizationPackage _$OrganizationPackageFromJson(Map<String, dynamic> json) =>
     OrganizationPackage()
       ..organization = json['Organization'] == null
@@ -53,5 +34,24 @@ Map<String, dynamic> _$OrganizationPackageToJson(OrganizationPackage instance) {
   writeNotNull('Expiration', instance.expiration);
   writeNotNull('FreeUsers', instance.freeUsers);
   writeNotNull('IsExpired', instance.isExpired);
+  return val;
+}
+
+OrganizationPackageCollection _$OrganizationPackageCollectionFromJson(Map<String, dynamic> json) =>
+    OrganizationPackageCollection()
+      ..organizationPackages = (json['OrganizationPackagesForCurrentUser'] as List<dynamic>?)
+          ?.map((e) => OrganizationPackage.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$OrganizationPackageCollectionToJson(OrganizationPackageCollection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationPackagesForCurrentUser', instance.organizationPackages);
   return val;
 }

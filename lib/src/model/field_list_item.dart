@@ -3,27 +3,6 @@ import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class FieldListItemCollection
-    extends EntityCollection<FieldListItem, api_mod.FieldListItemCollection> {
-  FieldListItemCollection({
-    NucleusOneApp? app,
-    List<FieldListItem>? items,
-  }) : super(app: app, items: items);
-
-  factory FieldListItemCollection.fromApiModel(
-    api_mod.FieldListItemCollection apiModel, {
-    NucleusOneApp? app,
-  }) {
-    return FieldListItemCollection(
-        items: apiModel.items.map((x) => FieldListItem.fromApiModel(x)).toList());
-  }
-
-  @override
-  api_mod.FieldListItemCollection toApiModel() {
-    return api_mod.FieldListItemCollection()..items = items.map((x) => x.toApiModel()).toList();
-  }
-}
-
 class FieldListItem extends Entity with NucleusOneAppDependent {
   FieldListItem._({
     NucleusOneApp? app,
@@ -65,5 +44,26 @@ class FieldListItem extends Entity with NucleusOneAppDependent {
       ..id = id
       ..parentValue = parentValue
       ..value = value;
+  }
+}
+
+class FieldListItemCollection
+    extends EntityCollection<FieldListItem, api_mod.FieldListItemCollection> {
+  FieldListItemCollection({
+    NucleusOneApp? app,
+    List<FieldListItem>? items,
+  }) : super(app: app, items: items);
+
+  factory FieldListItemCollection.fromApiModel(
+    api_mod.FieldListItemCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return FieldListItemCollection(
+        items: apiModel.items.map((x) => FieldListItem.fromApiModel(x)).toList());
+  }
+
+  @override
+  api_mod.FieldListItemCollection toApiModel() {
+    return api_mod.FieldListItemCollection()..items = items.map((x) => x.toApiModel()).toList();
   }
 }

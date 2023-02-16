@@ -4,15 +4,20 @@ import 'dart:convert';
 import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:meta/meta.dart';
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 
-import 'common/get_it.dart';
-import 'common/util.dart';
-import 'http.dart' as http;
 import 'api_model/organization_for_client.dart' as api_mod;
 import 'api_model/organization_membership_package.dart' as api_mod;
 import 'api_model/query_result.dart' as api_mod;
+import 'common/get_it.dart';
+import 'common/string.dart';
+import 'common/util.dart';
+import 'hierarchy/nucleus_one_app_organization.dart';
+import 'hierarchy/nucleus_one_app_project.dart';
+import 'hierarchy/nucleus_one_app_user.dart';
+import 'http.dart' as http;
+import 'model/organization_for_client.dart';
+import 'model/organization_membership_package.dart';
+import 'model/query_result.dart';
 
 /// The entry point for accessing Nucleus One.
 abstract class NucleusOne {

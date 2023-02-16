@@ -6,8 +6,12 @@ import '../common/string.dart';
 import '../common/util.dart';
 import '../http.dart' as http;
 import '../api_model/task.dart' as api_mod;
-import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/task_comment.dart' as api_mod;
+import '../model/query_result.dart';
+import '../model/task.dart';
+import '../model/task_comment.dart';
+import '../nucleus_one.dart';
+import 'nucleus_one_app_project.dart';
 
 /// Performs operations on a specific task.
 class NucleusOneAppTask with NucleusOneAppProjectDependent {

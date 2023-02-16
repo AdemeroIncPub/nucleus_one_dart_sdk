@@ -11,7 +11,7 @@ import 'document_event.dart' as mod;
 import 'document_folder.dart' as mod;
 import 'document_subscription_for_client.dart' as mod;
 import 'field.dart' as mod;
-import 'folder_hierarchies.dart' as mod;
+import 'folder_hierarchy.dart' as mod;
 import 'form_template.dart' as mod;
 import 'organization_for_client.dart' as mod;
 import 'organization_membership_package.dart' as mod;

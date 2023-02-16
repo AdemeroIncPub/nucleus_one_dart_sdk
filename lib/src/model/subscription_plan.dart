@@ -4,45 +4,6 @@ import '../common/model.dart';
 import '../api_model/subscription_plan.dart' as api_mod;
 import '../nucleus_one.dart';
 
-class SubscriptionPlanCollection
-    extends EntityCollection<SubscriptionPlan, api_mod.SubscriptionPlanCollection> {
-  SubscriptionPlanCollection({
-    NucleusOneApp? app,
-    List<SubscriptionPlan>? items,
-    required this.currentUniqueNonReadOnlyTenantMemberCount,
-    required this.currentUniqueReadOnlyTenantMemberCount,
-    required this.salesTaxRate,
-  }) : super(app: app, items: items);
-
-  factory SubscriptionPlanCollection.fromApiModel(
-    api_mod.SubscriptionPlanCollection apiModel, {
-    NucleusOneApp? app,
-  }) {
-    return SubscriptionPlanCollection(
-      items: apiModel.subscriptionPlans?.map((x) => SubscriptionPlan.fromApiModel(x)).toList(),
-      currentUniqueNonReadOnlyTenantMemberCount:
-          apiModel.currentUniqueNonReadOnlyTenantMemberCount!,
-      currentUniqueReadOnlyTenantMemberCount: apiModel.currentUniqueReadOnlyTenantMemberCount!,
-      salesTaxRate: apiModel.salesTaxRate!,
-    );
-  }
-
-  int currentUniqueNonReadOnlyTenantMemberCount;
-
-  int currentUniqueReadOnlyTenantMemberCount;
-
-  double salesTaxRate;
-
-  @override
-  api_mod.SubscriptionPlanCollection toApiModel() {
-    return api_mod.SubscriptionPlanCollection()
-      ..subscriptionPlans = items.map((x) => x.toApiModel()).toList()
-      ..currentUniqueNonReadOnlyTenantMemberCount = currentUniqueNonReadOnlyTenantMemberCount
-      ..currentUniqueReadOnlyTenantMemberCount = currentUniqueReadOnlyTenantMemberCount
-      ..salesTaxRate = salesTaxRate;
-  }
-}
-
 class SubscriptionPlan extends Entity with NucleusOneAppDependent {
   SubscriptionPlan._({
     NucleusOneApp? app,
@@ -102,5 +63,44 @@ class SubscriptionPlan extends Entity with NucleusOneAppDependent {
       ..tieredPricing = tieredPricing
       ..amountPerUnit = amountPerUnit
       ..active = active;
+  }
+}
+
+class SubscriptionPlanCollection
+    extends EntityCollection<SubscriptionPlan, api_mod.SubscriptionPlanCollection> {
+  SubscriptionPlanCollection({
+    NucleusOneApp? app,
+    List<SubscriptionPlan>? items,
+    required this.currentUniqueNonReadOnlyTenantMemberCount,
+    required this.currentUniqueReadOnlyTenantMemberCount,
+    required this.salesTaxRate,
+  }) : super(app: app, items: items);
+
+  factory SubscriptionPlanCollection.fromApiModel(
+    api_mod.SubscriptionPlanCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return SubscriptionPlanCollection(
+      items: apiModel.subscriptionPlans?.map((x) => SubscriptionPlan.fromApiModel(x)).toList(),
+      currentUniqueNonReadOnlyTenantMemberCount:
+          apiModel.currentUniqueNonReadOnlyTenantMemberCount!,
+      currentUniqueReadOnlyTenantMemberCount: apiModel.currentUniqueReadOnlyTenantMemberCount!,
+      salesTaxRate: apiModel.salesTaxRate!,
+    );
+  }
+
+  int currentUniqueNonReadOnlyTenantMemberCount;
+
+  int currentUniqueReadOnlyTenantMemberCount;
+
+  double salesTaxRate;
+
+  @override
+  api_mod.SubscriptionPlanCollection toApiModel() {
+    return api_mod.SubscriptionPlanCollection()
+      ..subscriptionPlans = items.map((x) => x.toApiModel()).toList()
+      ..currentUniqueNonReadOnlyTenantMemberCount = currentUniqueNonReadOnlyTenantMemberCount
+      ..currentUniqueReadOnlyTenantMemberCount = currentUniqueReadOnlyTenantMemberCount
+      ..salesTaxRate = salesTaxRate;
   }
 }

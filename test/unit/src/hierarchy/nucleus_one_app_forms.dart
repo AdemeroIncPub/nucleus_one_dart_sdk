@@ -12,6 +12,7 @@ import '../../../src/mocks/http.dart';
 import '../../../src/model_helper.dart';
 import '../api_model/field_list_item.dart';
 import '../api_model/form_template.dart';
+import '../api_model/form_template_field.dart';
 
 void main() {
   group('NucleusOneAppForms class tests', () {

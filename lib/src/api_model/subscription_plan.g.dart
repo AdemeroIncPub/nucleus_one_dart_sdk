@@ -6,35 +6,6 @@ part of 'subscription_plan.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SubscriptionPlanCollection _$SubscriptionPlanCollectionFromJson(Map<String, dynamic> json) =>
-    SubscriptionPlanCollection()
-      ..subscriptionPlans = (json['SubscriptionPlans'] as List<dynamic>?)
-          ?.map((e) => SubscriptionPlan.fromJson(e as Map<String, dynamic>))
-          .toList()
-      ..currentUniqueNonReadOnlyTenantMemberCount =
-          json['CurrentUniqueNonReadOnlyTenantMemberCount'] as int?
-      ..currentUniqueReadOnlyTenantMemberCount =
-          json['CurrentUniqueReadOnlyTenantMemberCount'] as int?
-      ..salesTaxRate = (json['SalesTaxRate'] as num?)?.toDouble();
-
-Map<String, dynamic> _$SubscriptionPlanCollectionToJson(SubscriptionPlanCollection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SubscriptionPlans', instance.subscriptionPlans);
-  writeNotNull('CurrentUniqueNonReadOnlyTenantMemberCount',
-      instance.currentUniqueNonReadOnlyTenantMemberCount);
-  writeNotNull(
-      'CurrentUniqueReadOnlyTenantMemberCount', instance.currentUniqueReadOnlyTenantMemberCount);
-  writeNotNull('SalesTaxRate', instance.salesTaxRate);
-  return val;
-}
-
 SubscriptionPlan _$SubscriptionPlanFromJson(Map<String, dynamic> json) => SubscriptionPlan()
   ..id = json['ID'] as String?
   ..title = json['Title'] as String?
@@ -62,5 +33,34 @@ Map<String, dynamic> _$SubscriptionPlanToJson(SubscriptionPlan instance) {
   writeNotNull('TieredPricing', instance.tieredPricing);
   writeNotNull('AmountPerUnit', instance.amountPerUnit);
   writeNotNull('Active', instance.active);
+  return val;
+}
+
+SubscriptionPlanCollection _$SubscriptionPlanCollectionFromJson(Map<String, dynamic> json) =>
+    SubscriptionPlanCollection()
+      ..subscriptionPlans = (json['SubscriptionPlans'] as List<dynamic>?)
+          ?.map((e) => SubscriptionPlan.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..currentUniqueNonReadOnlyTenantMemberCount =
+          json['CurrentUniqueNonReadOnlyTenantMemberCount'] as int?
+      ..currentUniqueReadOnlyTenantMemberCount =
+          json['CurrentUniqueReadOnlyTenantMemberCount'] as int?
+      ..salesTaxRate = (json['SalesTaxRate'] as num?)?.toDouble();
+
+Map<String, dynamic> _$SubscriptionPlanCollectionToJson(SubscriptionPlanCollection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SubscriptionPlans', instance.subscriptionPlans);
+  writeNotNull('CurrentUniqueNonReadOnlyTenantMemberCount',
+      instance.currentUniqueNonReadOnlyTenantMemberCount);
+  writeNotNull(
+      'CurrentUniqueReadOnlyTenantMemberCount', instance.currentUniqueReadOnlyTenantMemberCount);
+  writeNotNull('SalesTaxRate', instance.salesTaxRate);
   return val;
 }

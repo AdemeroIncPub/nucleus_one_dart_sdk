@@ -1,8 +1,10 @@
-import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/form_template.dart' as api_mod;
+import '../api_model/form_template_field.dart' as api_mod;
 import '../common/get_it.dart';
 import '../common/model.dart';
+import '../hierarchy/nucleus_one_app_project.dart';
 import '../nucleus_one.dart';
+import 'field.dart';
 
 class FormTemplateCollection extends EntityCollection<FormTemplate, api_mod.FormTemplateCollection>
     with NucleusOneAppProjectDependent {

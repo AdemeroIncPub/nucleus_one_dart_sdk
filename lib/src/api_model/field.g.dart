@@ -6,24 +6,6 @@ part of 'field.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FieldCollection _$FieldCollectionFromJson(Map<String, dynamic> json) => FieldCollection()
-  ..fields = (json['Fields'] as List<dynamic>?)
-      ?.map((e) => Field.fromJson(e as Map<String, dynamic>))
-      .toList();
-
-Map<String, dynamic> _$FieldCollectionToJson(FieldCollection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Fields', instance.fields);
-  return val;
-}
-
 Field _$FieldFromJson(Map<String, dynamic> json) => Field()
   ..id = json['ID'] as String?
   ..createdOn = json['CreatedOn'] as String?
@@ -79,5 +61,23 @@ Map<String, dynamic> _$FieldToJson(Field instance) {
   writeNotNull('Sensitive', instance.sensitive);
   writeNotNull('UseCreationDate', instance.useCreationDate);
   writeNotNull('TextMatchType', instance.textMatchType);
+  return val;
+}
+
+FieldCollection _$FieldCollectionFromJson(Map<String, dynamic> json) => FieldCollection()
+  ..fields = (json['Fields'] as List<dynamic>?)
+      ?.map((e) => Field.fromJson(e as Map<String, dynamic>))
+      .toList();
+
+Map<String, dynamic> _$FieldCollectionToJson(FieldCollection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Fields', instance.fields);
   return val;
 }

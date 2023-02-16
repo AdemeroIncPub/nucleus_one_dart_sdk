@@ -1,10 +1,10 @@
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-import 'package:nucleus_one_dart_sdk/src/api_model/folder_hierarchies.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/folder_hierarchy.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/query_result.dart' as api_mod;
 import 'package:test/test.dart';
 
 import '../../../src/common.dart';
-import '../api_model/folder_hierarchies.dart';
+import '../api_model/folder_hierarchy.dart';
 
 void main() {
   group('FolderHierarchy tests', () {
@@ -28,17 +28,6 @@ void main() {
         api_mod.QueryResult<api_mod.FolderHierarchyCollection>>(
       requiresAppAndProjectInScope: true,
       apiModelJson: folderHierarchyCollectionJson,
-    );
-  });
-
-  group('FolderHierarchyItemCollection class tests', () {
-    performStandardModelTests<FolderHierarchyItemCollection, api_mod.FolderHierarchyItemCollection>(
-      requiresAppAndProjectInScope: true,
-      apiModelJson: folderHierarchyItemCollectionJson,
-      expectedPublicFieldCount: 1,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.items.length: 1,
-      },
     );
   });
 }

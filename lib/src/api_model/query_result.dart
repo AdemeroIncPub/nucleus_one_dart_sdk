@@ -7,7 +7,7 @@ import 'document_event.dart' as api_mod;
 import 'document_folder.dart' as api_mod;
 import 'document_subscription_for_client.dart' as api_mod;
 import 'field.dart' as api_mod;
-import 'folder_hierarchies.dart' as api_mod;
+import 'folder_hierarchy.dart' as api_mod;
 import 'form_template.dart' as api_mod;
 import 'organization_for_client.dart' as api_mod;
 import 'organization_membership_package.dart' as api_mod;

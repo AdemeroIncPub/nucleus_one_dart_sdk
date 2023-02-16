@@ -6,6 +6,7 @@ import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_folder.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/signature_form_template.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/signature_form_template_field.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
 import 'package:nucleus_one_dart_sdk/src/common/util.dart';
 import 'package:nucleus_one_dart_sdk/src/http.dart' as http;
@@ -18,6 +19,7 @@ import '../api_model/document.dart';
 import '../api_model/document_folder.dart';
 import '../api_model/document_signature_form.dart';
 import '../api_model/document_upload.dart';
+import '../api_model/signature_form_template_field.dart';
 import '../api_model/signature_form_template.dart';
 
 void main() {

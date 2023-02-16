@@ -4,27 +4,6 @@ import '../common/model.dart';
 import '../nucleus_one.dart';
 import 'project.dart';
 
-class ProjectPackageCollection
-    extends EntityCollection<ProjectPackage, api_mod.ProjectPackageCollection> {
-  ProjectPackageCollection({
-    NucleusOneApp? app,
-    List<ProjectPackage>? items,
-  }) : super(app: app, items: items);
-
-  factory ProjectPackageCollection.fromApiModel(
-    api_mod.ProjectPackageCollection apiModel, {
-    NucleusOneApp? app,
-  }) {
-    return ProjectPackageCollection(
-        items: apiModel.items.map((x) => ProjectPackage.fromApiModel(x)).toList());
-  }
-
-  @override
-  api_mod.ProjectPackageCollection toApiModel() {
-    return api_mod.ProjectPackageCollection()..items = items.map((x) => x.toApiModel()).toList();
-  }
-}
-
 class ProjectPackage extends Entity with NucleusOneAppDependent {
   ProjectPackage._({
     NucleusOneApp? app,
@@ -59,5 +38,26 @@ class ProjectPackage extends Entity with NucleusOneAppDependent {
       ..tenant = tenant.toApiModel()
       ..tenantMember = tenantMember.toApiModel()
       ..isAdmin = isAdmin;
+  }
+}
+
+class ProjectPackageCollection
+    extends EntityCollection<ProjectPackage, api_mod.ProjectPackageCollection> {
+  ProjectPackageCollection({
+    NucleusOneApp? app,
+    List<ProjectPackage>? items,
+  }) : super(app: app, items: items);
+
+  factory ProjectPackageCollection.fromApiModel(
+    api_mod.ProjectPackageCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return ProjectPackageCollection(
+        items: apiModel.items.map((x) => ProjectPackage.fromApiModel(x)).toList());
+  }
+
+  @override
+  api_mod.ProjectPackageCollection toApiModel() {
+    return api_mod.ProjectPackageCollection()..items = items.map((x) => x.toApiModel()).toList();
   }
 }

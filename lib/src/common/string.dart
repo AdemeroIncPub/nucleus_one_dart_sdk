@@ -1,5 +1,3 @@
-import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
-
 import '../hierarchy/nucleus_one_app_project.dart';
 
 /// If the value is null or blank false is returned; otherwise, true.

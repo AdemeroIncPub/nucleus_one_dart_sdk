@@ -6,25 +6,6 @@ part of 'document_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocumentEventCollection _$DocumentEventCollectionFromJson(Map<String, dynamic> json) =>
-    DocumentEventCollection()
-      ..documentEvents = (json['DocumentEvents'] as List<dynamic>?)
-          ?.map((e) => DocumentEvent.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$DocumentEventCollectionToJson(DocumentEventCollection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DocumentEvents', instance.documentEvents);
-  return val;
-}
-
 DocumentEvent _$DocumentEventFromJson(Map<String, dynamic> json) => DocumentEvent()
   ..id = json['ID'] as String?
   ..documentID = json['DocumentID'] as String?
@@ -52,5 +33,24 @@ Map<String, dynamic> _$DocumentEventToJson(DocumentEvent instance) {
   writeNotNull('CreatedByUserEmail', instance.createdByUserEmail);
   writeNotNull('Type', instance.type);
   writeNotNull('DetailJson', instance.detailJson);
+  return val;
+}
+
+DocumentEventCollection _$DocumentEventCollectionFromJson(Map<String, dynamic> json) =>
+    DocumentEventCollection()
+      ..documentEvents = (json['DocumentEvents'] as List<dynamic>?)
+          ?.map((e) => DocumentEvent.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$DocumentEventCollectionToJson(DocumentEventCollection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentEvents', instance.documentEvents);
   return val;
 }

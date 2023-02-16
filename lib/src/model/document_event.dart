@@ -3,28 +3,6 @@ import '../common/get_it.dart';
 import '../common/model.dart';
 import '../nucleus_one.dart';
 
-class DocumentEventCollection
-    extends EntityCollection<DocumentEvent, api_mod.DocumentEventCollection> {
-  DocumentEventCollection({
-    NucleusOneApp? app,
-    List<DocumentEvent>? items,
-  }) : super(app: app, items: items);
-
-  factory DocumentEventCollection.fromApiModel(
-    api_mod.DocumentEventCollection apiModel, {
-    NucleusOneApp? app,
-  }) {
-    return DocumentEventCollection(
-        items: apiModel.documentEvents?.map((x) => DocumentEvent.fromApiModel(x)).toList());
-  }
-
-  @override
-  api_mod.DocumentEventCollection toApiModel() {
-    return api_mod.DocumentEventCollection()
-      ..documentEvents = items.map((x) => x.toApiModel()).toList();
-  }
-}
-
 class DocumentEvent extends Entity with NucleusOneAppDependent {
   DocumentEvent._({
     NucleusOneApp? app,
@@ -84,5 +62,27 @@ class DocumentEvent extends Entity with NucleusOneAppDependent {
       ..createdByUserEmail = createdByUserEmail
       ..type = type
       ..detailJson = detailJson;
+  }
+}
+
+class DocumentEventCollection
+    extends EntityCollection<DocumentEvent, api_mod.DocumentEventCollection> {
+  DocumentEventCollection({
+    NucleusOneApp? app,
+    List<DocumentEvent>? items,
+  }) : super(app: app, items: items);
+
+  factory DocumentEventCollection.fromApiModel(
+    api_mod.DocumentEventCollection apiModel, {
+    NucleusOneApp? app,
+  }) {
+    return DocumentEventCollection(
+        items: apiModel.documentEvents?.map((x) => DocumentEvent.fromApiModel(x)).toList());
+  }
+
+  @override
+  api_mod.DocumentEventCollection toApiModel() {
+    return api_mod.DocumentEventCollection()
+      ..documentEvents = items.map((x) => x.toApiModel()).toList();
   }
 }

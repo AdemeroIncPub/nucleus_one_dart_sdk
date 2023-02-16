@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../api_model/field_list_item.dart' as api_mod;
+import '../api_model/form_template_field.dart' as api_mod;
 import '../api_model/form_template.dart' as api_mod;
 import '../api_model/query_result.dart' as api_mod;
 import '../common/get_it.dart';

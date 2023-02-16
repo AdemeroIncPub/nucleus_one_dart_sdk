@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import '../../nucleus_one_dart_sdk.dart';
 import '../api_model/query_result.dart' as api_mod;
 import '../api_model/support_error_event.dart' as api_mod;
 import '../api_model/support_organization.dart' as api_mod;
@@ -9,6 +8,7 @@ import '../common/get_it.dart';
 import '../common/string.dart';
 import '../common/util.dart';
 import '../http.dart' as http;
+import '../model/query_result.dart';
 import '../model/support_error_event.dart';
 import '../model/support_organization.dart';
 import '../model/support_user.dart';

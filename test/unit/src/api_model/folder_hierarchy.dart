@@ -3,10 +3,6 @@ const folderHierarchyJson =
 const folderHierarchyCollectionJson =
     '{"FolderHierarchies":[$folderHierarchyJson],"Cursor":"QueryResultA","PageSize":24}';
 
-const folderHierarchyItemJson =
-    '{"ID":"A","FolderHierarchyID":"B","FolderHierarchyName":"C","Rank":0,"Type":"D","FieldID":"E","FieldName":"F","FieldType":"G","FieldValueType":"H"}';
-const folderHierarchyItemCollectionJson = '[$folderHierarchyItemJson]';
-
 void main() {
   /*
   Because these "API model" classes are purely boilerplate for generated json_serializable logic,
