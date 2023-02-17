@@ -1,75 +1,18 @@
+import 'package:test/test.dart';
+
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_content_package.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session_form_field_package.dart'
+    as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session_signing_recipient.dart'
+    as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session_signing_recipient_package.dart'
     as api_mod;
-import 'package:test/test.dart';
 
 import '../../../src/common.dart';
 import '../api_model/document_signature_session_signing_recipient_package.dart';
 
 void main() {
-  group('DocumentSignatureSessionRecipientFormField class tests', () {
-    performStandardModelTests<DocumentSignatureSessionRecipientFormField,
-        api_mod.DocumentSignatureSessionRecipientFormField>(
-      apiModelJson: documentSignatureSessionRecipientFormFieldJson,
-      expectedPublicFieldCount: 11,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.id: 'A',
-        apiModel.documentSignatureFormFieldID: 'B',
-        apiModel.documentSignatureSessionRecipientID: 'C',
-        apiModel.documentSignatureSessionRecipientRank: 0,
-        apiModel.isComplete: true,
-        apiModel.type: 'D',
-        apiModel.pageIndex: 1,
-        apiModel.x: 2.34,
-        apiModel.y: 3.45,
-        apiModel.value: 'E',
-        apiModel.placementRank: 4,
-      },
-    );
-  });
-
-  group('DocumentSignatureSessionRecipientFormFieldCollection class tests', () {
-    performStandardModelTests<DocumentSignatureSessionRecipientFormFieldCollection,
-        api_mod.DocumentSignatureSessionRecipientFormFieldCollection>(
-      apiModelJson: documentSignatureSessionRecipientFormFieldCollectionJson,
-      expectedPublicFieldCount: 1,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.items.length: 1,
-      },
-    );
-  });
-
-  group('DocumentSignatureSessionFormFieldPackage class tests', () {
-    performStandardModelTests<DocumentSignatureSessionFormFieldPackage,
-        api_mod.DocumentSignatureSessionFormFieldPackage>(
-      apiModelJson: documentSignatureSessionFormFieldPackageJson,
-      expectedPublicFieldCount: 7,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.formDesignType: 'A',
-        apiModel.quickDesignPlaceInitials: true,
-        apiModel.quickDesignPlaceFullName: false,
-        apiModel.quickDesignPlaceEmail: true,
-        apiModel.quickDesignPlaceTitle: false,
-        apiModel.formFields: isA<List<api_mod.DocumentSignatureSessionRecipientFormField>>(),
-        apiModel.completedFormFields:
-            isA<List<api_mod.DocumentSignatureSessionRecipientFormField>>(),
-      },
-    );
-  });
-
-  group('DocumentSignatureSessionSigningRecipient class tests', () {
-    performStandardModelTests<DocumentSignatureSessionSigningRecipient,
-        api_mod.DocumentSignatureSessionSigningRecipient>(
-      apiModelJson: documentSignatureSessionSigningRecipientJson,
-      expectedPublicFieldCount: 2,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.email: 'A',
-        apiModel.fullName: 'B',
-      },
-    );
-  });
-
   group('DocumentSignatureSessionSigningRecipientPackage class tests', () {
     performStandardModelTests<DocumentSignatureSessionSigningRecipientPackage,
         api_mod.DocumentSignatureSessionSigningRecipientPackage>(

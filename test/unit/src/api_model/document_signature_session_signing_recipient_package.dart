@@ -1,12 +1,7 @@
 import 'document_content_package.dart';
+import 'document_signature_session_form_field_package.dart';
+import 'document_signature_session_signing_recipient.dart';
 
-const documentSignatureSessionRecipientFormFieldJson =
-    '{"ID":"A","DocumentSignatureFormFieldID":"B","DocumentSignatureSessionRecipientID":"C","DocumentSignatureSessionRecipientRank":0,"IsComplete":true,"Type":"D","PageIndex":1,"X":2.34,"Y":3.45,"Value":"E","PlacementRank":4}';
-const documentSignatureSessionRecipientFormFieldCollectionJson =
-    '[$documentSignatureSessionRecipientFormFieldJson]';
-const documentSignatureSessionFormFieldPackageJson =
-    '{"FormDesignType":"A","QuickDesignPlaceInitials":true,"QuickDesignPlaceFullName":false,"QuickDesignPlaceEmail":true,"QuickDesignPlaceTitle":false,"FormFields":[$documentSignatureSessionRecipientFormFieldJson],"CompletedFormFields":[$documentSignatureSessionRecipientFormFieldJson]}';
-const documentSignatureSessionSigningRecipientJson = '{"Email":"A","FullName":"B"}';
 const documentSignatureSessionSigningRecipientPackageJson =
     '{"RequireAccessCode":false,"SigningRecipient":$documentSignatureSessionSigningRecipientJson,"FormFieldPackage":$documentSignatureSessionFormFieldPackageJson,"ServerDate":"2021-06-23T15:56:33.360404143Z","ContentPackage":$documentContentPackageJson}';
 

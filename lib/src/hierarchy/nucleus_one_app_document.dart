@@ -24,6 +24,7 @@ import '../model/document_package.dart';
 import '../model/document_signature_form.dart';
 import '../model/document_signature_form_field.dart';
 import '../model/document_signature_session.dart';
+import '../model/document_signature_session_recipient_form_field.dart';
 import '../model/document_signature_session_signing_recipient_package.dart';
 import '../model/document_subscription_for_client.dart';
 import '../model/query_result.dart';

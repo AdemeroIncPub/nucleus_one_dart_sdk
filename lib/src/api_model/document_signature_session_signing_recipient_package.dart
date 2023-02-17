@@ -1,9 +1,11 @@
+// ignore_for_file: unused_import
+
 import 'package:json_annotation/json_annotation.dart';
 import '../common/api_model.dart';
 
 import 'document_content_package.dart';
 import 'document_signature_session_form_field_package.dart';
-import 'document_signature_session_form_recipient_form_field.dart';
+import 'document_signature_session_recipient_form_field.dart';
 import 'document_signature_session_signing_recipient.dart';
 
 part 'document_signature_session_signing_recipient_package.g.dart';

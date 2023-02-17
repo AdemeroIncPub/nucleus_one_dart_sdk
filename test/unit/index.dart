@@ -13,8 +13,14 @@ import 'src/api_model/document_package_field.dart' as api_mod__document_package_
 import 'src/api_model/document_signature_form.dart' as api_mod__document_signature_form;
 import 'src/api_model/document_signature_form_field.dart' as api_mod__document_signature_form_field;
 import 'src/api_model/document_signature_session.dart' as api_mod__document_signature_session;
+import 'src/api_model/document_signature_session_form_field_package.dart'
+    as api_mod__document_signature_session_form_field_package;
+import 'src/api_model/document_signature_session_recipient_form_field.dart'
+    as api_mod__document_signature_session_recipient_form_field;
 import 'src/api_model/document_signature_session_signing_recipient_package.dart'
     as api_mod__document_signature_session_signing_recipient_package;
+import 'src/api_model/document_signature_session_signing_recipient.dart'
+    as api_mod__signature_document_signature_session_signing_recipient;
 import 'src/api_model/document_subscription_for_client.dart' as api_mod__document_subscription;
 import 'src/api_model/document_upload.dart' as api_mod__document_upload;
 import 'src/api_model/email_login_options.dart' as api_mod__email_login_options;
@@ -85,8 +91,14 @@ import 'src/model/document_package_field.dart' as mod__document_package_field;
 import 'src/model/document_signature_form.dart' as mod__document_signature_form;
 import 'src/model/document_signature_form_field.dart' as mod__document_signature_form_field;
 import 'src/model/document_signature_session.dart' as mod__document_signature_session;
+import 'src/model/document_signature_session_form_field_package.dart'
+    as mod__document_signature_session_form_field_package;
+import 'src/model/document_signature_session_recipient_form_field.dart'
+    as mod__document_signature_session_recipient_form_field;
 import 'src/model/document_signature_session_signing_recipient_package.dart'
     as mod__document_signature_session_signing_recipient_package;
+import 'src/model/document_signature_session_signing_recipient.dart'
+    as mod__signature_document_signature_session_signing_recipient;
 import 'src/model/document_subscription_for_client.dart' as mod__document_subscription;
 import 'src/model/document_upload.dart' as mod__document_upload;
 import 'src/model/email_login_options.dart' as mod__email_login_options;
@@ -155,7 +167,10 @@ void _apiModelTests() {
   api_mod__document_signature_form.main();
   api_mod__document_signature_form_field.main();
   api_mod__document_signature_session.main();
+  api_mod__document_signature_session_form_field_package.main();
+  api_mod__document_signature_session_recipient_form_field.main();
   api_mod__document_signature_session_signing_recipient_package.main();
+  api_mod__signature_document_signature_session_signing_recipient.main();
   api_mod__document_subscription.main();
   api_mod__document_upload.main();
   api_mod__email_login_options.main();
@@ -213,7 +228,10 @@ void _modelTests() {
   mod__document_signature_form.main();
   mod__document_signature_form_field.main();
   mod__document_signature_session.main();
+  mod__document_signature_session_form_field_package.main();
+  mod__document_signature_session_recipient_form_field.main();
   mod__document_signature_session_signing_recipient_package.main();
+  mod__signature_document_signature_session_signing_recipient.main();
   mod__document_subscription.main();
   mod__document_upload.main();
   mod__email_login_options.main();
