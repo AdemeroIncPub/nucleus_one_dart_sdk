@@ -97,9 +97,9 @@ class DocumentFolder extends Entity {
 class DocumentFolderCollection implements IQueryResultEntityCollection {
   DocumentFolderCollection();
 
-  /// A necessary factory constructor for creating a new FieldCollection instance
+  /// A necessary factory constructor for creating a new DocumentFolderCollection instance
   /// from a map. Pass the map to the generated [_$DocumentFolderFromJson()] constructor.
-  /// The constructor is named after the source class, in this case, FieldCollection.
+  /// The constructor is named after the source class, in this case, DocumentFolderCollection.
   factory DocumentFolderCollection.fromJson(Map<String, dynamic> json) =>
       _$DocumentFolderCollectionFromJson(json);
 

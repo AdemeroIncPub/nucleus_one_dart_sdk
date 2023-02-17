@@ -100,9 +100,9 @@ class DocumentSubscriptionForClient extends Entity {
 class DocumentSubscriptionForClientCollection implements IQueryResultEntityCollection {
   DocumentSubscriptionForClientCollection();
 
-  /// A necessary factory constructor for creating a new FieldCollection instance
+  /// A necessary factory constructor for creating a new DocumentSubscriptionForClientCollection instance
   /// from a map. Pass the map to the generated [_$DocumentSubscriptionForClientCollectionFromJson()] constructor.
-  /// The constructor is named after the source class, in this case, FieldCollection.
+  /// The constructor is named after the source class, in this case, DocumentSubscriptionForClientCollection.
   factory DocumentSubscriptionForClientCollection.fromJson(Map<String, dynamic> json) =>
       _$DocumentSubscriptionForClientCollectionFromJson(json);
 

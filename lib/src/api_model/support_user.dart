@@ -51,9 +51,9 @@ class SupportUser extends Entity {
 class SupportUserCollection implements IQueryResultEntityCollection {
   SupportUserCollection();
 
-  /// A necessary factory constructor for creating a new FieldCollection instance
+  /// A necessary factory constructor for creating a new SupportUserCollection instance
   /// from a map. Pass the map to the generated [_$SupportUserCollectionFromJson()] constructor.
-  /// The constructor is named after the source class, in this case, FieldCollection.
+  /// The constructor is named after the source class, in this case, SupportUserCollection.
   factory SupportUserCollection.fromJson(Map<String, dynamic> json) =>
       _$SupportUserCollectionFromJson(json);
 

@@ -70,9 +70,9 @@ class OrganizationForClient extends Entity {
 class OrganizationForClientCollection implements IQueryResultEntityCollection {
   OrganizationForClientCollection();
 
-  /// A necessary factory constructor for creating a new FieldCollection instance
+  /// A necessary factory constructor for creating a new OrganizationForClientCollection instance
   /// from a map. Pass the map to the generated [_$OrganizationForClientCollectionFromJson()] constructor.
-  /// The constructor is named after the source class, in this case, FieldCollection.
+  /// The constructor is named after the source class, in this case, OrganizationForClientCollection.
   factory OrganizationForClientCollection.fromJson(Map<String, dynamic> json) =>
       _$OrganizationForClientCollectionFromJson(json);
 
