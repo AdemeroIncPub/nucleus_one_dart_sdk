@@ -1,16 +1,16 @@
 import 'dart:convert';
 
+import '../api_model/document_comment.dart' as api_mod;
 import '../api_model/document_content_package.dart' as api_mod;
 import '../api_model/document_event.dart' as api_mod;
-import '../api_model/query_result.dart' as api_mod;
 import '../api_model/document_for_client.dart' as api_mod;
 import '../api_model/document_package.dart' as api_mod;
 import '../api_model/document_signature_form.dart' as api_mod;
 import '../api_model/document_signature_form_field.dart' as api_mod;
-import '../api_model/document_signature_session.dart' as api_mod;
+import '../api_model/document_signature_session_package.dart' as api_mod;
 import '../api_model/document_signature_session_signing_recipient_package.dart' as api_mod;
 import '../api_model/document_subscription_for_client.dart' as api_mod;
-import '../api_model/document_comment.dart' as api_mod;
+import '../api_model/query_result.dart' as api_mod;
 import '../common/get_it.dart';
 import '../common/string.dart';
 import '../common/util.dart';
@@ -23,7 +23,7 @@ import '../model/document_for_client.dart';
 import '../model/document_package.dart';
 import '../model/document_signature_form.dart';
 import '../model/document_signature_form_field.dart';
-import '../model/document_signature_session.dart';
+import '../model/document_signature_session_package.dart';
 import '../model/document_signature_session_recipient_form_field.dart';
 import '../model/document_signature_session_signing_recipient_package.dart';
 import '../model/document_subscription_for_client.dart';

@@ -22,6 +22,8 @@ export 'src/model/document_signature_form.dart';
 export 'src/model/document_signature_form_field.dart';
 export 'src/model/document_signature_session.dart';
 export 'src/model/document_signature_session_form_field_package.dart';
+export 'src/model/document_signature_session_package.dart';
+export 'src/model/document_signature_session_recipient.dart';
 export 'src/model/document_signature_session_recipient_form_field.dart';
 export 'src/model/document_signature_session_signing_recipient.dart';
 export 'src/model/document_signature_session_signing_recipient_package.dart';

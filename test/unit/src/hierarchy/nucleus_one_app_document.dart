@@ -5,7 +5,8 @@ import 'package:nucleus_one_dart_sdk/src/api_model/document_comment.dart' as api
 import 'package:nucleus_one_dart_sdk/src/api_model/document_package.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form.dart' as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_form_field.dart' as api_mod;
-import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session.dart' as api_mod;
+import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session_package.dart'
+    as api_mod;
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session_recipient_form_field.dart'
     as api_mod;
 import 'package:nucleus_one_dart_sdk/src/common/string.dart';
@@ -24,7 +25,7 @@ import '../api_model/document_for_client.dart';
 import '../api_model/document_package.dart';
 import '../api_model/document_signature_form.dart';
 import '../api_model/document_signature_form_field.dart';
-import '../api_model/document_signature_session.dart';
+import '../api_model/document_signature_session_package.dart';
 import '../api_model/document_signature_session_recipient_form_field.dart';
 import '../api_model/document_signature_session_signing_recipient_package.dart';
 import '../api_model/document_subscription_for_client.dart';

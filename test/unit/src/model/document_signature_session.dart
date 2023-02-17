@@ -1,7 +1,7 @@
-import 'package:collection/collection.dart';
+import 'package:test/test.dart';
+
 import 'package:nucleus_one_dart_sdk/nucleus_one_dart_sdk.dart';
 import 'package:nucleus_one_dart_sdk/src/api_model/document_signature_session.dart' as api_mod;
-import 'package:test/test.dart';
 
 import '../../../src/common.dart';
 import '../api_model/document_signature_session.dart';
@@ -39,75 +39,6 @@ void main() {
         apiModel.quickDesignPlaceFullName: false,
         apiModel.quickDesignPlaceEmail: true,
         apiModel.quickDesignPlaceTitle: false,
-      },
-    );
-  });
-
-  group('DocumentSignatureSessionRecipient class tests', () {
-    Function deepEq = const DeepCollectionEquality().equals;
-
-    performStandardModelTests<DocumentSignatureSessionRecipient,
-        api_mod.DocumentSignatureSessionRecipient>(
-      apiModelJson: documentSignatureSessionRecipientJson,
-      expectedPublicFieldCount: 29,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.id: 'A',
-        apiModel.tenantID: 'B',
-        apiModel.documentID: 'C',
-        apiModel.documentCreatedOn: '2021-06-21T13:51:14.231757Z',
-        apiModel.documentBucketName: 'D',
-        apiModel.documentThumbnailObjectName: 'E',
-        apiModel.documentName: 'F',
-        apiModel.documentNameLower: 'G',
-        apiModel.documentPageCount: 0,
-        apiModel.documentFileSize: 1,
-        apiModel.documentClassificationID: 'H',
-        apiModel.documentClassificationName: 'I',
-        apiModel.documentClassificationNameLower: 'J',
-        deepEq(apiModel.documentPreviewMetadata, [
-          <String, String>{'K': 'L'}
-        ]): true,
-        apiModel.documentSignatureSessionID: 'M',
-        apiModel.documentSignatureSessionIsActive: true,
-        apiModel.documentSignatureSessionIsComplete: false,
-        apiModel.uniqueID: 'N',
-        apiModel.rank: 2,
-        apiModel.email: 'O',
-        apiModel.fullName: 'P',
-        apiModel.type: 'Q',
-        apiModel.tenantMemberID: 'R',
-        apiModel.signingRequestSent: true,
-        apiModel.requestedOn: '0001-01-01T00:00:00Z',
-        apiModel.isActive: false,
-        apiModel.isComplete: true,
-        apiModel.completedOn: '0002-01-01T00:00:00Z',
-        apiModel.ipAddress: 'S',
-      },
-    );
-  });
-
-  group('DocumentSignatureSessionPackage class tests', () {
-    performStandardModelTests<DocumentSignatureSessionPackage,
-        api_mod.DocumentSignatureSessionPackage>(
-      apiModelJson: documentSignatureSessionPackageJson,
-      expectedPublicFieldCount: 4,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.session: isA<api_mod.DocumentSignatureSession>(),
-        apiModel.recipients: isA<List<api_mod.DocumentSignatureSessionRecipient>>(),
-        apiModel.recipients!.length: 1,
-        apiModel.beginSession: true,
-        apiModel.resetSession: false,
-      },
-    );
-  });
-
-  group('DocumentSignatureSessionPackageCollection class tests', () {
-    performStandardModelTests<DocumentSignatureSessionPackageCollection,
-        api_mod.DocumentSignatureSessionPackageCollection>(
-      apiModelJson: documentSignatureSessionPackageCollectionJson,
-      expectedPublicFieldCount: 1,
-      fieldsAndExpectedValues: (apiModel) => <dynamic, dynamic>{
-        apiModel.items.length: 1,
       },
     );
   });
