@@ -41,7 +41,6 @@ import 'src/api_model/organization_package.dart' as api_mod__organization_packag
 import 'src/api_model/organization_permissions.dart' as api_mod__organization_permissions;
 import 'src/api_model/organization_project.dart' as api_mod__organization_project;
 import 'src/api_model/project.dart' as api_mod__project;
-import 'src/api_model/project_packages.dart' as api_mod__project_packages;
 import 'src/api_model/query_result.dart' as api_mod__query_result;
 import 'src/api_model/selected_twain_device.dart' as api_mod__selected_twain_device;
 import 'src/api_model/signature_form_template_field.dart' as api_mod__signature_form_template_field;
@@ -118,7 +117,6 @@ import 'src/model/organization_package.dart' as mod__organization_package;
 import 'src/model/organization_permissions.dart' as mod__organization_permissions;
 import 'src/model/organization_project.dart' as mod__organization_project;
 import 'src/model/project.dart' as mod__project;
-import 'src/model/project_packages.dart' as mod__project_packages;
 import 'src/model/query_result.dart' as mod__query_result;
 import 'src/model/selected_twain_device.dart' as mod__selected_twain_device;
 import 'src/model/signature_form_template_field.dart' as mod__signature_form_template_field;
@@ -191,7 +189,6 @@ void _apiModelTests() {
   api_mod__organization_project.main();
   api_mod__organization_subscription.main();
   api_mod__project.main();
-  api_mod__project_packages.main();
   api_mod__query_result.main();
   api_mod__selected_twain_device.main();
   api_mod__signature_form_template_field.main();
@@ -252,7 +249,6 @@ void _modelTests() {
   mod__organization_project.main();
   mod__organization_subscription.main();
   mod__project.main();
-  mod__project_packages.main();
   mod__query_result.main();
   mod__selected_twain_device.main();
   mod__signature_form_template_field.main();

@@ -46,7 +46,6 @@ export 'src/model/organization_package.dart';
 export 'src/model/organization_permissions.dart';
 export 'src/model/organization_project.dart';
 export 'src/model/project.dart';
-export 'src/model/project_packages.dart';
 export 'src/model/query_result.dart';
 export 'src/model/selected_twain_device.dart';
 export 'src/model/signature_form_template.dart';
