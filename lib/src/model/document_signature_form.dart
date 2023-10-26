@@ -40,7 +40,7 @@ class DocumentSignatureForm extends Entity with NucleusOneAppDependent {
     required this.totalFormFields,
     required this.lastViewedPageIndex,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentSignatureForm.fromApiModel(

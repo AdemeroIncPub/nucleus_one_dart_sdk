@@ -13,7 +13,7 @@ class SelectedTwainDevice extends Entity with NucleusOneAppDependent {
     required this.resolution,
     required this.size,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory SelectedTwainDevice.fromApiModel(

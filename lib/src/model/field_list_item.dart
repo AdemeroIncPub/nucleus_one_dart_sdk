@@ -31,7 +31,7 @@ class FieldListItem extends Entity with NucleusOneAppDependent {
     required this.parentValue,
     required this.value,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory FieldListItem.createNew({

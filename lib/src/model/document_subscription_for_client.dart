@@ -24,7 +24,7 @@ class DocumentSubscriptionForClient extends Entity with NucleusOneAppDependent {
     required this.documentIsSigned,
     required this.documentThumbnailUrl,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentSubscriptionForClient.fromApiModel(

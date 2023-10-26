@@ -34,7 +34,7 @@ class DocumentSignatureSession extends Entity with NucleusOneAppDependent {
     required this.quickDesignPlaceEmail,
     required this.quickDesignPlaceTitle,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentSignatureSession.fromApiModel(
@@ -193,7 +193,7 @@ class DocumentSignatureSessionRecipient extends Entity with NucleusOneAppDepende
     required this.completedOn,
     required this.ipAddress,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentSignatureSessionRecipient.fromApiModel(
@@ -362,7 +362,7 @@ class DocumentSignatureSessionPackage extends Entity with NucleusOneAppDependent
     required this.beginSession,
     required this.resetSession,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentSignatureSessionPackage.fromApiModel(

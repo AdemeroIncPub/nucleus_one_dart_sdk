@@ -62,7 +62,7 @@ abstract class EntityCollection<TResult extends NucleusOneAppDependent, TApiMode
     NucleusOneApp? app,
     List<TResult>? items,
   }) : _items = List.unmodifiable(items ?? []) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   final List<TResult> _items;

@@ -36,7 +36,7 @@ class SignatureFormTemplate extends Entity with NucleusOneAppDependent {
     required this.nameLower,
     required this.createdOn,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory SignatureFormTemplate.fromApiModel(
@@ -128,7 +128,7 @@ class SignatureFormTemplateField extends Entity with NucleusOneAppDependent {
     required this.widthPercent,
     required this.sortRank,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory SignatureFormTemplateField.fromApiModel(

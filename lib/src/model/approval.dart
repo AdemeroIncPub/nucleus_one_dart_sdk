@@ -63,7 +63,7 @@ class Approval extends Entity with NucleusOneAppDependent {
     required this.taskDueOn,
     required this.thumbnailUrl,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory Approval.fromApiModel(

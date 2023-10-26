@@ -77,7 +77,7 @@ class QueryResult<TModel extends EntityCollection, TApiModel>
     required this.cursor,
     required this.pageSize,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   /// A necessary factory constructor for creating a new QueryResult instance

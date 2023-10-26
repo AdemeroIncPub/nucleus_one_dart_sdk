@@ -12,7 +12,7 @@ class UserProfile extends Entity with NucleusOneAppDependent {
     required this.userName,
     required this.otpsmsNumber,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory UserProfile.fromApiModel(

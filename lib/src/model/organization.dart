@@ -31,7 +31,7 @@ class Organization extends Entity with NucleusOneAppDependent {
     required this.searchIndexRemovedForCostSavings,
     required this.searchIndexRestoredAtLeastOnce,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory Organization.fromApiModel(

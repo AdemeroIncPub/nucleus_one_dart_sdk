@@ -32,7 +32,7 @@ class DocumentFolder extends Entity with NucleusOneAppDependent {
     required this.assignmentUserEmails,
     required this.hexColor,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentFolder.fromApiModel(

@@ -10,7 +10,7 @@ class EmailLoginOptions extends Entity with NucleusOneAppDependent {
     required this.userExists,
     required this.smsNumberLast2,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory EmailLoginOptions.fromApiModel(

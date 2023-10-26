@@ -16,7 +16,7 @@ class UserOrganization extends Entity with NucleusOneAppDependent {
     required this.hasAssignment,
     required this.isOrganizationMember,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory UserOrganization.fromApiModel(

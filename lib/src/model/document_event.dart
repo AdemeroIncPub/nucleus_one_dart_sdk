@@ -37,7 +37,7 @@ class DocumentEvent extends Entity with NucleusOneAppDependent {
     required this.type,
     required this.detailJson,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentEvent.fromApiModel(

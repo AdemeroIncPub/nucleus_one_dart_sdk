@@ -13,7 +13,7 @@ class DocumentContentPackage extends Entity with NucleusOneAppDependent {
     required this.pageIndex,
     required this.pageCount,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentContentPackage.fromApiModel(

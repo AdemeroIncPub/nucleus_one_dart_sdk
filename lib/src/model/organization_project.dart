@@ -48,7 +48,7 @@ class OrganizationProject extends Entity with NucleusOneAppDependent {
     required this.purgeMarkedByUserName,
     required this.purgeMarkedByUserEmail,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory OrganizationProject.fromApiModel(

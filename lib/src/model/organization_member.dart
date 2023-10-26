@@ -19,7 +19,7 @@ class OrganizationMember extends Entity with NucleusOneAppDependent {
     required this.isReadOnly,
     required this.isAdmin,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory OrganizationMember.fromApiModel(

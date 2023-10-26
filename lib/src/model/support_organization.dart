@@ -41,7 +41,7 @@ class SupportOrganization extends Entity with NucleusOneAppDependent {
     required this.uniqueNonReadOnlyTenantMembers,
     required this.uniqueReadOnlyTenantMembers,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory SupportOrganization.fromApiModel(

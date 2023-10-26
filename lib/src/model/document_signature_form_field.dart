@@ -40,7 +40,7 @@ class DocumentSignatureFormField extends Entity with NucleusOneAppDependent {
     required this.x,
     required this.y,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentSignatureFormField.createNew({

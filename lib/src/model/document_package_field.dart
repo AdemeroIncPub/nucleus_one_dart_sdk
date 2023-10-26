@@ -25,7 +25,7 @@ class DocumentPackageField extends Entity with NucleusOneAppDependent {
       required this.values,
       required this.useCreationDate,
       required this.textMatchType}) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentPackageField.fromApiModel(

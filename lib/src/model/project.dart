@@ -25,7 +25,7 @@ class ProjectMember extends Entity with NucleusOneAppDependent {
     required this.isReadOnly,
     required this.isAdmin,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory ProjectMember.fromApiModel(
@@ -135,7 +135,7 @@ class Project extends Entity with NucleusOneAppDependent {
     required this.purgeMarkedByUserName,
     required this.purgeMarkedByUserEmail,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory Project.fromApiModel(

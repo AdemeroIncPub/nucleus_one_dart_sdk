@@ -71,7 +71,7 @@ class Task extends Entity with NucleusOneAppDependent {
     required this.reminder3Day,
     required this.reminder1Day,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory Task.fromApiModel(

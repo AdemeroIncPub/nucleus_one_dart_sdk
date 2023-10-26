@@ -45,7 +45,7 @@ class FormTemplate extends Entity with NucleusOneAppDependent {
     required this.classificationNameLower,
     required this.aspect,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory FormTemplate.fromApiModel(
@@ -167,7 +167,7 @@ mixin FormTemplateFieldMixin {
     NucleusOneApp? app,
   }) {
     model
-      ..app = app ?? getIt.get<NucleusOneApp>()
+      ..app = getEffectiveNucleusOneApp(app)
       ..id = apiModel.id!
       ..formTemplateID = apiModel.formTemplateID!
       ..formTemplateName = apiModel.formTemplateName!
@@ -230,7 +230,7 @@ class FormTemplateField extends Entity with NucleusOneAppDependent, FormTemplate
   FormTemplateField._({
     NucleusOneApp? app,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory FormTemplateField.fromApiModel(
@@ -282,7 +282,7 @@ class FormSubmissionPackage extends Entity with NucleusOneAppDependent {
     required this.formTemplateID,
     required this.formSubmissionFields,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory FormSubmissionPackage.createNew({
@@ -340,7 +340,7 @@ class FormSubmissionField extends Entity with NucleusOneAppDependent, FormTempla
     NucleusOneApp? app,
     required this.formTemplateFieldID,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory FormSubmissionField.fromFormTemplateField(FormTemplateField field) {

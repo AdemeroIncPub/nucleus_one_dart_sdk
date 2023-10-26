@@ -18,7 +18,7 @@ class DocumentPackage extends Entity with NucleusOneAppDependent {
     this.approval,
     required this.fields,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentPackage.fromApiModel(

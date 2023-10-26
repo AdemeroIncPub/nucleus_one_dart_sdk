@@ -55,7 +55,7 @@ class SubscriptionPlan extends Entity with NucleusOneAppDependent {
     required this.amountPerUnit,
     required this.active,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory SubscriptionPlan.fromApiModel(

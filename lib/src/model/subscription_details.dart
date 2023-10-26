@@ -22,7 +22,7 @@ class SubscriptionDetails extends Entity with NucleusOneAppDependent {
     required this.subtractFreeUsersFromPlan,
     required this.isExpired,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory SubscriptionDetails.fromApiModel(

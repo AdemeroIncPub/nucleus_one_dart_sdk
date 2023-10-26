@@ -17,7 +17,7 @@ class User with NucleusOneAppDependent {
   User({
     NucleusOneApp? app,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   /// Gets all items in the user's address book.

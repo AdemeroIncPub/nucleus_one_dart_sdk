@@ -14,7 +14,7 @@ class OrganizationPermissions extends Entity with NucleusOneAppDependent {
     required this.userEmail,
     required this.isAdmin,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory OrganizationPermissions.fromApiModel(

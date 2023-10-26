@@ -120,7 +120,7 @@ Future<HttpClientResponse> _executeStandardHttpRequest({
   String? body,
   required _HttpMethod method,
 }) async {
-  app = app ?? getIt.get<NucleusOneApp>();
+  app = getEffectiveNucleusOneApp(app);
 
   HttpClientRequest clientReq;
   HttpClient? httpClient;

@@ -22,7 +22,7 @@ class NucleusOneAppSupport with NucleusOneAppDependent {
   NucleusOneAppSupport({
     NucleusOneApp? app,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   /// Gets all users, by page.

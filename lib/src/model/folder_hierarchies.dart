@@ -42,7 +42,7 @@ class FolderHierarchy extends Entity with NucleusOneAppDependent {
     required this.name,
     required this.nameLower,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory FolderHierarchy.fromApiModel(
@@ -118,7 +118,7 @@ class FolderHierarchyItem extends Entity with NucleusOneAppDependent {
     required this.fieldType,
     required this.fieldValueType,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory FolderHierarchyItem.fromApiModel(

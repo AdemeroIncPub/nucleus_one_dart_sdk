@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Install PowerShell
       # https://docs.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.2

@@ -34,7 +34,7 @@ class NucleusOneAppOrganization with NucleusOneAppDependent {
     NucleusOneApp? app,
     required this.id,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
 
     if (id.isEmpty) {
       throw ArgumentError.value(id, 'id', 'Value cannot be blank.');

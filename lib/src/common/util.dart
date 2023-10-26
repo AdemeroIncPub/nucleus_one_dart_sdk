@@ -10,7 +10,7 @@ import '../nucleus_one.dart';
 /// following code.
 ///
 /// ```dart
-/// final app = getIt.get<NucleusOneApp>();
+/// final app = getEffectiveNucleusOneApp(app);
 /// ```
 Future<T> defineN1AppInScope<T>(NucleusOneApp app, T Function() action) async {
   return _defineObjectInScopeInternal<NucleusOneApp, T>(app, action);
@@ -20,7 +20,7 @@ Future<T> defineN1AppInScope<T>(NucleusOneApp app, T Function() action) async {
 /// following code.
 ///
 /// ```dart
-/// final app = getIt.get<NucleusOneApp>();
+/// final app = getEffectiveNucleusOneApp(app);
 /// ```
 Future<T> defineN1AppInScopeAsync<T>(NucleusOneApp app, Future<T> Function() action) async {
   return _defineObjectInScopeAsyncInternal<NucleusOneApp, T>(app, action);

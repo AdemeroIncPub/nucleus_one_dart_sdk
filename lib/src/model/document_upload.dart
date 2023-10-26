@@ -14,7 +14,7 @@ class DocumentUpload extends Entity with NucleusOneAppDependent {
     this.classificationID,
     this.fieldIDsAndValues,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentUpload.fromApiModel(

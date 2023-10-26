@@ -21,7 +21,7 @@ class UserPreferences extends Entity with NucleusOneAppDependent {
     required this.selectedTwainDevice,
     required this.disableTwainDeviceSoftware,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory UserPreferences.fromApiModel(

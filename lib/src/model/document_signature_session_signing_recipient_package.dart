@@ -13,7 +13,7 @@ class DocumentSignatureSessionSigningRecipientPackage extends Entity with Nucleu
     required this.serverDate,
     required this.contentPackage,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentSignatureSessionSigningRecipientPackage.fromApiModel(
@@ -68,7 +68,7 @@ class DocumentSignatureSessionFormFieldPackage extends Entity with NucleusOneApp
     required this.formFields,
     required this.completedFormFields,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentSignatureSessionFormFieldPackage.fromApiModel(
@@ -159,7 +159,7 @@ class DocumentSignatureSessionRecipientFormField extends Entity with NucleusOneA
     required this.value,
     required this.placementRank,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentSignatureSessionRecipientFormField.fromApiModel(
@@ -227,7 +227,7 @@ class DocumentSignatureSessionSigningRecipient extends Entity with NucleusOneApp
     required this.email,
     required this.fullName,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentSignatureSessionSigningRecipient.fromApiModel(

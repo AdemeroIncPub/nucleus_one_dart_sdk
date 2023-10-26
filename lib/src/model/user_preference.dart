@@ -16,7 +16,7 @@ class UserPreference extends Entity with NucleusOneAppDependent {
     required this.floatValue,
     required this.mapValue,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory UserPreference.fromApiModel(

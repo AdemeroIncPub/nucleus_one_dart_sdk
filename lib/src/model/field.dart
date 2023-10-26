@@ -49,7 +49,7 @@ class Field extends Entity with NucleusOneAppDependent {
     required this.useCreationDate,
     required this.textMatchType,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory Field.fromApiModel(

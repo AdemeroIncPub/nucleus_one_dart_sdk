@@ -44,7 +44,7 @@ class OrganizationForClient extends Entity with NucleusOneAppDependent {
     required this.uniqueFreeOrganizationMembers,
     required this.uniqueBillableOrganizationMembers,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory OrganizationForClient.fromApiModel(

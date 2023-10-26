@@ -32,7 +32,7 @@ class ProjectPackage extends Entity with NucleusOneAppDependent {
     required this.tenantMember,
     required this.isAdmin,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory ProjectPackage.fromApiModel(

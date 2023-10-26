@@ -48,7 +48,7 @@ class Document extends Entity with NucleusOneAppDependent {
     required this.paperMarginTop,
     required this.paperMarginBottom,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory Document.fromApiModel(

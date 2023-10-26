@@ -8,7 +8,7 @@ class AddressBook extends Entity with NucleusOneAppDependent {
     NucleusOneApp? app,
     required this.items,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory AddressBook.fromApiModel(
@@ -41,7 +41,7 @@ class AddressBookItem extends Entity with NucleusOneAppDependent {
     required this.formTemplateName,
     required this.formTemplateFieldID,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory AddressBookItem.fromApiModel(

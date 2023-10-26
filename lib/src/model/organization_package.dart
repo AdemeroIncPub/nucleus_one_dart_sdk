@@ -39,7 +39,7 @@ class OrganizationPackage extends Entity with NucleusOneAppDependent {
     required this.freeUsers,
     required this.isExpired,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory OrganizationPackage.fromApiModel(

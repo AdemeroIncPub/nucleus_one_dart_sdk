@@ -46,7 +46,7 @@ class SupportErrorEvent extends Entity with NucleusOneAppDependent {
     required this.otherValues,
     required this.wordsLower,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory SupportErrorEvent.fromApiModel(

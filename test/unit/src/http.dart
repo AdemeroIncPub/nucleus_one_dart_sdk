@@ -190,9 +190,10 @@ void main() {
           requestHttpMethod: HttpMethods.delete,
           responseBody: '123',
         ),
-        'instanceFactory != null',
+        'NucleusOneApp has not been registered with GetIt',
       );
 
+      // Verify that an assertion is not raised because an in-scope NucleusOneApp has been provided
       testValidAssertionAsync(() async {
         await defineN1AppInScopeAsync(getStandardN1App(), () async {
           await createStandardMockHttpClientScopeForAllRequests(

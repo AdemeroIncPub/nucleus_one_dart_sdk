@@ -35,7 +35,7 @@ class SupportUser extends Entity with NucleusOneAppDependent {
     required this.provider,
     required this.name,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory SupportUser.fromApiModel(

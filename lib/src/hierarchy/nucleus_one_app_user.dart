@@ -25,7 +25,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
   NucleusOneAppUser({
     NucleusOneApp? app,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   /// Updates a user's preference.

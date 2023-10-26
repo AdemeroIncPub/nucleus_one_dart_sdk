@@ -65,7 +65,7 @@ class DocumentForClient extends Entity with NucleusOneAppDependent {
     required this.processElementName,
     required this.score,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory DocumentForClient.fromApiModel(

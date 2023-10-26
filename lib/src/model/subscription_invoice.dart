@@ -35,7 +35,7 @@ class SubscriptionInvoice extends Entity with NucleusOneAppDependent {
     required this.status,
     required this.pdfUrl,
   }) {
-    this.app = app ?? getIt.get<NucleusOneApp>();
+    this.app = getEffectiveNucleusOneApp(app);
   }
 
   factory SubscriptionInvoice.fromApiModel(
