@@ -181,7 +181,7 @@ void main() {
 
         if (success) {
           responseCookies = {
-            'session_v1': sessionId,
+            'session_v2': sessionId,
           };
         }
 
@@ -220,7 +220,7 @@ void main() {
 
         if (success) {
           responseCookies = {
-            'session_v1': sessionId,
+            'session_v2': sessionId,
           };
         }
 
