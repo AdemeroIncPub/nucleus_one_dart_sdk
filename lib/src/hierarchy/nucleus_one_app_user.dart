@@ -200,7 +200,7 @@ class NucleusOneAppUser with NucleusOneAppDependent {
     );
 
     final ret = resp.cookies.firstWhereOrNull(
-      (element) => element.name == 'session_v1',
+      (element) => element.name == 'session_v2',
     );
 
     final sessionId = ret?.value;
